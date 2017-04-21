@@ -2,11 +2,13 @@
 
 Content Management System for LDMW's amazingly relevant and useful content! :tada:
 
-This project works in tandem with the lmdw app, for the user client section of the project see: https://github.com/ldmw/app
+This project works in tandem with the lmdw app, for the client section of the project see: https://github.com/ldmw/app
 
 ### Setup
 
-This project uses [`python`](https://www.python.org/) (v3.6)
+This project uses:
++ [`python`](https://www.python.org/) (v3.6)
++ [`postgres`](https://www.postgresql.org/download/) (9.6)
 
 Clone the repository:
 

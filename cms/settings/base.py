@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 PG_USER = os.environ['CMS_PG_USER']
 PG_PASS = os.environ['CMS_PG_PASS']
 HOST = os.environ['CMS_HOST']
-PORT = os.environ['CMS_PORT']
+PORT = os.environ['CMS_PORT'] or 5432
 
 
 # Quick-start development settings - unsuitable for production
