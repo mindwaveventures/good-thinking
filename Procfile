@@ -1,1 +1,3 @@
-web: python manage.py migrate && python manage.py runserver
+web: python setup.py install &&
+     python manage.py migrate &&
+     python manage.py runserver
