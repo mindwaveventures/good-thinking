@@ -22,6 +22,13 @@ PG_PASS = os.environ['CMS_PG_PASS']
 HOST = os.environ['CMS_HOST']
 PORT = os.environ['CMS_PORT'] or 5432
 
+str('+++++++++++++')
+str(PG_USER)
+str(PG_PASS)
+str(HOST)
+str(PORT)
+str('+++++++++++++')
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
