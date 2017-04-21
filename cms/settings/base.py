@@ -110,7 +110,7 @@ DATABASES = {
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-ALLOWED_HOSTS = ['ldmw-cms.herokuapp.com/']
+ALLOWED_HOSTS = ['ldmw-cms.herokuapp.com']
 
 import dj_database_url
 
