@@ -19,10 +19,7 @@ git clone https://github.com/ldmw/cms.git && cd cms
 Ensure to have the following environment variables in your `$PATH`
 
 ```bash
-export CMS_PG_USER=<cms_postgres_username>
-export CMS_PG_PASS=<cms_postgres_password>
-export CMS_HOST=<cms_host>
-export CMS_PORT=<cms_port>
+export DATABASE_URL=<postgres_database_url>
 ```
 
 (Ensure postgres is running with: `postgres -D /usr/local/var/postgres/`)
