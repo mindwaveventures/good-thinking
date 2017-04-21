@@ -96,17 +96,17 @@ WSGI_APPLICATION = 'cms.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'dckv4boebbkggn',
-#         'USER': PG_USER,
-#         'PASSWORD': PG_PASS,
-#         'HOST': HOST,  # Set to empty string for localhost.
-#         'PORT': PORT,  # Set to empty string for default.
-#         'CONN_MAX_AGE': 600,  # number of seconds database connections should persist for
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'NAME': 'dckv4boebbkggn',
+        # 'USER': PG_USER,
+        # 'PASSWORD': PG_PASS,
+        # 'HOST': HOST,  # Set to empty string for localhost.
+        # 'PORT': PORT,  # Set to empty string for default.
+        'CONN_MAX_AGE': 600,  # number of seconds database connections should persist for
+    }
+}
 
 ALLOWED_HOSTS = ['ldmw-cms.herokuapp.com/']
 
