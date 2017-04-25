@@ -17,10 +17,6 @@ import os
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
-PG_USER = os.environ['CMS_PG_USER']
-PG_PASS = os.environ['CMS_PG_PASS']
-HOST = os.environ['CMS_HOST']
-PORT = os.environ['CMS_PORT']
 
 
 # Quick-start development settings - unsuitable for production
@@ -99,14 +95,17 @@ WSGI_APPLICATION = 'cms.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'cms',
-        'USER': PG_USER,
-        'PASSWORD': PG_PASS,
-        'HOST': HOST,  # Set to empty string for localhost.
-        'PORT': PORT,  # Set to empty string for default.
         'CONN_MAX_AGE': 600,  # number of seconds database connections should persist for
     }
 }
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+ALLOWED_HOSTS = ['ldmw-cms.herokuapp.com', '127.0.0.1', 'localhost']
+
+import dj_database_url
+
+DATABASES['default'] = dj_database_url.config(default='postgres://127.0.0.1:5432/cms')
 
 # Setting up project to use bcrypt hashing
 # For more info see:
