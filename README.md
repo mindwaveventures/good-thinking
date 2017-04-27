@@ -53,3 +53,22 @@ python manage.py runserver
 
 The project should now be running at: `http://localhost:8000/admin`
 
+#### Dumpdata
+
+The file dumpdata.json has been generated with:
+
+```bash
+$ psql -c "drop database cms"
+$ psql -c "create database cms" # now have clean db
+$ alias dj="python manage.py"
+$ dj migrate
+$ dj createsuperuser
+Username: user
+Email address: user@user.com
+Password: password
+$ dj runserver # Add initial data in wagtail
+$ # "hello body" in homepage>body, "hello footer" in homepage>footer
+$ # "insomnia" in articles>insomnia>title, "hello insomnia" in articles>insomnia>body
+$ # "fatigue" in articles>fatigue>title, "hello fatigue" in articles>fatigue>body
+$ dj dumpdata --natural-foreign --natural-primary > dumpdata.json
+```
