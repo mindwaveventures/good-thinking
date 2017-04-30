@@ -1,46 +1,46 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.db.models.fields import TextField
+from django.db.models.fields import TextField, URLField
 
 from wagtail.wagtailcore.models import Page
-from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel
 from modelcluster.fields import ParentalKey
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
 
+
 class CategoryTag(TaggedItemBase):
-    content_object = ParentalKey('articles.ArticlePage', related_name='article_tagged_items')
+    content_object = ParentalKey('resources.ResourcePage', related_name='tagged_items')
 
 class AudienceTag(TaggedItemBase):
-    content_object = ParentalKey('articles.ArticlePage', related_name='article_tagged_audience_items')
+    content_object = ParentalKey('resources.ResourcePage', related_name='tagged_audience_items')
 
 class ContentTag(TaggedItemBase):
-    content_object = ParentalKey('articles.ArticlePage', related_name='article_tagged_content_items')
+    content_object = ParentalKey('resources.ResourcePage', related_name='tagged_content_items')
 
-class ArticlePage(Page):
-    heading = TextField(blank=True, help_text="The title of the article")
-    body = RichTextField(blank=True, help_text="The body text of the article")
+class ResourcePage(Page):
+    heading = TextField(blank=True, help_text="The title of the resource being linked to")
+    resource_url = URLField(blank=True, help_text="The url of the resource to link to")
     tags = ClusterTaggableManager(
         through=CategoryTag, blank=True,
-        verbose_name='Main Tags', related_name='article_main_tags',
+        verbose_name='Main Tags', related_name='resource_main_tags',
         help_text='Category tags, eg: "insomnia", "fatigue", "snoring"'
     )
     audience_tags = ClusterTaggableManager(
         through=AudienceTag, blank=True,
-        verbose_name='Audience Tags', related_name='article_audience_tags',
+        verbose_name='Audience Tags', related_name='resource_audience_tags',
         help_text='Audience tags, eg: "male", "female", "shiftworkers"'
     )
     content_tags = ClusterTaggableManager(
         through=ContentTag, blank=True,
-        verbose_name='Content Tags', related_name='article_content_tags',
+        verbose_name='Content Tags', related_name='resource_content_tags',
         help_text='Content Type tags, eg: "videos", "blogs", "free", "subscription"'
     )
 
     content_panels = Page.content_panels + [
         FieldPanel('heading', classname="full"),
-        FieldPanel('body', classname="full"),
+        FieldPanel('resource_url', classname="full"),
     ]
 
     promote_panels = Page.promote_panels + [
@@ -50,4 +50,4 @@ class ArticlePage(Page):
     ]
 
     class Meta:
-        verbose_name = "Article"
+        verbose_name = "Resource"
