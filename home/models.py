@@ -9,9 +9,11 @@ from wagtail.wagtailadmin.edit_handlers import FieldPanel
 
 class HomePage(Page):
     body = RichTextField(blank=True)
+    alphatext = RichTextField(blank=True)
     footer = RichTextField(blank=True)
 
     content_panels = Page.content_panels + [
         FieldPanel('body', classname="full"),
+        FieldPanel('alphatext', classname="full"),
         FieldPanel('footer', classname="full"),
     ]
