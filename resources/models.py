@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models.fields import TextField, URLField
 
 from wagtail.wagtailcore.models import Page
+from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel
 from modelcluster.fields import ParentalKey
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -22,6 +23,8 @@ class ContentTag(TaggedItemBase):
 class ResourcePage(Page):
     heading = TextField(blank=True, help_text="The title of the resource being linked to")
     resource_url = URLField(blank=True, help_text="The url of the resource to link to")
+    body = RichTextField(blank=True, help_text="A description of the resource")
+
     tags = ClusterTaggableManager(
         through=CategoryTag, blank=True,
         verbose_name='Main Tags', related_name='resource_main_tags',
@@ -41,6 +44,7 @@ class ResourcePage(Page):
     content_panels = Page.content_panels + [
         FieldPanel('heading', classname="full"),
         FieldPanel('resource_url', classname="full"),
+        FieldPanel('body', classname="full"),
     ]
 
     promote_panels = Page.promote_panels + [
