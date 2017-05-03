@@ -72,3 +72,36 @@ $ # "insomnia" in articles>insomnia>title, "hello insomnia" in articles>insomnia
 $ # "fatigue" in articles>fatigue>title, "hello fatigue" in articles>fatigue>body
 $ dj dumpdata --natural-foreign --natural-primary > dumpdata.json
 ```
+
+### Using the CMS
+
+The CMS can be accessed at https://ldmw-cms.herokuapp.com/admin/
+
+#### Editing the Homepage
+
+Access the Homepage through the Explorer:
+<img width="586" alt="screen shot 2017-05-03 at 13 55 42" src="https://cloud.githubusercontent.com/assets/8939909/25661391/53bc1a6e-3008-11e7-879b-3ed594765446.png">
+
+On the Homepage, click `Edit`, and you should be taken to the EDITING HOME PAGE page. From here you can edit the various fields on the Homepage. When you're done, you can click `publish`, which will publish your changes to the live site.
+
+<img width="315" alt="screen shot 2017-05-03 at 13 57 29" src="https://cloud.githubusercontent.com/assets/8939909/25661424/7e60c21a-3008-11e7-9968-c2423576b8b8.png">
+
+#### Adding Resources
+
+From the Homepage, enter the Resources page.
+
+<img width="1075" alt="screen shot 2017-05-03 at 13 58 47" src="https://cloud.githubusercontent.com/assets/8939909/25661502/d6f52d6c-3008-11e7-8c36-7a121086014d.png">
+
+From here you can edit the existing resources, or add a new one by selecting `Add Child Page`. When prompted to choose a page type, select `Resource`.
+
+<img width="418" alt="screen shot 2017-05-03 at 14 02 07" src="https://cloud.githubusercontent.com/assets/8939909/25661606/3bc1c778-3009-11e7-8517-d2ee8c7ddcce.png">
+
+On the `Content` page, fill in the details of the resource you are adding. Then click on the `Promote` tab to add the tags.
+
+<img width="371" alt="screen shot 2017-05-03 at 14 15 10" src="https://cloud.githubusercontent.com/assets/8939909/25662047/f5a4c2e8-300a-11e7-8bbf-0bb57f5d57bf.png">
+
+The three types of tag are `Main Tags` (Categories/Sleep issues such as 'insomnia', 'fatigue' etc.), `Audience Tags` ('Men', 'Women' etc.), and `Content Tags` ('video', 'blog', 'article' etc.). Tags must be one word, or multiple words separated by a dash.
+
+<img width="462" alt="screen shot 2017-05-03 at 14 13 59" src="https://cloud.githubusercontent.com/assets/8939909/25662024/dddabf96-300a-11e7-9090-328cf040d382.png">
+
+These tags will be added to the site if they did not already exist. When you have done this, click publish and the resource will be added to the site.
