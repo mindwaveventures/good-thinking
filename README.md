@@ -105,3 +105,7 @@ The three types of tag are `Main Tags` (Categories/Sleep issues such as 'insomni
 <img width="462" alt="screen shot 2017-05-03 at 14 13 59" src="https://cloud.githubusercontent.com/assets/8939909/25662024/dddabf96-300a-11e7-9090-328cf040d382.png">
 
 These tags will be added to the site if they did not already exist. When you have done this, click publish and the resource will be added to the site.
+
+### Deployment
+
+The cms is set to automatically push from the master branch to the cms staging area (https://ldmw-cms-staging.herokuapp.com/admin/). When we're happy this is working, we will push manually to the production site.
