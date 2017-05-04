@@ -41,6 +41,7 @@ class ResourcePage(Page):
         help_text='Content Type tags, eg: "videos", "blogs", "free", "subscription"'
     )
     PRIORITY_CHOICES = (
+<<<<<<< HEAD
       (1, '1'),
       (2, '2'),
       (3, '3'),
@@ -49,6 +50,17 @@ class ResourcePage(Page):
     )
     priority = IntegerField(
       choices=PRIORITY_CHOICES,
+=======
+      ('1', '1'),
+      ('2', '2'),
+      ('3', '3'),
+      ('4', '4'),
+      ('5', '5'),
+    )
+    priority = CharField(
+      choices=PRIORITY_CHOICES,
+      max_length=2,
+>>>>>>> updating the models to include a dropdown of a priority for resources
       default='5',
       help_text='Highest priority 1, lowest priority 5'
     )
