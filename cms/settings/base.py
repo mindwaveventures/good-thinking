@@ -18,7 +18,6 @@ import os
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -90,24 +89,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cms.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'CONN_MAX_AGE': 600,  # number of seconds database connections should persist for
-    }
-}
-
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-ALLOWED_HOSTS = ['ldmw-cms.herokuapp.com', 'ldmw-cms-staging.herokuapp.com', '127.0.0.1', 'localhost']
+DATABASES = {}
 
 import dj_database_url
 
 DATABASES['default'] = dj_database_url.config(default='postgres://127.0.0.1:5432/cms')
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+ALLOWED_HOSTS = ['ldmw-cms.herokuapp.com', 'ldmw-cms-staging.herokuapp.com', '127.0.0.1', 'localhost']
 
 # Setting up project to use bcrypt hashing
 # For more info see:
