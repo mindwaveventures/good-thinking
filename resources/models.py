@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.db.models.fields import TextField, URLField
+from django.db.models.fields import TextField, URLField, IntegerField
 
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.fields import RichTextField
@@ -40,6 +40,18 @@ class ResourcePage(Page):
         verbose_name='Content Tags', related_name='resource_content_tags',
         help_text='Content Type tags, eg: "videos", "blogs", "free", "subscription"'
     )
+    PRIORITY_CHOICES = (
+      (1, '1'),
+      (2, '2'),
+      (3, '3'),
+      (4, '4'),
+      (5, '5'),
+    )
+    priority = IntegerField(
+      choices=PRIORITY_CHOICES,
+      default='5',
+      help_text='Highest priority 1, lowest priority 5'
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel('heading', classname="full"),
@@ -51,6 +63,7 @@ class ResourcePage(Page):
         FieldPanel('tags'),
         FieldPanel('audience_tags'),
         FieldPanel('content_tags'),
+        FieldPanel('priority'),
     ]
 
     class Meta:
