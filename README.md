@@ -22,16 +22,26 @@ Ensure to have the following environment variables in your `$PATH`
 export DATABASE_URL=<postgres_database_url>
 ```
 
+This environment variable should be of the form:
+
+```bash
+export DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5432/cms`
+```
+
 (Ensure postgres is running with: `postgres -D /usr/local/var/postgres/`)
 
 (For the most up to date setup see the wagtail [getting started guide](https://wagtail.io/developers/))
 
-From the root, change into the `cms` directory:
+The rest of these commands will be run after setting up the alias:
+
+```bash
+alias dj="python manage.py"
+```
 
 Set up the database:
 
 ```bash
-python manage.py migrate
+dj migrate
 ```
 
 If you get the error `FATAL: database "cms" does not exist`
@@ -47,7 +57,7 @@ Then run this command again
 Create an admin account and start the server:
 
 ```bash
-python manage.py createsuperuser
+dj createsuperuser
 python manage.py runserver
 ```
 
@@ -55,22 +65,19 @@ The project should now be running at: `http://localhost:8000/admin`
 
 #### Dumpdata
 
-The file dumpdata.json has been generated with:
+You can add the current dumpdata from the project by switching to the `dumpdata` branch and running:
 
 ```bash
-$ psql -c "drop database cms"
-$ psql -c "create database cms" # now have clean db
-$ alias dj="python manage.py"
-$ dj migrate
-$ dj createsuperuser
-Username: user
-Email address: user@user.com
-Password: password
-$ dj runserver # Add initial data in wagtail
-$ # "hello body" in homepage>body, "hello footer" in homepage>footer
-$ # "insomnia" in articles>insomnia>title, "hello insomnia" in articles>insomnia>body
-$ # "fatigue" in articles>fatigue>title, "hello fatigue" in articles>fatigue>body
-$ dj dumpdata --natural-foreign --natural-primary > dumpdata.json
+psql -c "drop database cms"
+psql -c "create database cms" # now have clean db
+dj migrate
+dj loaddata dumpdata.json
+```
+
+You can re-dump the dumpdata with the command:
+
+```bash
+dj dumpdata --natural-foreign --natural-primary > dumpdata.json
 ```
 
 ### Using the CMS
