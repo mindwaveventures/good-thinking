@@ -9,10 +9,10 @@ from wagtail.wagtailadmin.edit_handlers import FieldPanel
 
 
 class HomePage(Page):
-    body = RichTextField(blank=True)
-    lookingfor = RichTextField(blank=True)
-    alphatext = RichTextField(blank=True)
-    footer = RichTextField(blank=True)
+    body = RichTextField(blank=True, help_text="Description of page")
+    lookingfor = RichTextField(blank=True, help_text="Information on how to leave suggestions and what the suggestions are for")
+    alphatext = RichTextField(blank=True, help_text="Explanation of the Alpha section")
+    footer = RichTextField(blank=True, help_text="Footer text")
 
     content_panels = Page.content_panels + [
         FieldPanel('body', classname="full"),
