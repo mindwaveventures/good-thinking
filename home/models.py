@@ -11,12 +11,14 @@ from wagtail.wagtailadmin.edit_handlers import FieldPanel
 class HomePage(Page):
     body = RichTextField(blank=True, help_text="Description of page")
     lookingfor = RichTextField(blank=True, help_text="Information on how to leave suggestions and what the suggestions are for")
-    alphatext = RichTextField(blank=True, help_text="Explanation of the Alpha section")
+    alpha = RichTextField(blank=True, help_text="What is Alpha")
+    alphatext = RichTextField(blank=True, help_text="Why to take part in the alpha")
     footer = RichTextField(blank=True, help_text="Footer text")
 
     content_panels = Page.content_panels + [
         FieldPanel('body', classname="full"),
         FieldPanel('lookingfor', classname="full"),
+        FieldPanel('alpha', classname="full"),
         FieldPanel('alphatext', classname="full"),
         FieldPanel('footer', classname="full"),
     ]

@@ -24,7 +24,8 @@ class FeedbackPage(AbstractForm):
     feedback2_default_text = TextField(blank=True)
     feedback2_help_text = RichTextField(blank=True)
 
-    alphatext = RichTextField(blank=True, help_text="Explanation of the Alpha section")
+    alpha = RichTextField(blank=True, help_text="What is Alpha")
+    alphatext = RichTextField(blank=True, help_text="Why to take part in the alpha")
 
     content_panels = AbstractForm.content_panels + [
         FieldPanel('form_title', classname="full"),
@@ -43,5 +44,6 @@ class FeedbackPage(AbstractForm):
                 FieldPanel('feedback2_help_text', classname="col6")
             ])
         ], "Feedback2"),
-        FieldPanel('alphatext', classname="full")
+        FieldPanel('alpha', classname="full"),
+        FieldPanel('alphatext', classname="full"),
     ]
