@@ -20,6 +20,9 @@ class AudienceTag(TaggedItemBase):
 class ContentTag(TaggedItemBase):
     content_object = ParentalKey('resources.ResourcePage', related_name='tagged_content_items')
 
+class HiddenTag(TaggedItemBase):
+    content_object = ParentalKey('resources.ResourcePage', related_name='tagged_hidden_items')
+
 class ResourcePage(Page):
     heading = TextField(blank=True, help_text="The title of the resource being linked to")
     resource_url = URLField(blank=True, help_text="The url of the resource to link to")
@@ -40,6 +43,11 @@ class ResourcePage(Page):
         through=ContentTag, blank=True,
         verbose_name='Content Tags', related_name='resource_content_tags',
         help_text='Content Type tags, eg: "videos", "blogs", "free", "subscription"'
+    )
+    hidden_tags = ClusterTaggableManager(
+        through=HiddenTag, blank=True,
+        verbose_name='Hidden Tags', related_name='resource_hidden_tags',
+        help_text='Hidden tags for admin use'
     )
     PRIORITY_CHOICES = (
       (1, '1'),
@@ -65,6 +73,7 @@ class ResourcePage(Page):
         FieldPanel('tags'),
         FieldPanel('audience_tags'),
         FieldPanel('content_tags'),
+        FieldPanel('hidden_tags'),
         FieldPanel('priority'),
     ]
 
