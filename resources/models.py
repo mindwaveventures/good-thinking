@@ -24,6 +24,7 @@ class ResourcePage(Page):
     heading = TextField(blank=True, help_text="The title of the resource being linked to")
     resource_url = URLField(blank=True, help_text="The url of the resource to link to")
     body = RichTextField(blank=True, help_text="A description of the resource")
+    video_url = URLField(blank=True, help_text="URL of a youtube video for the resource")
 
     tags = ClusterTaggableManager(
         through=CategoryTag, blank=True,
@@ -57,6 +58,7 @@ class ResourcePage(Page):
         FieldPanel('heading', classname="full"),
         FieldPanel('resource_url', classname="full"),
         FieldPanel('body', classname="full"),
+        FieldPanel('video_url', classname="full"),
     ]
 
     promote_panels = Page.promote_panels + [
