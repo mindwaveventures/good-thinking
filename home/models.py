@@ -9,6 +9,7 @@ from wagtail.wagtailadmin.edit_handlers import FieldPanel
 
 
 class HomePage(Page):
+    banner = RichTextField(blank=True, help_text="Banner at the top of every page")
     body = RichTextField(blank=True, help_text="Description of page")
     lookingfor = RichTextField(blank=True, help_text="Information on how to leave suggestions and what the suggestions are for")
     alpha = RichTextField(blank=True, help_text="What is Alpha")
@@ -16,6 +17,7 @@ class HomePage(Page):
     footer = RichTextField(blank=True, help_text="Footer text")
 
     content_panels = Page.content_panels + [
+        FieldPanel('banner', classname="full"),
         FieldPanel('body', classname="full"),
         FieldPanel('lookingfor', classname="full"),
         FieldPanel('alpha', classname="full"),
