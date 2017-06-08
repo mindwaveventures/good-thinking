@@ -15,7 +15,7 @@ class HomePage(Page):
     filter_label_2 = TextField(blank=True, help_text="Label/Question for second set of filters")
     filter_label_3 = TextField(blank=True, help_text="Label/Question for third set of filters")
     assessment_text = RichTextField(blank=True, help_text="Label for sleep assessment link")
-    crisis_text = TextField(blank=True, help_text="Label for sleep crisis page link")
+    crisis_text = RichTextField(blank=True, help_text="Label for sleep crisis page link")
     lookingfor = RichTextField(blank=True, help_text="Information on how to leave suggestions and what the suggestions are for")
     alpha = RichTextField(blank=True, help_text="What is Alpha")
     alphatext = RichTextField(blank=True, help_text="Why to take part in the alpha")
