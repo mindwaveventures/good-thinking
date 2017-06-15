@@ -5,7 +5,10 @@ from django.db.models.fields import TextField
 
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.fields import RichTextField
-from wagtail.wagtailadmin.edit_handlers import FieldPanel
+from wagtail.wagtailadmin.edit_handlers import (FieldPanel, MultiFieldPanel)
+
+from wagtail.wagtailimages.models import Image
+from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
 
 class HomePage(Page):
@@ -20,9 +23,21 @@ class HomePage(Page):
     alpha = RichTextField(blank=True, help_text="What is Alpha")
     alphatext = RichTextField(blank=True, help_text="Why to take part in the alpha")
     footer = RichTextField(blank=True, help_text="Footer text")
+    hero_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    hero_image_position = TextField(blank=True, help_text="Values: center, top, right, bottom, left")
 
     content_panels = Page.content_panels + [
         FieldPanel('banner', classname="full"),
+        MultiFieldPanel([
+            ImageChooserPanel('hero_image'),
+            FieldPanel('hero_image_position'),
+        ]),
         FieldPanel('body', classname="full"),
         FieldPanel('filter_label_1', classname="full"),
         FieldPanel('filter_label_2', classname="full"),
