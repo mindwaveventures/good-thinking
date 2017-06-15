@@ -151,6 +151,8 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+# Taken from https://github.com/wagtail/wagtail/issues/1397#issuecomment-112512226
+DEFAULT_FILE_STORAGE = 'offsite_storage.storages.S3MediaStorage'
 
 # Wagtail settings
 
