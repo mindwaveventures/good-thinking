@@ -30,24 +30,10 @@ class HomePage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    IMAGE_POSITION_CHOICES = (
-      ('center', 'center'),
-      ('top', 'top'),
-      ('right', 'right'),
-      ('bottom', 'bottom'),
-      ('left', 'left'),
-    )
-    hero_image_position = CharField(
-      choices=IMAGE_POSITION_CHOICES,
-      default='center',
-      max_length=6,
-      help_text='Background position the hero image'
-    )
 
     content_panels = Page.content_panels + [
         FieldPanel('banner', classname="full"),
         ImageChooserPanel('hero_image'),
-        FieldPanel('hero_image_position'),
         FieldPanel('body', classname="full"),
         FieldPanel('filter_label_1', classname="full"),
         FieldPanel('filter_label_2', classname="full"),
