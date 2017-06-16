@@ -31,6 +31,8 @@ INSTALLED_APPS = [
     'resources',
     'info',
     'feedback',
+    'crisis',
+    'static',
 
     'storages',
 
