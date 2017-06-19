@@ -1,11 +1,14 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.db.models.fields import TextField
+from django.db.models.fields import TextField, CharField
 
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel
+
+from wagtail.wagtailimages.models import Image
+from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
 
 class HomePage(Page):
@@ -20,9 +23,17 @@ class HomePage(Page):
     alpha = RichTextField(blank=True, help_text="What is Alpha")
     alphatext = RichTextField(blank=True, help_text="Why to take part in the alpha")
     footer = RichTextField(blank=True, help_text="Footer text")
+    hero_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
 
     content_panels = Page.content_panels + [
         FieldPanel('banner', classname="full"),
+        ImageChooserPanel('hero_image'),
         FieldPanel('body', classname="full"),
         FieldPanel('filter_label_1', classname="full"),
         FieldPanel('filter_label_2', classname="full"),
