@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.db.models.fields import TextField, CharField
+from django.db.models.fields import TextField, CharField, URLField
 
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.fields import RichTextField
@@ -30,11 +30,13 @@ class HomePage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
+    video_url = URLField(blank=True, help_text="URL of an introductiary youtube video")
 
     content_panels = Page.content_panels + [
         FieldPanel('banner', classname="full"),
         ImageChooserPanel('hero_image'),
         FieldPanel('body', classname="full"),
+        FieldPanel('video_url', classname="full"),
         FieldPanel('filter_label_1', classname="full"),
         FieldPanel('filter_label_2', classname="full"),
         FieldPanel('filter_label_3', classname="full"),
