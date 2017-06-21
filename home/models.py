@@ -10,7 +10,6 @@ from wagtail.wagtailadmin.edit_handlers import FieldPanel
 from wagtail.wagtailimages.models import Image
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
-
 class HomePage(Page):
     banner = RichTextField(blank=True, help_text="Banner at the top of every page")
     body = RichTextField(blank=True, help_text="Description of page")
@@ -31,12 +30,14 @@ class HomePage(Page):
         related_name='+'
     )
     video_url = URLField(blank=True, help_text="URL of an introductiary youtube video")
+    quick_links = TextField(blank=True, help_text="Comma separated list of quick-links")
 
     content_panels = Page.content_panels + [
         FieldPanel('banner', classname="full"),
         ImageChooserPanel('hero_image'),
         FieldPanel('body', classname="full"),
         FieldPanel('video_url', classname="full"),
+        FieldPanel('quick_links', classname="full"),
         FieldPanel('filter_label_1', classname="full"),
         FieldPanel('filter_label_2', classname="full"),
         FieldPanel('filter_label_3', classname="full"),
