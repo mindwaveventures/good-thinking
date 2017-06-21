@@ -28,7 +28,8 @@ class HomePage(Page):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        help_text="Max file size: 10MB. Choose from: GIF, JPEG, PNG (but pick PNG if you have the choice)"
     )
     video_url = URLField(blank=True, help_text="URL of an introductiary youtube video")
 
