@@ -11,11 +11,11 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
 
 
-class CategoryTag(TaggedItemBase):
-    content_object = ParentalKey('resources.ResourcePage', related_name='tagged_items')
+class IssueTag(TaggedItemBase):
+    content_object = ParentalKey('resources.ResourcePage', related_name='tagged_issue_items')
 
-class AudienceTag(TaggedItemBase):
-    content_object = ParentalKey('resources.ResourcePage', related_name='tagged_audience_items')
+class ReasonTag(TaggedItemBase):
+    content_object = ParentalKey('resources.ResourcePage', related_name='tagged_reason_items')
 
 class ContentTag(TaggedItemBase):
     content_object = ParentalKey('resources.ResourcePage', related_name='tagged_content_items')
@@ -29,15 +29,15 @@ class ResourcePage(Page):
     body = RichTextField(blank=True, help_text="A description of the resource")
     video_url = URLField(blank=True, help_text="URL of a youtube video for the resource")
 
-    tags = ClusterTaggableManager(
-        through=CategoryTag, blank=True,
-        verbose_name='Main Tags', related_name='resource_main_tags',
-        help_text='Category tags, eg: "insomnia", "fatigue", "snoring"'
+    issue_tags = ClusterTaggableManager(
+        through=IssueTag, blank=True,
+        verbose_name='Issue Tags', related_name='resource_issue_tags',
+        help_text='Issue tags, eg: "insomnia", "fatigue", "snoring"'
     )
-    audience_tags = ClusterTaggableManager(
-        through=AudienceTag, blank=True,
-        verbose_name='Audience Tags', related_name='resource_audience_tags',
-        help_text='Audience tags, eg: "male", "female", "shiftworkers"'
+    reason_tags = ClusterTaggableManager(
+        through=ReasonTag, blank=True,
+        verbose_name='Reason Tags', related_name='resource_reason_tags',
+        help_text='Reason tags, eg: "loneliness", "relationships"'
     )
     content_tags = ClusterTaggableManager(
         through=ContentTag, blank=True,
@@ -70,8 +70,8 @@ class ResourcePage(Page):
     ]
 
     promote_panels = Page.promote_panels + [
-        FieldPanel('tags'),
-        FieldPanel('audience_tags'),
+        FieldPanel('issue_tags'),
+        FieldPanel('reason_tags'),
         FieldPanel('content_tags'),
         FieldPanel('hidden_tags'),
         FieldPanel('priority'),
