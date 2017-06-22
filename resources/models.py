@@ -10,6 +10,8 @@ from modelcluster.fields import ParentalKey
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
 
+class TopicTag(TaggedItemBase):
+    content_object = ParentalKey('resources.ResourcePage', related_name='tagged_topic_items')
 
 class IssueTag(TaggedItemBase):
     content_object = ParentalKey('resources.ResourcePage', related_name='tagged_issue_items')
@@ -29,6 +31,11 @@ class ResourcePage(Page):
     body = RichTextField(blank=True, help_text="A description of the resource")
     video_url = URLField(blank=True, help_text="URL of a youtube video for the resource")
 
+    topic_tags = ClusterTaggableManager(
+        through=TopicTag, blank=True,
+        verbose_name='Topic Tags', related_name='resource_topic_tags',
+        help_text='Topic tags, eg: "sleep", "depression", "stress"'
+    )
     issue_tags = ClusterTaggableManager(
         through=IssueTag, blank=True,
         verbose_name='Issue Tags', related_name='resource_issue_tags',
@@ -70,6 +77,7 @@ class ResourcePage(Page):
     ]
 
     promote_panels = Page.promote_panels + [
+        FieldPanel('topic_tags'),
         FieldPanel('issue_tags'),
         FieldPanel('reason_tags'),
         FieldPanel('content_tags'),
