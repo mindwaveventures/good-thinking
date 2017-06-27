@@ -119,11 +119,11 @@ The cms is set to automatically push from the master branch to the cms staging a
 
 ### Add Pages
 
-Simple Pages consisting of just a heading paragraph/s and body paragraph/s can be added using the `info page` page type on wagtail.
+Static Pages consisting of just a heading paragraph/s and body paragraph/s can be added using the `static page` page type on wagtail.
 
-<img width="1002" alt="screen shot 2017-05-10 at 15 20 44" src="https://cloud.githubusercontent.com/assets/8939909/25903464/6214cf7a-3594-11e7-98df-79b7447d12c7.png">
+<img width="371" alt="screen shot 2017-06-27 at 10 34 08" src="https://user-images.githubusercontent.com/8939909/27580950-2a928942-5b24-11e7-94c7-97fc20dcf70a.png">
 
-These pages will be available at the site on `/info/{page-title}`. For example, the crisis page is visible at `/info/crisis`.
+These pages will be available at the site on `/{page-title}`. For example, the crisis page is visible at `/crisis`.
 
 You can link to these pages from elsewhere by using an internal link, and selecting the page you want to link to.
 
