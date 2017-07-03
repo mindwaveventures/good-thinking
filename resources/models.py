@@ -29,6 +29,8 @@ class ResourcePage(Page):
     heading = TextField(blank=True, help_text="The title of the resource being linked to")
     resource_url = URLField(blank=True, help_text="The url of the resource to link to")
     body = RichTextField(blank=True, help_text="A description of the resource")
+    pros = RichTextField(blank=True, help_text="A list of pros for the resource")
+    cons = RichTextField(blank=True, help_text="A list of cons for the resource")
     video_url = URLField(blank=True, help_text="URL of a youtube video for the resource")
 
     topic_tags = ClusterTaggableManager(
@@ -73,6 +75,8 @@ class ResourcePage(Page):
         FieldPanel('heading', classname="full"),
         FieldPanel('resource_url', classname="full"),
         FieldPanel('body', classname="full"),
+        FieldPanel('pros', classname="full"),
+        FieldPanel('cons', classname="full"),
         FieldPanel('video_url', classname="full"),
     ]
 
