@@ -12,6 +12,7 @@ from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
 class HomePage(Page):
     banner = RichTextField(blank=True, help_text="Banner at the top of every page")
+    header = RichTextField(blank=True, help_text="Hero title")
     body = RichTextField(blank=True, help_text="Description of page")
     filter_label_1 = TextField(blank=True, help_text="Label/Question for first set of filters")
     filter_label_2 = TextField(blank=True, help_text="Label/Question for second set of filters")
@@ -35,6 +36,7 @@ class HomePage(Page):
     content_panels = Page.content_panels + [
         FieldPanel('banner', classname="full"),
         ImageChooserPanel('hero_image'),
+        FieldPanel('header', classname="full"),
         FieldPanel('body', classname="full"),
         FieldPanel('video_url', classname="full"),
         FieldPanel('filter_label_1', classname="full"),
