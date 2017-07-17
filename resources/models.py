@@ -25,6 +25,20 @@ class ContentTag(TaggedItemBase):
 class HiddenTag(TaggedItemBase):
     content_object = ParentalKey('resources.ResourcePage', related_name='tagged_hidden_items')
 
+class ResourceIndexPage(Page):
+    intro = RichTextField(blank=True)
+
+    def get_context(self, request):
+        # Update contest to inclue only published posts, ordered by revers-chron
+        context = super(ResourceIndexPage, self).get_context(request)
+        resources = self.get_children().live().order_by('-first_published_at')
+        context['resources'] = resources
+        return context
+
+    content_panels = Page.content_panels + [
+        FieldPanel('intro', classname="full")
+    ]
+
 class ResourcePage(Page):
     heading = TextField(blank=True, help_text="The title of the resource being linked to")
     resource_url = URLField(blank=True, help_text="The url of the resource to link to")
