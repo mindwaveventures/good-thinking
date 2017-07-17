@@ -106,7 +106,7 @@ DATABASES['default'] = dj_database_url.config(default='postgres://127.0.0.1:5432
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-ALLOWED_HOSTS = ['ldmw-cms.herokuapp.com', 'ldmw-cms-staging.herokuapp.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['ldmw.herokuapp.com', 'ldmw-cms.herokuapp.com', 'ldmw-cms-staging.herokuapp.com', '127.0.0.1', 'localhost']
 
 # Setting up project to use bcrypt hashing
 # For more info see:
