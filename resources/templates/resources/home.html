@@ -1,94 +1,290 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags static %}
 
 {% block body_class %}template-homepage{% endblock %}
 
 {% block content %}
-    {{ page.body|richtext }}
+    {% if page.banner %}
+      <div class="lm-bg-white pa3 w-100 f6 f5-l f5-m banner segoe fixed top-0 z-5 dt-ns dt--fixed-ns shadow-2" id="beta-banner">
+        <div class="dtc-ns w-50-l w-40-m v-mid">
+          <!-- <%= transform_html @banner, @conn, class: "underline dib", id: "feedback-link" %> -->
+          {{page.banner|richtext}}
+        </div>
+        <div class="dtc-ns dn tr v-mid banner_buttons">
+          <a href="/coming-soon" class="f6 f7-m f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-dark-blue-hover lm-dark-blue lm-white-hover ba b--lm-dark-blue" id="assessment">Take self-assessment</a>
+          <a href="/crisis" class="f6 f7-m f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-dark-blue-hover lm-dark-blue lm-white-hover ba b--lm-dark-blue" id="crisis">Get urgent support</a>
+        </div>
+      </div>
+    {% endif %}
 
-    {% for post in resources %}
-      {% with post=post.specific %}
-        <div class="br1 shadow-2 tl w-60-ns center">
-          <div class="ba b--lm-dark-blue ph2 pt2 pb0 pt3-ns ph4-ns mt4">
-            <h2 class="mt0 mb1 ml2">{{ post.heading }}</h2>
-            <div class="word-wrap">
-              {% if post.resource_url %}
-                <a class="f6 lm-turquoise resource-link link-hover link-visited pv1 ph2" href="{{ post.resource_url }}">{{ post.resource_url }}</a>
-              {% endif %}
-            </div>
-            <div class="mt1 mh2">
-              {% for tag in post.tags %}
-                <button class="b--lm-orange lm-bg-orange-20 ba br2 ph2 pv1 lh-tag dib mb1 pointer font nunito">{{tag}}</button>
-              {% endfor %}
-            </div>
-            <div class="mh2">
-              {{ post.body|richtext }}
-            </div>
-            {% if post.video %}
-              <div class="tc ma2">
-                {{ post.video }}
-              </div>
-            {% endif %}
+    <!-- Hero Image Block -->
+    {% image page.hero_image width-1000 as hero_image %}
+    <section class="pt5-plus ph4 ph5-m ph6-l tc lm-white cover lh-copy bg-center" style="background-image:url('{{ hero_image.url }}')">
+      <img src="{% static "images/london_minds_logo.png" %}" class="w-60 w-15-ns" />
+      <div class="pb5 w-90-ns f1-ns f6 lh-title center">
+        <div class="mb4">
+          {{ page.header|richtext }}
+            <!-- <%= form_for @conn, homepage_path(@conn, :search) <> "#results", [as: :query], fn f ->  %>
+              <%= text_input f, :q, class: "w-50-ns w-100 db center mt1 b--white ba pa1 pa2-ns nunito f5 br1 bg-white-90 focus-lm-orange", placeholder: "Enter search term", "aria-label": "search", value: assigns[:query], id: "query_q_1"  %>
+              <%= hidden_input f, :query_string, value: @conn.query_string, id: "query_string_1" %>
+              <%= component "buttons/primary_button", value: "Search", class: "mv3" %>
+            <% end %> -->
+        </div>
+        {% if page.video_url %}
+          <div class="dib homepage_video_container v-mid ml5-l">
+            {{ video_url }}
           </div>
-          <div class="ph2 pv4 pb4-ns pt2-ns mh2 mh0-ns">
-            <!-- {% if post.pros %}
-              <div class="tc db dn-ns">
-                <%= component "buttons/secondary_button", value: "View pros and cons", background: "light", class: "view_pcs", id: "view_pcs#{@resource.id}" %>
-              </div>
-            {% endif %} -->
-            <div class="w-100 dn db-ns pros_cons" id="pros_cons<%= @resource.id %>">
-              <div class="w-50-ns dib-ns br-ns b--lm-grey pros">
-                <div class="w-80-ns center-ns">
-                  {{post.pros|richtext}}
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- Body Text -->
+    <section class="w-60-ns w-80 pv2 pv0-ns center">
+      {{ page.body|richtext }}
+    </section>
+
+    <!-- Main Search and Categories -->
+    <section class="pt4 ph4 ph3-m ph3-l blurred_background cover bg-center">
+      <form>
+        <div class="w-60-ns center tc tl-ns">
+          <div class="tl lm-dark-blue mb2 nunito-bold">I am, or someone I know, is feeling:</div>
+            <!-- <%= inputs_for f, :topic, [as: :topic], fn fq -> %>
+              <%= for link <- @topics do %>
+                <div class="dib relative mv2-ns mv1">
+                  <%= checkbox fq, String.to_atom(link), value: tag_is_selected(assigns[:selected_tags], link), class: "topic-checked-fill absolute o-0" %>
+                  <%= label fq, String.to_atom(link), class: "b--lm-dark-blue lm-dark-blue ba br2 pl3 pr4 pv2 dib pointer border-box topic-unchecked br-pill" do
+                    raw("<span>#{remove_hyphen(link)}</span>")
+                  end %>
                 </div>
-              </div>
-              <div class="w-50-ns dib-ns fr-ns">
-                <div class="w-80-ns center-ns">
-                  {{post.cons|richtext}}
-                </div>
-              </div>
-            </div>
-            <p class="nunito-bold mt4">Would you recommend this?</p>
-            <div class="dt dt--fixed">
-              <div class="dib dtc">
-                <div class="dib mb3 v-mid tl"><span>{{post.likes|default:0}}</span></div>
-                <form class="dib pointer">
-                  <button name="like" type="submit" class="like w2 h2 bn bg-white fl p0 bg-left pointer" data-url=""><span class="fixed o-0">Recommend</span></button>
-                </form>
-                <form class="dib pointer">
-                  <button name="dislike" type="submit" class="dislike w2 h2 bn bg-white p0 bg-right pointer" data-url=""><span class="fixed o-0">Don't Recommend</span></button>
-                </form>
-                <div class="dib mb3 v-mid tl"><span>{{post.dislikes|default:0}}</span></div>
-              </div>
-              <div class="share-buttons dtc">
-                <button class="share-email share cursor w-10-ns w-20 w-20-m mh1 h2 bn bg-white fr p0 bg-right pointer" data-url=""><span class="fixed o-0">Share with WhatsApp</span></button>
-                <button class="share-messenger share cursor w-10-ns w-20 w-20-m mh1 h2 bn bg-white fr p0 bg-right pointer" data-url=""><span class="fixed o-0">Share with Messenger</span></button>
-                <button class="share-whatsapp share cursor w-10-ns w-20 w-20-m mh1 h2 bn bg-white fr p0 bg-right pointer dn-ns" data-url=""><span class="fixed o-0">Share with Email</span></button>
-              </div>
-            </div>
-            <div class="alert share-alert db fr pa1 ba bw1-ns bg--lm-light-red b--dark-red black"></div>
-            <!-- <%= if @resource.liked != "none" and get_flash(@conn, :resource_feedback) == nil do %>
-              <%= form_for @conn, submit_path(@conn, :submit) <> "#resource_#{@resource.id}", [as: :resource_feedback, class: "resource-feedback", "data-url": @resource.url], fn f -> %>
-                <%= hidden_input f, :id, value: @resource.id %>
-                <p>
-                  Why <%= case @resource.liked do
-                    1 -> "would you"
-                    -1 -> "wouldn't you"
-                  end %> recommend this?
-                </p>
-                <%= component "text_box", conn: @conn, form: f, name: "feedback", submit: true %>
-                <%= hidden_input f, :liked, value: @resource.liked %>
-                <%= hidden_input f, :resource_name, value: @resource.heading %>
-              <% end %>
-            <% end %>
-            <%= if get_flash(@conn, :resource_feedback) != nil or get_flash(@conn, :resource_feedback_error) != nil do %>
-              <%= if [:resource_feedback, :resource_feedback_error] |> Enum.map(&(get_flash(@conn, &1))) |> Enum.find(&(&1 != nil)) |> elem(0) == "#{@resource.id}" do %>
-                <%= component "flash", conn: @conn, type: :resource_feedback %>
               <% end %>
             <% end %> -->
+
+          <!-- <%= hidden_input f, :query_string, value: @conn.query_string %> -->
+        </div>
+        <div class="tl w-60-ns center relative pb4">
+          <!-- <%= text_input f, :q, class: "mt1 mr2 w-100 pa2 pl3 mb3 nunito br1 b--white ba bg-white-90 focus-lm-orange", placeholder: "Enter search term", "aria-label": "search", value: assigns[:query] %>
+          <%= component "buttons/primary_button", value: "Search", class: "absolute bottom--1 right-0 right"%> -->
+        </div>
+      </form>
+    </section>
+
+    <div class="pa1 ph4 ph3-m ph3-l">
+      <div class="w-60-ns center">
+        <!-- <h3 class="tl mt5 nunito">Showing <%= number_of_results @conn, @resources %><%= if assigns[:selected_tags] && length(assigns[:selected_tags]) > 0 do " for" end%></h3>
+        <%= if assigns[:selected_tags] do %>
+          <div class="tl">
+            <%= for tag <- @selected_tags do %>
+              <span class="b--lm-orange lm-bg-orange-20 ba br-pill ph2 pv0 lh-tag mh1 dib mb1 font nunito f6"><%= remove_hyphen tag %></span>
+            <% end %>
+          </div>
+        <% end %> -->
+      </div>
+    </div>
+
+    <section class="results">
+      <!-- <%= if is_ie8? @conn do %>
+        <%= render "ie8_filters.html", content: @content, conn: @conn, tags: @tags%>
+      <% else %> -->
+      <div class="tl">
+        <div class="w-60-ns center">
+          <label class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-blue-hover lm-dark-blue lm-white-hover ba b--lm-dark-blue mt2 ml4 ml2-ns" id="open-filter-label" for="filter_filter">Filter</label>
+        </div>
+        <input type="checkbox" id="filter_filter" class="filter-check absolute o-0"  "aria-labelledby"="open-filter-label close-filter-label">
+
+        <!-- Sidebar -->
+        <div class="filter-sidebar">
+          <div class="fixed sidebar top-0 bg-white bottom-0 w-80 w-70-ns w-50-m w-30-l pa3 overflow-y-scroll tl shadow-2 z-9999">
+            <div class="tl lm-grey w-100 tr mb4">
+              <label class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover mt4" for="filter_filter">
+                <i class="fa fa-times f4" aria-hidden="true"><span id="close-filter-label" class="o-0 absolute">close</span></i>
+              </label>
+            </div>
+            <div class="ph1 sidebar-tag-blocks">
+              <div class="mb5 relative">
+                <h4 class="w-70 mb1 mt2">{{page.filter_label_1}}</h4>
+                <!-- <%= inputs_for f, :issue, [as: :issue], fn fcat -> %>
+                  <%= render App.HomepageView, "tag-block.html", conn: @conn, tags: @tags, type: "issue", form: fcat %>
+                <% end %> -->
+              </div>
+              <div class="mv5 relative">
+                <h4 class="w-70 mt4 mb1">{{page.filter_label_2}}</h4>
+                <!-- <%= inputs_for f, :reason, [as: :reason], fn fa -> %>
+                  <%= render App.HomepageView, "tag-block.html", conn: @conn, tags: @tags, type: "reason", form: fa %>
+                <% end %> -->
+              </div>
+              <div class="mv5 relative">
+                <h4 class="w-70 mt4 mb1">{{page.filter_label_3}}</h4>
+                <!-- <%= inputs_for f, :content, [as: :content], fn fcon -> %>
+                  <%= render App.HomepageView, "tag-block.html", conn: @conn, tags: @tags, type: "content", form: fcon %>
+                <% end %> -->
+              </div>
+              <div class="pv3 tr w-100 sidebar-buttons">
+                <div class="tr dib w-40">
+                  <button class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover mt4">Search</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      {% endwith %}
-    {% endfor %}
+        <div class="fixed top-0 bottom-0 w-100 sidebar-overlay dn bg-gray o-70 z-999"></div>
+      </div>
+    </section>
+
+    <!-- Resources -->
+    <div class="pa1 ph4 ph3-m ph3-l pb4 pb5-l">
+      {% for post in resources %}
+        {% with post=post.specific %}
+          <div id="resource_{{post.id}}" class="resource">
+            <div class="br1 shadow-2 tl w-60-ns center">
+              <div class="ba b--lm-dark-blue ph2 pt2 pb0 pt3-ns ph4-ns mt4">
+                <h2 class="mt0 mb1 ml2">{{ post.heading }}</h2>
+                <div class="word-wrap">
+                  {% if post.resource_url %}
+                    <a class="f6 lm-turquoise resource-link link-hover link-visited pv1 ph2" href="{{ post.resource_url }}">{{ post.resource_url }}</a>
+                  {% endif %}
+                </div>
+                <div class="mt1 mh2">
+                  {% for tag in post.tags %}
+                    <button class="b--lm-orange lm-bg-orange-20 ba br2 ph2 pv1 lh-tag dib mb1 pointer font nunito">{{tag}}</button>
+                  {% endfor %}
+                </div>
+                <div class="mh2">
+                  {{ post.body|richtext }}
+                </div>
+                {% if post.video %}
+                  <div class="tc ma2">
+                    {{ post.video }}
+                  </div>
+                {% endif %}
+              </div>
+              <div class="ph2 pv4 pb4-ns pt2-ns mh2 mh0-ns">
+                <!-- {% if post.pros %}
+                  <div class="tc db dn-ns">
+                    <%= component "buttons/secondary_button", value: "View pros and cons", background: "light", class: "view_pcs", id: "view_pcs#{@resource.id}" %>
+                  </div>
+                {% endif %} -->
+                <div class="w-100 dn db-ns pros_cons" id="pros_cons<%= @resource.id %>">
+                  <div class="w-50-ns dib-ns br-ns b--lm-grey pros">
+                    <div class="w-80-ns center-ns">
+                      {{post.pros|richtext}}
+                    </div>
+                  </div>
+                  <div class="w-50-ns dib-ns fr-ns">
+                    <div class="w-80-ns center-ns">
+                      {{post.cons|richtext}}
+                    </div>
+                  </div>
+                </div>
+                <p class="nunito-bold mt4">Would you recommend this?</p>
+                <div class="dt dt--fixed">
+                  <div class="dib dtc">
+                    <div class="dib mb3 v-mid tl"><span>{{post.likes|default:0}}</span></div>
+                    <form class="dib pointer">
+                      <button name="like" type="submit" class="like w2 h2 bn bg-white fl p0 bg-left pointer" data-url=""><span class="fixed o-0">Recommend</span></button>
+                    </form>
+                    <form class="dib pointer">
+                      <button name="dislike" type="submit" class="dislike w2 h2 bn bg-white p0 bg-right pointer" data-url=""><span class="fixed o-0">Don't Recommend</span></button>
+                    </form>
+                    <div class="dib mb3 v-mid tl"><span>{{post.dislikes|default:0}}</span></div>
+                  </div>
+                  <div class="share-buttons dtc">
+                    <button class="share-email share cursor w-10-ns w-20 w-20-m mh1 h2 bn bg-white fr p0 bg-right pointer" data-url=""><span class="fixed o-0">Share with WhatsApp</span></button>
+                    <button class="share-messenger share cursor w-10-ns w-20 w-20-m mh1 h2 bn bg-white fr p0 bg-right pointer" data-url=""><span class="fixed o-0">Share with Messenger</span></button>
+                    <button class="share-whatsapp share cursor w-10-ns w-20 w-20-m mh1 h2 bn bg-white fr p0 bg-right pointer dn-ns" data-url=""><span class="fixed o-0">Share with Email</span></button>
+                  </div>
+                </div>
+                <div class="alert share-alert db fr pa1 ba bw1-ns bg--lm-light-red b--dark-red black"></div>
+                <!-- <%= if @resource.liked != "none" and get_flash(@conn, :resource_feedback) == nil do %>
+                  <%= form_for @conn, submit_path(@conn, :submit) <> "#resource_#{@resource.id}", [as: :resource_feedback, class: "resource-feedback", "data-url": @resource.url], fn f -> %>
+                    <%= hidden_input f, :id, value: @resource.id %>
+                    <p>
+                      Why <%= case @resource.liked do
+                        1 -> "would you"
+                        -1 -> "wouldn't you"
+                      end %> recommend this?
+                    </p>
+                    <%= component "text_box", conn: @conn, form: f, name: "feedback", submit: true %>
+                    <%= hidden_input f, :liked, value: @resource.liked %>
+                    <%= hidden_input f, :resource_name, value: @resource.heading %>
+                  <% end %>
+                <% end %>
+                <%= if get_flash(@conn, :resource_feedback) != nil or get_flash(@conn, :resource_feedback_error) != nil do %>
+                  <%= if [:resource_feedback, :resource_feedback_error] |> Enum.map(&(get_flash(@conn, &1))) |> Enum.find(&(&1 != nil)) |> elem(0) == "#{@resource.id}" do %>
+                    <%= component "flash", conn: @conn, type: :resource_feedback %>
+                  <% end %>
+                <% end %> -->
+              </div>
+            </div>
+          </div>
+        {% endwith %}
+      {% endfor %}
+    </div>
+
+    <!-- Suggestion Form -->
+    <section class="tc-ns tl-m w-100 pa1 ph4 ph3-m ph3-l pb4 pb5-l" id="suggestion_form">
+      <!-- <div class="w-60-ns center">
+        <div class="pt3 pb2 mt4 tl center ma0-ns">
+          <%= raw @content.lookingfor %>
+        </div>
+        <%= form_for @conn, submit_path(@conn, :submit) <> "#suggestion_form", [as: :suggestions], fn f -> %>
+          <%= component "text_box", conn: @conn, form: f, name: "suggestions", placeholder: "Add your suggestions for new topics", submit: true %>
+        <% end %>
+        <%= component "flash", conn: @conn, type: :suggestions %>
+      </div> -->
+    </section>
+
+    <!-- Alpha/Beta Section -->
+    <section class="lm-white lm-bg-dark-blue pa1 ph4 ph3-m ph3-l pb4 pb5-l" id="email_form">
+      <div class="mv3 w-60-ns center" id="alpha">
+        {% if page.alpha %}
+          {{page.alpha|richtext}}
+        {% else %}
+          {{page.alpha_feedback|richtext}}
+        {% endif %}
+      </div>
+
+      <!-- <%= if @show_email_submit do %>
+        <div id="alphasection" class="lm-dark-blue lm-bg-white pa1 ph4 ph3-m ph3-l pv1 pv3-l w-60-ns center tracked relative">
+          <%= if @content[:alphatext] do %>
+            <%= raw @content[:alphatext] %>
+          <% else %>
+            <%= raw @content[:alphatext_feedback] %>
+          <% end %>
+          <%= form_for @conn, submit_path(@conn, :submit) <> "#email_form", [as: :email, id: "email-submit"], fn f -> %>
+            <%= if get_flash(@conn, :emails) do %>
+              <%= component "flash", conn: @conn, type: :emails %>
+            <% else %>
+              <%= label f, :email, "Email:", class: "db mv1" %>
+              <%= email_input(f, :email, class: "br2 pa2 mb2-l mb3 f5 fw3 ba w-100") %>
+              <div class="relative w-100 mt3">
+                <%= component "buttons/primary_button", value: "Take part", class: "absolute bottom--1 right-0" %>
+              </div>
+              <div class="mt4 pt1">
+                <%= component "flash", conn: @conn, type: :emails %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %> -->
+    </section>
+
+    <section class="pv1 ph3 lm-bg-orange tl">
+      <a href="/coming-soon" class="link banners">
+        <div class="relative">
+          {{ page.assessment_text|richtext }}
+          <p class="absolute right-1 top--1 dn dib-ns b pointer">></p>
+        </div>
+      </a>
+    </section>
+
+    <section class="pv1 ph3 tl lm-bg-white">
+      <a href="/crisis" class="link banners">
+        <div class="relative">
+          {{ page.crisis_text|richtext }}
+          <p class="absolute right-1 top--1 dn dib-ns b pointer">></p>
+        </div>
+      </a>
+    </section>
+
 {% endblock %}
