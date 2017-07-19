@@ -153,7 +153,7 @@ STATICFILES_DIRS = [
 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -182,6 +182,15 @@ PIPELINE = {
             ),
             'output_filename': 'scripts.js',
         }
+    },
+    'CSS_COMPRESSOR': None,
+    'STYLESHEETS': {
+      'cms': {
+        'source_filenames': (
+          'css/*.css',
+        ),
+        'output_filename': 'cms.css',
+      }
     }
 }
 
