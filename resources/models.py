@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.db.models import Q
 from django.db.models.fields import TextField, URLField, IntegerField, CharField
 
 from wagtail.wagtailcore.models import Page
@@ -8,7 +9,7 @@ from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel
 from modelcluster.fields import ParentalKey
 from modelcluster.contrib.taggit import ClusterTaggableManager
-from taggit.models import TaggedItemBase
+from taggit.models import TaggedItemBase, Tag
 
 from wagtail.wagtailimages.models import Image
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
@@ -41,13 +42,38 @@ class Home(Page):
     video_url = URLField(blank=True, help_text="URL of an introductiary youtube video")
 
     def get_context(self, request):
-        # Update contest to inclue only published posts, ordered by revers-chron
         context = super(Home, self).get_context(request)
-        resource_index_page = self.get_children()
-        for e in resource_index_page:
-            if (e.title == 'Resource Index'):
-                resources = map(combine_tags, e.get_children().live().order_by('-first_published_at'))
-        context['resources'] = resources
+
+        tag = request.GET.getlist('tag')
+
+        issue_tag_ids = [tag.tag_id for tag in IssueTag.objects.all()]
+        content_tag_ids = [tag.tag_id for tag in ContentTag.objects.all()]
+        reason_tag_ids = [tag.tag_id for tag in ReasonTag.objects.all()]
+        topic_tag_ids = [tag.tag_id for tag in TopicTag.objects.all()]
+
+        issue_tags = Tag.objects.in_bulk(issue_tag_ids)
+        content_tags = Tag.objects.in_bulk(content_tag_ids)
+        reason_tags = Tag.objects.in_bulk(reason_tag_ids)
+        topic_tags = Tag.objects.in_bulk(topic_tag_ids)
+
+        if (tag):
+            resources = ResourcePage.objects.filter(
+                Q(content_tags__name__in=tag) |
+                Q(reason_tags__name__in=tag) |
+                Q(issue_tags__name__in=tag) |
+                Q(topic_tags__name__in=tag)
+            ).distinct()
+        else:
+            resources = ResourcePage.objects.all()
+
+        filtered_resources = map(combine_tags, resources)
+
+        context['resources'] = filtered_resources
+        context['resource_count'] = resources.count()
+        context['issue_tags'] = issue_tags.values()
+        context['content_tags'] = content_tags.values()
+        context['reason_tags'] = reason_tags.values()
+        context['topic_tags'] = topic_tags.values()
         return context
 
     content_panels = Page.content_panels + [
