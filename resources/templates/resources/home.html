@@ -67,6 +67,7 @@
     </section>
 
     <section class="tc-ns">
+      <div id="results" class="relative top--3 o-0"></div>
       <div class="pa1 ph4 ph3-m ph3-l">
         <div class="w-60-ns center">
           <h3 class="tl mt5 nunito">Showing {{resource_count}} {% if resource_count == 1 %}resource{% else %}resources{% endif %}</h3>
@@ -101,7 +102,7 @@
               </div>
 
               <div class="ph1 sidebar-tag-blocks">
-                <form>
+                <form action="/#results" method="get" id="filter-form">
                   <div class="mb5 relative">
                     <h4 class="w-70 mb1 mt2">{{page.filter_label_1}}</h4>
                     <div class="select-issue-filters w-100 pv2 pl1 ph2-ns">
@@ -109,15 +110,15 @@
                     </div>
                     <div class="mb4 issue-filters">
                       <div class="ph1 lm-bg-orange-hover">
-                        <input type="checkbox" class="checked-fill absolute o-0 show-everything-issue" />
-                        <label class="db pa2 pr0 pointer b--lm-grey bb f5">
+                        <input type="checkbox" {%if request.GET.issue|length == 0 %}checked{% endif %} class="checked-fill absolute o-0 show-everything-issue" id="tags_issue_all-issue"/>
+                        <label for="tags_issue_all-issue" class="db pa2 pr0 pointer b--lm-grey bb f5">
                           <div class="is-checked ba b--lm-dark-blue dib h05 w05 mr2"></div><span>Show me everything</span>
                         </label>
                       </div>
                       {% for tag in issue_tags %}
                         <div class="ph1 lm-bg-orange-hover">
-                          <input type="checkbox" class="checked-fill absolute o-0 filters-issue" />
-                          <label class="db pa2 pr0 pointer b--lm-grey bb issue-tag f5">
+                          <input name="issue" {% if tag.name in selected_tags %}checked{% endif %} value="{{tag}}" type="checkbox" class="checked-fill absolute o-0 filters-issue" id="tags_issue_{{tag}}" />
+                          <label for="tags_issue_{{tag}}" class="db pa2 pr0 pointer b--lm-grey bb issue-tag f5">
                             <div class="is-checked ba b--lm-dark-blue dib h05 w05 mr2"></div><span>{{tag}}</span>
                           </label>
                         </div>
@@ -140,15 +141,15 @@
                     </div>
                     <div class="mb4 reason-filters">
                       <div class="ph1 lm-bg-orange-hover">
-                        <input type="checkbox" class="checked-fill absolute o-0 show-everything-reason" />
-                        <label class="db pa2 pr0 pointer b--lm-grey bb f5">
+                        <input type="checkbox" {%if request.GET.reason|length == 0 %}checked{% endif %} class="checked-fill absolute o-0 show-everything-reason" id="tags_reason_all-reason" />
+                        <label for="tags_reason_all-reason" class="db pa2 pr0 pointer b--lm-grey bb f5">
                           <div class="is-checked ba b--lm-dark-blue dib h05 w05 mr2"></div><span>Show me everything</span>
                         </label>
                       </div>
                     {% for tag in reason_tags %}
                     <div class="ph1 lm-bg-orange-hover">
-                      <input type="checkbox" class="checked-fill absolute o-0 filters-reason" />
-                      <label class="db pa2 pr0 pointer b--lm-grey bb reason-tag f5">
+                      <input type="checkbox" {% if tag.name in selected_tags %}checked{% endif %} name="reason" value="{{tag}}" class="checked-fill absolute o-0 filters-reason" id="tags_reason_{{tag}}" />
+                      <label for="tags_reason_{{tag}}" class="db pa2 pr0 pointer b--lm-grey bb reason-tag f5">
                         <div class="is-checked ba b--lm-dark-blue dib h05 w05 mr2"></div><span>{{tag}}</span>
                       </label>
                     </div>
@@ -171,15 +172,15 @@
                   </div>
                   <div class="mb4 content-filters">
                     <div class="ph1 lm-bg-orange-hover">
-                      <input type="checkbox" class="checked-fill absolute o-0 show-everything-content" />
-                      <label class="db pa2 pr0 pointer b--lm-grey bb f5">
+                      <input type="checkbox" {%if request.GET.content|length == 0 %}checked{% endif %} class="checked-fill absolute o-0 show-everything-content" id="tags_content_all-content"/>
+                      <label for="tags_content_all-content" class="db pa2 pr0 pointer b--lm-grey bb f5">
                         <div class="is-checked ba b--lm-dark-blue dib h05 w05 mr2"></div><span>Show me everything</span>
                       </label>
                     </div>
                     {% for tag in content_tags %}
                       <div class="ph1 lm-bg-orange-hover">
-                        <input type="checkbox" class="checked-fill absolute o-0 filters-content" />
-                        <label class="db pa2 pr0 pointer b--lm-grey bb content-tag f5">
+                        <input value="{{tag}}" {% if tag.name in selected_tags %}checked{% endif %} name="content" type="checkbox" class="checked-fill absolute o-0 filters-content" id="tags_content_{{tag}}" />
+                        <label for="tags_content_{{tag}}" class="db pa2 pr0 pointer b--lm-grey bb content-tag f5">
                           <div class="is-checked ba b--lm-dark-blue dib h05 w05 mr2"></div><span>{{tag}}</span>
                         </label>
                       </div>
@@ -197,7 +198,7 @@
                   </div>
                   <div class="pv3 tr w-100 sidebar-buttons">
                     <div class="tr dib w-40">
-                      <button class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover mt4">Search</button>
+                      <button type="submit" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover mt4">Search</button>
                     </div>
                   </div>
                 </form>

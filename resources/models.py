@@ -44,7 +44,11 @@ class Home(Page):
     def get_context(self, request):
         context = super(Home, self).get_context(request)
 
-        tag = request.GET.getlist('tag')
+        tag_filter = request.GET.getlist('tag')
+        issue_filter = request.GET.getlist('issue')
+        content_filter = request.GET.getlist('content')
+        reason_filter = request.GET.getlist('reason')
+        topic_filter = request.GET.getlist('topic')
 
         issue_tag_ids = [tag.tag_id for tag in IssueTag.objects.all()]
         content_tag_ids = [tag.tag_id for tag in ContentTag.objects.all()]
@@ -56,15 +60,27 @@ class Home(Page):
         reason_tags = Tag.objects.in_bulk(reason_tag_ids)
         topic_tags = Tag.objects.in_bulk(topic_tag_ids)
 
-        if (tag):
+        if (tag_filter):
             resources = ResourcePage.objects.filter(
-                Q(content_tags__name__in=tag) |
-                Q(reason_tags__name__in=tag) |
-                Q(issue_tags__name__in=tag) |
-                Q(topic_tags__name__in=tag)
+                Q(content_tags__name__in=tag_filter) |
+                Q(reason_tags__name__in=tag_filter) |
+                Q(issue_tags__name__in=tag_filter) |
+                Q(topic_tags__name__in=tag_filter)
             ).distinct()
         else:
             resources = ResourcePage.objects.all()
+
+        if (issue_filter):
+            resources = resources.filter(issue_tags__name__in=issue_filter).distinct()
+
+        if (content_filter):
+            resources = resources.filter(content_tags__name__in=content_filter).distinct()
+
+        if (reason_filter):
+            resources = resources.filter(reason_tags__name__in=reason_filter).distinct()
+
+        if (topic_filter):
+            resources = resources.filter(topic_tags__name__in=topic_filter).distinct()
 
         filtered_resources = map(combine_tags, resources)
 
@@ -74,6 +90,13 @@ class Home(Page):
         context['content_tags'] = content_tags.values()
         context['reason_tags'] = reason_tags.values()
         context['topic_tags'] = topic_tags.values()
+        context['selected_tags'] = list(chain(
+            request.GET.getlist('tag'),
+            request.GET.getlist('content'),
+            request.GET.getlist('reason'),
+            request.GET.getlist('issue'),
+            request.GET.getlist('topic'),
+        ))
         return context
 
     content_panels = Page.content_panels + [

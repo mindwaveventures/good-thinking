@@ -1,7 +1,7 @@
 var selectedFilters = {
-  issue: {},
-  reason: {},
-  content: {}
+  issue: [],
+  reason: [],
+  content: []
 }
 
 if (isNotIE8()) {
@@ -78,7 +78,9 @@ if (isNotIE8()) {
         selectAll(".filters-" + el).forEach(function(elem) {
           elem.checked = false;
         })
-        selectedFilters[el]["Show-Me-Everything"] = select(".show-everything-" + el).checked;
+        if (select(".show-everything-" + el).checked) {
+          selectedFilters[el] = ["Show-Me-Everything"];
+        }
       });
 
       // Clicking any other filter deselects 'Show Everything'
@@ -101,15 +103,7 @@ function toggleArrows(type) {
  }
 
 function updateSelected(form) {
-  var formData = getFormData(form)
-
-  for (var value in formData) {
-    var typeValue = value.split("[");
-
-    if (typeValue.length === 2 ) {
-      selectedFilters[typeValue[0]][typeValue[1].slice(0, -1)] = formData[value];
-    }
-  }
+  selectedFilters = Object.assign(selectedFilters, getFormData(form))
 }
 
 function displaySelected(el) {
@@ -117,11 +111,7 @@ function displaySelected(el) {
   var exclude = ["all-issue", "all-reason", "all-content"];
   var title = select("." + el + "-filters-header");
 
-  for (var tag in selectedFilters[el]) {
-    if(selectedFilters[el][tag] && exclude.indexOf(tag) === -1) {
-      selected.push(tag);
-    }
-  }
+  selected = selected.concat(selectedFilters[el]);
 
   if (selected.length === 1) {
     title.innerText = selected[0].split("-").join(" ");
