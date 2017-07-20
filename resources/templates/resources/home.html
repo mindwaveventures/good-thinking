@@ -8,7 +8,6 @@
     {% if page.banner %}
       <div class="lm-bg-white pa3 w-100 f6 f5-l f5-m banner segoe fixed top-0 z-5 dt-ns dt--fixed-ns shadow-2" id="beta-banner">
         <div class="dtc-ns w-50-l w-40-m v-mid">
-          <!-- <%= transform_html @banner, @conn, class: "underline dib", id: "feedback-link" %> -->
           {{page.banner|richtext}}
         </div>
         <div class="dtc-ns dn tr v-mid banner_buttons">
@@ -25,11 +24,10 @@
       <div class="pb5 w-90-ns f1-ns f6 lh-title center">
         <div class="mb4">
           {{ page.header|richtext }}
-            <!-- <%= form_for @conn, homepage_path(@conn, :search) <> "#results", [as: :query], fn f ->  %>
-              <%= text_input f, :q, class: "w-50-ns w-100 db center mt1 b--white ba pa1 pa2-ns nunito f5 br1 bg-white-90 focus-lm-orange", placeholder: "Enter search term", "aria-label": "search", value: assigns[:query], id: "query_q_1"  %>
-              <%= hidden_input f, :query_string, value: @conn.query_string, id: "query_string_1" %>
-              <%= component "buttons/primary_button", value: "Search", class: "mv3" %>
-            <% end %> -->
+          <form action="/#results" method="get" id="search-form-1">
+            <input name="q" type="text" value="{{request.GET.q}}" class="w-50-ns w-100 db center mt1 b--white ba pa1 pa2-ns nunito f5 br1 bg-white-90 focus-lm-orange" placeholder="Enter search term", "aria-label"="search">
+            <button class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover mv3">Search</button>
+          </form>
         </div>
         {% if page.video_url %}
           <div class="dib homepage_video_container v-mid ml5-l">
@@ -46,6 +44,7 @@
 
     <!-- Main Search and Categories -->
     <section class="pt4 ph4 ph3-m ph3-l blurred_background cover bg-center">
+      <div id="results" class="relative top--3 o-0"></div>
       <form>
         <div class="w-60-ns center tc tl-ns">
           <div class="tl lm-dark-blue mb2 nunito-bold">I am, or someone I know, is feeling:</div>
@@ -60,14 +59,15 @@
           </div>
         </div>
         <div class="tl w-60-ns center relative pb4">
-          <input type="text" class="mt1 mr2 w-100 pa2 pl3 mb3 nunito br1 b--white ba bg-white-90 focus-lm-orange" placeholder="Enter search term", "aria-label"="search">
-          <buttons class="absolute bottom--1 right-0 right f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover">Search</buttons>
+          <form action="/#results" method="get" id="search-form-2">
+            <input type="text" name="q" value="{{request.GET.q}}" class="mt1 mr2 w-100 pa2 pl3 mb3 nunito br1 b--white ba bg-white-90 focus-lm-orange" placeholder="Enter search term", "aria-label"="search">
+            <button class="absolute bottom--1 right-0 right f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover">Search</button>
+          </form>
         </div>
       </form>
     </section>
 
     <section class="tc-ns">
-      <div id="results" class="relative top--3 o-0"></div>
       <div class="pa1 ph4 ph3-m ph3-l">
         <div class="w-60-ns center">
           <h3 class="tl mt5 nunito">Showing {{resource_count}} {% if resource_count == 1 %}resource{% else %}resources{% endif %}</h3>

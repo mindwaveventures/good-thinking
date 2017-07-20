@@ -10,6 +10,7 @@ from wagtail.wagtailadmin.edit_handlers import FieldPanel
 from modelcluster.fields import ParentalKey
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase, Tag
+from wagtail.wagtailsearch import index
 
 from wagtail.wagtailimages.models import Image
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
@@ -44,6 +45,8 @@ class Home(Page):
     def get_context(self, request):
         context = super(Home, self).get_context(request)
 
+        query = request.GET.get('q')
+
         tag_filter = request.GET.getlist('tag')
         issue_filter = request.GET.getlist('issue')
         content_filter = request.GET.getlist('content')
@@ -60,15 +63,18 @@ class Home(Page):
         reason_tags = Tag.objects.in_bulk(reason_tag_ids)
         topic_tags = Tag.objects.in_bulk(topic_tag_ids)
 
+        if (query):
+            resources = ResourcePage.objects.search(query)
+        else:
+            resources = ResourcePage.objects.all()
+
         if (tag_filter):
-            resources = ResourcePage.objects.filter(
+            resources = resources.filter(
                 Q(content_tags__name__in=tag_filter) |
                 Q(reason_tags__name__in=tag_filter) |
                 Q(issue_tags__name__in=tag_filter) |
                 Q(topic_tags__name__in=tag_filter)
             ).distinct()
-        else:
-            resources = ResourcePage.objects.all()
 
         if (issue_filter):
             resources = resources.filter(issue_tags__name__in=issue_filter).distinct()
@@ -190,6 +196,23 @@ class ResourcePage(Page):
       default='5',
       help_text='Highest priority 1, lowest priority 5'
     )
+
+    search_fields = Page.search_fields + [
+        index.SearchField('body'),
+        index.SearchField('pros'),
+        index.SearchField('cons'),
+        index.SearchField('heading'),
+        index.SearchField('resource_url'),
+        index.RelatedFields('issue_tags', [
+            index.SearchField('name'),
+        ]),
+        index.RelatedFields('content_tags', [
+            index.SearchField('name'),
+        ]),
+        index.RelatedFields('reason_tags', [
+            index.SearchField('name'),
+        ]),
+    ]
 
     content_panels = Page.content_panels + [
         FieldPanel('heading', classname="full"),

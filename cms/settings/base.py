@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'wagtail.wagtailsearch',
     'wagtail.wagtailadmin',
     'wagtail.wagtailcore',
+    'wagtail.contrib.postgres_search',
 
     'modelcluster',
     'taggit',
@@ -181,4 +182,10 @@ PIPELINE = {
             'output_filename': 'scripts.js',
         }
     }
+}
+
+WAGTAILSEARCH_BACKENDS = {
+    'default': {
+        'BACKEND': 'wagtail.contrib.postgres_search.backend',
+    },
 }
