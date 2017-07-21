@@ -1,16 +1,70 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags static %}
 
 {% block body_class %}template-feedbackpage{% endblock %}
 
 {% block content %}
-    {{ page.body|richtext }}
-
     <section class="pt5-plus f3 pb3 ph4 ph3-ns tl lh-copy lm-dark-blue segoe feedback-section">
       <div class="w-60-ns center">
-          <p>Hello World</p>
+        <img src="{% static "images/london_minds_logo.png" %}" class="w5 mt4 logo" />
       </div>
     </section>
 
+    <section class="f3 pa3 ph4 ph3-m ph3-l tl lh-copy lm-dark-blue segoe feedback-section">
+      <div class="w-60-ns center">
+        <a href="/" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-gb-white lm-bg-dark-blue-hover lm-dark-blue lm-white-hover ba b--lm-dark-blue">< Back</a>
+      </div>
+    </section>
+
+    <form action="{% pageurl page %}" method="POST" class="lm-ls1" id="feedback-form">
+      {% csrf_token %}
+
+      {% for row in custom_form %}
+        <section class="f3 pa3 ph4 ph3-m ph3-l tl lh-copy lm-dark-blue nunito feedback-form-section">
+          <div class="w-60-ns center">
+            <div class="around_form_input">
+              {{row.before_input|richtext}}
+            </div>
+            {% if row.errors %}
+              {% for error in row.errors %}
+                <p>{{error}}</p>
+              {% endfor %}
+            {% endif %}
+            {% if row.field_type == 'radio' %}
+              <div id="id_{{row.label}}" class="mv2 pv2">
+              {% for choice in row.choices %}
+                <div class="mv1 h18">
+                  <input id="id_{{row.label}}_{{forloop.counter0}}" name="{{row.label}}" type="radio" value="{{choice}}" {{row.reqired}} class="absolute o-0 lm-feedback-radio">{{choice}}</input>
+                  <label for="id_{{row.label}}_{{forloop.counter0}}" class="lm-feedback-label word-wrap f6 v-top"></label>
+                </div>
+              {% endfor %}
+              </div>
+            {% else %}
+              {% if row.field_type == 'multiline' %}
+                <label for="id_{{row.label}}" class="dn"></label>
+                <textarea id="id_{{row.label}}" name="{{row.label}}" class="h4 f5 w-100 pa3 nr b--lm-grey" {{required}}></textarea>
+              {% else %}
+                {% if row.field_type == 'email' and forloop.last %}
+                  <label for="id_{{row.label}}" class="dn">{{row.label}}</label>
+                  <input id="id_{{row.label}}" name="{{row.label}}" type="email" class="w-100 pa2 f5 ba b--lm-grey"></input>
+                  <div class="w-100 tr mt3">
+                    <button type="submit" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover">Submit</button>
+                  </div>
+                {% endif %}
+              {% endif %}
+            {% endif %}
+            <div class="around_form_input">
+              {{row.after_input|richtext}}
+            </div>
+          </div>
+        </section>
+      {% endfor %}
+    </form>
+
+    <section class="lm-white lm-bg-dark-blue pa1 ph4 ph3-m ph3-l pb4 pb5-l" id="email_form">
+      <div class="mv3 w-60-ns center" id="alpha">
+        {{page.alphatext|richtext}}
+      </div>
+    </section>
 {% endblock %}
