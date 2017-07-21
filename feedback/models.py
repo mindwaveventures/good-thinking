@@ -1,7 +1,18 @@
-from modelcluster.fields import ParentalKey
+import json
+import django
+
+from collections import OrderedDict
+
+from django.conf import settings
+from django.core.serializers.json import DjangoJSONEncoder
 
 from django.db import models
 from django.db.models.fields import TextField
+from django.shortcuts import render
+
+from modelcluster.fields import ParentalKey
+
+from django.utils.translation import ugettext_lazy as _
 
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import render
@@ -11,7 +22,9 @@ from wagtail.wagtailadmin.edit_handlers import (
     InlinePanel, MultiFieldPanel
 )
 from wagtail.wagtailcore.fields import RichTextField
-from wagtail.wagtailforms.models import AbstractForm, AbstractFormField
+from wagtail.wagtailforms.models import AbstractForm, AbstractFormField, AbstractFormSubmission
+
+from wagtail.wagtailforms.forms import BaseForm
 
 FORM_FIELD_CHOICES = (
     ('singleline', _('Single line text')),
@@ -30,7 +43,6 @@ FORM_FIELD_CHOICES = (
 
 class FormField(AbstractFormField):
     page = ParentalKey('FeedbackPage', related_name='form_fields')
-
     label = models.CharField(
         verbose_name=_('label'),
         max_length=255,
@@ -49,17 +61,14 @@ class FormField(AbstractFormField):
         blank=True,
         help_text=_('Default value. Comma separated values supported for checkboxes.')
     )
-    before_input = RichTextField(verbose_name=_('before input'), blank=True) # custom
-    after_input = RichTextField(verbose_name=_('after input'), blank=True) # custom
+    before_input = RichTextField(verbose_name=_('before input'), blank=True)
+    after_input = RichTextField(verbose_name=_('after input'), blank=True)
 
-    # see original panels here:
-    # https://github.com/wagtail/wagtail/blob/master/wagtail/wagtailforms/models.py#L238
     panels = [
         FieldPanel('label'),
-        # FieldPanel('help_text'), # removed help_text as we instead use rich text
+        FieldPanel('before_input'),
+        FieldPanel('after_input'),
         FieldPanel('required'),
-        FieldPanel('before_input'), # custom
-        FieldPanel('after_input'), # custom
         FieldPanel('field_type', classname="formbuilder-type"),
         FieldPanel('choices', classname="formbuilder-choices"),
         FieldPanel('default_value', classname="formbuilder-default"),
@@ -76,7 +85,6 @@ class FeedbackPage(AbstractForm):
     # to see how the serve function has been edited, see the original function here:
     # https://github.com/wagtail/wagtail/blob/master/wagtail/wagtailforms/models.py#L238
     def serve(self, request, *args, **kwargs):
-        # original
         if request.method == 'POST':
             form = self.get_form(request.POST, page=self, user=request.user)
 
@@ -112,10 +120,9 @@ class FeedbackPage(AbstractForm):
                 try:
                     dict['errors'] = form.errors.as_data()[val.label][0]
                 except:
-                    False
+                    pass
 
-            if val.field_type == 'radio':
-                dict['choices'] = val.choices.split(",")
+            dict['choices'] = val.choices.split(",") # dict['choices'] only being used in template if val.field_type is 'radio'
 
             dict['required'] = 'required' if val.required else ''
 
