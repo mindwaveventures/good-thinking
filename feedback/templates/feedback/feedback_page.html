@@ -29,7 +29,7 @@
               </div>
               {% if row.errors %}
                 {% for error in row.errors %}
-                  <p>{{error}}</p>
+                  <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-light-red b--dark-red relative black mt1 f5"><i class="bg--lm-dark-red white absolute br-100 fa fa-exclamation lm-flash-icon lm-exclamation-icon"></i>{{error}}</div>
                 {% endfor %}
               {% endif %}
               <div id="id_{{row.label}}" class="mv2 pv2">
@@ -52,6 +52,11 @@
                 <div class="around_form_input">
                   {{row.before_input|richtext}}
                 </div>
+                {% if row.errors %}
+                  {% for error in row.errors %}
+                    <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-light-red b--dark-red relative black mt1 f5"><i class="bg--lm-dark-red white absolute br-100 fa fa-exclamation lm-flash-icon lm-exclamation-icon"></i>{{error}}</div>
+                  {% endfor %}
+                {% endif %}
                 <label for="id_{{row.label}}" class="dn"></label>
                 <textarea id="id_{{row.label}}" name="{{row.label}}" class="h4 f5 w-100 pa3 nr b--lm-grey" {{required}}></textarea>
                 <div class="around_form_input">
@@ -66,6 +71,11 @@
                   <div class="around_form_input">
                     {{row.before_input|richtext}}
                   </div>
+                  {% if row.errors %}
+                    {% for error in row.errors %}
+                      <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-light-red b--dark-red relative black mt1 f5"><i class="bg--lm-dark-red white absolute br-100 fa fa-exclamation lm-flash-icon lm-exclamation-icon"></i>{{error}}</div>
+                    {% endfor %}
+                  {% endif %}
                   <label for="id_{{row.label}}">{{row.label}}</label>
                   <input id="id_{{row.label}}" name="{{row.label}}" type="email"></input>
                   <div class="w-100 tr mt3">
