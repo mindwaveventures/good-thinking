@@ -9,8 +9,6 @@ from likes.models import Likes
 from resources.models import ResourcePage, combine_tags, get_resource
 from django.template.loader import render_to_string
 
-import bcrypt
-
 def save_like(request):
     id = request.POST.get('id')
     like_value = request.POST.get('like')
