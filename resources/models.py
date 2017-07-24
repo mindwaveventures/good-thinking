@@ -1,14 +1,130 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.db.models.fields import TextField, URLField, IntegerField
+from django.db.models import Q, Sum, Case, When
+from django.db.models.fields import TextField, URLField, IntegerField, CharField
 
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel
 from modelcluster.fields import ParentalKey
 from modelcluster.contrib.taggit import ClusterTaggableManager
-from taggit.models import TaggedItemBase
+from taggit.models import TaggedItemBase, Tag
+from wagtail.wagtailsearch import index
+
+from wagtail.wagtailimages.models import Image
+from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
+
+from django.template.loader import get_template
+
+from itertools import chain
+
+class Home(Page):
+    banner = RichTextField(blank=True, help_text="Banner at the top of every page")
+    header = RichTextField(blank=True, help_text="Hero title")
+    body = RichTextField(blank=True, help_text="Description of page")
+    filter_label_1 = TextField(blank=True, help_text="Label/Question for first set of filters")
+    filter_label_2 = TextField(blank=True, help_text="Label/Question for second set of filters")
+    filter_label_3 = TextField(blank=True, help_text="Label/Question for third set of filters")
+    assessment_text = RichTextField(blank=True, help_text="Label for sleep assessment link")
+    crisis_text = RichTextField(blank=True, help_text="Label for sleep crisis page link")
+    lookingfor = RichTextField(blank=True, help_text="Information on how to leave suggestions and what the suggestions are for")
+    alpha = RichTextField(blank=True, help_text="What is Alpha")
+    alphatext = RichTextField(blank=True, help_text="Why to take part in the alpha")
+    footer = RichTextField(blank=True, help_text="Footer text")
+    hero_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text="Max file size: 10MB. Choose from: GIF, JPEG, PNG (but pick PNG if you have the choice)"
+    )
+    video_url = URLField(blank=True, help_text="URL of an introductiary youtube video")
+
+    def get_context(self, request):
+        context = super(Home, self).get_context(request)
+
+        query = request.GET.get('q')
+
+        tag_filter = request.GET.getlist('tag')
+        issue_filter = request.GET.getlist('issue')
+        content_filter = request.GET.getlist('content')
+        reason_filter = request.GET.getlist('reason')
+        topic_filter = request.GET.getlist('topic')
+
+        issue_tag_ids = [tag.tag_id for tag in IssueTag.objects.all()]
+        content_tag_ids = [tag.tag_id for tag in ContentTag.objects.all()]
+        reason_tag_ids = [tag.tag_id for tag in ReasonTag.objects.all()]
+        topic_tag_ids = [tag.tag_id for tag in TopicTag.objects.all()]
+
+        issue_tags = Tag.objects.in_bulk(issue_tag_ids)
+        content_tags = Tag.objects.in_bulk(content_tag_ids)
+        reason_tags = Tag.objects.in_bulk(reason_tag_ids)
+        topic_tags = Tag.objects.in_bulk(topic_tag_ids)
+
+        resources = ResourcePage.objects.all().annotate(
+            number_of_likes=count_likes(1)
+        ).annotate(
+            number_of_dislikes=count_likes(-1)
+        )
+
+        if (tag_filter):
+            resources = resources.filter(
+                Q(content_tags__name__in=tag_filter) |
+                Q(reason_tags__name__in=tag_filter) |
+                Q(issue_tags__name__in=tag_filter) |
+                Q(topic_tags__name__in=tag_filter)
+            ).distinct()
+
+        if (issue_filter):
+            resources = resources.filter(issue_tags__name__in=issue_filter).distinct()
+
+        if (content_filter):
+            resources = resources.filter(content_tags__name__in=content_filter).distinct()
+
+        if (reason_filter):
+            resources = resources.filter(reason_tags__name__in=reason_filter).distinct()
+
+        if (topic_filter):
+            resources = resources.filter(topic_tags__name__in=topic_filter).distinct()
+
+        if (query):
+            resources = resources.search(query)
+
+        filtered_resources = map(combine_tags, resources)
+
+        context['resources'] = filtered_resources
+        context['resource_count'] = resources.count()
+        context['issue_tags'] = issue_tags.values()
+        context['content_tags'] = content_tags.values()
+        context['reason_tags'] = reason_tags.values()
+        context['topic_tags'] = topic_tags.values()
+        context['selected_tags'] = list(chain(
+            request.GET.getlist('tag'),
+            request.GET.getlist('content'),
+            request.GET.getlist('reason'),
+            request.GET.getlist('issue'),
+            request.GET.getlist('topic'),
+        ))
+        return context
+
+    content_panels = Page.content_panels + [
+        FieldPanel('banner', classname="full"),
+        ImageChooserPanel('hero_image'),
+        FieldPanel('header', classname="full"),
+        FieldPanel('body', classname="full"),
+        FieldPanel('video_url', classname="full"),
+        FieldPanel('filter_label_1', classname="full"),
+        FieldPanel('filter_label_2', classname="full"),
+        FieldPanel('filter_label_3', classname="full"),
+        FieldPanel('assessment_text', classname="full"),
+        FieldPanel('crisis_text', classname="full"),
+        FieldPanel('lookingfor', classname="full"),
+        FieldPanel('alpha', classname="full"),
+        FieldPanel('alphatext', classname="full"),
+        FieldPanel('footer', classname="full"),
+    ]
 
 class TopicTag(TaggedItemBase):
     content_object = ParentalKey('resources.ResourcePage', related_name='tagged_topic_items')
@@ -24,6 +140,20 @@ class ContentTag(TaggedItemBase):
 
 class HiddenTag(TaggedItemBase):
     content_object = ParentalKey('resources.ResourcePage', related_name='tagged_hidden_items')
+
+class ResourceIndexPage(Page):
+    intro = RichTextField(blank=True)
+
+    def get_context(self, request):
+        # Update contest to inclue only published posts, ordered by revers-chron
+        context = super(ResourceIndexPage, self).get_context(request)
+        resources = self.get_children().live().order_by('-first_published_at')
+        context['resources'] = resources
+        return context
+
+    content_panels = Page.content_panels + [
+        FieldPanel('intro', classname="full")
+    ]
 
 class ResourcePage(Page):
     heading = TextField(blank=True, help_text="The title of the resource being linked to")
@@ -71,6 +201,23 @@ class ResourcePage(Page):
       help_text='Highest priority 1, lowest priority 5'
     )
 
+    search_fields = Page.search_fields + [
+        index.SearchField('body'),
+        index.SearchField('pros'),
+        index.SearchField('cons'),
+        index.SearchField('heading'),
+        index.SearchField('resource_url'),
+        index.RelatedFields('issue_tags', [
+            index.SearchField('name'),
+        ]),
+        index.RelatedFields('content_tags', [
+            index.SearchField('name'),
+        ]),
+        index.RelatedFields('reason_tags', [
+            index.SearchField('name'),
+        ]),
+    ]
+
     content_panels = Page.content_panels + [
         FieldPanel('heading', classname="full"),
         FieldPanel('resource_url', classname="full"),
@@ -91,3 +238,29 @@ class ResourcePage(Page):
 
     class Meta:
         verbose_name = "Resource"
+
+def combine_tags(element):
+    element.specific.tags = list(chain(
+        element.specific.content_tags.all(),
+        element.specific.issue_tags.all(),
+        element.specific.reason_tags.all(),
+        element.specific.topic_tags.all()
+    ))
+    return element
+
+def get_resource(like_value, id):
+    return combine_tags(
+        ResourcePage.objects
+        .annotate(number_of_likes=count_likes(1))
+        .annotate(number_of_dislikes=count_likes(-1))
+        .get(id=id)
+    )
+
+def count_likes(like_or_dislike):
+    return Sum(
+        Case(
+            When(likes__like_value=like_or_dislike, then=1),
+            default=0,
+            output_field=models.IntegerField()
+        )
+    )

@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags static %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block content %}
+    {% if page.banner %}
+      <div class="lm-bg-white pa3 w-100 f6 f5-l f5-m banner segoe fixed top-0 z-5 dt-ns dt--fixed-ns shadow-2" id="beta-banner">
+        <div class="dtc-ns w-50-l w-40-m v-mid">
+          {{page.banner|richtext}}
+        </div>
+        <div class="dtc-ns dn tr v-mid banner_buttons">
+          <a href="/coming-soon" class="f6 f7-m f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-dark-blue-hover lm-dark-blue lm-white-hover ba b--lm-dark-blue" id="assessment">Take self-assessment</a>
+          <a href="/crisis" class="f6 f7-m f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-dark-blue-hover lm-dark-blue lm-white-hover ba b--lm-dark-blue" id="crisis">Get urgent support</a>
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- Hero Image Block -->
+    {% image page.hero_image width-1000 as hero_image %}
+    <section class="pt5-plus ph4 ph5-m ph6-l tc lm-white cover lh-copy bg-center" style="background-image:url('{{ hero_image.url }}')">
+      <img src="{% static "images/london_minds_logo.png" %}" class="w-60 w-15-ns" />
+      <div class="pb5 w-90-ns f1-ns f6 lh-title center">
+        <div class="mb4">
+          {{ page.header|richtext }}
+          <form action="/#results" method="get" id="search-form-1">
+            <input name="q" type="text" value="{{request.GET.q}}" class="w-50-ns w-100 db center mt1 b--white ba pa1 pa2-ns nunito f5 br1 bg-white-90 focus-lm-orange" placeholder="Enter search term", "aria-label"="search">
+            <button class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover mv3">Search</button>
+          </form>
+        </div>
+        {% if page.video_url %}
+          <div class="dib homepage_video_container v-mid ml5-l">
+            {{ video_url }}
+          </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- Body Text -->
+    <section class="w-60-ns w-80 pv2 pv0-ns center">
+      {{ page.body|richtext }}
+    </section>
+
+    <!-- Main Search and Categories -->
+    <section class="pt4 ph4 ph3-m ph3-l blurred_background cover bg-center">
+      <div id="results" class="relative top--3 o-0"></div>
+      <form>
+        <div class="w-60-ns center tc tl-ns">
+          <div class="tl lm-dark-blue mb2 nunito-bold">I am, or someone I know, is feeling:</div>
+            {% for topic in topic_tags %}
+              <div class="dib relative mv2-ns mv1">
+                <input type="checkbox" class="topic-checked-fill absolute o-0">
+                <label class="b--lm-dark-blue lm-dark-blue ba br2 pl3 pr4 pv2 dib pointer border-box topic-unchecked br-pill">
+                  <span>{{topic}}</span>
+                </label>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="tl w-60-ns center relative pb4">
+          <form action="/#results" method="get" id="search-form-2">
+            <input type="text" name="q" value="{{request.GET.q}}" class="mt1 mr2 w-100 pa2 pl3 mb3 nunito br1 b--white ba bg-white-90 focus-lm-orange" placeholder="Enter search term", "aria-label"="search">
+            <button class="absolute bottom--1 right-0 right f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover">Search</button>
+          </form>
+        </div>
+      </form>
+    </section>
+
+    <section class="tc-ns">
+      <div class="pa1 ph4 ph3-m ph3-l">
+        <div class="w-60-ns center">
+          <h3 class="tl mt5 nunito">Showing {{resource_count}} {% if resource_count == 1 %}resource{% else %}resources{% endif %}</h3>
+          <!-- <%= if assigns[:selected_tags] do %>
+            <div class="tl">
+              <%= for tag <- @selected_tags do %>
+                <span class="b--lm-orange lm-bg-orange-20 ba br-pill ph2 pv0 lh-tag mh1 dib mb1 font nunito f6"><%= remove_hyphen tag %></span>
+              <% end %>
+            </div>
+          <% end %> -->
+        </div>
+      </div>
+
+      <section class="results">
+        <!-- <%= if is_ie8? @conn do %>
+          <%= render "ie8_filters.html", content: @content, conn: @conn, tags: @tags%>
+        <% else %> -->
+        <div class="tl">
+          <div class="w-60-ns center">
+            <label class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-blue-hover lm-dark-blue lm-white-hover ba b--lm-dark-blue mt2 ml4 ml2-ns" id="open-filter-label" for="filter_filter">Filter</label>
+          </div>
+          <input type="checkbox" id="filter_filter" class="filter-check absolute o-0"  "aria-labelledby"="open-filter-label close-filter-label">
+
+          <!-- Sidebar -->
+          <div class="filter-sidebar">
+
+            <div class="fixed sidebar top-0 bg-white bottom-0 w-80 w-70-ns w-50-m w-30-l pa3 overflow-y-scroll tl shadow-2 z-9999">
+              <div class="tl lm-grey w-100 tr mb4">
+                <label class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover mt4" for="filter_filter">
+                  <i class="fa fa-times f4" aria-hidden="true"><span id="close-filter-label" class="o-0 absolute">close</span></i>
+                </label>
+              </div>
+
+              <div class="ph1 sidebar-tag-blocks">
+                <form action="/#results" method="get" id="filter-form">
+                  <div class="mb5 relative">
+                    <h4 class="w-70 mb1 mt2">{{page.filter_label_1}}</h4>
+                    <div class="select-issue-filters w-100 pv2 pl1 ph2-ns">
+                      <h5 class="lm-dark-grey nunito-italic ma0 f5"><span class="issue-filters-header">Select as many as are relevant</span> <span class="filter-arrow filter-arrow-hide fa-down nunito lm-orange fr">&#x25bc;</span><span class="filter-arrow filter-arrow-hide fa-up nunito lm-orange fr">&#x25b2;</span></h5>
+                    </div>
+                    <div class="mb4 issue-filters">
+                      <div class="ph1 lm-bg-orange-hover">
+                        <input type="checkbox" {%if request.GET.issue|length == 0 %}checked{% endif %} class="checked-fill absolute o-0 show-everything-issue" id="tags_issue_all-issue"/>
+                        <label for="tags_issue_all-issue" class="db pa2 pr0 pointer b--lm-grey bb f5">
+                          <div class="is-checked ba b--lm-dark-blue dib h05 w05 mr2"></div><span>Show me everything</span>
+                        </label>
+                      </div>
+                      {% for tag in issue_tags %}
+                        <div class="ph1 lm-bg-orange-hover">
+                          <input name="issue" {% if tag.name in selected_tags %}checked{% endif %} value="{{tag}}" type="checkbox" class="checked-fill absolute o-0 filters-issue" id="tags_issue_{{tag}}" />
+                          <label for="tags_issue_{{tag}}" class="db pa2 pr0 pointer b--lm-grey bb issue-tag f5">
+                            <div class="is-checked ba b--lm-dark-blue dib h05 w05 mr2"></div><span>{{tag}}</span>
+                          </label>
+                        </div>
+                      {% endfor %}
+                      <div class="pa2 f5">
+                        <span>None of these (add your own)</span>
+                        <input type="text" class="fr mt1 w-100" "aria-label"="add issue" %>
+                        <div class="dib w-100">
+                          <div class="w-75-ns w-70 alert complete mb1 mt2 pa1 tc ba bw1-n bg--lm-green b--lm-green relative dib fl"></div>
+                          <div class="w-75-ns w-70 alert pending mb1 mt2 pa1 tc relative dib fl"></div>
+                          <button class="mt2 fr add-own">Add</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mv5 relative">
+                    <h4 class="w-70 mt4 mb1">{{page.filter_label_2}}</h4>
+                    <div class="select-reason-filters w-100 pv2 pl1 ph2-ns">
+                      <h5 class="lm-dark-grey nunito-italic ma0 f5"><span class="reason-filters-header">Select as many as are relevant</span> <span class="filter-arrow filter-arrow-hide fa-down nunito lm-orange fr">&#x25bc;</span><span class="filter-arrow filter-arrow-hide fa-up nunito lm-orange fr">&#x25b2;</span></h5>
+                    </div>
+                    <div class="mb4 reason-filters">
+                      <div class="ph1 lm-bg-orange-hover">
+                        <input type="checkbox" {%if request.GET.reason|length == 0 %}checked{% endif %} class="checked-fill absolute o-0 show-everything-reason" id="tags_reason_all-reason" />
+                        <label for="tags_reason_all-reason" class="db pa2 pr0 pointer b--lm-grey bb f5">
+                          <div class="is-checked ba b--lm-dark-blue dib h05 w05 mr2"></div><span>Show me everything</span>
+                        </label>
+                      </div>
+                    {% for tag in reason_tags %}
+                    <div class="ph1 lm-bg-orange-hover">
+                      <input type="checkbox" {% if tag.name in selected_tags %}checked{% endif %} name="reason" value="{{tag}}" class="checked-fill absolute o-0 filters-reason" id="tags_reason_{{tag}}" />
+                      <label for="tags_reason_{{tag}}" class="db pa2 pr0 pointer b--lm-grey bb reason-tag f5">
+                        <div class="is-checked ba b--lm-dark-blue dib h05 w05 mr2"></div><span>{{tag}}</span>
+                      </label>
+                    </div>
+                    {% endfor %}
+                    <div class="pa2 f5">
+                      <span>None of these (add your own)</span>
+                      <input type="text" class="fr mt1 w-100" "aria-label"="add reason" %>
+                      <div class="dib w-100">
+                        <div class="w-75-ns w-70 alert complete mb1 mt2 pa1 tc ba bw1-n bg--lm-green b--lm-green relative dib fl"></div>
+                        <div class="w-75-ns w-70 alert pending mb1 mt2 pa1 tc relative dib fl"></div>
+                        <button class="mt2 fr add-own">Add</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mv5 relative">
+                  <h4 class="w-70 mt4 mb1">{{page.filter_label_3}}</h4>
+                  <div class="select-content-filters w-100 pv2 pl1 ph2-ns">
+                    <h5 class="lm-dark-grey nunito-italic ma0 f5"><span class="content-filters-header">Select as many as are relevant</span> <span class="filter-arrow filter-arrow-hide fa-down nunito lm-orange fr">&#x25bc;</span><span class="filter-arrow filter-arrow-hide fa-up nunito lm-orange fr">&#x25b2;</span></h5>
+                  </div>
+                  <div class="mb4 content-filters">
+                    <div class="ph1 lm-bg-orange-hover">
+                      <input type="checkbox" {%if request.GET.content|length == 0 %}checked{% endif %} class="checked-fill absolute o-0 show-everything-content" id="tags_content_all-content"/>
+                      <label for="tags_content_all-content" class="db pa2 pr0 pointer b--lm-grey bb f5">
+                        <div class="is-checked ba b--lm-dark-blue dib h05 w05 mr2"></div><span>Show me everything</span>
+                      </label>
+                    </div>
+                    {% for tag in content_tags %}
+                      <div class="ph1 lm-bg-orange-hover">
+                        <input value="{{tag}}" {% if tag.name in selected_tags %}checked{% endif %} name="content" type="checkbox" class="checked-fill absolute o-0 filters-content" id="tags_content_{{tag}}" />
+                        <label for="tags_content_{{tag}}" class="db pa2 pr0 pointer b--lm-grey bb content-tag f5">
+                          <div class="is-checked ba b--lm-dark-blue dib h05 w05 mr2"></div><span>{{tag}}</span>
+                        </label>
+                      </div>
+                    {% endfor %}
+                    <div class="pa2 f5">
+                      <span>None of these (add your own)</span>
+                      <input type="text" class="fr mt1 w-100" "aria-label"="add content" %>
+                      <div class="dib w-100">
+                        <div class="w-75-ns w-70 alert complete mb1 mt2 pa1 tc ba bw1-n bg--lm-green b--lm-green relative dib fl"></div>
+                        <div class="w-75-ns w-70 alert pending mb1 mt2 pa1 tc relative dib fl"></div>
+                        <button class="mt2 fr add-own">Add</button>
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                  <div class="pv3 tr w-100 sidebar-buttons">
+                    <div class="tr dib w-40">
+                      <button type="submit" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover mt4">Search</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="fixed top-0 bottom-0 w-100 sidebar-overlay dn bg-gray o-70 z-999"></div>
+        </div>
+      </section>
+
+      <!-- Resources -->
+      <div class="pa1 ph4 ph3-m ph3-l pb4 pb5-l">
+        {% for post in resources %}
+          {% include "resources/resource.html" with page=post.specific %}
+        {% endfor %}
+      </div>
+
+      <div class="tc">
+        <button id="see_more" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover dn-important">See More</button>
+      </div>
+    </section>
+
+    <!-- Suggestion Form -->
+    <section class="tc-ns tl-m w-100 pa1 ph4 ph3-m ph3-l pb4 pb5-l" id="suggestion_form">
+      <!-- <div class="w-60-ns center">
+        <div class="pt3 pb2 mt4 tl center ma0-ns">
+          <%= raw @content.lookingfor %>
+        </div>
+        <%= form_for @conn, submit_path(@conn, :submit) <> "#suggestion_form", [as: :suggestions], fn f -> %>
+          <%= component "text_box", conn: @conn, form: f, name: "suggestions", placeholder: "Add your suggestions for new topics", submit: true %>
+        <% end %>
+        <%= component "flash", conn: @conn, type: :suggestions %>
+      </div> -->
+    </section>
+
+    <!-- Alpha/Beta Section -->
+    <section class="lm-white lm-bg-dark-blue pa1 ph4 ph3-m ph3-l pb4 pb5-l" id="email_form">
+      <div class="mv3 w-60-ns center" id="alpha">
+        {% if page.alpha %}
+          {{page.alpha|richtext}}
+        {% else %}
+          {{page.alpha_feedback|richtext}}
+        {% endif %}
+      </div>
+
+      <!-- <%= if @show_email_submit do %>
+        <div id="alphasection" class="lm-dark-blue lm-bg-white pa1 ph4 ph3-m ph3-l pv1 pv3-l w-60-ns center tracked relative">
+          <%= if @content[:alphatext] do %>
+            <%= raw @content[:alphatext] %>
+          <% else %>
+            <%= raw @content[:alphatext_feedback] %>
+          <% end %>
+          <%= form_for @conn, submit_path(@conn, :submit) <> "#email_form", [as: :email, id: "email-submit"], fn f -> %>
+            <%= if get_flash(@conn, :emails) do %>
+              <%= component "flash", conn: @conn, type: :emails %>
+            <% else %>
+              <%= label f, :email, "Email:", class: "db mv1" %>
+              <%= email_input(f, :email, class: "br2 pa2 mb2-l mb3 f5 fw3 ba w-100") %>
+              <div class="relative w-100 mt3">
+                <%= component "buttons/primary_button", value: "Take part", class: "absolute bottom--1 right-0" %>
+              </div>
+              <div class="mt4 pt1">
+                <%= component "flash", conn: @conn, type: :emails %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %> -->
+    </section>
+
+    <section class="pv1 ph3 lm-bg-orange tl">
+      <a href="/coming-soon" class="link banners">
+        <div class="relative">
+          {{ page.assessment_text|richtext }}
+          <p class="absolute right-1 top--1 dn dib-ns b pointer">></p>
+        </div>
+      </a>
+    </section>
+
+    <section class="pv1 ph3 tl lm-bg-white">
+      <a href="/crisis" class="link banners">
+        <div class="relative">
+          {{ page.crisis_text|richtext }}
+          <p class="absolute right-1 top--1 dn dib-ns b pointer">></p>
+        </div>
+      </a>
+    </section>
+
+{% endblock %}
