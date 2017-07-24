@@ -291,7 +291,6 @@ h2 > span.b {
 footer p a {
   padding: 0 2em 0 2em;
   text-decoration: none;
-  color: #242E50;
 }
 
 /* Landing Page - resource tags */
@@ -623,4 +622,35 @@ lm-ls1 {
   div.banner_buttons {
     display: none;
   }
+}
+
+.rich-text p {
+  max-width: 100%;
+  min-width: 50%;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.rich-text img {
+  max-width: 100%;
+  height: auto;
+  margin: 0 1em;
+}
+
+.right {
+  float: right;
+  clear: both;
+}
+
+.left {
+  float: left;
+  clear: both;
+}
+
+.block-heading {
+  margin: 1em;
+}
+
+.block-paragraph {
+  padding: 1em 2em;
 }
