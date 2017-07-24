@@ -9,16 +9,23 @@ from likes.models import Likes
 from resources.models import ResourcePage, combine_tags, get_resource
 from django.template.loader import render_to_string
 
+import uuid
+
 def save_like(request):
     id = request.POST.get('id')
     like_value = request.POST.get('like')
     csrf = request.POST.get('csrfmiddlewaretoken')
-    ip = get_client_ip(request)
+    uid = uuid.uuid4()
+
+    if 'ldmw_session' in request.COOKIES:
+        cookie = request.COOKIES['ldmw_session']
+    else:
+        cookie = uid.hex
 
     linked_resource = ResourcePage.objects.get(id=id)
 
     obj, created = Likes.objects.get_or_create(
-        user_ip=ip,
+        user_hash=cookie,
         resource=linked_resource,
         defaults={'like_value': like_value},
     )
@@ -35,9 +42,12 @@ def save_like(request):
     result = render_to_string('resources/resource.html', {'page': resource, 'csrf_token': csrf})
 
     if request.META.get('HTTP_ACCEPT') == 'application/json':
-        return JsonResponse({'result':result, 'id': id})
+        response = JsonResponse({'result':result, 'id': id})
     else:
-        return redirect(f'/#resource_{id}')
+        response = redirect(f'/#resource_{id}')
+
+    response.set_cookie('ldmw_session', cookie)
+    return response
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
