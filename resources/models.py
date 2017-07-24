@@ -53,15 +53,10 @@ class Home(Page):
         reason_filter = request.GET.getlist('reason')
         topic_filter = request.GET.getlist('topic')
 
-        issue_tag_ids = [tag.tag_id for tag in IssueTag.objects.all()]
-        content_tag_ids = [tag.tag_id for tag in ContentTag.objects.all()]
-        reason_tag_ids = [tag.tag_id for tag in ReasonTag.objects.all()]
-        topic_tag_ids = [tag.tag_id for tag in TopicTag.objects.all()]
-
-        issue_tags = Tag.objects.in_bulk(issue_tag_ids)
-        content_tags = Tag.objects.in_bulk(content_tag_ids)
-        reason_tags = Tag.objects.in_bulk(reason_tag_ids)
-        topic_tags = Tag.objects.in_bulk(topic_tag_ids)
+        issue_tags = get_tags(IssueTag)
+        content_tags = get_tags(ContentTag)
+        reason_tags = get_tags(ReasonTag)
+        topic_tags = get_tags(TopicTag)
 
         resources = ResourcePage.objects.all().annotate(
             number_of_likes=count_likes(1)
@@ -100,12 +95,13 @@ class Home(Page):
         context['content_tags'] = content_tags.values()
         context['reason_tags'] = reason_tags.values()
         context['topic_tags'] = topic_tags.values()
+        context['selected_topic'] = topic_filter
         context['selected_tags'] = list(chain(
-            request.GET.getlist('tag'),
-            request.GET.getlist('content'),
-            request.GET.getlist('reason'),
-            request.GET.getlist('issue'),
-            request.GET.getlist('topic'),
+            tag_filter,
+            issue_filter,
+            content_filter,
+            reason_filter,
+            topic_filter,
         ))
         return context
 
@@ -238,6 +234,12 @@ class ResourcePage(Page):
 
     class Meta:
         verbose_name = "Resource"
+
+def get_tags(tag_type):
+    tag_ids = [tag.tag_id for tag in tag_type.objects.all()]
+    tags = Tag.objects.in_bulk(tag_ids)
+
+    return tags
 
 def combine_tags(element):
     element.specific.tags = list(chain(
