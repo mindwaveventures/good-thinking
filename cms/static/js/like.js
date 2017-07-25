@@ -22,7 +22,9 @@ if (isNotIE8()) {
         resource.addEventListener("submit", formListener);
         selectAll([".share-buttons > button"], resource).forEach(function(el) {
           addEventListener("click", function(e) {
-            shareListener(e, el);
+            if (e.target.classList.contains("share")){
+              shareListener(e, el);
+            }
           });
         });
         addAnalytics(select("button[name='like']", resource), "Like", "liked");
