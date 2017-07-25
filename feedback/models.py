@@ -1,10 +1,6 @@
-import json
-import django
+from urllib.parse import parse_qs
 
-from collections import OrderedDict
-
-from django.conf import settings
-from django.core.serializers.json import DjangoJSONEncoder
+from modelcluster.fields import ParentalKey
 
 from django.db import models
 from django.db.models.fields import TextField
@@ -114,17 +110,37 @@ class FeedbackPage(AbstractForm):
             dict['default_value'] = val.default_value
             dict['label'] = val.label
 
-            # pull through errors when form is invalid
-            # TODO: look at a nicer way to fetch out the errors
+            # TODO: look at a nicer way to fetch errors and submitted_val
+            
+            request_dict = parse_qs(request.body.decode('utf-8'))
+
+            if val.field_type == 'radio':
+                choices_list = []
+                choices = val.choices.split(",")
+                for choice in choices:
+                    try:
+                        submitted_val = request_dict[val.label][0]
+                    except:
+                        submitted_val = False
+                    if choice == submitted_val:
+                        checked = 'checked'
+                    else:
+                        checked = ''
+                    choices_list.append({'val': choice, 'checked': checked})
+                dict['choices'] = choices_list
+            else:
+                try:
+                    dict['submitted_val'] = request_dict[val.label][0]
+                except:
+                    dict['submitted_val'] = ''
+
+            dict['required'] = 'required' if val.required else ''
+
             if form.errors:
                 try:
                     dict['errors'] = form.errors.as_data()[val.label][0]
                 except:
                     pass
-
-            dict['choices'] = val.choices.split(",") # dict['choices'] only being used in template if val.field_type is 'radio'
-
-            dict['required'] = 'required' if val.required else ''
 
             custom_form.append(dict)
 

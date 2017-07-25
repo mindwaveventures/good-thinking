@@ -35,8 +35,8 @@
               <div id="id_{{row.label}}" class="mv2 pv2">
                 {% for choice in row.choices %}
                   <div class="mv1 h18">
-                    <input id="id_{{row.label}}_{{forloop.counter0}}" name="{{row.label}}" type="radio" value="{{choice}}" {{row.reqired}} class="absolute o-0 lm-feedback-radio"></input>
-                    <label for="id_{{row.label}}_{{forloop.counter0}}" class="lm-feedback-label word-wrap f6 v-top">{{choice}}</label>
+                    <input id="id_{{row.label}}_{{forloop.counter0}}" name="{{row.label}}" type="radio" value="{{choice.val}}" {{row.reqired}} class="absolute o-0 lm-feedback-radio" {{choice.checked}}></input>
+                    <label for="id_{{row.label}}_{{forloop.counter0}}" class="lm-feedback-label word-wrap f6 v-top">{{choice.val}}</label>
                   </div>
                 {% endfor %}
               </div>
@@ -58,7 +58,7 @@
                   {% endfor %}
                 {% endif %}
                 <label for="id_{{row.label}}" class="dn"></label>
-                <textarea id="id_{{row.label}}" name="{{row.label}}" class="h4 f5 w-100 pa3 nr b--lm-grey" {{required}}></textarea>
+                <textarea id="id_{{row.label}}" name="{{row.label}}" class="h4 f5 w-100 pa3 nr b--lm-grey" {{required}}>{{row.submitted_val}}</textarea>
                 <div class="around_form_input">
                   {{row.after_input|richtext}}
                 </div>
@@ -77,7 +77,7 @@
                     {% endfor %}
                   {% endif %}
                   <label for="id_{{row.label}}">{{row.label}}</label>
-                  <input id="id_{{row.label}}" name="{{row.label}}" type="email"></input>
+                  <input id="id_{{row.label}}" name="{{row.label}}" type="email">{{row.submitted_val}}</input>
                   <div class="w-100 tr mt3">
                     <button type="submit" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover">Submit</button>
                   </div>
