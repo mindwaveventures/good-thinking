@@ -13,14 +13,15 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import render
 
+from django.utils.translation import ugettext_lazy as _
+from django.shortcuts import render
+
 from wagtail.wagtailadmin.edit_handlers import (
     FieldPanel, FieldRowPanel,
     InlinePanel, MultiFieldPanel
 )
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailforms.models import AbstractForm, AbstractFormField, AbstractFormSubmission
-
-from wagtail.wagtailforms.forms import BaseForm
 
 FORM_FIELD_CHOICES = (
     ('singleline', _('Single line text')),
@@ -57,14 +58,17 @@ class FormField(AbstractFormField):
         blank=True,
         help_text=_('Default value. Comma separated values supported for checkboxes.')
     )
-    before_input = RichTextField(verbose_name=_('before input'), blank=True)
-    after_input = RichTextField(verbose_name=_('after input'), blank=True)
+    before_input = RichTextField(verbose_name=_('before input'), blank=True) # custom
+    after_input = RichTextField(verbose_name=_('after input'), blank=True) # custom
 
+    # see original panels here:
+    # https://github.com/wagtail/wagtail/blob/master/wagtail/wagtailforms/models.py#L238
     panels = [
         FieldPanel('label'),
-        FieldPanel('before_input'),
-        FieldPanel('after_input'),
+        # FieldPanel('help_text'), # removed help_text as we instead use rich text
         FieldPanel('required'),
+        FieldPanel('before_input'), # custom
+        FieldPanel('after_input'), # custom
         FieldPanel('field_type', classname="formbuilder-type"),
         FieldPanel('choices', classname="formbuilder-choices"),
         FieldPanel('default_value', classname="formbuilder-default"),
