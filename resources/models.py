@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, Sum, Case, When
 from django.db.models.fields import TextField, URLField, IntegerField, CharField
 
 from wagtail.wagtailcore.models import Page
@@ -63,10 +63,11 @@ class Home(Page):
         reason_tags = Tag.objects.in_bulk(reason_tag_ids)
         topic_tags = Tag.objects.in_bulk(topic_tag_ids)
 
-        if (query):
-            resources = ResourcePage.objects.search(query)
-        else:
-            resources = ResourcePage.objects.all()
+        resources = ResourcePage.objects.all().annotate(
+            number_of_likes=count_likes(1)
+        ).annotate(
+            number_of_dislikes=count_likes(-1)
+        )
 
         if (tag_filter):
             resources = resources.filter(
@@ -87,6 +88,9 @@ class Home(Page):
 
         if (topic_filter):
             resources = resources.filter(topic_tags__name__in=topic_filter).distinct()
+
+        if (query):
+            resources = resources.search(query)
 
         filtered_resources = map(combine_tags, resources)
 
@@ -243,3 +247,20 @@ def combine_tags(element):
         element.specific.topic_tags.all()
     ))
     return element
+
+def get_resource(like_value, id):
+    return combine_tags(
+        ResourcePage.objects
+        .annotate(number_of_likes=count_likes(1))
+        .annotate(number_of_dislikes=count_likes(-1))
+        .get(id=id)
+    )
+
+def count_likes(like_or_dislike):
+    return Sum(
+        Case(
+            When(likes__like_value=like_or_dislike, then=1),
+            default=0,
+            output_field=models.IntegerField()
+        )
+    )

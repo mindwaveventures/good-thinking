@@ -5,5 +5,5 @@
 {% block body_class %}template-resourcepage{% endblock %}
 
 {% block content %}
-    {{ page.body|richtext }}
+  {% include "resources/resource.html" with page=page %}
 {% endblock %}

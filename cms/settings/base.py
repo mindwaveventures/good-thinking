@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'feedback',
     'crisis',
     'static',
+    'likes',
 
     'storages',
     'pipeline',

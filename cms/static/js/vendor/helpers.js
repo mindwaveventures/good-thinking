@@ -54,7 +54,6 @@
   function makePhoenixFormRequest(type, form, callback) {
     var request = new XMLHttpRequest();
     var url = form.action;
-    var csrf = form.children["_csrf_token"].value;
 
     request.addEventListener('load', function (e) {
       return callback(null, this.responseText);
@@ -63,7 +62,6 @@
     request.open(type, url);
 
     request.setRequestHeader('accept', 'application/json');
-    request.setRequestHeader("x-csrf-token", csrf);
 
     if (type === "POST") {
       request.send(new FormData(form));
