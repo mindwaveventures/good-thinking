@@ -76,8 +76,8 @@
                       <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-light-red b--dark-red relative black mt1 f5"><i class="bg--lm-dark-red white absolute br-100 fa fa-exclamation lm-flash-icon lm-exclamation-icon"></i>{{error}}</div>
                     {% endfor %}
                   {% endif %}
-                  <label for="id_{{row.label}}">{{row.label}}</label>
-                  <input id="id_{{row.label}}" name="{{row.label}}" type="email">{{row.submitted_val}}</input>
+                  <label for="id_{{row.label}}">Email: </label>
+                  <input id="id_{{row.label}}" name="{{row.label}}" type="email" {{required}}>{{row.submitted_val}}</input>
                   <div class="w-100 tr mt3">
                     <button type="submit" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover">Submit</button>
                   </div>
