@@ -24,12 +24,12 @@
       {% endif %}
     </div>
     <div class="ph2 pv4 pb4-ns pt2-ns mh2 mh0-ns">
-      <!-- {% if page.pros %}
+      {% if page.pros %}
         <div class="tc db dn-ns">
-          <%= component "buttons/secondary_button", value: "View pros and cons", background: "light", class: "view_pcs", id: "view_pcs#{@resource.id}" %>
+          {% include "resources/secondary_button.html" with value="View pros and cons" background="light" class="view_pcs" id="view_pcs#{@resource.id}" %}
         </div>
-      {% endif %} -->
-      <div class="w-100 dn db-ns pros_cons" id="pros_cons<%= @resource.id %>">
+      {% endif %}
+      <div class="w-100 dn db-ns pros_cons" id="pros_cons{{ page.id }}">
         <div class="w-50-ns dib-ns br-ns b--lm-grey pros">
           <div class="w-80-ns center-ns">
             {{page.pros|richtext}}
@@ -46,13 +46,13 @@
         <div class="dib dtc">
           <div class="dib mb3 v-mid tl"><span>{{page.number_of_likes|default:0}}</span></div>
           <form action="/like/" method="post" class="dib pointer like-form">
-            <button type="submit" class="like w2 h2 bn bg-white fl p0 bg-left pointer" data-url=""><span class="fixed o-0">Recommend</span></button>
+            <button type="submit" class="{% if page.liked_value == 1 %}liked{% endif %} like w2 h2 bn bg-white fl p0 bg-left pointer" data-url=""><span class="fixed o-0">Recommend</span></button>
             <input type="hidden" name="id" value="{{page.id}}"/>
             <input type="hidden" name="like" value="1"/>
             {% csrf_token %}
           </form>
           <form action="/like/" method="post" class="dib pointer dislike-form">
-            <button name="dislike" type="submit" class="dislike w2 h2 bn bg-white p0 bg-right pointer" data-url=""><span class="fixed o-0">Don't Recommend</span></button>
+            <button name="dislike" type="submit" class="{% if page.liked_value == -1 %}disliked{% endif %} dislike w2 h2 bn bg-white p0 bg-right pointer" data-url=""><span class="fixed o-0">Don't Recommend</span></button>
             <input type="hidden" name="id" value="{{page.id}}"/>
             <input type="hidden" name="like" value="-1"/>
             {% csrf_token %}
@@ -66,25 +66,17 @@
         </div>
       </div>
       <div class="alert share-alert db fr pa1 ba bw1-ns bg--lm-light-red b--dark-red black"></div>
-      <!-- <%= if @resource.liked != "none" and get_flash(@conn, :resource_feedback) == nil do %>
-        <%= form_for @conn, submit_path(@conn, :submit) <> "#resource_#{@resource.id}", [as: :resource_feedback, class: "resource-feedback", "data-url": @resource.url], fn f -> %>
-          <%= hidden_input f, :id, value: @resource.id %>
+      {% if page.liked_value == 1 or page.liked_value == -1 %}
+        <form>
+          <input type="hidden" name="id" value="{{page.id}}" />
           <p>
-            Why <%= case @resource.liked do
-              1 -> "would you"
-              -1 -> "wouldn't you"
-            end %> recommend this?
+            Why {% if page.liked_value == 1 %}would you{% else %}wouldn't you{% endif %} recommend this?
           </p>
-          <%= component "text_box", conn: @conn, form: f, name: "feedback", submit: true %>
-          <%= hidden_input f, :liked, value: @resource.liked %>
-          <%= hidden_input f, :resource_name, value: @resource.heading %>
-        <% end %>
-      <% end %>
-      <%= if get_flash(@conn, :resource_feedback) != nil or get_flash(@conn, :resource_feedback_error) != nil do %>
-        <%= if [:resource_feedback, :resource_feedback_error] |> Enum.map(&(get_flash(@conn, &1))) |> Enum.find(&(&1 != nil)) |> elem(0) == "#{@resource.id}" do %>
-          <%= component "flash", conn: @conn, type: :resource_feedback %>
-        <% end %>
-      <% end %> -->
+          <textarea></textarea>
+          <input type="hidden" name="liked" value="{{page.liked_value}}" />
+          <input type="hidden" name="resource_name" value=page.heading />
+        </form>
+      {% endif %}
     </div>
   </div>
 </div>

@@ -19,6 +19,8 @@ from django.template.loader import get_template
 
 from itertools import chain
 
+from likes.models import Likes
+
 class Home(Page):
     banner = RichTextField(blank=True, help_text="Banner at the top of every page")
     header = RichTextField(blank=True, help_text="Hero title")
@@ -53,20 +55,17 @@ class Home(Page):
         reason_filter = request.GET.getlist('reason')
         topic_filter = request.GET.getlist('topic')
 
-        issue_tag_ids = [tag.tag_id for tag in IssueTag.objects.all()]
-        content_tag_ids = [tag.tag_id for tag in ContentTag.objects.all()]
-        reason_tag_ids = [tag.tag_id for tag in ReasonTag.objects.all()]
-        topic_tag_ids = [tag.tag_id for tag in TopicTag.objects.all()]
-
-        issue_tags = Tag.objects.in_bulk(issue_tag_ids)
-        content_tags = Tag.objects.in_bulk(content_tag_ids)
-        reason_tags = Tag.objects.in_bulk(reason_tag_ids)
-        topic_tags = Tag.objects.in_bulk(topic_tag_ids)
+        issue_tags = get_tags(IssueTag)
+        content_tags = get_tags(ContentTag)
+        reason_tags = get_tags(ReasonTag)
+        topic_tags = get_tags(TopicTag)
 
         resources = ResourcePage.objects.all().annotate(
             number_of_likes=count_likes(1)
         ).annotate(
             number_of_dislikes=count_likes(-1)
+        ).annotate(
+            liked_value=get_liked_value(request.COOKIES['ldmw_session'])
         )
 
         if (tag_filter):
@@ -100,12 +99,13 @@ class Home(Page):
         context['content_tags'] = content_tags.values()
         context['reason_tags'] = reason_tags.values()
         context['topic_tags'] = topic_tags.values()
+        context['selected_topic'] = topic_filter
         context['selected_tags'] = list(chain(
-            request.GET.getlist('tag'),
-            request.GET.getlist('content'),
-            request.GET.getlist('reason'),
-            request.GET.getlist('issue'),
-            request.GET.getlist('topic'),
+            tag_filter,
+            issue_filter,
+            content_filter,
+            reason_filter,
+            topic_filter,
         ))
         return context
 
@@ -145,7 +145,6 @@ class ResourceIndexPage(Page):
     intro = RichTextField(blank=True)
 
     def get_context(self, request):
-        # Update contest to inclue only published posts, ordered by revers-chron
         context = super(ResourceIndexPage, self).get_context(request)
         resources = self.get_children().live().order_by('-first_published_at')
         context['resources'] = resources
@@ -239,6 +238,12 @@ class ResourcePage(Page):
     class Meta:
         verbose_name = "Resource"
 
+def get_tags(tag_type):
+    tag_ids = [tag.tag_id for tag in tag_type.objects.all()]
+    tags = Tag.objects.in_bulk(tag_ids)
+
+    return tags
+
 def combine_tags(element):
     element.specific.tags = list(chain(
         element.specific.content_tags.all(),
@@ -248,11 +253,12 @@ def combine_tags(element):
     ))
     return element
 
-def get_resource(like_value, id):
+def get_resource(id, user_hash):
     return combine_tags(
         ResourcePage.objects
         .annotate(number_of_likes=count_likes(1))
         .annotate(number_of_dislikes=count_likes(-1))
+        .annotate(liked_value=get_liked_value(user_hash))
         .get(id=id)
     )
 
@@ -263,4 +269,11 @@ def count_likes(like_or_dislike):
             default=0,
             output_field=models.IntegerField()
         )
+    )
+
+def get_liked_value(user_hash):
+    return Case(
+        When(likes__user_hash=user_hash, then='likes__like_value'),
+        default=0,
+        output_field=models.IntegerField()
     )
