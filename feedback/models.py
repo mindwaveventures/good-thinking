@@ -1,3 +1,5 @@
+from urllib.parse import parse_qs
+
 from modelcluster.fields import ParentalKey
 
 from django.db import models
@@ -106,18 +108,37 @@ class FeedbackPage(AbstractForm):
             dict['default_value'] = val.default_value
             dict['label'] = val.label
 
-            # pull through errors when form is invalid
-            # TODO: look at a nicer way to fetch out the errors
+            # TODO: look at a nicer way to fetch errors and submitted_val
+            
+            request_dict = parse_qs(request.body.decode('utf-8'))
+
+            if val.field_type == 'radio':
+                choices_list = []
+                choices = val.choices.split(",")
+                for choice in choices:
+                    try:
+                        submitted_val = request_dict[val.label][0]
+                    except:
+                        submitted_val = False
+                    if choice == submitted_val:
+                        checked = 'checked'
+                    else:
+                        checked = ''
+                    choices_list.append({'val': choice, 'checked': checked})
+                dict['choices'] = choices_list
+            else:
+                try:
+                    dict['submitted_val'] = request_dict[val.label][0]
+                except:
+                    dict['submitted_val'] = ''
+
+            dict['required'] = 'required' if val.required else ''
+
             if form.errors:
                 try:
                     dict['errors'] = form.errors.as_data()[val.label][0]
                 except:
-                    False
-
-            if val.field_type == 'radio':
-                dict['choices'] = val.choices.split(",")
-
-            dict['required'] = 'required' if val.required else ''
+                    pass
 
             custom_form.append(dict)
 
