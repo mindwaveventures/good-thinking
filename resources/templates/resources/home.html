@@ -12,7 +12,7 @@
     <!-- Hero Image Block -->
     {% image page.hero_image width-1000 as hero_image %}
     <section class="pt5-plus ph4 ph5-m ph6-l tc lm-white cover lh-copy bg-center" style="background-image:url('{{ hero_image.url }}')">
-      <img src="{% static "images/london_minds_logo.png" %}" class="w-60 w-15-ns" />
+      {% include "resources/logo.html" %}
       <div class="pb5 w-90-ns f1-ns f6 lh-title center">
         <div class="mb4">
           {{ page.header|richtext }}
@@ -166,4 +166,9 @@
       </a>
     </section>
 
+    <footer class="lm-bg-dark-blue tc pa3 f6 f5-ns tracked">
+      <div class="ph2 ph5-plus-ns lm-white">
+        {{ page.footer|richtext }}
+      </div>
+    </footer>
 {% endblock %}

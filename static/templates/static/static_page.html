@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags static %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block content %}
+  <section class="pt5-plus ph4 ph5-m ph6-l tc">
+    {% include "resources/logo.html" %}
+    <div class="{{ page.text_alignment }}">
+      {% include_block page.body %}
+    </div>
+  </section>
+{% endblock %}
