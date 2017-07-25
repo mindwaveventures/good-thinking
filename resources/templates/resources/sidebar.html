@@ -109,6 +109,7 @@
             {% include "resources/primary-button.html" with value="Search" %}
           </div>
         </div>
+        <input type="hidden" name="q" value="{{request.GET.q}}" />
       </form>
     </div>
   </div>

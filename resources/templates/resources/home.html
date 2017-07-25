@@ -18,6 +18,13 @@
           {{ page.header|richtext }}
           <form action="/#results" method="get" id="search-form-1">
             <input name="q" type="text" value="{{request.GET.q}}" class="w-50-ns w-100 db center mt1 b--white ba pa1 pa2-ns nunito f5 br1 bg-white-90 focus-lm-orange" placeholder="Enter search term", "aria-label"="search">
+            {% for key, value in request.GET.lists %}
+              {% if not key == "q" %}
+                {% for v in value %}
+                  <input type="hidden" name="{{key}}" value="{{v}}" />
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
             {% include "resources/primary-button.html" with value="Search" class="mv3"%}
           </form>
         </div>
@@ -53,6 +60,13 @@
         <div class="tl w-60-ns center relative pb4">
           <form action="/#results" method="get" id="search-form-2">
             <input type="text" name="q" value="{{request.GET.q}}" class="mt1 mr2 w-100 pa2 pl3 mb3 nunito br1 b--white ba bg-white-90 focus-lm-orange" placeholder="Enter search term", "aria-label"="search">
+            {% for key, value in request.GET.lists %}
+              {% if not key == "q" %}
+                {% for v in value %}
+                  <input type="hidden" name="{{key}}" value="{{v}}" />
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
             {% include "resources/primary-button.html" with value="Search" class="absolute bottom--1 right-0 right"%}
           </form>
         </div>
