@@ -37,7 +37,7 @@ def save_like(request):
             obj.like_value = like_value
             obj.save(update_fields=['like_value'])
 
-    resource = get_resource(like_value, id)
+    resource = get_resource(id, cookie)
 
     result = render_to_string('resources/resource.html', {'page': resource, 'csrf_token': csrf})
 

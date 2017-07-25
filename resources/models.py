@@ -19,6 +19,8 @@ from django.template.loader import get_template
 
 from itertools import chain
 
+from likes.models import Likes
+
 class Home(Page):
     banner = RichTextField(blank=True, help_text="Banner at the top of every page")
     header = RichTextField(blank=True, help_text="Hero title")
@@ -62,6 +64,8 @@ class Home(Page):
             number_of_likes=count_likes(1)
         ).annotate(
             number_of_dislikes=count_likes(-1)
+        ).annotate(
+            liked_value=get_liked_value(request.COOKIES['ldmw_session'])
         )
 
         if (tag_filter):
@@ -141,7 +145,6 @@ class ResourceIndexPage(Page):
     intro = RichTextField(blank=True)
 
     def get_context(self, request):
-        # Update contest to inclue only published posts, ordered by revers-chron
         context = super(ResourceIndexPage, self).get_context(request)
         resources = self.get_children().live().order_by('-first_published_at')
         context['resources'] = resources
@@ -250,11 +253,12 @@ def combine_tags(element):
     ))
     return element
 
-def get_resource(like_value, id):
+def get_resource(id, user_hash):
     return combine_tags(
         ResourcePage.objects
         .annotate(number_of_likes=count_likes(1))
         .annotate(number_of_dislikes=count_likes(-1))
+        .annotate(liked_value=get_liked_value(user_hash))
         .get(id=id)
     )
 
@@ -265,4 +269,11 @@ def count_likes(like_or_dislike):
             default=0,
             output_field=models.IntegerField()
         )
+    )
+
+def get_liked_value(user_hash):
+    return Case(
+        When(likes__user_hash=user_hash, then='likes__like_value'),
+        default=0,
+        output_field=models.IntegerField()
     )
