@@ -10,8 +10,19 @@ from wagtail.wagtailcore.fields import RichTextField, StreamField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.wagtailimages.blocks import ImageChooserBlock
 
+from resources.models import Home
+
 
 class StaticPage(Page):
+    def get_context(self, request):
+        context = super(StaticPage, self).get_context(request)
+
+        home = Home.objects.first()
+
+        context['banner'] = home.banner
+        context['footer'] = home.footer
+        return context
+
     body = StreamField([
         ('heading', blocks.RichTextBlock()),
         ('paragraph', blocks.RichTextBlock()),
