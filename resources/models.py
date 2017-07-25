@@ -64,9 +64,12 @@ class Home(Page):
             number_of_likes=count_likes(1)
         ).annotate(
             number_of_dislikes=count_likes(-1)
-        ).annotate(
-            liked_value=get_liked_value(request.COOKIES['ldmw_session'])
         )
+
+        if 'ldmw_session' in request.COOKIES:
+            resources = resources.annotate(
+                liked_value=get_liked_value(request.COOKIES['ldmw_session'])
+            )
 
         if (tag_filter):
             resources = resources.filter(
