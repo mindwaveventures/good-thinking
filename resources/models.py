@@ -53,7 +53,7 @@ class Home(Page):
         issue_filter = request.GET.getlist('issue')
         content_filter = request.GET.getlist('content')
         reason_filter = request.GET.getlist('reason')
-        topic_filter = request.GET.getlist('topic')
+        topic_filter = request.GET.get('topic')
 
         issue_tags = get_tags(IssueTag)
         content_tags = get_tags(ContentTag)
@@ -94,18 +94,33 @@ class Home(Page):
             resources = resources.filter(reason_tags__name__in=reason_filter).distinct()
 
         if (topic_filter):
-            resources = resources.filter(topic_tags__name__in=topic_filter).distinct()
+            resources = resources.filter(topic_tags__name=topic_filter).distinct()
 
         if (query):
             resources = resources.search(query)
 
         filtered_resources = map(combine_tags, resources)
 
+        if topic_filter:
+            filtered_issue_tags, filtered_reason_tags, filtered_content_tags = filter_tags(resources, topic_filter)
+
+        if filtered_issue_tags:
+            context['issue_tags'] = get_tags(IssueTag, filtered_tags=filtered_issue_tags).values()
+        else:
+            context['issue_tags'] = issue_tags.values()
+
+        if filtered_content_tags:
+            context['content_tags'] = get_tags(ContentTag, filtered_tags=filtered_content_tags).values()
+        else:
+            context['content_tags'] = content_tags.values()
+
+        if filtered_reason_tags:
+            context['reason_tags'] = get_tags(ReasonTag, filtered_tags=filtered_reason_tags).values()
+        else:
+            context['reason_tags'] = reason_tags.values()
+
         context['resources'] = filtered_resources
         context['resource_count'] = resources.count()
-        context['issue_tags'] = issue_tags.values()
-        context['content_tags'] = content_tags.values()
-        context['reason_tags'] = reason_tags.values()
         context['topic_tags'] = topic_tags.values()
         context['selected_topic'] = topic_filter
         context['selected_tags'] = list(chain(
@@ -246,8 +261,9 @@ class ResourcePage(Page):
     class Meta:
         verbose_name = "Resource"
 
-def get_tags(tag_type):
-    tag_ids = [tag.tag_id for tag in tag_type.objects.all()]
+def get_tags(tag_type, **kwargs):
+    filtered_tags = kwargs.get('filtered_tags', tag_type.objects.all())
+    tag_ids = [tag.tag_id for tag in filtered_tags]
     tags = Tag.objects.in_bulk(tag_ids)
 
     return tags
@@ -285,3 +301,24 @@ def get_liked_value(user_hash):
         default=0,
         output_field=models.IntegerField()
     )
+
+def filter_tags(resources, topic):
+    content_tags = None
+    reason_tags = None
+    issue_tags = None
+
+    contains_tag_filter = makefilter(topic)
+
+    fil = filter(contains_tag_filter, resources)
+
+    for f in fil:
+        issue_tags = IssueTag.objects.filter(content_object=f.id)
+        content_tags = ContentTag.objects.filter(content_object=f.id)
+        reason_tags = ReasonTag.objects.filter(content_object=f.id)
+
+    return issue_tags, reason_tags, content_tags
+
+def makefilter(t):
+    def contains_tag(r):
+        return any(filter(lambda tag: tag.name == t, r.specific.topic_tags.all()))
+    return contains_tag
