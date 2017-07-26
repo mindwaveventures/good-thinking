@@ -21,7 +21,7 @@ from wagtail.wagtailadmin.edit_handlers import (
     InlinePanel, MultiFieldPanel
 )
 from wagtail.wagtailcore.fields import RichTextField
-from wagtail.wagtailforms.models import AbstractForm, AbstractFormField, AbstractFormSubmission
+from wagtail.wagtailforms.models import AbstractForm, AbstractFormField
 
 FORM_FIELD_CHOICES = (
     ('singleline', _('Single line text')),

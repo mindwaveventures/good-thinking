@@ -3,10 +3,11 @@ from __future__ import unicode_literals
 from django.db import models
 from django.db.models import Q, Sum, Case, When
 from django.db.models.fields import TextField, URLField, IntegerField, CharField
+from django.shortcuts import render
 
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.fields import RichTextField
-from wagtail.wagtailadmin.edit_handlers import FieldPanel
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel
 from modelcluster.fields import ParentalKey
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase, Tag
@@ -15,13 +16,18 @@ from wagtail.wagtailsearch import index
 from wagtail.wagtailimages.models import Image
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
+from wagtail.wagtailforms.models import AbstractForm, AbstractFormField
+
 from django.template.loader import get_template
 
 from itertools import chain
 
 from likes.models import Likes
 
-class Home(Page):
+class FormField(AbstractFormField):
+    page = ParentalKey('Home', related_name='form_fields')
+
+class Home(AbstractForm):
     banner = RichTextField(blank=True, help_text="Banner at the top of every page")
     header = RichTextField(blank=True, help_text="Hero title")
     body = RichTextField(blank=True, help_text="Description of page")
@@ -117,7 +123,7 @@ class Home(Page):
         ))
         return context
 
-    content_panels = Page.content_panels + [
+    content_panels = AbstractForm.content_panels + [
         FieldPanel('banner', classname="full"),
         ImageChooserPanel('hero_image'),
         FieldPanel('header', classname="full"),
@@ -131,8 +137,45 @@ class Home(Page):
         FieldPanel('lookingfor', classname="full"),
         FieldPanel('alpha', classname="full"),
         FieldPanel('alphatext', classname="full"),
+        InlinePanel('form_fields', label="Form fields"),
         FieldPanel('footer', classname="full"),
     ]
+
+    def serve(self, request, *args, **kwargs):
+        if request.method == 'POST':
+            form = self.get_form(request.POST, page=self, user=request.user)
+
+            if form.is_valid():
+                self.process_form_submission(form)
+
+                # commenting out the redirect and instead
+                # send back a form_successfully_submitted property
+                # for the template to show a success message
+
+                # # render the landing_page
+                # # TODO: It is much better to redirect to it
+                # return render(
+                #     request,
+                #     self.get_landing_page_template(request),
+                #     self.get_context(request)
+                # )
+
+        else:
+            form = self.get_form(page=self, user=request.user)
+
+        context = self.get_context(request)
+        context['form'] = form
+
+        if request.method == 'POST' and form.is_valid():
+            context['form_successfully_submitted'] = True
+
+        print(request.POST.items)
+
+        return render(
+            request,
+            self.get_template(request),
+            context
+        )
 
 class TopicTag(TaggedItemBase):
     content_object = ParentalKey('resources.ResourcePage', related_name='tagged_topic_items')
