@@ -53,7 +53,10 @@ class Home(Page):
         issue_filter = request.GET.getlist('issue')
         content_filter = request.GET.getlist('content')
         reason_filter = request.GET.getlist('reason')
-        topic_filter = request.GET.get('topic')
+        topic_filter = request.GET.getlist('q')
+
+        if self.slug != 'home':
+            topic_filter = self.slug
 
         issue_tags = get_tags(IssueTag)
         content_tags = get_tags(ContentTag)
@@ -101,23 +104,22 @@ class Home(Page):
 
         filtered_resources = map(combine_tags, resources)
 
+        if not topic_filter:
+            context['issue_tags'] = issue_tags.values()
+            context['content_tags'] = content_tags.values()
+            context['reason_tags'] = reason_tags.values()
+
         if topic_filter:
             filtered_issue_tags, filtered_reason_tags, filtered_content_tags = filter_tags(resources, topic_filter)
 
-        if filtered_issue_tags:
-            context['issue_tags'] = get_tags(IssueTag, filtered_tags=filtered_issue_tags).values()
-        else:
-            context['issue_tags'] = issue_tags.values()
+            if filtered_issue_tags:
+                context['issue_tags'] = get_tags(IssueTag, filtered_tags=filtered_issue_tags).values()
 
-        if filtered_content_tags:
-            context['content_tags'] = get_tags(ContentTag, filtered_tags=filtered_content_tags).values()
-        else:
-            context['content_tags'] = content_tags.values()
+            if filtered_content_tags:
+                context['content_tags'] = get_tags(ContentTag, filtered_tags=filtered_content_tags).values()
 
-        if filtered_reason_tags:
-            context['reason_tags'] = get_tags(ReasonTag, filtered_tags=filtered_reason_tags).values()
-        else:
-            context['reason_tags'] = reason_tags.values()
+            if filtered_reason_tags:
+                context['reason_tags'] = get_tags(ReasonTag, filtered_tags=filtered_reason_tags).values()
 
         context['resources'] = filtered_resources
         context['resource_count'] = resources.count()
@@ -128,7 +130,6 @@ class Home(Page):
             issue_filter,
             content_filter,
             reason_filter,
-            topic_filter,
         ))
         return context
 
@@ -273,7 +274,6 @@ def combine_tags(element):
         element.specific.content_tags.all(),
         element.specific.issue_tags.all(),
         element.specific.reason_tags.all(),
-        element.specific.topic_tags.all()
     ))
     return element
 
