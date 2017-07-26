@@ -186,10 +186,11 @@ class Home(AbstractForm):
                 #     self.get_context(request)
                 # )
 
+<<<<<<< HEAD
                 request_dict = parse_qs(request.body.decode('utf-8'))
                 # TODO: don't hardcode this generate this dynamically
                 # For now the cms home page cannot cater for further form elements
-              
+
                 if "suggestion" in request_dict:
                     request.session['suggestion'] = True
                     return HttpResponseRedirect(request.path + "#suggestion_form")
@@ -216,7 +217,7 @@ class Home(AbstractForm):
             dict['label'] = val.label
 
             # TODO: look at a nicer way to fetch errors and submitted_val
-            
+
             request_dict = parse_qs(request.body.decode('utf-8'))
 
             # TODO: use this when error handling
@@ -240,6 +241,18 @@ class Home(AbstractForm):
         context = self.get_context(request)
         context['form'] = form
         context['custom_form'] = custom_form # custom
+=======
+        else:
+            form = self.get_form(page=self, user=request.user)
+
+        context = self.get_context(request)
+        context['form'] = form
+
+        if request.method == 'POST' and form.is_valid():
+            context['form_successfully_submitted'] = True
+
+        print(request.POST.items)
+>>>>>>> send through email to backend
 
         return render(
             request,

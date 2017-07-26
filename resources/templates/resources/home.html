@@ -155,6 +155,7 @@
           {% endif %}
         </div>
 
+<<<<<<< HEAD
         <div id="alphasection" class="lm-dark-blue lm-bg-white pa1 ph4 ph3-m ph3-l pv1 pv3-l w-60-ns center tracked relative">
           {{page.alphatext|richtext}}
           <div>
@@ -188,6 +189,26 @@
         </div>
       </section>
     </form>
+=======
+      <div id="alphasection" class="lm-dark-blue lm-bg-white pa1 ph4 ph3-m ph3-l pv1 pv3-l w-60-ns center tracked relative">
+        {{page.alphatext|richtext}}
+        <form action="{% pageurl page %}" method="POST" id="homepage_form" class="mv3 w-60-ns center">
+          {% if form_successfully_submitted %}
+            <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-green b--lm-green relative">
+              Email address entered successfully!
+              <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
+            </div>
+          {% else %}
+            {% csrf_token %}
+
+            {{form}}
+
+            <button type="submit" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover absolute bottom--1 right-0">Submit</button>
+          {% endif %}
+        </form>
+      </div>
+    </section>
+>>>>>>> send through email to backend
 
     <section class="pv1 ph3 lm-bg-orange tl">
       <a href="/coming-soon" class="link banners">
