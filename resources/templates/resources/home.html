@@ -115,46 +115,78 @@
     </section>
 
     <!-- Suggestion Form -->
-    <section class="tc-ns tl-m w-100 pa1 ph4 ph3-m ph3-l pb4 pb5-l" id="suggestion_form">
-      <!-- <div class="w-60-ns center">
-        <div class="pt3 pb2 mt4 tl center ma0-ns">
-          <%= raw @content.lookingfor %>
+    <form action="{% pageurl page %}" method="POST">
+      {% csrf_token %}
+      <section class="tc-ns tl-m w-100 pa1 ph4 ph3-m ph3-l pb4 pb5-l" id="suggestion_form">
+        <div class="w-60-ns center">
+          <div class="pt3 pb2 mt4 tl center ma0-ns">
+            {{page.lookingfor|richtext}}
+          </div>
+          {% for row in custom_form %}
+            {% if row.field_type == 'multiline' %}
+              <div>
+                {% if request.session.suggestion %}
+                  <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-green b--lm-green relative">
+                    Suggestions submitted successfully!
+                    <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
+                  </div>
+                {% else %}
+                  <label for="id_{{row.label}}" class="dn"></label>
+                  <textarea id="id_{{row.label}}" name="{{row.label}}" class="h4 f5 w-100 pa3 nr b--lm-grey"></textarea>
+
+                  <div class="tr mt2">
+                    <button type="submit" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover bottom--1 right-0">Submit</button>
+                  </div>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
         </div>
-        <%= form_for @conn, submit_path(@conn, :submit) <> "#suggestion_form", [as: :suggestions], fn f -> %>
-          <%= component "text_box", conn: @conn, form: f, name: "suggestions", placeholder: "Add your suggestions for new topics", submit: true %>
-        <% end %>
-        <%= component "flash", conn: @conn, type: :suggestions %>
-      </div> -->
-    </section>
+      </section>
 
-    <!-- Alpha/Beta Section -->
-    <section class="lm-white lm-bg-dark-blue pa1 ph4 ph3-m ph3-l pb4 pb5-l" id="email_form">
-      <div class="mv3 w-60-ns center" id="alpha">
-        {% if page.alpha %}
-          {{page.alpha|richtext}}
-        {% else %}
-          {{page.alpha_feedback|richtext}}
-        {% endif %}
-      </div>
-
-      <div id="alphasection" class="lm-dark-blue lm-bg-white pa1 ph4 ph3-m ph3-l pv1 pv3-l w-60-ns center tracked relative">
-        {{page.alphatext|richtext}}
-        <form action="{% pageurl page %}" method="POST" id="homepage_form" class="mv3 w-60-ns center">
-          {% if form_successfully_submitted %}
-            <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-green b--lm-green relative">
-              Email address entered successfully!
-              <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
-            </div>
+      <!-- Alpha/Beta Section -->
+      <section class="lm-white lm-bg-dark-blue pa1 ph4 ph3-m ph3-l pb4 pb5-l" id="email_form">
+        <div class="mv3 w-60-ns center" id="alpha">
+          {% if page.alpha %}
+            {{page.alpha|richtext}}
           {% else %}
-            {% csrf_token %}
-
-            {{form}}
-
-            <button type="submit" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover absolute bottom--1 right-0">Submit</button>
+            {{page.alpha_feedback|richtext}}
           {% endif %}
-        </form>
-      </div>
-    </section>
+        </div>
+
+        <div id="alphasection" class="lm-dark-blue lm-bg-white pa1 ph4 ph3-m ph3-l pv1 pv3-l w-60-ns center tracked relative">
+          {{page.alphatext|richtext}}
+          <div>
+            {% if False %}
+              <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-green b--lm-green relative">
+                Email address entered successfully!
+                <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
+              </div>
+            {% else %}
+
+              {% for row in custom_form %}
+                {% if row.field_type == 'email' %}
+                  {% if request.session.email %}
+                    <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-green b--lm-green relative">
+                      Email address entered successfully!
+                      <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
+                    </div>
+                  {% else %}
+                    <label for="id_{{row.label}}" class="db mv1">Email:</label>
+                    <input type="email" id="id_{{row.label}}" name="{{row.label}}" class="br2 pa2 mb2-l mb3 f5 fw3 ba w-100"></input>
+
+                    <div class="relative w-100 mt3">
+                      <button type="submit" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover absolute bottom--1 right-0">Submit</button>
+                    </div>
+                    <div class="mt4 pt1"></div> <!-- TODO: remove <<<this div and style properly -->
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </section>
+    </form>
 
     <section class="pv1 ph3 lm-bg-orange tl">
       <a href="/coming-soon" class="link banners">
