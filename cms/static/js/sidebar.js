@@ -15,7 +15,11 @@ if (isNotIE8()) {
 
     // Stops main page scrolling when sidebar open
     select("#filter_filter").addEventListener('click', function() {
-      select("body").classList.toggle("stop-scrolling");
+      if (select("#filter_filter").checked) {
+        select("body").classList.add("stop-scrolling");
+      } else {
+        select("body").classList.remove("stop-scrolling");
+      }
     });
 
     // Moves buttons to bottom of sidebar
