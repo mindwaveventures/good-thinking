@@ -60,6 +60,11 @@ class Home(Page):
         reason_tags = get_tags(ReasonTag)
         topic_tags = get_tags(TopicTag)
 
+        if 'ldmw_session' in request.COOKIES:
+            cookie = request.COOKIES['ldmw_session']
+        else:
+            cookie = ''
+
         resources = ResourcePage.objects.all().annotate(
             number_of_likes=count_likes(1)
         ).annotate(

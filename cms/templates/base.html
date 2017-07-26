@@ -22,7 +22,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         {# Global stylesheets #}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/cms.css' %}">
+        {% stylesheet 'cms' %}
 
         {% block extra_css %}
           <link rel="stylesheet" href="http://npmcdn.com/tachyons-word-break@3.0.0/css/tachyons-word-break.min.css" />
