@@ -53,7 +53,7 @@ class Home(Page):
         issue_filter = request.GET.getlist('issue')
         content_filter = request.GET.getlist('content')
         reason_filter = request.GET.getlist('reason')
-        topic_filter = request.GET.getlist('q')
+        topic_filter = request.GET.getlist('topic')
 
         if self.slug != 'home':
             topic_filter = self.slug
@@ -116,6 +116,7 @@ class Home(Page):
             if filtered_reason_tags:
                 context['reason_tags'] = get_tags(ReasonTag, filtered_tags=filtered_reason_tags).values()
 
+        context['landing_pages'] = Home.objects.filter(~Q(slug="home"))
         context['resources'] = filtered_resources
         context['resource_count'] = resources.count()
         context['topic_tags'] = topic_tags.values()
