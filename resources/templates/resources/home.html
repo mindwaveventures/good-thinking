@@ -9,6 +9,18 @@
       {% include "resources/banner.html" with banner=page.banner %}
     {% endif %}
 
+    {% if landing_pages %}
+      <section class="dt--fixed tc pv3 ph4 ph3-m ph3-l blurred_background cover bg-center dt-ns w-100 {% if page.banner %}mt5{% endif %}">
+        {% for topic in landing_pages %}
+          <div class="dib relative mv2-ns mv1 dtc-ns">
+            <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer underline">
+              <a class="ttu nunito-bold" href="/{{topic.slug}}">{{topic.slug}}</a>
+            </div>
+          </div>
+        {% endfor %}
+      </section>
+    {% endif %}
+
     <!-- Hero Image Block -->
     {% image page.hero_image width-1000 as hero_image %}
     <section class="pt5-plus ph4 ph5-m ph6-l tc lm-white cover lh-copy bg-center" style="background-image:url('{{ hero_image.url }}')">
@@ -47,15 +59,6 @@
       <form>
         <div class="w-60-ns center tc tl-ns">
           <div class="tl lm-dark-blue mb2 nunito-bold">I am, or someone I know, is feeling:</div>
-            {% for topic in topic_tags %}
-              <div class="dib relative mv2-ns mv1">
-                <input type="checkbox" class="topic-checked-fill absolute o-0">
-                <label class="b--lm-dark-blue lm-dark-blue ba br2 pl3 pr4 pv2 dib pointer border-box topic-unchecked br-pill">
-                  <span>{{topic}}</span>
-                </label>
-              </div>
-            {% endfor %}
-          </div>
         </div>
         <div class="tl w-60-ns center relative pb4">
           <form action="/#results" method="get" id="search-form-2">
@@ -76,7 +79,7 @@
     <section class="tc-ns">
       <div class="pa1 ph4 ph3-m ph3-l">
         <div class="w-60-ns center">
-          <h3 class="tl mt5 nunito">Showing {{resource_count}} {% if resource_count == 1 %}resource{% else %}resources{% endif %} {% if selected_topic %} for{% endif %}</h3>
+          <h3 class="tl mt5 nunito">Showing {{resource_count}} {% if resource_count == 1 %}resource{% else %}resources{% endif %} {% if selected_topic %} for {% else %} about wellbeing {% endif %}</h3>
           {% if selected_topic %}
             <div class="tl">
                 <span class="b--lm-orange lm-bg-orange-20 ba br-pill ph2 pv0 lh-tag mh1 dib mb1 font nunito f6">{{ selected_topic }}</span>
