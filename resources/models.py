@@ -1,9 +1,15 @@
 from __future__ import unicode_literals
 
+from urllib.parse import parse_qs
+
 from django.db import models
 from django.db.models import Q, Sum, Case, When
 from django.db.models.fields import TextField, URLField, IntegerField, CharField
 from django.shortcuts import render
+
+from django.contrib import messages
+from django.contrib.messages import get_messages
+from django.http import HttpResponseRedirect
 
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.fields import RichTextField
@@ -149,8 +155,8 @@ class Home(AbstractForm):
                 self.process_form_submission(form)
 
                 # commenting out the redirect and instead
-                # send back a form_successfully_submitted property
-                # for the template to show a success message
+                # send back a success message from this sa question
+                # https://stackoverflow.com/a/11594329/4699289
 
                 # # render the landing_page
                 # # TODO: It is much better to redirect to it
@@ -160,16 +166,60 @@ class Home(AbstractForm):
                 #     self.get_context(request)
                 # )
 
+                request_dict = parse_qs(request.body.decode('utf-8'))
+                # TODO: don't hardcode this generate this dynamically
+                # For now the cms home page cannot cater for further form elements
+              
+                if "suggestion" in request_dict:
+                    request.session['suggestion'] = True
+                    return HttpResponseRedirect(request.path + "#suggestion_form")
+
+                if "email" in request_dict:
+                    request.session['email'] = True
+                    return HttpResponseRedirect(request.path + "#alphasection")
+
         else:
             form = self.get_form(page=self, user=request.user)
 
+        # TODO: this code is just what is repeated in feedpack.py
+        # This should be abstracted out into it's own class
+
+        custom_form = []
+
+        vals = FormField.objects.all().filter(page_id=form.page.id)
+
+        for val in vals:
+            dict = {}
+            dict['field_type'] = val.field_type
+            dict['default_value'] = val.default_value
+            dict['help_text'] = val.help_text
+            dict['label'] = val.label
+
+            # TODO: look at a nicer way to fetch errors and submitted_val
+            
+            request_dict = parse_qs(request.body.decode('utf-8'))
+
+            # TODO: use this when error handling
+            try:
+                dict['submitted_val'] = request_dict[val.label][0]
+            except:
+                dict['submitted_val'] = ''
+
+            dict['required'] = 'required' if val.required else ''
+
+            stored_messages = get_messages(request)
+
+            for message in stored_messages:
+                if message == 'email':
+                    dict['email_submitted'] = True
+                if message == 'suggestion':
+                    dict['suggestion_submitted'] = True
+
+            custom_form.append(dict)
+
         context = self.get_context(request)
         context['form'] = form
-
-        if request.method == 'POST' and form.is_valid():
-            context['form_successfully_submitted'] = True
-
-        print(request.POST.items)
+        context['custom_form'] = custom_form # custom
 
         return render(
             request,
