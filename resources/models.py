@@ -154,8 +154,11 @@ class Home(AbstractForm):
             if form.is_valid():
                 self.process_form_submission(form)
 
-                # commenting out the redirect and instead
-                # send back a success message from this sa question
+                # commenting out the render and instead
+                # redirect to specific place on the page depending on
+                # what has been submitted.
+                # This sa overflow seems like a nice way to do it, but messages seem
+                # harder to work with than just sessions on the request in terms of templating
                 # https://stackoverflow.com/a/11594329/4699289
 
                 # # render the landing_page
