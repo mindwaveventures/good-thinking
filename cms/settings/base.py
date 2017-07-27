@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'static',
     'likes',
 
+    'django_nose',
     'storages',
     'pipeline',
 
@@ -62,6 +63,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+# NOSE_ARGS = [
+#     '--with-coverage',
+#     # Specify which apps to cover
+#     '--cover-package=resources,feedback',
+# ]
+
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -75,6 +82,8 @@ MIDDLEWARE = [
     'wagtail.wagtailcore.middleware.SiteMiddleware',
     'wagtail.wagtailredirects.middleware.RedirectMiddleware',
 ]
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 ROOT_URLCONF = 'cms.urls'
 
