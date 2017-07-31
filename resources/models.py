@@ -21,6 +21,9 @@ from itertools import chain
 
 from likes.models import Likes
 
+import queue
+import threading, time, random
+
 class Home(Page):
     banner = RichTextField(blank=True, help_text="Banner at the top of every page")
     header = RichTextField(blank=True, help_text="Hero title")
@@ -79,6 +82,18 @@ class Home(Page):
                 liked_value=get_liked_value(request.COOKIES['ldmw_session'])
             )
 
+        if topic_filter:
+            filtered_issue_tags, filtered_reason_tags, filtered_content_tags = filter_tags(resources, topic_filter)
+
+            if filtered_issue_tags:
+                context['issue_tags'] = get_tags(IssueTag, filtered_tags=filtered_issue_tags).values()
+
+            if filtered_content_tags:
+                context['content_tags'] = get_tags(ContentTag, filtered_tags=filtered_content_tags).values()
+
+            if filtered_reason_tags:
+                context['reason_tags'] = get_tags(ReasonTag, filtered_tags=filtered_reason_tags).values()
+
         if (tag_filter):
             resources = resources.filter(
                 Q(content_tags__name__in=tag_filter) |
@@ -108,18 +123,6 @@ class Home(Page):
             context['issue_tags'] = issue_tags.values()
             context['content_tags'] = content_tags.values()
             context['reason_tags'] = reason_tags.values()
-
-        if topic_filter:
-            filtered_issue_tags, filtered_reason_tags, filtered_content_tags = filter_tags(resources, topic_filter)
-
-            if filtered_issue_tags:
-                context['issue_tags'] = get_tags(IssueTag, filtered_tags=filtered_issue_tags).values()
-
-            if filtered_content_tags:
-                context['content_tags'] = get_tags(ContentTag, filtered_tags=filtered_content_tags).values()
-
-            if filtered_reason_tags:
-                context['reason_tags'] = get_tags(ReasonTag, filtered_tags=filtered_reason_tags).values()
 
         context['landing_pages'] = Home.objects.filter(~Q(slug="home"))
         context['resources'] = filtered_resources
@@ -304,18 +307,20 @@ def get_liked_value(user_hash):
     )
 
 def filter_tags(resources, topic):
-    content_tags = None
-    reason_tags = None
-    issue_tags = None
-
     contains_tag_filter = makefilter(topic)
 
-    fil = filter(contains_tag_filter, resources)
+    fil = list(map(lambda r: r.id, filter(contains_tag_filter, resources)))
+    q = queue.Queue()
 
-    for f in fil:
-        issue_tags = IssueTag.objects.filter(content_object=f.id)
-        content_tags = ContentTag.objects.filter(content_object=f.id)
-        reason_tags = ReasonTag.objects.filter(content_object=f.id)
+    threads = [ threading.Thread(target=filter_resource_by_topic, name=t, args=(fil, t, q)) for t in [ContentTag, IssueTag, ReasonTag] ]
+    # Using threads to make sure all db calls are completed before function returns
+
+    for th in threads:
+        th.start()
+
+    content_tags = q.get()
+    issue_tags = q.get()
+    reason_tags = q.get()
 
     return issue_tags, reason_tags, content_tags
 
@@ -323,3 +328,6 @@ def makefilter(t):
     def contains_tag(r):
         return any(filter(lambda tag: tag.name == t, r.specific.topic_tags.all()))
     return contains_tag
+
+def filter_resource_by_topic(resource_ids, tag_type, result_queue):
+    result_queue.put(tag_type.objects.filter(content_object__in=resource_ids))

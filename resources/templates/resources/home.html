@@ -28,7 +28,7 @@
       <div class="pb5 w-90-ns f1-ns f6 lh-title center">
         <div class="mb4">
           {{ page.header|richtext }}
-          <form action="/#results" method="get" id="search-form-1">
+          <form action="/{% if not page.slug == 'home' %}{{page.slug}}{% endif %}#results" method="get" id="search-form-1">
             <input name="q" type="text" value="{{request.GET.q}}" class="w-50-ns w-100 db center mt1 b--white ba pa1 pa2-ns nunito f5 br1 bg-white-90 focus-lm-orange" placeholder="Enter search term", "aria-label"="search">
             {% for key, value in request.GET.lists %}
               {% if not key == "q" %}
@@ -61,7 +61,7 @@
           <div class="tl lm-dark-blue mb2 nunito-bold">I am, or someone I know, is feeling:</div>
         </div>
         <div class="tl w-60-ns center relative pb4">
-          <form action="/#results" method="get" id="search-form-2">
+          <form action="/{% if not page.slug == 'home' %}{{page.slug}}{% endif %}#results" method="get" id="search-form-2">
             <input type="text" name="q" value="{{request.GET.q}}" class="mt1 mr2 w-100 pa2 pl3 mb3 nunito br1 b--white ba bg-white-90 focus-lm-orange" placeholder="Enter search term", "aria-label"="search">
             {% for key, value in request.GET.lists %}
               {% if not key == "q" %}
