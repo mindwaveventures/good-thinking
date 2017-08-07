@@ -30,6 +30,9 @@ from itertools import chain
 
 from likes.models import Likes
 
+import queue
+import threading, time, random
+
 class FormField(AbstractFormField):
     page = ParentalKey('Home', related_name='form_fields')
 
@@ -67,6 +70,9 @@ class Home(AbstractForm):
         reason_filter = request.GET.getlist('reason')
         topic_filter = request.GET.getlist('topic')
 
+        if self.slug != 'home':
+            topic_filter = self.slug
+
         issue_tags = get_tags(IssueTag)
         content_tags = get_tags(ContentTag)
         reason_tags = get_tags(ReasonTag)
@@ -88,6 +94,18 @@ class Home(AbstractForm):
                 liked_value=get_liked_value(request.COOKIES['ldmw_session'])
             )
 
+        if topic_filter:
+            filtered_issue_tags, filtered_reason_tags, filtered_content_tags = filter_tags(resources, topic_filter)
+
+            if filtered_issue_tags:
+                context['issue_tags'] = get_tags(IssueTag, filtered_tags=filtered_issue_tags).values()
+
+            if filtered_content_tags:
+                context['content_tags'] = get_tags(ContentTag, filtered_tags=filtered_content_tags).values()
+
+            if filtered_reason_tags:
+                context['reason_tags'] = get_tags(ReasonTag, filtered_tags=filtered_reason_tags).values()
+
         if (tag_filter):
             resources = resources.filter(
                 Q(content_tags__name__in=tag_filter) |
@@ -106,18 +124,21 @@ class Home(AbstractForm):
             resources = resources.filter(reason_tags__name__in=reason_filter).distinct()
 
         if (topic_filter):
-            resources = resources.filter(topic_tags__name__in=topic_filter).distinct()
+            resources = resources.filter(topic_tags__name=topic_filter).distinct()
 
         if (query):
             resources = resources.search(query)
 
         filtered_resources = map(combine_tags, resources)
 
+        if not topic_filter:
+            context['issue_tags'] = issue_tags.values()
+            context['content_tags'] = content_tags.values()
+            context['reason_tags'] = reason_tags.values()
+
+        context['landing_pages'] = Home.objects.filter(~Q(slug="home"))
         context['resources'] = filtered_resources
         context['resource_count'] = resources.count()
-        context['issue_tags'] = issue_tags.values()
-        context['content_tags'] = content_tags.values()
-        context['reason_tags'] = reason_tags.values()
         context['topic_tags'] = topic_tags.values()
         context['selected_topic'] = topic_filter
         context['selected_tags'] = list(chain(
@@ -125,7 +146,6 @@ class Home(AbstractForm):
             issue_filter,
             content_filter,
             reason_filter,
-            topic_filter,
         ))
         return context
 
@@ -342,8 +362,9 @@ class ResourcePage(Page):
     class Meta:
         verbose_name = "Resource"
 
-def get_tags(tag_type):
-    tag_ids = [tag.tag_id for tag in tag_type.objects.all()]
+def get_tags(tag_type, **kwargs):
+    filtered_tags = kwargs.get('filtered_tags', tag_type.objects.all())
+    tag_ids = [tag.tag_id for tag in filtered_tags]
     tags = Tag.objects.in_bulk(tag_ids)
 
     return tags
@@ -353,7 +374,6 @@ def combine_tags(element):
         element.specific.content_tags.all(),
         element.specific.issue_tags.all(),
         element.specific.reason_tags.all(),
-        element.specific.topic_tags.all()
     ))
     return element
 
@@ -381,3 +401,29 @@ def get_liked_value(user_hash):
         default=0,
         output_field=models.IntegerField()
     )
+
+def filter_tags(resources, topic):
+    contains_tag_filter = makefilter(topic)
+
+    fil = list(map(lambda r: r.id, filter(contains_tag_filter, resources)))
+    q = queue.Queue()
+
+    threads = [ threading.Thread(target=filter_resource_by_topic, name=t, args=(fil, t, q)) for t in [ContentTag, IssueTag, ReasonTag] ]
+    # Using threads to make sure all db calls are completed before function returns
+
+    for th in threads:
+        th.start()
+
+    content_tags = q.get()
+    issue_tags = q.get()
+    reason_tags = q.get()
+
+    return issue_tags, reason_tags, content_tags
+
+def makefilter(t):
+    def contains_tag(r):
+        return any(filter(lambda tag: tag.name == t, r.specific.topic_tags.all()))
+    return contains_tag
+
+def filter_resource_by_topic(resource_ids, tag_type, result_queue):
+    result_queue.put(tag_type.objects.filter(content_object__in=resource_ids))

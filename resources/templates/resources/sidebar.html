@@ -10,7 +10,7 @@
     </div>
 
     <div class="ph1 sidebar-tag-blocks">
-      <form action="/#results" method="get" id="filter-form">
+      <form action="/{% if not page.slug == 'home' %}{{page.slug}}{% endif %}#results" method="get" id="filter-form">
         <div class="mb5 relative">
           <h4 class="w-70 mb1 mt2">{{page.filter_label_1}}</h4>
           <div class="select-issue-filters w-100 pv2 pl1 ph2-ns">
