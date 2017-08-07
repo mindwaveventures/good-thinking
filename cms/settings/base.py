@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     'static',
     'likes',
 
-    'django_nose',
     'storages',
     'pipeline',
 
@@ -82,8 +81,6 @@ MIDDLEWARE = [
     'wagtail.wagtailcore.middleware.SiteMiddleware',
     'wagtail.wagtailredirects.middleware.RedirectMiddleware',
 ]
-
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 ROOT_URLCONF = 'cms.urls'
 
