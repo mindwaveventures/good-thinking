@@ -6,6 +6,7 @@ from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from django.db.models.fields import TextField, URLField
 from django.db import models
 from django.db.models import Q
+from django.db.models.expressions import RawSQL
 
 from django.contrib.messages import get_messages
 from django.shortcuts import render
@@ -64,11 +65,6 @@ class Home(AbstractForm):
         reason_tags = get_tags(ReasonTag)
         topic_tags = get_tags(TopicTag)
 
-        if 'ldmw_session' in request.COOKIES:
-            cookie = request.COOKIES['ldmw_session']
-        else:
-            cookie = ''
-
         resources = ResourcePage.objects.all().annotate(
             number_of_likes=count_likes(1)
         ).annotate(
@@ -76,9 +72,13 @@ class Home(AbstractForm):
         )
 
         if 'ldmw_session' in request.COOKIES:
-            resources = resources.annotate(
-                liked_value=get_liked_value(request.COOKIES['ldmw_session'])
+            cookie = request.COOKIES['ldmw_session']
+            resources = resources.extra(
+                select={ 'liked_value': 'select like_value from likes_likes where resource_id = resources_resourcepage.page_ptr_id and user_hash = %s'},
+                select_params=([cookie])
             )
+        else:
+            cookie = ''
 
         if topic_filter:
             filtered_issue_tags, filtered_reason_tags, filtered_content_tags = filter_tags(resources, topic_filter)

@@ -28,7 +28,10 @@ def get_resource(id, user_hash):
         ResourcePage.objects
         .annotate(number_of_likes=count_likes(1))
         .annotate(number_of_dislikes=count_likes(-1))
-        .annotate(liked_value=get_liked_value(user_hash))
+        .extra(
+            select={ 'liked_value': 'select like_value from likes_likes where resource_id = %s and user_hash = %s'},
+            select_params=([id, user_hash])
+        )
         .get(id=id)
     )
 
