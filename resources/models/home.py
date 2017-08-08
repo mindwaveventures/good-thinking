@@ -1,6 +1,6 @@
 from wagtail.wagtailforms.models import AbstractForm, AbstractFormField
 from wagtail.wagtailcore.fields import RichTextField
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
 from django.db.models.fields import TextField, URLField
@@ -12,11 +12,12 @@ from django.contrib import messages
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 
+from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from urllib.parse import parse_qs
 from itertools import chain
 
-from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag
+from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag, ExcludeTag
 from resources.models.resources import ResourcePage
 from resources.models.helpers import combine_tags, count_likes, get_liked_value, filter_tags, get_tags, generate_custom_form, valid_request, handle_request
 
@@ -46,6 +47,10 @@ class Home(AbstractForm):
         help_text="Max file size: 10MB. Choose from: GIF, JPEG, PNG (but pick PNG if you have the choice)"
     )
     video_url = URLField(blank=True, help_text="URL of an introductiary youtube video")
+    exclude_tags = ClusterTaggableManager(
+        through=ExcludeTag, blank=True, verbose_name="Exclude Tags",
+        help_text='Tags you do not want to show in the filters for this home page'
+    )
 
     def get_context(self, request):
         context = super(Home, self).get_context(request)
@@ -92,6 +97,10 @@ class Home(AbstractForm):
 
             if filtered_reason_tags:
                 context['reason_tags'] = get_tags(ReasonTag, filtered_tags=filtered_reason_tags).values()
+        else:
+            context['issue_tags'] = issue_tags.values()
+            context['content_tags'] = content_tags.values()
+            context['reason_tags'] = reason_tags.values()
 
         if (tag_filter):
             resources = resources.filter(
@@ -118,11 +127,6 @@ class Home(AbstractForm):
 
         filtered_resources = map(combine_tags, resources)
 
-        if not topic_filter:
-            context['issue_tags'] = issue_tags.values()
-            context['content_tags'] = content_tags.values()
-            context['reason_tags'] = reason_tags.values()
-
         context['landing_pages'] = Home.objects.filter(~Q(slug="home"))
         context['resources'] = filtered_resources
         context['resource_count'] = resources.count()
@@ -142,9 +146,12 @@ class Home(AbstractForm):
         FieldPanel('header', classname="full"),
         FieldPanel('body', classname="full"),
         FieldPanel('video_url', classname="full"),
-        FieldPanel('filter_label_1', classname="full"),
-        FieldPanel('filter_label_2', classname="full"),
-        FieldPanel('filter_label_3', classname="full"),
+        MultiFieldPanel([
+            FieldPanel('filter_label_1', classname="full"),
+            FieldPanel('filter_label_2', classname="full"),
+            FieldPanel('filter_label_3', classname="full"),
+            FieldPanel('exclude_tags', classname="full")
+        ]),
         FieldPanel('assessment_text', classname="full"),
         FieldPanel('crisis_text', classname="full"),
         FieldPanel('lookingfor', classname="full"),

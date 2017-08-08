@@ -16,3 +16,6 @@ class ContentTag(TaggedItemBase):
 
 class HiddenTag(TaggedItemBase):
     content_object = ParentalKey('resources.ResourcePage', related_name='tagged_hidden_items')
+
+class ExcludeTag(TaggedItemBase):
+    content_object = ParentalKey('resources.Home', related_name='tagged_exclude_items')
