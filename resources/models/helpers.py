@@ -8,6 +8,8 @@ import threading, queue
 from resources.models.resources import ResourcePage
 from resources.models.tags import ContentTag, IssueTag, ReasonTag
 
+from django.apps import apps
+
 def get_tags(tag_type, **kwargs):
     filtered_tags = kwargs.get('filtered_tags', tag_type.objects.all())
     tag_ids = [tag.tag_id for tag in filtered_tags]
@@ -52,6 +54,10 @@ def get_liked_value(user_hash):
     )
 
 def filter_tags(resources, topic):
+    Home = apps.get_model('resources', 'home')
+    exclude_tags = Home.objects.get(slug=topic).specific.exclude_tags.all()
+    topic_tag = Tag.objects.filter(name=topic)
+
     contains_tag_filter = makefilter(topic)
 
     fil = list(map(lambda r: r.id, filter(contains_tag_filter, resources)))
@@ -63,9 +69,9 @@ def filter_tags(resources, topic):
     for th in threads:
         th.start()
 
-    content_tags = q.get()
-    issue_tags = q.get()
-    reason_tags = q.get()
+    content_tags = q.get().exclude(tag__in=list(chain(exclude_tags, topic_tag)))
+    issue_tags = q.get().exclude(tag__in=list(chain(exclude_tags, topic_tag)))
+    reason_tags = q.get().exclude(tag__in=list(chain(exclude_tags, topic_tag)))
 
     return issue_tags, reason_tags, content_tags
 
