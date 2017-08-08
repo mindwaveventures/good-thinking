@@ -8,8 +8,9 @@ from django.db import models
 from django.db.models import Q
 from django.db.models.expressions import RawSQL
 
-from django.contrib.messages import get_messages
+from django.contrib import messages
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
 
 from modelcluster.fields import ParentalKey
 from urllib.parse import parse_qs
@@ -17,7 +18,7 @@ from itertools import chain
 
 from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag
 from resources.models.resources import ResourcePage
-from resources.models.helpers import combine_tags, count_likes, get_liked_value, filter_tags, get_tags
+from resources.models.helpers import combine_tags, count_likes, get_liked_value, filter_tags, get_tags, generate_custom_form, valid_request, handle_request
 
 
 class FormField(AbstractFormField):
@@ -154,78 +155,30 @@ class Home(AbstractForm):
     ]
 
     def serve(self, request, *args, **kwargs):
+        request_dict = parse_qs(request.body.decode('utf-8'))
+
         if request.method == 'POST':
             form = self.get_form(request.POST, page=self, user=request.user)
 
             if form.is_valid():
                 self.process_form_submission(form)
 
-                # commenting out the redirect and instead
-                # send back a success message from this sa question
-                # https://stackoverflow.com/a/11594329/4699289
-
-                # # render the landing_page
-                # # TODO: It is much better to redirect to it
-                # return render(
-                #     request,
-                #     self.get_landing_page_template(request),
-                #     self.get_context(request)
-                # )
-
-                request_dict = parse_qs(request.body.decode('utf-8'))
-                # TODO: don't hardcode this generate this dynamically
-                # For now the cms home page cannot cater for further form elements
-
-                if "suggestion" in request_dict:
-                    request.session['suggestion'] = True
-                    return HttpResponseRedirect(request.path + "#suggestion_form")
-
-                if "email" in request_dict:
-                    request.session['email'] = True
-                    return HttpResponseRedirect(request.path + "#alphasection")
+                if valid_request(request_dict):
+                    return handle_request(request, request_dict, HttpResponseRedirect, messages)
 
         else:
             form = self.get_form(page=self, user=request.user)
 
-        # TODO: this code is just what is repeated in feedpack.py
-        # This should be abstracted out into it's own class
-
-        custom_form = []
-
-        vals = FormField.objects.all().filter(page_id=form.page.id)
-
-        for val in vals:
-            dict = {}
-            dict['field_type'] = val.field_type
-            dict['default_value'] = val.default_value
-            dict['help_text'] = val.help_text
-            dict['label'] = val.label
-
-            # TODO: look at a nicer way to fetch errors and submitted_val
-
-            request_dict = parse_qs(request.body.decode('utf-8'))
-
-            # TODO: use this when error handling
-            try:
-                dict['submitted_val'] = request_dict[val.label][0]
-            except:
-                dict['submitted_val'] = ''
-
-            dict['required'] = 'required' if val.required else ''
-
-            stored_messages = get_messages(request)
-
-            for message in stored_messages:
-                if message == 'email':
-                    dict['email_submitted'] = True
-                if message == 'suggestion':
-                    dict['suggestion_submitted'] = True
-
-            custom_form.append(dict)
+        form_fields = FormField.objects.all().filter(page_id=form.page.id)
 
         context = self.get_context(request)
         context['form'] = form
-        context['custom_form'] = custom_form # custom
+        context['custom_form'] = generate_custom_form(
+            form_fields,
+            request_dict,
+            messages.get_messages(request)
+
+        ) # custom
 
         return render(
             request,
