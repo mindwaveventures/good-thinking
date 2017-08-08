@@ -159,7 +159,7 @@ STATICFILES_DIRS = [
 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
