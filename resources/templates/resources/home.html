@@ -126,7 +126,7 @@
           {% for row in custom_form %}
             {% if row.field_type == 'multiline' %}
               <div>
-                {% if request.session.suggestion %}
+                {% if row.suggestion_submitted %}
                   <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-green b--lm-green relative">
                     Suggestions submitted successfully!
                     <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
@@ -167,7 +167,7 @@
 
               {% for row in custom_form %}
                 {% if row.field_type == 'email' %}
-                  {% if request.session.email %}
+                  {% if row.email_submitted %}
                     <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-green b--lm-green relative">
                       Email address entered successfully!
                       <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
