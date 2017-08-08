@@ -14,10 +14,12 @@ from taggit.models import Tag
 class TagsTestCase(WagtailPageTests):
     def setUp(self):
         parent = Page.objects.get(url_path='/home/')
+        landing = Home(title="depression", slug="depression")
         page = ResourcePage(title='Title!', slug='test', body='...')
         page_2 = ResourcePage(title='Page Title 2', slug='test2', body='...')
         parent.add_child(instance=page)
         parent.add_child(instance=page_2)
+        parent.add_child(instance=landing)
         resource_tags = [
             (IssueTag, Tag.objects.create(name='insomnia')),
             (IssueTag, Tag.objects.create(name='sleep-deprivation')),
