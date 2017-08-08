@@ -2,8 +2,12 @@ from django.test import TestCase, Client
 from wagtail.tests.utils import WagtailPageTests
 
 from wagtail.wagtailcore.models import Page
+
+from resources.models.helpers import filter_tags
+
 from wagtail.wagtailforms.models import FormSubmission
-from resources.models import ResourcePage, IssueTag, TopicTag, ContentTag, Home, filter_tags, handle_request, valid_request, generate_custom_form
+from resources.models import ResourcePage, IssueTag, TopicTag, ContentTag, Home, handle_request, valid_request, generate_custom_form
+
 
 from taggit.models import Tag
 

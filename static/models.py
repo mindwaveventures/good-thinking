@@ -10,7 +10,7 @@ from wagtail.wagtailcore.fields import RichTextField, StreamField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.wagtailimages.blocks import ImageChooserBlock
 
-from resources.models import Home
+from resources.models.home import Home
 
 
 class StaticPage(Page):

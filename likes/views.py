@@ -1,15 +1,13 @@
 from django.shortcuts import redirect
-from django.http import HttpResponse, JsonResponse
-
-from django.db import models
-from django.db.models import Sum, Case, When
-from django.db.models.fields import IntegerField
-
-from likes.models import Likes
-from resources.models import ResourcePage, combine_tags, get_resource
+from django.http import JsonResponse
 from django.template.loader import render_to_string
 
 import uuid
+
+from likes.models import Likes
+from resources.models.resources import ResourcePage
+from resources.models.helpers import get_resource
+
 
 def save_like(request):
     id = request.POST.get('id')
