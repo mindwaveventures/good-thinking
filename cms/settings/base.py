@@ -62,6 +62,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+# NOSE_ARGS = [
+#     '--with-coverage',
+#     # Specify which apps to cover
+#     '--cover-package=resources,feedback',
+# ]
+
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -151,7 +157,7 @@ STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, 'static'),
 ]
 
-STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'

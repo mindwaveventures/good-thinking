@@ -14,7 +14,7 @@ from wagtail.wagtailadmin.edit_handlers import (
     InlinePanel, MultiFieldPanel
 )
 from wagtail.wagtailcore.fields import RichTextField
-from wagtail.wagtailforms.models import AbstractForm, AbstractFormField, AbstractFormSubmission
+from wagtail.wagtailforms.models import AbstractForm, AbstractFormField
 
 FORM_FIELD_CHOICES = (
     ('singleline', _('Single line text')),
@@ -119,10 +119,7 @@ class FeedbackPage(AbstractForm):
                         submitted_val = request_dict[val.label][0]
                     except:
                         submitted_val = False
-                    if choice == submitted_val:
-                        checked = 'checked'
-                    else:
-                        checked = ''
+                    choice = 'checked' if choice == submitted_val else ''
                     choices_list.append({'val': choice, 'checked': checked})
                 dict['choices'] = choices_list
             else:

@@ -1,12 +1,18 @@
 from __future__ import unicode_literals
 
+from urllib.parse import parse_qs
+
 from django.db import models
 from django.db.models import Q, Sum, Case, When
 from django.db.models.fields import TextField, URLField, IntegerField, CharField
+from django.shortcuts import render
+
+from django.contrib import messages
+from django.http import HttpResponseRedirect
 
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.fields import RichTextField
-from wagtail.wagtailadmin.edit_handlers import FieldPanel
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel
 from modelcluster.fields import ParentalKey
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase, Tag
@@ -14,6 +20,8 @@ from wagtail.wagtailsearch import index
 
 from wagtail.wagtailimages.models import Image
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
+
+from wagtail.wagtailforms.models import AbstractForm, AbstractFormField
 
 from django.template.loader import get_template
 
@@ -24,7 +32,56 @@ from likes.models import Likes
 import queue
 import threading, time, random
 
-class Home(Page):
+def valid_request(request_dict):
+    # TODO: don't hardcode this, instead generate it dynamically
+    # For now the cms home page cannot cater for further form elements
+
+    return "suggestion" in request_dict or "email" in request_dict
+
+def handle_request(request, request_dict, cb, messages_):
+    if "suggestion" in request_dict:
+        messages_.info(request, 'suggestion')
+        return cb(request.path + "#suggestion_form")
+
+    if "email" in request_dict:
+        messages_.info(request, 'email')
+        return cb(request.path + "#alphasection")
+
+def generate_custom_form(form_fields, request_dict, messages_):
+    custom_form = []
+
+    for field in form_fields:
+        dict = {}
+        dict['field_type'] = field.field_type
+        dict['default_value'] = field.default_value
+        dict['help_text'] = field.help_text
+        dict['label'] = field.label
+
+        try:
+            dict['submitted_val'] = request_dict[field.label][0]
+        except:
+            dict['submitted_val'] = ''
+
+        dict['required'] = 'required' if field.required else ''
+
+        dict['email_submitted'] = False
+        dict['suggestion_submitted'] = False
+
+        for message in messages_:
+            if message.__str__() == 'email':
+                dict['email_submitted'] = True
+            if message.__str__() == 'suggestion':
+                dict['suggestion_submitted'] = True
+
+        custom_form.append(dict)
+
+    return custom_form
+
+
+class FormField(AbstractFormField):
+    page = ParentalKey('Home', related_name='form_fields')
+
+class Home(AbstractForm):
     banner = RichTextField(blank=True, help_text="Banner at the top of every page")
     header = RichTextField(blank=True, help_text="Hero title")
     body = RichTextField(blank=True, help_text="Description of page")
@@ -137,7 +194,7 @@ class Home(Page):
         ))
         return context
 
-    content_panels = Page.content_panels + [
+    content_panels = AbstractForm.content_panels + [
         FieldPanel('banner', classname="full"),
         ImageChooserPanel('hero_image'),
         FieldPanel('header', classname="full"),
@@ -151,8 +208,42 @@ class Home(Page):
         FieldPanel('lookingfor', classname="full"),
         FieldPanel('alpha', classname="full"),
         FieldPanel('alphatext', classname="full"),
+        InlinePanel('form_fields', label="Form fields"),
         FieldPanel('footer', classname="full"),
     ]
+
+
+    def serve(self, request, *args, **kwargs):
+        request_dict = parse_qs(request.body.decode('utf-8'))
+
+        if request.method == 'POST':
+            form = self.get_form(request.POST, page=self, user=request.user)
+
+            if form.is_valid():
+                self.process_form_submission(form)
+
+                if valid_request(request_dict):
+                    return handle_request(request, request_dict, HttpResponseRedirect, messages)
+
+        else:
+            form = self.get_form(page=self, user=request.user)
+
+        form_fields = FormField.objects.all().filter(page_id=form.page.id)
+
+        context = self.get_context(request)
+        context['form'] = form
+        context['custom_form'] = generate_custom_form(
+            form_fields,
+            request_dict,
+            messages.get_messages(request)
+
+        ) # custom
+
+        return render(
+            request,
+            self.get_template(request),
+            context
+        )
 
 class TopicTag(TaggedItemBase):
     content_object = ParentalKey('resources.ResourcePage', related_name='tagged_topic_items')
