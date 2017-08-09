@@ -1,15 +1,18 @@
-from wagtail.wagtailcore.models import Page
+from wagtail.wagtailforms.models import AbstractForm, Page, AbstractFormField
 from wagtail.wagtailcore.fields import RichTextField
-from wagtail.wagtailadmin.edit_handlers import FieldPanel
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel
 from wagtail.wagtailsearch import index
 
 from modelcluster.contrib.taggit import ClusterTaggableManager
+from modelcluster.fields import ParentalKey
 from django.db.models.fields import TextField, URLField, IntegerField
 
 from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag, HiddenTag
 
+class ResourceFormField(AbstractFormField):
+    page = ParentalKey('ResourceIndexPage', related_name='form_fields')
 
-class ResourceIndexPage(Page):
+class ResourceIndexPage(AbstractForm):
     intro = RichTextField(blank=True)
 
     def get_context(self, request):
@@ -18,8 +21,9 @@ class ResourceIndexPage(Page):
         context['resources'] = resources
         return context
 
-    content_panels = Page.content_panels + [
-        FieldPanel('intro', classname="full")
+    content_panels = AbstractForm.content_panels + [
+        FieldPanel('intro', classname="full"),
+        InlinePanel('form_fields', label="Form fields"),
     ]
 
 class ResourcePage(Page):

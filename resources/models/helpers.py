@@ -87,7 +87,7 @@ def valid_request(request_dict):
     # TODO: don't hardcode this, instead generate it dynamically
     # For now the cms home page cannot cater for further form elements
 
-    return "suggestion" in request_dict or "email" in request_dict
+    return "suggestion" in request_dict or "email" in request_dict or "feedback" in request_dict
 
 def handle_request(request, request_dict, cb, messages_):
     if "suggestion" in request_dict:
@@ -97,6 +97,11 @@ def handle_request(request, request_dict, cb, messages_):
     if "email" in request_dict:
         messages_.info(request, 'email')
         return cb(request.path + "#alphasection")
+
+    if "feedback" in request_dict:
+        resource_id = request_dict['id'][0]
+        messages_.info(request, 'like_feedback_' + str(resource_id))
+        return cb(request.path + "#resource_" + resource_id)
 
 def generate_custom_form(form_fields, request_dict, messages_):
     custom_form = []
