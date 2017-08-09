@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags static %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block content %}
+  {% include "resources/banner.html" %}
+  <section class="pt5-plus ph4 ph5-m ph6-l tc lm-white cover lh-copy bg-center">
+    {% include "resources/logo.html" %}
+  </section>
+  <section class="pt5-plus ph4 ph5-m ph6-l tc">
+    <div class="{{ page.text_alignment }}">
+      {% include_block page.body %}
+    </div>
+  </section>
+  <footer class="lm-bg-dark-blue tc pa3 f6 f5-ns tracked">
+    <div class="ph2 ph5-plus-ns lm-white">
+      {{ footer|richtext }}
+    </div>
+  </footer>
+{% endblock %}

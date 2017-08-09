@@ -1,0 +1,82 @@
+{% load wagtailcore_tags %}
+
+<div id="resource_{{page.id}}" class="resource">
+  <div class="br1 shadow-2 tl w-60-ns center">
+    <div class="ba b--lm-dark-blue ph2 pt2 pb0 pt3-ns ph4-ns mt4">
+      <h2 class="mt0 mb1 ml2">{{ page.heading }}</h2>
+      <div class="word-wrap">
+        {% if page.resource_url %}
+          <a class="f6 lm-turquoise resource-link link-hover link-visited pv1 ph2" href="{{ page.resource_url }}">{{ page.resource_url }}</a>
+        {% endif %}
+      </div>
+      <div class="mt1 mh2">
+        {% for tag in page.tags %}
+          <a href="?tag={{ tag }}"><button class="b--lm-orange lm-bg-orange-20 ba br2 ph2 pv1 lh-tag dib mb1 pointer font nunito">{{tag}}</button></a>
+        {% endfor %}
+      </div>
+      <div class="mh2">
+        {{ page.body|richtext }}
+      </div>
+      {% if page.video %}
+        <div class="tc ma2">
+          {{ page.video }}
+        </div>
+      {% endif %}
+    </div>
+    <div class="ph2 pv4 pb4-ns pt2-ns mh2 mh0-ns">
+      {% if page.pros %}
+        <div class="tc db dn-ns">
+          {% include "resources/secondary_button.html" with value="View pros and cons" background="light" class="view_pcs" id="view_pcs#{@resource.id}" %}
+        </div>
+      {% endif %}
+      <div class="w-100 dn db-ns pros_cons" id="pros_cons{{ page.id }}">
+        <div class="w-50-ns dib-ns br-ns b--lm-grey pros">
+          <div class="w-80-ns center-ns">
+            {{page.pros|richtext}}
+          </div>
+        </div>
+        <div class="w-50-ns dib-ns fr-ns">
+          <div class="w-80-ns center-ns">
+            {{page.cons|richtext}}
+          </div>
+        </div>
+      </div>
+      <p class="nunito-bold mt4">Would you recommend this?</p>
+      <div class="dt dt--fixed">
+        <div class="dib dtc">
+          <div class="dib mb3 v-mid tl"><span>{{page.number_of_likes|default:0}}</span></div>
+          <form action="/like/" method="post" class="dib pointer like-form">
+            <button type="submit" class="{% if page.liked_value == 1 %}liked{% endif %} like w2 h2 bn bg-white fl p0 bg-left pointer" data-url=""><span class="fixed o-0">Recommend</span></button>
+            <input type="hidden" name="id" value="{{page.id}}"/>
+            <input type="hidden" name="like" value="1"/>
+            {% csrf_token %}
+          </form>
+          <form action="/like/" method="post" class="dib pointer dislike-form">
+            <button name="dislike" type="submit" class="{% if page.liked_value == -1 %}disliked{% endif %} dislike w2 h2 bn bg-white p0 bg-right pointer" data-url=""><span class="fixed o-0">Don't Recommend</span></button>
+            <input type="hidden" name="id" value="{{page.id}}"/>
+            <input type="hidden" name="like" value="-1"/>
+            {% csrf_token %}
+          </form>
+          <div class="dib mb3 v-mid tl"><span>{{page.number_of_dislikes|default:0}}</span></div>
+        </div>
+        <div class="share-buttons dtc">
+          <button class="share-email share cursor w-10-ns w-20 w-20-m mh1 h2 bn bg-white fr p0 bg-right pointer" data-url=""><span class="fixed o-0">Share with WhatsApp</span></button>
+          <button class="share-messenger share cursor w-10-ns w-20 w-20-m mh1 h2 bn bg-white fr p0 bg-right pointer" data-url=""><span class="fixed o-0">Share with Messenger</span></button>
+          <button class="share-whatsapp share cursor w-10-ns w-20 w-20-m mh1 h2 bn bg-white fr p0 bg-right pointer dn-ns" data-url=""><span class="fixed o-0">Share with Email</span></button>
+        </div>
+      </div>
+      <div class="alert share-alert db fr pa1 ba bw1-ns bg--lm-light-red b--dark-red black"></div>
+      {% if page.liked_value == 1 or page.liked_value == -1 %}
+        <form>
+          <input type="hidden" name="id" value="{{page.id}}" />
+          <p>
+            Why {% if page.liked_value == 1 %}would you{% else %}wouldn't you{% endif %} recommend this?
+          </p>
+          <textarea></textarea>
+          <input type="hidden" name="liked" value="{{page.liked_value}}" />
+          <input type="hidden" name="resource_name" value=page.heading />
+        </form>
+      {% endif %}
+    </div>
+  </div>
+</div>

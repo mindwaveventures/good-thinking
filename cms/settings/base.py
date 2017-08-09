@@ -33,8 +33,10 @@ INSTALLED_APPS = [
     'feedback',
     'crisis',
     'static',
+    'likes',
 
     'storages',
+    'pipeline',
 
     'wagtail.wagtailforms',
     'wagtail.wagtailredirects',
@@ -47,6 +49,7 @@ INSTALLED_APPS = [
     'wagtail.wagtailsearch',
     'wagtail.wagtailadmin',
     'wagtail.wagtailcore',
+    'wagtail.contrib.postgres_search',
 
     'modelcluster',
     'taggit',
@@ -58,6 +61,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+# NOSE_ARGS = [
+#     '--with-coverage',
+#     # Specify which apps to cover
+#     '--cover-package=resources,feedback',
+# ]
 
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -106,7 +115,7 @@ DATABASES['default'] = dj_database_url.config(default='postgres://127.0.0.1:5432
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-ALLOWED_HOSTS = ['ldmw-cms.herokuapp.com', 'ldmw-cms-staging.herokuapp.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['ldmw.herokuapp.com', 'ldmw-cms.herokuapp.com', 'ldmw-cms-staging.herokuapp.com', '127.0.0.1', 'localhost']
 
 # Setting up project to use bcrypt hashing
 # For more info see:
@@ -141,13 +150,16 @@ USE_TZ = True
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'pipeline.finders.PipelineFinder',
 ]
 
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, 'static'),
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -166,3 +178,30 @@ AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
+PIPELINE = {
+    'JS_COMPRESSOR': None,
+    'JAVASCRIPT': {
+        'scripts': {
+            'source_filenames': (
+              'js/vendor/*.js',
+              'js/*.js',
+            ),
+            'output_filename': 'scripts.js',
+        }
+    },
+    'CSS_COMPRESSOR': None,
+    'STYLESHEETS': {
+      'cms': {
+        'source_filenames': (
+          'css/*.css',
+        ),
+        'output_filename': 'cms.css',
+      }
+    }
+}
+
+WAGTAILSEARCH_BACKENDS = {
+    'default': {
+        'BACKEND': 'wagtail.contrib.postgres_search.backend',
+    },
+}
