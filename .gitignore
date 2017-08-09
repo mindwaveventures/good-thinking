@@ -90,3 +90,4 @@ ENV/
 
 staticfiles/**
 !staticfiles/.gitkeep
+cover

@@ -60,13 +60,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_nose',
 ]
 
-# NOSE_ARGS = [
-#     '--with-coverage',
-#     # Specify which apps to cover
-#     '--cover-package=resources,feedback',
-# ]
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=resources,feedback',
+]
 
 MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
