@@ -87,7 +87,7 @@ class Home(AbstractForm):
             cookie = ''
 
         if topic_filter:
-            filtered_issue_tags, filtered_reason_tags, filtered_content_tags = filter_tags(resources, topic_filter, self)
+            filtered_issue_tags, filtered_reason_tags, filtered_content_tags = filter_tags(resources, topic_filter)
 
             if filtered_issue_tags:
                 context['issue_tags'] = get_tags(IssueTag, filtered_tags=filtered_issue_tags).values()
