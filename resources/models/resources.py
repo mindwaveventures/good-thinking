@@ -8,7 +8,6 @@ from django.db.models.fields import TextField, URLField, IntegerField
 
 from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag, HiddenTag
 
-
 class ResourceIndexPage(Page):
     intro = RichTextField(blank=True)
 
