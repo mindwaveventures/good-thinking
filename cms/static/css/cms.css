@@ -109,12 +109,8 @@ h2 > span.b {
   display: none;
 }
 
-.checked-fill:checked~label > .is-checked {
-  background-color: #242e50;
-}
-
 .checked-fill:checked~label {
-  font-family: 'Segoe UI-Bold';
+  background-color: rgba(250, 183, 129, 0.7);
 }
 
 .checked-fill:focus~label {

@@ -1,0 +1,10 @@
+<div class="br1 shadow-2 tl w-60-ns center pa3 mb3">
+  <h3 class="ma0">Q{{num}} of 3</h3>
+  <h4 class="w-70 mv3">{{filter_label}}</h4>
+  {% for tag in tags %}
+    <div class="dib">
+      <input name="{{name}}" {% if tag.name in selected_tags %}checked{% endif %} value="{{tag}}" id="{{tag}}" type="checkbox" class="checked-fill absolute o-0"></checkbox>
+      <label for="{{tag}}" class="b--lm-orange lm-bg-orange-20 ba br2 ph2 pv1 lh-tag dib mb1 pointer font nunito">{{tag}}</label>
+    </div>
+  {% endfor %}
+</div>
