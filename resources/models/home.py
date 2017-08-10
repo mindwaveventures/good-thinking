@@ -72,10 +72,9 @@ class Home(AbstractForm):
         topic_tags = get_tags(TopicTag)
 
         resources = ResourcePage.objects.all().annotate(
-            number_of_likes=count_likes(1)
-        ).annotate(
+            number_of_likes=count_likes(1),
             number_of_dislikes=count_likes(-1)
-        )
+        ).order_by('priority')
 
         if 'ldmw_session' in request.COOKIES:
             cookie = request.COOKIES['ldmw_session']
