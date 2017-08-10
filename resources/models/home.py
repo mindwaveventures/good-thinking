@@ -165,9 +165,7 @@ class Home(AbstractForm):
         FieldPanel('footer', classname="full"),
     ]
 
-    def process_form_submission(self, form, request_dict):
-        print(request_dict)
-
+    def process_form_submission(self, request_dict):
         if 'email' in request_dict or 'suggestion' in request_dict:
             page = Home.objects.get(slug='home')
             try:
@@ -183,10 +181,10 @@ class Home(AbstractForm):
         else:
             page = ResourceIndexPage.objects.get(slug="resource-index")
             form_data = {
-                'resource_title': request_dict['resource_title'][0],
-                'resource_name': request_dict['resource_name'][0],
-                'feedback': request_dict['feedback'][0],
-                'liked': request_dict['liked'][0],
+                'resource_title': request_dict['resource_title'],
+                'resource_name': request_dict['resource_name'],
+                'feedback': request_dict['feedback'],
+                'liked': request_dict['liked'],
             }
         return self.get_submission_class().objects.create(
             form_data=json.dumps(form_data, cls=DjangoJSONEncoder),
@@ -194,36 +192,32 @@ class Home(AbstractForm):
         )
 
     def serve(self, request, *args, **kwargs):
-        print("*************2")
-        print(request.POST)
         try:
             request_dict = parse_qs(request.body.decode('utf-8'))
-            print("************1")
-            print(request_dict)
         except:
+            request_dict = request.POST.dict()
+
+            id = request_dict['id']
+
+            self.process_form_submission(request_dict)
+
             try:
-                request_dict = request.POST.dict()
-                print("*********0")
-                print(request_dict)
-
-                id = request_dict['id']
-
-                try:
-                    cookie = request.COOKIES['ldmw_session']
-                except:
-                    cookie = uid.hex
-
-                resource = get_resource(id, cookie)
-
-                result = render_to_string('resources/resource.html', {'page': resource, 'like_feedback_submitted': True})
-                return JsonResponse({'result': result, 'id': id})
+                cookie = request.COOKIES['ldmw_session']
             except:
-                False
+                cookie = uid.hex
+
+            resource = get_resource(id, cookie)
+
+            result = render_to_string(
+                'resources/resource.html',
+                {'page': resource, 'like_feedback_submitted': True}
+            )
+            return JsonResponse({'result': result, 'id': id})
 
         if request.method == 'POST':
             form = self.get_form(request.POST, page=self, user=request.user)
             if form.is_valid():
-                self.process_form_submission(form, request_dict)
+                self.process_form_submission(request_dict)
 
                 if valid_request(request_dict):
                     return handle_request(
