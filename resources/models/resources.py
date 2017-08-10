@@ -1,29 +1,30 @@
-from __future__ import unicode_literals
-
-from django.db import models
-from django.db.models.fields import TextField, URLField, IntegerField
-
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel
-from modelcluster.fields import ParentalKey
+from wagtail.wagtailsearch import index
+
 from modelcluster.contrib.taggit import ClusterTaggableManager
-from taggit.models import TaggedItemBase
+from django.db.models.fields import TextField, URLField, IntegerField
+from django.apps import apps
+from django.db.models import Q
 
-class TopicTag(TaggedItemBase):
-    content_object = ParentalKey('resources.ResourcePage', related_name='tagged_topic_items')
+from resources.models.tags import (
+    TopicTag, IssueTag, ReasonTag,
+    ContentTag, HiddenTag
+)
 
-class IssueTag(TaggedItemBase):
-    content_object = ParentalKey('resources.ResourcePage', related_name='tagged_issue_items')
+class ResourceIndexPage(Page):
+    intro = RichTextField(blank=True)
 
-class ReasonTag(TaggedItemBase):
-    content_object = ParentalKey('resources.ResourcePage', related_name='tagged_reason_items')
+    def get_context(self, request):
+        context = super(ResourceIndexPage, self).get_context(request)
+        resources = self.get_children().live().order_by('-first_published_at')
+        context['resources'] = resources
+        return context
 
-class ContentTag(TaggedItemBase):
-    content_object = ParentalKey('resources.ResourcePage', related_name='tagged_content_items')
-
-class HiddenTag(TaggedItemBase):
-    content_object = ParentalKey('resources.ResourcePage', related_name='tagged_hidden_items')
+    content_panels = Page.content_panels + [
+        FieldPanel('intro', classname="full")
+    ]
 
 class ResourcePage(Page):
     heading = TextField(blank=True, help_text="The title of the resource being linked to")
@@ -71,6 +72,23 @@ class ResourcePage(Page):
       help_text='Highest priority 1, lowest priority 5'
     )
 
+    search_fields = Page.search_fields + [
+        index.SearchField('body'),
+        index.SearchField('pros'),
+        index.SearchField('cons'),
+        index.SearchField('heading'),
+        index.SearchField('resource_url'),
+        index.RelatedFields('issue_tags', [
+            index.SearchField('name'),
+        ]),
+        index.RelatedFields('content_tags', [
+            index.SearchField('name'),
+        ]),
+        index.RelatedFields('reason_tags', [
+            index.SearchField('name'),
+        ]),
+    ]
+
     content_panels = Page.content_panels + [
         FieldPanel('heading', classname="full"),
         FieldPanel('resource_url', classname="full"),
@@ -88,6 +106,17 @@ class ResourcePage(Page):
         FieldPanel('hidden_tags'),
         FieldPanel('priority'),
     ]
+
+    def get_context(self, request):
+        context = super(ResourcePage, self).get_context(request)
+
+        Home = apps.get_model('resources', 'home')
+        landing_pages = Home.objects.filter(~Q(slug="home"))
+        banner = Home.objects.get(slug="home").banner
+        context['landing_pages'] = landing_pages
+        context['banner'] = banner
+
+        return context
 
     class Meta:
         verbose_name = "Resource"
