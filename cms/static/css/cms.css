@@ -677,3 +677,23 @@ lm-ls1 {
 .show_hamburger {
   top: 0px !important;
 }
+
+.w-200 {
+  width: 200%;
+}
+
+.mr-5 {
+  margin-right: 5%;
+}
+
+.r-50 {
+  right: 50%;
+}
+
+.r-120 {
+  right: 120%;
+}
+
+.l-20 {
+  left: 20%;
+}
