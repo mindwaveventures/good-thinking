@@ -1,5 +1,21 @@
 {% load wagtailcore_tags %}
 
+{% if banner %}
+  {% include "resources/banner.html" with banner=banner %}
+{% endif %}
+
+{% if landing_pages %}
+  <section class="dt--fixed tc pv3 ph4 ph3-m ph3-l blurred_background cover bg-center dt-ns w-100 {% if banner %}mt5{% endif %}">
+    {% for topic in landing_pages %}
+      <div class="dib relative mv2-ns mv1 dtc-ns">
+        <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer underline">
+          <a class="ttu nunito-bold" href="/{{topic.slug}}">{{topic.slug}}</a>
+        </div>
+      </div>
+    {% endfor %}
+  </section>
+{% endif %}
+
 <div id="resource_{{page.id}}" class="resource">
   <div class="br1 shadow-2 tl w-60-ns center">
     <div class="ba b--lm-dark-blue ph2 pt2 pb0 pt3-ns ph4-ns mt4">
