@@ -99,7 +99,10 @@ def handle_request(request, request_dict, cb, messages_):
         return cb(request.path + "#alphasection")
 
     if "feedback" in request_dict:
-        resource_id = request_dict['id'][0]
+        try:
+            resource_id = request_dict['id'][0]
+        except:
+            resource_id = request_dict['id']
         messages_.info(request, 'like_feedback_' + str(resource_id))
         return cb(request.path + "#resource_" + resource_id)
 
@@ -116,7 +119,11 @@ def generate_custom_form(form_fields, request_dict, messages_):
         try:
             dict['submitted_val'] = request_dict[field.label][0]
         except:
-            dict['submitted_val'] = ''
+            try:
+                if len(request_dict[field.label]) > 0:
+                    dict['submitted_val'] = request_dict[field.label]
+            except:
+                dict['submitted_val'] = ''
 
         dict['required'] = 'required' if field.required else ''
 

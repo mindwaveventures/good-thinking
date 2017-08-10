@@ -1,10 +1,8 @@
-if (window.location.href.indexOf('#resource_') === -1) {
-  selectAll('.resource').forEach(function (el, i) {
-    if(el.id.substring(0, 9) === 'resource_' && i > 2) {
-      toggleClasses(el, ['dn']);
-    }
-  });
-}
+selectAll('.resource').forEach(function (el, i) {
+  if(el.id.substring(0, 9) === 'resource_' && i > 2) {
+    toggleClasses(el, ['dn']);
+  }
+});
 
 function handle_see_more(e) {
   selectAll('.resource').forEach(function (el, i) {

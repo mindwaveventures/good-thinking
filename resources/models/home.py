@@ -1,4 +1,5 @@
 import json
+import uuid
 
 from wagtail.wagtailforms.models import AbstractForm, AbstractFormField
 from wagtail.wagtailcore.fields import RichTextField
@@ -12,7 +13,8 @@ from django.db.models.expressions import RawSQL
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib import messages
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
+from django.template.loader import render_to_string
 
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
@@ -21,7 +23,9 @@ from itertools import chain
 
 from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag, ExcludeTag
 from resources.models.resources import ResourcePage, ResourceIndexPage
-from resources.models.helpers import combine_tags, count_likes, get_liked_value, filter_tags, get_tags, generate_custom_form, valid_request, handle_request
+from resources.models.helpers import combine_tags, count_likes, get_liked_value, filter_tags, get_tags, generate_custom_form, valid_request, handle_request, get_resource
+
+uid = uuid.uuid4()
 
 class FormField(AbstractFormField):
     page = ParentalKey('Home', related_name='form_fields')
@@ -190,17 +194,34 @@ class Home(AbstractForm):
         )
 
     def serve(self, request, *args, **kwargs):
-        print(".....1.......")
-        print(request.body)
-        print(".....2.......")
-        print(request.body.decode('utf-8'))
-        print(".....3.......")
-        print(parse_qs(request.body.decode('utf-8')))
-        request_dict = parse_qs(request.body.decode('utf-8'))
+        print("*************2")
+        print(request.POST)
+        try:
+            request_dict = parse_qs(request.body.decode('utf-8'))
+            print("************1")
+            print(request_dict)
+        except:
+            try:
+                request_dict = request.POST.dict()
+                print("*********0")
+                print(request_dict)
+
+                id = request_dict['id']
+
+                try:
+                    cookie = request.COOKIES['ldmw_session']
+                except:
+                    cookie = uid.hex
+
+                resource = get_resource(id, cookie)
+
+                result = render_to_string('resources/resource.html', {'page': resource, 'like_feedback_submitted': True})
+                return JsonResponse({'result': result, 'id': id})
+            except:
+                False
 
         if request.method == 'POST':
             form = self.get_form(request.POST, page=self, user=request.user)
-
             if form.is_valid():
                 self.process_form_submission(form, request_dict)
 
