@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags static %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block content %}
+    {% if page.banner %}
+      {% include "resources/banner.html" with banner=page.banner %}
+    {% endif %}
+
+    {% if landing_pages %}
+      <section id="landing_page_navbar" class="dn dt--fixed dt-ns tc pv3 ph4 ph3-m ph3-l blurred_background cover bg-center w-100 {% if page.banner %}mt5{% endif %}">
+        <div class="dib relative mv2-ns mv1 dtc-ns">
+          I am, or know someone who is feeling:
+        </div>
+        {% for topic in landing_pages %}
+          <div class="dib relative mv2 mv1 dtc">
+            <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer underline">
+              <a class="ttu nunito-bold" href="/{{topic.slug}}">{{topic.slug}}</a>
+            </div>
+          </div>
+        {% endfor %}
+      </section>
+
+      <section class="db dn-ns bg-white o-0">
+        <button class="hamburger hamburger--slider relative" type="button">
+          <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+          </span>
+        </button>
+      </section>
+
+      <section id="landing_page_hamburger" class="db dn-ns fixed bg-white w-100 z-1">
+        <button id="hamburger_id" class="hamburger hamburger--slider relative" type="button">
+          <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+          </span>
+        </button>
+      </section>
+
+      <div id="hamburger_content_id" class="db dn-ns absolute bg-white w-100 pa2">
+        <div class="dib relative mv2-ns mv1 dtc-ns">
+          I am, or know someone who is feeling:
+        </div>
+        {% for topic in landing_pages %}
+          <div class="dib relative mv2-ns mv1 dtc-ns">
+            <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer underline">
+              <a class="ttu nunito-bold" href="/{{topic.slug}}">{{topic.slug}}</a>
+            </div>
+          </div>
+        {% endfor %}
+        
+      </div>
+    {% endif %}
+
+    <!-- Hero Image Block -->
+    {% image page.hero_image width-1000 as hero_image %}
+    <section class="pt5-plus ph4 ph5-m ph6-l tc lm-white cover lh-copy bg-center" style="background-image:url('{{ hero_image.url }}')">
+      {% include "resources/logo.html" %}
+      <div class="pb5 w-90-ns f1-ns f6 lh-title center">
+        <div class="mb4">
+          {{ page.header|richtext }}
+          <form action="/{% if not page.slug == 'home' %}{{page.slug}}{% endif %}#results" method="get" id="search-form-1">
+            <input name="q" type="text" value="{{request.GET.q}}" class="w-50-ns w-100 db center mt1 b--white ba pa1 pa2-ns nunito f5 br1 bg-white-90 focus-lm-orange" placeholder="Enter search term", "aria-label"="search">
+            {% for key, value in request.GET.lists %}
+              {% if not key == "q" %}
+                {% for v in value %}
+                  <input type="hidden" name="{{key}}" value="{{v}}" />
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+            {% include "resources/primary-button.html" with value="Search" class="mv3"%}
+          </form>
+        </div>
+        {% if page.video_url %}
+          <div class="dib homepage_video_container v-mid ml5-l">
+            {{ video_url }}
+          </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- Body Text -->
+    <section class="w-60-ns w-80 pv2 pv0-ns center">
+      {{ page.body|richtext }}
+    </section>
+
+    <!-- Main Search and Categories -->
+    <section class="pt4 ph4 ph3-m ph3-l blurred_background cover bg-center">
+      <div id="results" class="relative top--3 o-0"></div>
+      <form>
+        <div class="w-60-ns center tc tl-ns">
+          <div class="tl lm-dark-blue mb2 nunito-bold">I am, or someone I know, is feeling:</div>
+        </div>
+        <div class="tl w-60-ns center relative pb4">
+          <form action="/{% if not page.slug == 'home' %}{{page.slug}}{% endif %}#results" method="get" id="search-form-2">
+            <input type="text" name="q" value="{{request.GET.q}}" class="mt1 mr2 w-100 pa2 pl3 mb3 nunito br1 b--white ba bg-white-90 focus-lm-orange" placeholder="Enter search term", "aria-label"="search">
+            {% for key, value in request.GET.lists %}
+              {% if not key == "q" %}
+                {% for v in value %}
+                  <input type="hidden" name="{{key}}" value="{{v}}" />
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+            {% include "resources/primary-button.html" with value="Search" class="absolute bottom--1 right-0 right"%}
+          </form>
+        </div>
+      </form>
+    </section>
+
+    <section class="tc-ns">
+      <div class="pa1 ph4 ph3-m ph3-l">
+        <div class="w-60-ns center">
+          <h3 class="tl mt5 nunito">Showing {{resource_count}} {% if resource_count == 1 %}resource{% else %}resources{% endif %} {% if selected_topic %} for {% else %} about wellbeing {% endif %}</h3>
+          {% if selected_topic %}
+            <div class="tl">
+                <span class="b--lm-orange lm-bg-orange-20 ba br-pill ph2 pv0 lh-tag mh1 dib mb1 font nunito f6">{{ selected_topic }}</span>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <section class="results">
+        <!-- <%= if is_ie8? @conn do %>
+          <%= render "ie8_filters.html", content: @content, conn: @conn, tags: @tags%>
+        <% else %> -->
+        <div class="tl">
+          <div class="w-60-ns center">
+            <label class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-blue-hover lm-dark-blue lm-white-hover ba b--lm-dark-blue mt2 ml4 ml2-ns" id="open-filter-label" for="filter_filter">Filter</label>
+          </div>
+          <input type="checkbox" id="filter_filter" class="filter-check absolute o-0"  "aria-labelledby"="open-filter-label close-filter-label">
+
+          <!-- Sidebar -->
+          {% include "resources/sidebar.html" with page=page %}
+        </div>
+      </section>
+
+      <!-- Resources -->
+      <div class="pa1 ph4 ph3-m ph3-l pb4 pb5-l">
+        {% for post in resources %}
+          {% include "resources/resource.html" with page=post.specific %}
+        {% endfor %}
+      </div>
+
+      <div class="tc">
+        {% include "resources/primary-button.html" with value="See More" class="dn-important" id="see_more"%}
+      </div>
+    </section>
+
+    <!-- Suggestion Form -->
+    <form action="{% pageurl page %}" method="POST">
+      {% csrf_token %}
+      <section class="tc-ns tl-m w-100 pa1 ph4 ph3-m ph3-l pb4 pb5-l" id="suggestion_form">
+        <div class="w-60-ns center">
+          <div class="pt3 pb2 mt4 tl center ma0-ns">
+            {{page.lookingfor|richtext}}
+          </div>
+          {% for row in custom_form %}
+            {% if row.field_type == 'multiline' %}
+              <div>
+                {% if row.suggestion_submitted %}
+                  <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-green b--lm-green relative">
+                    Suggestions submitted successfully!
+                    <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
+                  </div>
+                {% else %}
+                  <label for="id_{{row.label}}" class="dn"></label>
+                  <textarea id="id_{{row.label}}" name="{{row.label}}" class="h4 f5 w-100 pa3 nr b--lm-grey"></textarea>
+
+                  <div class="tr mt2">
+                    <button type="submit" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover bottom--1 right-0">Submit</button>
+                  </div>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- Alpha/Beta Section -->
+      <section class="lm-white lm-bg-dark-blue pa1 ph4 ph3-m ph3-l pb4 pb5-l" id="email_form">
+        <div class="mv3 w-60-ns center" id="alpha">
+          {% if page.alpha %}
+            {{page.alpha|richtext}}
+          {% else %}
+            {{page.alpha_feedback|richtext}}
+          {% endif %}
+        </div>
+
+        <div id="alphasection" class="lm-dark-blue lm-bg-white pa1 ph4 ph3-m ph3-l pv1 pv3-l w-60-ns center tracked relative">
+          {{page.alphatext|richtext}}
+          <div>
+            {% for row in custom_form %}
+              {% if row.field_type == 'email' %}
+                {% if row.email_submitted %}
+                  <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-green b--lm-green relative">
+                    Email address entered successfully!
+                    <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
+                  </div>
+                {% else %}
+                  <label for="id_{{row.label}}" class="db mv1">Email:</label>
+                  <input type="email" id="id_{{row.label}}" name="{{row.label}}" class="br2 pa2 mb2-l mb3 f5 fw3 ba w-100"></input>
+
+                  <div class="relative w-100 mt3">
+                    <button type="submit" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover absolute bottom--1 right-0">Submit</button>
+                  </div>
+                  <div class="mt4 pt1"></div> <!-- TODO: remove <<<this div and style properly -->
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+    </form>
+
+    <section class="pv1 ph3 lm-bg-orange tl">
+      <a href="/coming-soon" class="link banners">
+        <div class="relative">
+          {{ page.assessment_text|richtext }}
+          <p class="absolute right-1 top--1 dn dib-ns b pointer">></p>
+        </div>
+      </a>
+    </section>
+
+    <section class="pv1 ph3 tl lm-bg-white">
+      <a href="/crisis" class="link banners crisis-link">
+        <div class="relative">
+          {{ page.crisis_text|richtext }}
+          <p class="absolute right-1 top--1 dn dib-ns b pointer">></p>
+        </div>
+      </a>
+    </section>
+
+    <footer class="lm-bg-dark-blue tc pa3 f6 f5-ns tracked">
+      <div class="ph2 ph5-plus-ns lm-white">
+        {{ page.footer|richtext }}
+      </div>
+    </footer>
+{% endblock %}
