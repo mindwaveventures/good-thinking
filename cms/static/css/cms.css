@@ -207,6 +207,10 @@ h2 > span.b {
   background-color: rgba(250, 183, 129, 0.2)
 }
 
+.lm-bg-orange-70 {
+  background-color: rgba(250, 183, 129, 0.7);
+}
+
 .lm-bg-dark-blue {
   background-color: #242E50;
 }
