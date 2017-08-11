@@ -3,6 +3,7 @@ selectAll('.resource').forEach(function (el, i) {
     toggleClasses(el, ['dn']);
   }
 });
+
 function handle_see_more(e) {
   selectAll('.resource').forEach(function (el, i) {
     if(el.id.substring(0, 9) === 'resource_' && el.className.indexOf('dn') > -1) {
