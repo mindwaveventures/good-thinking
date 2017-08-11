@@ -1,3 +1,6 @@
+import json
+import uuid
+
 from wagtail.wagtailforms.models import AbstractForm, AbstractFormField
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
@@ -7,10 +10,11 @@ from django.db.models.fields import TextField, URLField
 from django.db import models
 from django.db.models import Q
 from django.db.models.expressions import RawSQL
-
+from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib import messages
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
+from django.template.loader import render_to_string
 
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
@@ -18,9 +22,10 @@ from urllib.parse import parse_qs
 from itertools import chain
 
 from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag, ExcludeTag
-from resources.models.resources import ResourcePage
-from resources.models.helpers import combine_tags, count_likes, get_liked_value, filter_tags, get_tags, generate_custom_form, valid_request, handle_request
+from resources.models.resources import ResourcePage, ResourceIndexPage
+from resources.models.helpers import combine_tags, count_likes, get_liked_value, filter_tags, get_tags, generate_custom_form, valid_request, handle_request, get_resource
 
+uid = uuid.uuid4()
 
 class FormField(AbstractFormField):
     page = ParentalKey('Home', related_name='form_fields')
@@ -160,17 +165,67 @@ class Home(AbstractForm):
         FieldPanel('footer', classname="full"),
     ]
 
+    def process_form_submission(self, request_dict):
+        if 'email' in request_dict or 'suggestion' in request_dict:
+            page = Home.objects.get(slug='home')
+            try:
+                email = request_dict['email'][0]
+            except:
+                email = ''
+            try:
+                suggestion = request_dict['suggestion'][0]
+            except:
+                suggestion = ''
+
+            form_data = {'email': email, 'suggestion': suggestion}
+        else:
+            page = ResourceIndexPage.objects.get(slug="resource-index")
+            form_data = {
+                'resource_title': request_dict['resource_title'],
+                'resource_name': request_dict['resource_name'],
+                'feedback': request_dict['feedback'],
+                'liked': request_dict['liked'],
+            }
+        return self.get_submission_class().objects.create(
+            form_data=json.dumps(form_data, cls=DjangoJSONEncoder),
+            page=page,
+        )
+
     def serve(self, request, *args, **kwargs):
-        request_dict = parse_qs(request.body.decode('utf-8'))
+        try:
+            request_dict = parse_qs(request.body.decode('utf-8'))
+        except:
+            request_dict = request.POST.dict()
+
+            id = request_dict['id']
+
+            self.process_form_submission(request_dict)
+
+            try:
+                cookie = request.COOKIES['ldmw_session']
+            except:
+                cookie = uid.hex
+
+            resource = get_resource(id, cookie)
+
+            result = render_to_string(
+                'resources/resource.html',
+                {'page': resource, 'like_feedback_submitted': True}
+            )
+            return JsonResponse({'result': result, 'id': id})
 
         if request.method == 'POST':
             form = self.get_form(request.POST, page=self, user=request.user)
-
             if form.is_valid():
-                self.process_form_submission(form)
+                self.process_form_submission(request_dict)
 
                 if valid_request(request_dict):
-                    return handle_request(request, request_dict, HttpResponseRedirect, messages)
+                    return handle_request(
+                      request,
+                      request_dict,
+                      HttpResponseRedirect,
+                      messages
+                    )
 
         else:
             form = self.get_form(page=self, user=request.user)
@@ -179,11 +234,17 @@ class Home(AbstractForm):
 
         context = self.get_context(request)
         context['form'] = form
+
+        like_feedback_submitted = False
+        for m in messages.get_messages(request):
+            if m.__str__()[:14] == 'like_feedback_':
+                like_feedback_submitted = True
+
+        context['like_feedback_submitted'] = like_feedback_submitted
         context['custom_form'] = generate_custom_form(
             form_fields,
             request_dict,
             messages.get_messages(request)
-
         ) # custom
 
         return render(
