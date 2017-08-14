@@ -1,68 +1,34 @@
 module View exposing (..)
 
+import Tags.View as Tags
+import Resources.View as Resources
 import Types exposing (..)
-import State exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onInput, onClick, onCheck)
 
 
 view : Model -> Html Msg
 view model =
-    div [ class "overflow-hidden ph4 ph3-m ph3-l" ]
-        [ div [ class ("w-200 relative center " ++ (getPosition model.position)) ]
-            [ render_filter_block 1 model.issue_label model.issue_tags model.selected_tags "mr-5"
-            , render_filter_block 2 model.reason_label model.reason_tags model.selected_tags "mr-5"
-            , render_filter_block 3 model.content_label model.content_tags model.selected_tags ""
-            ]
-        ]
-
-
-render_filter_block : Int -> String -> List String -> List String -> String -> Html Msg
-render_filter_block num filter_label tags selected_tags classname =
-    div [ class ("br1 shadow-2 w-30 tl pa3 mb3 dib " ++ classname) ]
-        ([ h3 [ class "ma0" ] [ text ("Q" ++ (toString num) ++ " of 3") ]
-         , h4 [ class "w-70 mv3" ] [ text filter_label ]
-         ]
-            ++ (List.map (\t -> render_tag_list t selected_tags) tags)
-            ++ [ div []
-                    [ div [ class "w-50 tl dib" ] [ button [ onClick (ChangePosition (num - 1)) ] [ text "previous question" ] ]
-                    , div [ class "w-50 tr dib" ] [ button [ onClick (ChangePosition (num + 1)) ] [ text "next question" ] ]
+    div []
+        [ Tags.view model
+        , div [ class "pa1 ph4 ph3-m ph3-l" ]
+            [ div [ class "w-60-ns center" ]
+                [ h3 [ class "tl mt5 nunito" ]
+                    [ text ("Showing " ++ (get_num_resources model.resources))
                     ]
-               ]
-        )
-
-
-render_tag_list : String -> List String -> Html Msg
-render_tag_list tag selected_tags =
-    div [ class "dib" ]
-        [ button
-            [ class ("b--lm-orange ba br2 ph2 pv1 lh-tag dib mb1 pointer font nunito " ++ (getTagColour tag selected_tags))
-            , onClick (SelectTag tag)
+                ]
             ]
-            [ text tag ]
+        , div [ class "pa1 ph4 ph3-m ph3-l pb4 pb5-l" ] (List.map Resources.view model.resources)
         ]
 
 
-getPosition : Int -> String
-getPosition pos =
-    case pos of
-        1 ->
-            "l-20"
-
-        2 ->
-            "r-50"
-
-        3 ->
-            "r-120"
-
-        _ ->
-            "l-20"
-
-
-getTagColour : String -> List String -> String
-getTagColour tag selected_tags =
-    if List.member tag selected_tags then
-        "lm-bg-orange-70"
-    else
-        "lm-bg-orange-20"
+get_num_resources : List String -> String
+get_num_resources resources =
+    let
+        count =
+            List.length resources
+    in
+        if count == 1 then
+            (toString count) ++ " resource"
+        else
+            (toString count) ++ " resources"
