@@ -1,20 +1,51 @@
 (function () {
-  function toggle(e) {
-    if (hamburger.className.indexOf('is-active') > -1) {
+  var hamburger = select('#hamburger_id');
+  var hamburger_content = select('#hamburger_content_id');
+  var beta_banner = select('#beta-banner');
+
+  function toggleHamburger(e) {
+    resize();
+    hamburger = select('#hamburger_id');
+    hamburger_content = select('#hamburger_content_id');
+    beta_banner = select('#beta-banner');
+    var hamburgerIsOpen = hamburger.className.indexOf('is-active') > -1;
+
+    if (hamburgerIsOpen) {
+      // hiding hamburger content
       hamburger.classList.remove('is-active');
+      // hamburger_content.style.marginTop = 
       hamburger_content.classList.remove('show_hamburger');
+      select('body').classList.remove('stop-scrolling');
     } else {
+      // showing hamburger content
       hamburger.classList.add('is-active');
       hamburger_content.classList.add('show_hamburger');
+      select('body').classList.add('stop-scrolling');
     }
   }
-  var hamburger = document.querySelector('#hamburger_id');
-  var hamburger_content = document.querySelector('#hamburger_content_id');
-  var beta_banner = document.querySelector('#beta-banner');
-  hamburger.addEventListener('click', toggle);
-  (function sizeHamburgerContent() {
-    var topContent = hamburger.clientHeight + beta_banner.clientHeight - 10;
-    hamburger_content.style.height = (window.innerHeight - topContent) + "px";
-    hamburger_content.style.marginTop = topContent + "px";
-  })();
+
+  function sizeHamburgerContent() {
+    hamburger = select('#hamburger_id');
+    hamburger_content = select('#hamburger_content_id');
+    beta_banner = select('#beta-banner');
+    var topContentHeight = hamburger.clientHeight + beta_banner.clientHeight;
+
+    hamburger_content.style.height = (window.innerHeight + window.scrollY - topContentHeight) + "px";
+    hamburger_content.style.marginTop = topContentHeight + "px";
+  }
+
+  function positionHamburger() {
+    beta_banner = select('#beta-banner');
+    select('#landing_page_hamburger').style.top = beta_banner.clientHeight + "px";
+  }
+
+  function resize  () {
+    sizeHamburgerContent();
+    positionHamburger();
+  }
+
+  hamburger.addEventListener('click', toggleHamburger);
+
+  window.addEventListener('resize', resize);
+  resize();
 })();
