@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags %}
+
+{% block body_class %}template-resourcepage{% endblock %}
+
+{% block content %}
+  {% include "resources/resource.html" with page=page %}
+{% endblock %}
