@@ -7,7 +7,6 @@
     resize();
     hamburger = select('#hamburger_id');
     hamburger_content = select('#hamburger_content_id');
-    beta_banner = select('#beta-banner');
     var hamburgerIsOpen = hamburger.className.indexOf('is-active') > -1;
 
     if (hamburgerIsOpen) {
@@ -28,7 +27,7 @@
     hamburger = select('#hamburger_id');
     hamburger_content = select('#hamburger_content_id');
     beta_banner = select('#beta-banner');
-    var topContentHeight = hamburger.clientHeight + beta_banner.clientHeight;
+    var topContentHeight = hamburger.clientHeight + ((beta_banner || {}).clientHeight || 0);
 
     hamburger_content.style.height = (window.innerHeight + window.scrollY - topContentHeight) + "px";
     hamburger_content.style.marginTop = topContentHeight + "px";
@@ -36,7 +35,7 @@
 
   function positionHamburger() {
     beta_banner = select('#beta-banner');
-    select('#landing_page_hamburger').style.top = beta_banner.clientHeight + "px";
+    select('#landing_page_hamburger').style.top = ((beta_banner || {}).clientHeight || 0) + "px";
   }
 
   function resize  () {

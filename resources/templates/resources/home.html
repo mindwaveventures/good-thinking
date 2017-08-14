@@ -16,8 +16,12 @@
         </div>
         {% for topic in landing_pages %}
           <div class="dib relative mv2 mv1 dtc">
-            <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer underline">
-              <a class="ttu nunito-bold" href="/{{topic.slug}}">{{topic.slug}}</a>
+            <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer">
+              {% if page.url == topic.url %}
+                <a class="ttu nunito-bold link bb bw2" href="/{{topic.slug}}">{{topic.slug}}</a>
+              {% else %}
+                <a class="ttu nunito-bold link" href="/{{topic.slug}}">{{topic.slug}}</a>
+              {% endif %}
             </div>
           </div>
         {% endfor %}
@@ -45,9 +49,13 @@
           I am, or know someone who is feeling:
         </div>
         {% for topic in landing_pages %}
-          <div class="dib relative mv2-ns mv1 dtc-ns">
-            <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer underline">
-              <a class="ttu nunito-bold" href="/{{topic.slug}}">{{topic.slug}}</a>
+          <div class="relative mv2-ns mv1 dtc-ns">
+            <div class="b--lm-dark-blue lm-dark-blue ph3 pv2">
+              {% if page.url == topic.url %}
+                <a class="ttu nunito-bold link bb bw2" href="/{{topic.slug}}">{{topic.slug}}</a>
+              {% else %}
+                <a class="ttu nunito-bold link" href="/{{topic.slug}}">{{topic.slug}}</a>
+              {% endif %}
             </div>
           </div>
         {% endfor %}
