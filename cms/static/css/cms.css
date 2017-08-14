@@ -176,11 +176,6 @@ h2 > span.b {
   overflow: hidden;
 }
 
-.select-filters {
-  border: 1px solid #c2c2c2;
-  margin-top: 1rem;
-}
-
 .filter-arrow-hide {
   display: none;
 }

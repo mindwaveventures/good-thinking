@@ -17,6 +17,8 @@ init flags =
             flags.selected_tags
             1
             []
+            False
+            ""
         )
 
 
@@ -31,7 +33,7 @@ update msg model =
                 new_model =
                     { model | selected_tags = update_selected model tag }
             in
-                ( new_model, getData (create_query new_model.selected_tags) )
+                ( new_model, getData (create_query new_model) )
 
         QueryComplete response ->
             case response of
@@ -44,6 +46,16 @@ update msg model =
         GetData url ->
             ( model, getData url )
 
+        ToggleOrderBox ->
+            ( { model | order_box_visible = not model.order_box_visible }, Cmd.none )
+
+        UpdateOrder order ->
+            let
+                new_model =
+                    { model | order_by = order }
+            in
+                ( new_model, getData (create_query new_model) )
+
 
 update_selected : Model -> Tag -> List Tag
 update_selected model tag =
@@ -53,9 +65,9 @@ update_selected model tag =
         tag :: model.selected_tags
 
 
-create_query : List Tag -> String
-create_query tags =
-    List.foldl (\a b -> b ++ a.tag_type ++ "=" ++ a.name ++ "&") "?" tags
+create_query : Model -> String
+create_query model =
+    List.foldl (\a b -> b ++ a.tag_type ++ "=" ++ a.name ++ "&") "?" model.selected_tags ++ "&order=" ++ model.order_by
 
 
 subscriptions : Model -> Sub Msg

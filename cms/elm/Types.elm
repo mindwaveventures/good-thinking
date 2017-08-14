@@ -25,6 +25,8 @@ type alias Model =
     , selected_tags : List Tag
     , position : Int
     , resources : List String
+    , order_box_visible : Bool
+    , order_by : String
     }
 
 
@@ -39,3 +41,5 @@ type Msg
     | SelectTag Tag
     | QueryComplete (Result Http.Error (List String))
     | GetData String
+    | ToggleOrderBox
+    | UpdateOrder String
