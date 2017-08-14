@@ -16,7 +16,8 @@ Elm.Main.embed(personaliseDiv, {
   issue_label: issue_label,
   reason_label: reason_label,
   content_label: content_label,
-  selected_tags: selected_tags
+  selected_tags: selected_tags,
+  query: "?" + window.location.href.split("?")[1]
 });
 
 function getTags(name) {
@@ -31,11 +32,12 @@ function getQuery() {
 
   Array.prototype.forEach.call(arguments, function(a) {
     query[a] = [];
-    var reg = new RegExp("(?:^" + a + "|&" + a + ")=([^&]+)", "g")
+    var reg = new RegExp("(?:^" + a + "|&" + a + ")=([^&#]+)", "g")
     var arr;
+    var splitreg = /(?:%20|\+)/g;
 
     while ((myArray = reg.exec(qs)) !== null) {
-      query[a].push(myArray[1].split('%20').join(' '));
+      query[a].push(myArray[1].split(splitreg).join(' '));
     }
   });
   return query;
@@ -44,7 +46,10 @@ function getQuery() {
 function selectedTags(queryObj) {
   var selected = [];
   for (var type in queryObj) {
-    selected = selected.concat(queryObj[type]);
+    tags = queryObj[type].map(function(el) {
+      return {tag_type: type, name: el};
+    });
+    selected = selected.concat(tags);
   }
   return selected;
 }

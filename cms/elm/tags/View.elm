@@ -18,13 +18,13 @@ view model =
         ]
 
 
-render_filter_block : Int -> String -> List String -> List String -> String -> Html Msg
+render_filter_block : Int -> String -> List String -> List Tag -> String -> Html Msg
 render_filter_block num filter_label tags selected_tags classname =
     div [ class ("br1 shadow-2 w-30 tl pa3 mb3 dib " ++ classname) ]
         ([ h3 [ class "ma0" ] [ text ("Q" ++ (toString num) ++ " of 3") ]
          , h4 [ class "w-70 mv3" ] [ text filter_label ]
          ]
-            ++ (List.map (\t -> render_tag_list t selected_tags) tags)
+            ++ (List.map (\t -> render_tag_list t selected_tags num) tags)
             ++ [ div []
                     [ div [ class "w-50 tl dib" ] [ button [ onClick (ChangePosition (num - 1)) ] [ text "previous question" ] ]
                     , div [ class "w-50 tr dib" ] [ button [ onClick (ChangePosition (num + 1)) ] [ text "next question" ] ]
@@ -33,12 +33,12 @@ render_filter_block num filter_label tags selected_tags classname =
         )
 
 
-render_tag_list : String -> List String -> Html Msg
-render_tag_list tag selected_tags =
+render_tag_list : String -> List Tag -> Int -> Html Msg
+render_tag_list tag selected_tags num =
     div [ class "dib" ]
         [ button
-            [ class ("b--lm-orange ba br2 ph2 pv1 lh-tag dib mb1 pointer font nunito " ++ (getTagColour tag selected_tags))
-            , onClick (SelectTag tag)
+            [ class ("b--lm-orange ba br2 ph2 pv1 lh-tag dib mb1 pointer font nunito " ++ (getTagColour (create_tag num tag) selected_tags))
+            , onClick (SelectTag (create_tag num tag))
             ]
             [ text tag ]
         ]
@@ -60,9 +60,25 @@ getPosition pos =
             "l-20"
 
 
-getTagColour : String -> List String -> String
+getTagColour : Tag -> List Tag -> String
 getTagColour tag selected_tags =
     if List.member tag selected_tags then
         "lm-bg-orange-70"
     else
         "lm-bg-orange-20"
+
+
+create_tag : Int -> String -> Tag
+create_tag num name =
+    case num of
+        1 ->
+            Tag "issue" name
+
+        2 ->
+            Tag "reason" name
+
+        3 ->
+            Tag "content" name
+
+        _ ->
+            Tag "issue" name
