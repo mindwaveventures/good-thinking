@@ -26,7 +26,10 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ChangePosition newPosition ->
-            ( { model | position = newPosition }, Cmd.none )
+            if not (xor (newPosition < 1) (newPosition > 3)) then
+                ( { model | position = newPosition }, Cmd.none )
+            else
+                ( model, Cmd.none )
 
         SelectTag tag ->
             let

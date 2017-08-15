@@ -12,9 +12,9 @@ view model =
     div [ class "overflow-hidden ph4 ph3-m ph3-l mt5" ]
         [ div [ class "tl w-60-ns center" ] [ h3 [] [ text "Personalise Your Results" ] ]
         , div [ class ("tag-container w-200 relative center " ++ (getPosition model.position)) ]
-            [ render_filter_block 1 model.issue_label model.issue_tags model.selected_tags "mr-5"
-            , render_filter_block 2 model.reason_label model.reason_tags model.selected_tags "mr-5"
-            , render_filter_block 3 model.content_label model.content_tags model.selected_tags ""
+            [ render_filter_block 1 model.issue_label model.issue_tags model.selected_tags ("mr-5 " ++ (get_active model 1))
+            , render_filter_block 2 model.reason_label model.reason_tags model.selected_tags ("mr-5 " ++ (get_active model 2))
+            , render_filter_block 3 model.content_label model.content_tags model.selected_tags (get_active model 3)
             ]
         ]
 
@@ -27,13 +27,37 @@ render_filter_block num filter_label tags selected_tags classname =
          ]
             ++ [ div [ class "pv2" ] ([] ++ (List.map (\t -> render_tag_list t selected_tags num) tags)) ]
             ++ [ div [ class "mt3 absolute bottom-1 w-100 ph3 left-0" ]
-                    [ button [ class "w-50 tl dib bn bg-white pointer", onClick (ChangePosition (num - 1)) ]
-                        [ div [ class "h2 br-100 w2 ba bw2 b--lm-dark-blue lm-orange pa1 mr2 dib" ] [ text "◀" ]
-                        , div [ class "dib nunito-bold" ] [ text "previous question" ]
+                    [ div [ class "w-50 dib tl" ]
+                        [ button
+                            [ class
+                                ("tl dib bn bg-white pointer "
+                                    ++ (if num == 1 then
+                                            "inactive"
+                                        else
+                                            ""
+                                       )
+                                )
+                            , onClick (ChangePosition (num - 1))
+                            ]
+                            [ div [ class "h2 br-100 w2 ba bw2 b--lm-dark-blue lm-orange pa1 mr2 dib" ] [ text "◀" ]
+                            , div [ class "dib nunito-bold" ] [ text "previous question" ]
+                            ]
                         ]
-                    , button [ class "w-50 tr dib bn bg-white pointer", onClick (ChangePosition (num + 1)) ]
-                        [ div [ class "dib nunito-bold" ] [ text "next question" ]
-                        , div [ class "h2 br-100 w2 ba bw2 b--lm-dark-blue lm-orange pa1 ml2 dib" ] [ text "▶" ]
+                    , div [ class "w-50 dib tr" ]
+                        [ button
+                            [ class
+                                ("tr dib bn bg-white pointer "
+                                    ++ (if num == 3 then
+                                            "inactive"
+                                        else
+                                            ""
+                                       )
+                                )
+                            , onClick (ChangePosition (num + 1))
+                            ]
+                            [ div [ class "dib nunito-bold" ] [ text "next question" ]
+                            , div [ class "h2 br-100 w2 ba bw2 b--lm-dark-blue lm-orange pa1 ml2 dib" ] [ text "▶" ]
+                            ]
                         ]
                     ]
                ]
@@ -89,3 +113,11 @@ create_tag num name =
 
         _ ->
             Tag "issue" name
+
+
+get_active : Model -> Int -> String
+get_active model pos =
+    if not (model.position == pos) then
+        "inactive"
+    else
+        ""
