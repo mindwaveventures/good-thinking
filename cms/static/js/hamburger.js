@@ -12,7 +12,6 @@
     if (hamburgerIsOpen) {
       // hiding hamburger content
       hamburger.classList.remove('is-active');
-      // hamburger_content.style.marginTop = 
       hamburger_content.classList.remove('show_hamburger');
       select('body').classList.remove('stop-scrolling');
     } else {
