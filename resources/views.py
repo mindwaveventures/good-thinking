@@ -17,7 +17,7 @@ def get_json_data(request):
     data = get_data(request)
     json_data = {}
 
-    resources = list(map(lambda r: render_to_string('resources/resource.html', {'page': r}, request=request), data['resources']))
+    resources = list(map(lambda r: render_to_string('resources/short_resource.html', {'page': r}, request=request), data['resources']))
 
     json_data['resources'] = resources
 
