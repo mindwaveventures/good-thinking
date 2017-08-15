@@ -11,8 +11,12 @@ function changeInnerHtml (el) {
   }
 }
 
-selectAll('.view_pcs').forEach(function (el) {
-  el.addEventListener('click', function (e) {
-    handleViewProsCons(e, el);
+function proConListeners() {
+  selectAll('.view_pcs').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      handleViewProsCons(e, el);
+    });
   });
-});
+}
+
+proConListeners();

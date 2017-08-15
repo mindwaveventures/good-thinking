@@ -2,6 +2,7 @@ module State exposing (init, update, subscriptions)
 
 import Types exposing (..)
 import Rest exposing (..)
+import Ports exposing (..)
 
 
 init : Flags -> ( Model, Cmd Msg )
@@ -41,7 +42,7 @@ update msg model =
         QueryComplete response ->
             case response of
                 Ok result ->
-                    ( { model | resources = result }, Cmd.none )
+                    ( { model | resources = result }, listeners () )
 
                 Err error ->
                     ( model, Cmd.none )
