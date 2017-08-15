@@ -91,3 +91,7 @@ ENV/
 staticfiles/**
 !staticfiles/.gitkeep
 cover
+
+# Elm stuff
+cms/elm/elm-stuff
+cms/static/js/elm.js

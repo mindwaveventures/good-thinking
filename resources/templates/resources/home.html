@@ -118,6 +118,27 @@
     </section>
 
     <section class="tc-ns">
+      <section class="results">
+        <!-- <%= if is_ie8? @conn do %>
+          <%= render "ie8_filters.html", content: @content, conn: @conn, tags: @tags%>
+        <% else %> -->
+        <div id="elm-personalise" data-slug="{{page.slug}}">
+          <div class="pa1 pt4 pt3-m pt3-l mt4">
+            <div class="w-60-ns center">
+              <h3 class="tl">Personalise Your Results:</h3>
+            </div>
+            <form action="/{% if not page.slug == 'home' %}{{page.slug}}{% endif %}#results" method="get" id="filter-form">
+              {% include "resources/filter-blocks.html" with filter_label=page.filter_label_1 tags=issue_tags num=1 name="issue" %}
+              {% include "resources/filter-blocks.html" with filter_label=page.filter_label_2 tags=reason_tags num=2 name="reason" %}
+              {% include "resources/filter-blocks.html" with filter_label=page.filter_label_3 tags=content_tags num=3 name="content" %}
+              <div class="tr w-60-ns center pa3 mb3 pr0">
+                {% include "resources/primary-button.html" with value="Search" %}
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
       <div class="pa1 ph4 ph3-m ph3-l">
         <div class="w-60-ns center">
           <h3 class="tl mt5 nunito">Showing {{resource_count}} {% if resource_count == 1 %}resource{% else %}resources{% endif %} {% if selected_topic %} for {% else %} about wellbeing {% endif %}</h3>
@@ -128,21 +149,6 @@
           {% endif %}
         </div>
       </div>
-
-      <section class="results">
-        <!-- <%= if is_ie8? @conn do %>
-          <%= render "ie8_filters.html", content: @content, conn: @conn, tags: @tags%>
-        <% else %> -->
-        <div class="tl">
-          <div class="w-60-ns center">
-            <label class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-blue-hover lm-dark-blue lm-white-hover ba b--lm-dark-blue mt2 ml4 ml2-ns" id="open-filter-label" for="filter_filter">Filter</label>
-          </div>
-          <input type="checkbox" id="filter_filter" class="filter-check absolute o-0"  "aria-labelledby"="open-filter-label close-filter-label">
-
-          <!-- Sidebar -->
-          {% include "resources/sidebar.html" with page=page %}
-        </div>
-      </section>
 
       <!-- Resources -->
       <div class="pa1 ph4 ph3-m ph3-l pb4 pb5-l">

@@ -109,12 +109,8 @@ h2 > span.b {
   display: none;
 }
 
-.checked-fill:checked~label > .is-checked {
-  background-color: #242e50;
-}
-
 .checked-fill:checked~label {
-  font-family: 'Segoe UI-Bold';
+  background-color: rgba(250, 183, 129, 0.7);
 }
 
 .checked-fill:focus~label {
@@ -209,6 +205,10 @@ h2 > span.b {
 
 .lm-bg-orange-20 {
   background-color: rgba(250, 183, 129, 0.2)
+}
+
+.lm-bg-orange-70 {
+  background-color: rgba(250, 183, 129, 0.7);
 }
 
 .lm-bg-dark-blue {
@@ -680,4 +680,24 @@ lm-ls1 {
 
 .show_hamburger {
   top: 0px !important;
+}
+
+.w-200 {
+  width: 200%;
+}
+
+.mr-5 {
+  margin-right: 5%;
+}
+
+.r-50 {
+  right: 50%;
+}
+
+.r-120 {
+  right: 120%;
+}
+
+.l-20 {
+  left: 20%;
 }
