@@ -20,17 +20,19 @@ view model =
                         ]
                     ]
                 , div [ class "w-50 dib tr" ]
-                    [ div [ class "w-80 pv2 b--lm-grey ba pointer tc dib", onClick ToggleOrderBox ]
-                        [ h5 [ class "lm-dark-grey pl1 ph2-ns nunito-italic ma0 f5" ]
-                            [ span []
-                                [ text (get_order_text model.order_by)
-                                , span [ class "filter-arrow fa-down nunito lm-orange fr" ]
-                                    [ text "▼" ]
-                                , span [ class "filter-arrow filter-arrow-hide fa-up nunito lm-orange fr" ]
-                                    [ text "▲" ]
+                    [ div [ class "w-80 relative dib" ]
+                        [ div [ class "w-100 pv2 b--lm-grey ba pointer tc", onClick ToggleOrderBox ]
+                            [ h5 [ class "lm-dark-grey pl1 ph2-ns nunito-italic ma0 f5" ]
+                                [ span []
+                                    [ text (get_order_text model.order_by)
+                                    , span [ class "filter-arrow fa-down nunito lm-orange fr" ]
+                                        [ text "▼" ]
+                                    , span [ class "filter-arrow filter-arrow-hide fa-up nunito lm-orange fr" ]
+                                        [ text "▲" ]
+                                    ]
                                 ]
                             ]
-                        , div [ class "w-100 relative" ] [ order_box model.order_box_visible ]
+                        , order_box model.order_box_visible
                         ]
                     ]
                 ]
@@ -53,7 +55,7 @@ get_num_resources resources =
 
 order_box visible =
     if visible then
-        div [ class "absolute bg-white z-100 w-100 mt1 bb bl br b--lm-grey" ]
+        div [ class "absolute bg-white z-100 w-100 left-0 bb bl br b--lm-grey tc" ]
             [ div [ class "pv3 bb b--lm-grey", onClick (UpdateOrder "relevance") ] [ text "Most Relevant" ]
             , div [ class "pv3", onClick (UpdateOrder "recommended") ] [ text "Most Recommended" ]
             ]

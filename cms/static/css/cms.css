@@ -694,5 +694,16 @@ lm-ls1 {
 }
 
 .l-20 {
-  left: 20%;
+  right: -20%;
+}
+
+.tag-container {
+  transition: all 0.4s ease-in-out;
+  -webkit-transition: all 0.4s ease-in-out; /** Chrome & Safari **/
+  -moz-transition: all 0.4s ease-in-out; /** Firefox **/
+  -o-transition: all 0.4s ease-in-out; /** Opera **/
+}
+
+.h6 {
+  height: 22rem;
 }
