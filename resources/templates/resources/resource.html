@@ -1,5 +1,21 @@
 {% load wagtailcore_tags %}
 
+{% if banner %}
+  {% include "resources/banner.html" with banner=banner %}
+{% endif %}
+
+{% if landing_pages %}
+  <section class="dt--fixed tc pv3 ph4 ph3-m ph3-l blurred_background cover bg-center dt-ns w-100 {% if banner %}mt5{% endif %}">
+    {% for topic in landing_pages %}
+      <div class="dib relative mv2-ns mv1 dtc-ns">
+        <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer underline">
+          <a class="ttu nunito-bold" href="/{{topic.slug}}">{{topic.slug}}</a>
+        </div>
+      </div>
+    {% endfor %}
+  </section>
+{% endif %}
+
 <div id="resource_{{page.id}}" class="resource">
   <div class="br1 shadow-2 tl w-60-ns center">
     <div class="ba b--lm-dark-blue ph2 pt2 pb0 pt3-ns ph4-ns mt4">
@@ -42,7 +58,6 @@
         </div>
       </div>
       <p class="nunito-bold mt4">Would you recommend this?</p>
-      <p><a href="resource-index/{{page.slug}}/">Get more info</a></p>
       <div class="dt dt--fixed">
         <div class="dib dtc">
           <div class="dib mb3 v-mid tl"><span>{{page.number_of_likes|default:0}}</span></div>
@@ -92,5 +107,20 @@
         {% endif %}
       {% endif %}
     </div>
+    <div id="disqus_thread" class="bt pa2"></div>
   </div>
+  <script>
+  var disqus_config = function () {
+    this.page.identifier = 'resource{{page.id}}';
+    this.page.title = '{{page.heading}}';
+  };
+  (function() { // DON'T EDIT BELOW THIS LINE
+  var d = document, s = d.createElement('script');
+  s.src = 'https://londonminds-co-uk.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
+
