@@ -23,7 +23,7 @@ from itertools import chain
 
 from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag, ExcludeTag
 from resources.models.resources import ResourcePage, ResourceIndexPage
-from resources.models.helpers import combine_tags, count_likes, get_liked_value, filter_tags, get_tags, generate_custom_form, valid_request, handle_request, get_resource
+from resources.models.helpers import combine_tags, count_likes, get_liked_value, filter_tags, get_tags, generate_custom_form, valid_request, handle_request, get_resource,  get_order, get_relevance
 
 uid = uuid.uuid4()
 
@@ -68,6 +68,11 @@ class Home(AbstractForm):
         reason_filter = request.GET.getlist('reason')
         topic_filter = request.GET.getlist('topic')
 
+        if request.GET.get('order'):
+            resource_order = request.GET.get('order')
+        else:
+            resource_order = "default"
+
         if self.slug != 'home':
             topic_filter = self.slug
 
@@ -76,10 +81,19 @@ class Home(AbstractForm):
         reason_tags = get_tags(ReasonTag)
         topic_tags = get_tags(TopicTag)
 
-        resources = ResourcePage.objects.all().annotate(
+        selected_tags = list(chain(
+            tag_filter,
+            issue_filter,
+            content_filter,
+            reason_filter,
+        ))
+
+        resources = get_order(ResourcePage.objects.all().annotate(
             number_of_likes=count_likes(1),
-            number_of_dislikes=count_likes(-1)
-        ).order_by('priority')
+            number_of_dislikes=count_likes(-1),
+            score=(count_likes(1) - count_likes(-1)),
+            relevance=(get_relevance(selected_tags))
+        ), resource_order)
 
         if 'ldmw_session' in request.COOKIES:
             cookie = request.COOKIES['ldmw_session']
@@ -117,12 +131,6 @@ class Home(AbstractForm):
         if (issue_filter):
             resources = resources.filter(issue_tags__name__in=issue_filter).distinct()
 
-        if (content_filter):
-            resources = resources.filter(content_tags__name__in=content_filter).distinct()
-
-        if (reason_filter):
-            resources = resources.filter(reason_tags__name__in=reason_filter).distinct()
-
         if (topic_filter):
             resources = resources.filter(topic_tags__name=topic_filter).distinct()
 
@@ -136,12 +144,7 @@ class Home(AbstractForm):
         context['resource_count'] = resources.count()
         context['topic_tags'] = topic_tags.values()
         context['selected_topic'] = topic_filter
-        context['selected_tags'] = list(chain(
-            tag_filter,
-            issue_filter,
-            content_filter,
-            reason_filter,
-        ))
+        context['selected_tags'] = selected_tags
         return context
 
     content_panels = AbstractForm.content_panels + [
