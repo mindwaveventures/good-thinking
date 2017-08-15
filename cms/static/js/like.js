@@ -1,5 +1,5 @@
 if (isNotIE8()) {
-  (function() {
+  function likeListeners() {
     selectAll([".like-form", ".dislike-form", ".resource-feedback"]).forEach(function(el) {
       el.addEventListener("submit", formListener);
     });
@@ -9,7 +9,7 @@ if (isNotIE8()) {
         shareListener(e, el);
       });
     });
-  })();
+  };
 
   function formListener(e) {
     if (FormData) {
@@ -61,3 +61,4 @@ function shareListener(e, el) {
 }
 
 handle_ios();
+likeListeners();

@@ -9,7 +9,7 @@ var content_label = document.getElementById('content_label').innerText;
 
 var selected_tags = selectedTags(getQuery('issue', 'content', 'reason'));
 
-Elm.Main.embed(personaliseDiv, {
+var app = Elm.Main.embed(personaliseDiv, {
   issue_tags: issue_tags,
   content_tags: content_tags,
   reason_tags: reason_tags,
@@ -53,3 +53,11 @@ function selectedTags(queryObj) {
   }
   return selected;
 }
+
+app.ports.listeners.subscribe(function(res) {
+  requestAnimationFrame(function() {
+    likeListeners();
+    proConListeners();
+    seeMoreListener();
+  });
+});
