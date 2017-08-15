@@ -20,7 +20,7 @@ class LikeTestCase(WagtailPageTests):
         c = Client()
         id = ResourcePage.objects.get(slug='test').id
         c.cookies = SimpleCookie({'ldmw_session': '1234'})
-        response = c.post('/like/', {'id': id, 'like': 1})
+        response = c.post('/like/', {'id': id, 'like': 1}, HTTP_REFERER='/')
         like = Likes.objects.get(user_hash="1234", resource_id=id)
 
         self.assertEqual(like.like_value, 1)
@@ -30,7 +30,7 @@ class LikeTestCase(WagtailPageTests):
         c = Client()
         id = ResourcePage.objects.get(slug='test').id
         c.cookies = SimpleCookie({'ldmw_session': '1234'})
-        response = c.post('/like/', {'id': id, 'like': -1})
+        response = c.post('/like/', {'id': id, 'like': -1}, HTTP_REFERER='/')
         like = Likes.objects.get(user_hash="1234", resource_id=id)
 
         self.assertEqual(like.like_value, -1)
@@ -40,8 +40,8 @@ class LikeTestCase(WagtailPageTests):
         c = Client()
         id = ResourcePage.objects.get(slug='test').id
         c.cookies = SimpleCookie({'ldmw_session': '1234'})
-        response = c.post('/like/', {'id': id, 'like': 1})
-        response_2 = c.post('/like/', {'id': id, 'like': 1})
+        response = c.post('/like/', {'id': id, 'like': 1}, HTTP_REFERER='/')
+        response_2 = c.post('/like/', {'id': id, 'like': 1}, HTTP_REFERER='/')
 
         self.assertRaises(Likes.DoesNotExist, Likes.objects.get, user_hash="1234", resource_id=id)
 
@@ -50,8 +50,8 @@ class LikeTestCase(WagtailPageTests):
         c = Client()
         id = ResourcePage.objects.get(slug='test').id
         c.cookies = SimpleCookie({'ldmw_session': '1234'})
-        response = c.post('/like/', {'id': id, 'like': -1})
-        response_2 = c.post('/like/', {'id': id, 'like': -1})
+        response = c.post('/like/', {'id': id, 'like': -1}, HTTP_REFERER='/')
+        response_2 = c.post('/like/', {'id': id, 'like': -1}, HTTP_REFERER='/')
 
         self.assertRaises(Likes.DoesNotExist, Likes.objects.get, user_hash="1234", resource_id=id)
 
@@ -60,8 +60,8 @@ class LikeTestCase(WagtailPageTests):
         c = Client()
         id = ResourcePage.objects.get(slug='test').id
         c.cookies = SimpleCookie({'ldmw_session': '1234'})
-        response = c.post('/like/', {'id': id, 'like': 1})
-        response_2 = c.post('/like/', {'id': id, 'like': -1})
+        response = c.post('/like/', {'id': id, 'like': 1}, HTTP_REFERER='/')
+        response_2 = c.post('/like/', {'id': id, 'like': -1}, HTTP_REFERER='/')
 
         like = Likes.objects.get(user_hash="1234", resource_id=id)
 
@@ -72,8 +72,8 @@ class LikeTestCase(WagtailPageTests):
         c = Client()
         id = ResourcePage.objects.get(slug='test').id
         c.cookies = SimpleCookie({'ldmw_session': '1234'})
-        response = c.post('/like/', {'id': id, 'like': -1})
-        response_2 = c.post('/like/', {'id': id, 'like': 1})
+        response = c.post('/like/', {'id': id, 'like': -1}, HTTP_REFERER='/')
+        response_2 = c.post('/like/', {'id': id, 'like': 1}, HTTP_REFERER='/')
 
         like = Likes.objects.get(user_hash="1234", resource_id=id)
 
