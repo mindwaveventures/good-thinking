@@ -6,8 +6,13 @@ from wagtail.wagtailsearch import index
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from django.db.models.fields import TextField, URLField, IntegerField
+from django.apps import apps
+from django.db.models import Q
 
-from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag, HiddenTag
+from resources.models.tags import (
+    TopicTag, IssueTag, ReasonTag,
+    ContentTag, HiddenTag
+)
 
 class ResourceFormField(AbstractFormField):
     page = ParentalKey('ResourceIndexPage', related_name='form_fields')
@@ -106,6 +111,17 @@ class ResourcePage(Page):
         FieldPanel('hidden_tags'),
         FieldPanel('priority'),
     ]
+
+    def get_context(self, request):
+        context = super(ResourcePage, self).get_context(request)
+
+        Home = apps.get_model('resources', 'home')
+        landing_pages = Home.objects.filter(~Q(slug="home"))
+        banner = Home.objects.get(slug="home").banner
+        context['landing_pages'] = landing_pages
+        context['banner'] = banner
+
+        return context
 
     class Meta:
         verbose_name = "Resource"
