@@ -176,11 +176,6 @@ h2 > span.b {
   overflow: hidden;
 }
 
-.select-filters {
-  border: 1px solid #c2c2c2;
-  margin-top: 1rem;
-}
-
 .filter-arrow-hide {
   display: none;
 }
@@ -699,5 +694,22 @@ lm-ls1 {
 }
 
 .l-20 {
-  left: 20%;
+  right: -20%;
+}
+
+.tag-container {
+  transition: all 0.4s ease-in-out;
+  -webkit-transition: all 0.4s ease-in-out; /** Chrome & Safari **/
+  -moz-transition: all 0.4s ease-in-out; /** Firefox **/
+  -o-transition: all 0.4s ease-in-out; /** Opera **/
+}
+
+.h6 {
+  height: 22rem;
+}
+
+.inactive {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+  opacity: 0.5;
 }

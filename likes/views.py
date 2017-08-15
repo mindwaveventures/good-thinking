@@ -8,6 +8,9 @@ from likes.models import Likes
 from resources.models.resources import ResourcePage
 from resources.models.helpers import get_resource
 
+from pprint import pprint
+
+import re
 
 def save_like(request):
     id = request.POST.get('id')
@@ -37,7 +40,12 @@ def save_like(request):
 
     resource = get_resource(id, cookie)
 
-    result = render_to_string('resources/resource.html', {'page': resource, 'csrf_token': csrf})
+    if re.search('/' + resource.slug + '/', request.META['HTTP_REFERER']):
+        template = 'resources/resource.html'
+    else:
+        template = 'resources/short_resource.html'
+
+    result = render_to_string(template, {'page': resource, 'csrf_token': csrf})
 
     if request.META.get('HTTP_ACCEPT') == 'application/json':
         response = JsonResponse({'result':result, 'id': id})

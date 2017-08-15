@@ -1,5 +1,7 @@
 module Types exposing (..)
 
+import Http
+
 
 type alias Flags =
     { issue_tags : List String
@@ -8,7 +10,8 @@ type alias Flags =
     , issue_label : String
     , content_label : String
     , reason_label : String
-    , selected_tags : List String
+    , selected_tags : List Tag
+    , query : String
     }
 
 
@@ -19,11 +22,24 @@ type alias Model =
     , issue_label : String
     , content_label : String
     , reason_label : String
-    , selected_tags : List String
+    , selected_tags : List Tag
     , position : Int
+    , resources : List String
+    , order_box_visible : Bool
+    , order_by : String
+    }
+
+
+type alias Tag =
+    { tag_type : String
+    , name : String
     }
 
 
 type Msg
     = ChangePosition Int
-    | SelectTag String
+    | SelectTag Tag
+    | QueryComplete (Result Http.Error (List String))
+    | GetData String
+    | ToggleOrderBox
+    | UpdateOrder String

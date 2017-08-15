@@ -25,6 +25,8 @@ from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag, Exc
 from resources.models.resources import ResourcePage, ResourceIndexPage
 from resources.models.helpers import combine_tags, count_likes, get_liked_value, filter_tags, get_tags, generate_custom_form, valid_request, handle_request, get_resource,  get_order, get_relevance
 
+from resources.views import get_data
+
 uid = uuid.uuid4()
 
 class FormField(AbstractFormField):
@@ -60,92 +62,7 @@ class Home(AbstractForm):
     def get_context(self, request):
         context = super(Home, self).get_context(request)
 
-        query = request.GET.get('q')
-
-        tag_filter = request.GET.getlist('tag')
-        issue_filter = request.GET.getlist('issue')
-        content_filter = request.GET.getlist('content')
-        reason_filter = request.GET.getlist('reason')
-        topic_filter = request.GET.getlist('topic')
-
-        if request.GET.get('order'):
-            resource_order = request.GET.get('order')
-        else:
-            resource_order = "default"
-
-        if self.slug != 'home':
-            topic_filter = self.slug
-
-        issue_tags = get_tags(IssueTag)
-        content_tags = get_tags(ContentTag)
-        reason_tags = get_tags(ReasonTag)
-        topic_tags = get_tags(TopicTag)
-
-        selected_tags = list(chain(
-            tag_filter,
-            issue_filter,
-            content_filter,
-            reason_filter,
-        ))
-
-        resources = get_order(ResourcePage.objects.all().annotate(
-            number_of_likes=count_likes(1),
-            number_of_dislikes=count_likes(-1),
-            score=(count_likes(1) - count_likes(-1)),
-            relevance=(get_relevance(selected_tags))
-        ), resource_order)
-
-        if 'ldmw_session' in request.COOKIES:
-            cookie = request.COOKIES['ldmw_session']
-            resources = resources.extra(
-                select={ 'liked_value': 'select like_value from likes_likes where resource_id = resources_resourcepage.page_ptr_id and user_hash = %s'},
-                select_params=([cookie])
-            )
-        else:
-            cookie = ''
-
-        if topic_filter:
-            filtered_issue_tags, filtered_reason_tags, filtered_content_tags = filter_tags(resources, topic_filter)
-
-            if filtered_issue_tags:
-                context['issue_tags'] = get_tags(IssueTag, filtered_tags=filtered_issue_tags).values()
-
-            if filtered_content_tags:
-                context['content_tags'] = get_tags(ContentTag, filtered_tags=filtered_content_tags).values()
-
-            if filtered_reason_tags:
-                context['reason_tags'] = get_tags(ReasonTag, filtered_tags=filtered_reason_tags).values()
-        else:
-            context['issue_tags'] = issue_tags.values()
-            context['content_tags'] = content_tags.values()
-            context['reason_tags'] = reason_tags.values()
-
-        if (tag_filter):
-            resources = resources.filter(
-                Q(content_tags__name__in=tag_filter) |
-                Q(reason_tags__name__in=tag_filter) |
-                Q(issue_tags__name__in=tag_filter) |
-                Q(topic_tags__name__in=tag_filter)
-            ).distinct()
-
-        if (issue_filter):
-            resources = resources.filter(issue_tags__name__in=issue_filter).distinct()
-
-        if (topic_filter):
-            resources = resources.filter(topic_tags__name=topic_filter).distinct()
-
-        if (query):
-            resources = resources.search(query)
-
-        filtered_resources = map(combine_tags, resources)
-
-        context['landing_pages'] = Home.objects.filter(~Q(slug="home"))
-        context['resources'] = filtered_resources
-        context['resource_count'] = resources.count()
-        context['topic_tags'] = topic_tags.values()
-        context['selected_topic'] = topic_filter
-        context['selected_tags'] = selected_tags
-        return context
+        return get_data(request, data=context, slug=self.slug)
 
     content_panels = AbstractForm.content_panels + [
         FieldPanel('banner', classname="full"),
