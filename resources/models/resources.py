@@ -9,13 +9,16 @@ from django.db.models.fields import TextField, URLField, IntegerField
 from django.apps import apps
 from django.db.models import Q
 
+from forms.models import CmsFormField
+
 from resources.models.tags import (
     TopicTag, IssueTag, ReasonTag,
     ContentTag, HiddenTag
 )
 
-class ResourceFormField(AbstractFormField):
-    page = ParentalKey('ResourceIndexPage', related_name='form_fields')
+class ResourceFormField(CmsFormField):
+    parental_key = 'ResourceIndexPage'
+    custom_panels = False
 
 class ResourceIndexPage(AbstractForm):
     intro = RichTextField(blank=True)
