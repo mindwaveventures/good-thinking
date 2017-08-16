@@ -1,71 +1,15 @@
 from urllib.parse import parse_qs
 
-from modelcluster.fields import ParentalKey
-
-from django.db import models
-from django.db.models.fields import TextField
 from django.shortcuts import render
-from django.utils.translation import ugettext_lazy as _
 
-from modelcluster.fields import ParentalKey
-
-from wagtail.wagtailadmin.edit_handlers import (
-    FieldPanel, FieldRowPanel,
-    InlinePanel, MultiFieldPanel
-)
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel
 from wagtail.wagtailcore.fields import RichTextField
-from wagtail.wagtailforms.models import AbstractForm, AbstractFormField
+from wagtail.wagtailforms.models import AbstractForm
+from forms.models import CmsFormField
 
-FORM_FIELD_CHOICES = (
-    ('singleline', _('Single line text')),
-    ('multiline', _('Multi-line text')),
-    ('email', _('Email')),
-    ('number', _('Number')),
-    ('url', _('URL')),
-    ('checkbox', _('Checkbox')),
-    ('checkboxes', _('Checkboxes')),
-    ('dropdown', _('Drop down')),
-    ('multiselect', _('Multiple select')),
-    ('radio', _('Radio buttons')),
-    ('date', _('Date')),
-    ('datetime', _('Date/time')),
-)
-
-class FormField(AbstractFormField):
-    page = ParentalKey('FeedbackPage', related_name='form_fields')
-    label = models.CharField(
-        verbose_name=_('label'),
-        max_length=255,
-        help_text=_('The label of the form field')
-    )
-    field_type = models.CharField(verbose_name=_('field type'), max_length=16, choices=FORM_FIELD_CHOICES)
-    required = models.BooleanField(verbose_name=_('required'), default=True)
-    choices = models.TextField(
-        verbose_name=_('choices'),
-        blank=True,
-        help_text=_('Comma separated list of choices. Only applicable in checkboxes, radio and dropdown.')
-    )
-    default_value = models.CharField(
-        verbose_name=_('default value'),
-        max_length=255,
-        blank=True,
-        help_text=_('Default value. Comma separated values supported for checkboxes.')
-    )
-    before_input = RichTextField(verbose_name=_('before input'), blank=True) # custom
-    after_input = RichTextField(verbose_name=_('after input'), blank=True) # custom
-
-    # see original panels here:
-    # https://github.com/wagtail/wagtail/blob/master/wagtail/wagtailforms/models.py#L238
-    panels = [
-        FieldPanel('label'),
-        # FieldPanel('help_text'), # removed help_text as we instead use rich text
-        FieldPanel('required'),
-        FieldPanel('before_input'), # custom
-        FieldPanel('after_input'), # custom
-        FieldPanel('field_type', classname="formbuilder-type"),
-        FieldPanel('choices', classname="formbuilder-choices"),
-        FieldPanel('default_value', classname="formbuilder-default"),
-    ]
+class FormField(CmsFormField):
+    parental_key = 'FeedbackPage'
+    custom_panels = True
 
 class FeedbackPage(AbstractForm):
     alphatext = RichTextField(blank=True, help_text="Why to take part in the alpha")

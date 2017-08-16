@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'crisis',
     'static',
     'likes',
+    'forms',
 
     'storages',
     'pipeline',

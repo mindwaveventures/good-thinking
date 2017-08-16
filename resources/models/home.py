@@ -27,10 +27,13 @@ from resources.models.helpers import combine_tags, count_likes, get_liked_value,
 
 from resources.views import get_data
 
+from forms.models import CmsFormField
+
 uid = uuid.uuid4()
 
-class FormField(AbstractFormField):
-    page = ParentalKey('Home', related_name='form_fields')
+class FormField(CmsFormField):
+    parental_key = 'Home'
+    custom_panels = False
 
 class Home(AbstractForm):
     banner = RichTextField(blank=True, help_text="Banner at the top of every page")
