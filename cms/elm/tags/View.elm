@@ -21,12 +21,12 @@ view model =
 
 render_filter_block : Int -> String -> List String -> List Tag -> String -> Html Msg
 render_filter_block num filter_label tags selected_tags classname =
-    div [ class ("br1 shadow-2 w-30 tl pa4 mb3 dib h6 v-mid relative " ++ classname) ]
+    div [ class ("br1 shadow-2 w-30 tl pa4-ns pa3 mb3 dib h6 v-mid relative " ++ classname) ]
         ([ h3 [ class "ma0" ] [ text ("Q" ++ (toString num) ++ " of 3") ]
          , h4 [ class "w-70 mv3" ] [ text filter_label ]
          ]
             ++ [ div [ class "pv2 overflow-scroll h4" ] ([] ++ (List.map (\t -> render_tag_list t selected_tags num) tags)) ]
-            ++ [ div [ class "mt3 absolute bottom-1 w-100 ph4 left-0" ]
+            ++ [ div [ class "mt3 absolute bottom-1 w-100 ph4-ns ph1 left-0" ]
                     [ div [ class "w-50 dib tl" ]
                         [ button
                             [ class
