@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 
-from django.db import models
 from django.db.models.fields import TextField
 
 from wagtail.wagtailcore.models import Page
@@ -10,14 +9,27 @@ from modelcluster.fields import ParentalKey
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
 
+
 class CategoryTag(TaggedItemBase):
-    content_object = ParentalKey('articles.ArticlePage', related_name='article_tagged_items')
+    content_object = ParentalKey(
+        'articles.ArticlePage',
+        related_name='article_tagged_items'
+    )
+
 
 class AudienceTag(TaggedItemBase):
-    content_object = ParentalKey('articles.ArticlePage', related_name='article_tagged_audience_items')
+    content_object = ParentalKey(
+        'articles.ArticlePage',
+        related_name='article_tagged_audience_items'
+    )
+
 
 class ContentTag(TaggedItemBase):
-    content_object = ParentalKey('articles.ArticlePage', related_name='article_tagged_content_items')
+    content_object = ParentalKey(
+        'articles.ArticlePage',
+        related_name='article_tagged_content_items'
+    )
+
 
 class ArticlePage(Page):
     heading = TextField(blank=True, help_text="The title of the article")
@@ -35,7 +47,7 @@ class ArticlePage(Page):
     content_tags = ClusterTaggableManager(
         through=ContentTag, blank=True,
         verbose_name='Content Tags', related_name='article_content_tags',
-        help_text='Content Type tags, eg: "videos", "blogs", "free", "subscription"'
+        help_text='Content Type tags, eg: "videos", "blogs", "free"'
     )
 
     content_panels = Page.content_panels + [
