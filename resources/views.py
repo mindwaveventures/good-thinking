@@ -7,8 +7,8 @@ from django.http import JsonResponse
 from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag
 from resources.models.resources import ResourcePage
 from resources.models.helpers import (
-    combine_tags, count_likes, filter_tags, get_tags,
-    get_resource,  get_order, get_relevance
+    combine_tags, count_likes, filter_tags,
+    get_tags, get_order, get_relevance
 )
 
 from django.core import serializers
@@ -86,13 +86,11 @@ def get_data(request, **kwargs):
     if 'ldmw_session' in request.COOKIES:
         cookie = request.COOKIES['ldmw_session']
         liked_value = 'select ' \
-            + 'like_value from likes_likes where' \
+            + 'like_value from likes_likes where ' \
             + 'resource_id  = resources_resourcepage.page_ptr_id '\
             + 'and user_hash = %s'
         resources = resources.extra(
-            select={
-                'liked_value': liked_value
-            },
+            select={'liked_value': liked_value},
             select_params=([cookie])
         )
     else:
@@ -100,9 +98,10 @@ def get_data(request, **kwargs):
 
     if topic_filter:
         (
-            filtered_issue_tags, filtered_reason_tags,
-            filtered_content_tags = filter_tags(resources, topic_filter)
-        )
+            filtered_issue_tags,
+            filtered_reason_tags,
+            filtered_content_tags,
+        ) = filter_tags(resources, topic_filter)
 
         if filtered_issue_tags:
             data['issue_tags'] = get_tags(

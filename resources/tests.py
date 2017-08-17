@@ -1,15 +1,17 @@
-from django.test import TestCase, Client
+from django.test import TestCase
 from wagtail.tests.utils import WagtailPageTests
 
 from wagtail.wagtailcore.models import Page
 
 from resources.models.helpers import filter_tags
 
-from wagtail.wagtailforms.models import FormSubmission
-from resources.models import ResourcePage, IssueTag, TopicTag, ContentTag, Home, handle_request, valid_request, generate_custom_form
-
+from resources.models import (
+    ResourcePage, IssueTag, TopicTag, ContentTag,
+    Home, handle_request, valid_request, generate_custom_form
+)
 
 from taggit.models import Tag
+
 
 class TagsTestCase(WagtailPageTests):
     def setUp(self):
@@ -40,25 +42,40 @@ class TagsTestCase(WagtailPageTests):
 
     def test_filtering_issues_by_topic(self):
         """Filtering issues by topic"""
-        all_issue_tags = IssueTag.objects.all();
+        all_issue_tags = IssueTag.objects.all()
 
         depression = Tag.objects.get(name='depression')
 
-        filtered_issue_tags, _filtered_reason_tags, _filtered_content_tags = filter_tags(ResourcePage.objects.filter(topic_tags=depression), 'depression')
+        (
+            filtered_issue_tags,
+            _filtered_reason_tags,
+            _filtered_content_tags
+        ) = filter_tags(
+            ResourcePage.objects.filter(topic_tags=depression),
+            'depression'
+        )
 
         self.assertEqual(len(all_issue_tags), 4)
         self.assertEqual(len(filtered_issue_tags), 2)
 
     def test_filtering_content_by_topic(self):
         """Filtering content by topic"""
-        all_content_tags = ContentTag.objects.all();
+        all_content_tags = ContentTag.objects.all()
 
         depression = Tag.objects.get(name='depression')
 
-        _filtered_issue_tags, _filtered_reason_tags, filtered_content_tags = filter_tags(ResourcePage.objects.filter(topic_tags=depression), 'depression')
+        (
+            _filtered_issue_tags,
+            _filtered_reason_tags,
+            filtered_content_tags
+        ) = filter_tags(
+            ResourcePage.objects.filter(topic_tags=depression),
+            'depression'
+        )
 
         self.assertEqual(len(all_content_tags), 2)
         self.assertEqual(len(filtered_content_tags), 1)
+
 
 class HomeTestCase(TestCase):
     def test_valid_request(self):
@@ -97,6 +114,7 @@ class HomeTestCase(TestCase):
         messages = Messages
         request = RequestSuggestion
         request_dict = {'suggestion': 'suggestion'}
+
         def cb(path):
             return path
 
@@ -114,7 +132,10 @@ class HomeTestCase(TestCase):
         )
 
     def test_generate_custom_form_no_submitted_val(self):
-        """generate_custom_form :: generates a custom form list for template with no submitted_val"""
+        """
+        generate_custom_form ::
+        generates a custom form list for template with no submitted_val
+        """
         class Field1(object):
             field_type = "multiline"
             default_value = ""
@@ -141,30 +162,35 @@ class HomeTestCase(TestCase):
 
         self.assertEqual(
             actual,
-            [{
-              'field_type': 'multiline',
-              'default_value': '',
-              'help_text': '',
-              'label': 'suggestion',
-              'submitted_val': '',
-              'required': '',
-              'email_submitted': False,
-              'suggestion_submitted': False
-            },
-            {
-              'field_type': 'email',
-              'default_value': '',
-              'help_text': '',
-              'label': 'email',
-              'submitted_val': '',
-              'required': '',
-              'email_submitted': False,
-              'suggestion_submitted': False
-            }]
+            [
+                {
+                    'field_type': 'multiline',
+                    'default_value': '',
+                    'help_text': '',
+                    'label': 'suggestion',
+                    'submitted_val': '',
+                    'required': '',
+                    'email_submitted': False,
+                    'suggestion_submitted': False
+                },
+                {
+                    'field_type': 'email',
+                    'default_value': '',
+                    'help_text': '',
+                    'label': 'email',
+                    'submitted_val': '',
+                    'required': '',
+                    'email_submitted': False,
+                    'suggestion_submitted': False
+                }
+            ]
         )
 
     def test_generate_custom_form_submitted_val(self):
-        """generate_custom_form :: generates a custom form list for template with submitted_val"""
+        """
+        generate_custom_form ::
+        generates a custom form list for template with submitted_val
+        """
         class Field1(object):
             field_type = "multiline"
             default_value = ""
@@ -191,24 +217,26 @@ class HomeTestCase(TestCase):
 
         self.assertEqual(
             actual,
-            [{
-              'field_type': 'multiline',
-              'default_value': '',
-              'help_text': '',
-              'label': 'suggestion',
-              'submitted_val': 'suggestion',
-              'required': '',
-              'email_submitted': False,
-              'suggestion_submitted': True
-            },
-            {
-              'field_type': 'email',
-              'default_value': '',
-              'help_text': '',
-              'label': 'email',
-              'submitted_val': '',
-              'required': '',
-              'email_submitted': False,
-              'suggestion_submitted': True
-            }]
+            [
+                {
+                    'field_type': 'multiline',
+                    'default_value': '',
+                    'help_text': '',
+                    'label': 'suggestion',
+                    'submitted_val': 'suggestion',
+                    'required': '',
+                    'email_submitted': False,
+                    'suggestion_submitted': True
+                },
+                {
+                    'field_type': 'email',
+                    'default_value': '',
+                    'help_text': '',
+                    'label': 'email',
+                    'submitted_val': '',
+                    'required': '',
+                    'email_submitted': False,
+                    'suggestion_submitted': True
+                }
+            ]
         )
