@@ -11,7 +11,7 @@ view : Model -> Html Msg
 view model =
     div [ class "overflow-hidden ph4 ph3-m ph3-l mt5" ]
         [ div [ class "tl w-60-ns center" ] [ h3 [] [ text "Personalise Your Results" ] ]
-        , div [ class ("tag-container w-200 relative center " ++ (getPosition model.position)) ]
+        , div [ class ("tag-container w-200-ns w-330 relative center " ++ (getPosition model.position)) ]
             [ render_filter_block 1 model.issue_label model.issue_tags model.selected_tags ("mr-5 " ++ (get_active model 1))
             , render_filter_block 2 model.reason_label model.reason_tags model.selected_tags ("mr-5 " ++ (get_active model 2))
             , render_filter_block 3 model.content_label model.content_tags model.selected_tags (get_active model 3)
@@ -21,12 +21,12 @@ view model =
 
 render_filter_block : Int -> String -> List String -> List Tag -> String -> Html Msg
 render_filter_block num filter_label tags selected_tags classname =
-    div [ class ("br1 shadow-2 w-30 tl pa3 mb3 dib h6 v-mid relative " ++ classname) ]
+    div [ class ("br1 shadow-2 w-30 tl pa4 mb3 dib h6 v-mid relative " ++ classname) ]
         ([ h3 [ class "ma0" ] [ text ("Q" ++ (toString num) ++ " of 3") ]
          , h4 [ class "w-70 mv3" ] [ text filter_label ]
          ]
-            ++ [ div [ class "pv2" ] ([] ++ (List.map (\t -> render_tag_list t selected_tags num) tags)) ]
-            ++ [ div [ class "mt3 absolute bottom-1 w-100 ph3 left-0" ]
+            ++ [ div [ class "pv2 overflow-scroll h4" ] ([] ++ (List.map (\t -> render_tag_list t selected_tags num) tags)) ]
+            ++ [ div [ class "mt3 absolute bottom-1 w-100 ph4 left-0" ]
                     [ div [ class "w-50 dib tl" ]
                         [ button
                             [ class
@@ -40,7 +40,7 @@ render_filter_block num filter_label tags selected_tags classname =
                             , onClick (ChangePosition (num - 1))
                             ]
                             [ div [ class "h2 br-100 w2 ba bw2 b--lm-dark-blue lm-orange pa1 mr2 dib" ] [ text "◀" ]
-                            , div [ class "dib nunito-bold" ] [ text "previous question" ]
+                            , div [ class "dib nunito-bold w-50 w-auto-ns" ] [ text "previous question" ]
                             ]
                         ]
                     , div [ class "w-50 dib tr" ]
@@ -55,7 +55,7 @@ render_filter_block num filter_label tags selected_tags classname =
                                 )
                             , onClick (ChangePosition (num + 1))
                             ]
-                            [ div [ class "dib nunito-bold" ] [ text "next question" ]
+                            [ div [ class "dib nunito-bold w-50 w-auto-ns" ] [ text "next question" ]
                             , div [ class "h2 br-100 w2 ba bw2 b--lm-dark-blue lm-orange pa1 ml2 dib" ] [ text "▶" ]
                             ]
                         ]
@@ -68,7 +68,7 @@ render_tag_list : String -> List Tag -> Int -> Html Msg
 render_tag_list tag selected_tags num =
     div [ class "dib" ]
         [ button
-            [ class ("b--lm-orange ba br2 ph2 pv1 lh-tag dib mb1 pointer font nunito " ++ (getTagColour (create_tag num tag) selected_tags))
+            [ class ("b--lm-orange ba br2 ph2 pv1 lh-tag dib mb1 pointer font nunito mr1 " ++ (getTagColour (create_tag num tag) selected_tags))
             , onClick (SelectTag (create_tag num tag))
             ]
             [ text tag ]
@@ -79,16 +79,16 @@ getPosition : Int -> String
 getPosition pos =
     case pos of
         1 ->
-            "l-20"
+            "l-20-ns r-0"
 
         2 ->
-            "r-50"
+            "r-50-ns r-115"
 
         3 ->
-            "r-120"
+            "r-120-ns r-230"
 
         _ ->
-            "l-20"
+            "l-20-ns"
 
 
 getTagColour : Tag -> List Tag -> String
