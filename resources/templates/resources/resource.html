@@ -1,19 +1,62 @@
+
 {% load wagtailcore_tags %}
 
 {% if banner %}
   {% include "resources/banner.html" with banner=banner %}
 {% endif %}
 
+
 {% if landing_pages %}
-  <section class="dt--fixed tc pv3 ph4 ph3-m ph3-l blurred_background cover bg-center dt-ns w-100 {% if banner %}mt5{% endif %}">
+  <section id="landing_page_navbar" class="dn dt--fixed dt-ns tc pv3 ph4 ph3-m ph3-l blurred_background cover bg-center w-100 {% if banner %}mt5{% endif %}">
+    <div class="dib relative mv2-ns mv1 dtc-ns">
+      I am, or know someone who is feeling:
+    </div>
     {% for topic in landing_pages %}
-      <div class="dib relative mv2-ns mv1 dtc-ns">
-        <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer underline">
-          <a class="ttu nunito-bold" href="/{{topic.slug}}">{{topic.slug}}</a>
+      <div class="dib relative mv2 mv1 dtc">
+        <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer">
+          {% if page.url == topic.url %}
+            <a class="ttu nunito-bold link bb bw2" href="/{{topic.slug}}">{{topic.slug}}</a>
+          {% else %}
+            <a class="ttu nunito-bold link" href="/{{topic.slug}}">{{topic.slug}}</a>
+          {% endif %}
         </div>
       </div>
     {% endfor %}
   </section>
+
+  <!-- ensuring hamburger takes up the correct space -->
+  <section class="db dn-ns bg-white o-0">
+    <button class="hamburger hamburger--slider relative" type="button">
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+      </span>
+    </button>
+  </section>
+
+  <section id="landing_page_hamburger" class="db dn-ns absolute bg-white w-100 z-4">
+    <button id="hamburger_id" class="hamburger hamburger--slider relative" type="button">
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
+      </span>
+    </button>
+  </section>
+
+  <div id="hamburger_content_id" class="db dn-ns absolute bg-white w-100 pa2 overflow-scroll z-999">
+    <div class="dib relative mv2-ns mv1 dtc-ns">
+      I am, or know someone who is feeling:
+    </div>
+    {% for topic in landing_pages %}
+      <div class="relative mv2-ns mv1 dtc-ns">
+        <div class="b--lm-dark-blue lm-dark-blue ph3 pv2">
+          {% if page.url == topic.url %}
+            <a class="ttu nunito-bold link bb bw2" href="/{{topic.slug}}">{{topic.slug}}</a>
+          {% else %}
+            <a class="ttu nunito-bold link" href="/{{topic.slug}}">{{topic.slug}}</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
 {% endif %}
 
 <div id="resource_{{page.id}}" class="resource">
@@ -26,7 +69,7 @@
         {% endif %}
       </div>
       <div class="mt1 mh2">
-        {% for tag in page.tags %}
+        {% for tag in tags %}
           <a href="?tag={{ tag }}"><button class="b--lm-orange lm-bg-orange-20 ba br2 ph2 pv1 lh-tag dib mb1 pointer font nunito">{{tag}}</button></a>
         {% endfor %}
       </div>
@@ -60,20 +103,20 @@
       <p class="nunito-bold mt4">Would you recommend this?</p>
       <div class="dt dt--fixed">
         <div class="dib dtc">
-          <div class="dib mb3 v-mid tl"><span>{{page.number_of_likes|default:0}}</span></div>
+          <div class="dib mb3 v-mid tl"><span>{% if number_of_likes %}{{number_of_likes}}{% else %}{{page.number_of_likes|default:0}}{% endif %}</span></div>
           <form action="/like/" method="post" class="dib pointer like-form">
-            <button type="submit" class="{% if page.liked_value == 1 %}liked{% endif %} like w2 h2 bn bg-white fl p0 bg-left pointer" data-url=""><span class="fixed o-0">Recommend</span></button>
+            <button type="submit" class="{% if liked_value == 1 or page.liked_value == 1 %}liked{% endif %} like w2 h2 bn bg-white fl p0 bg-left pointer" data-url=""><span class="fixed o-0">Recommend</span></button>
             <input type="hidden" name="id" value="{{page.id}}"/>
             <input type="hidden" name="like" value="1"/>
             {% csrf_token %}
           </form>
           <form action="/like/" method="post" class="dib pointer dislike-form">
-            <button name="dislike" type="submit" class="{% if page.liked_value == -1 %}disliked{% endif %} dislike w2 h2 bn bg-white p0 bg-right pointer" data-url=""><span class="fixed o-0">Don't Recommend</span></button>
+            <button name="dislike" type="submit" class="{% if liked_value == -1 or page.liked_value == -1 %}disliked{% endif %} dislike w2 h2 bn bg-white p0 bg-right pointer" data-url=""><span class="fixed o-0">Don't Recommend</span></button>
             <input type="hidden" name="id" value="{{page.id}}"/>
             <input type="hidden" name="like" value="-1"/>
             {% csrf_token %}
           </form>
-          <div class="dib mb3 v-mid tl"><span>{{page.number_of_dislikes|default:0}}</span></div>
+          <div class="dib mb3 v-mid tl"><span>{% if number_of_dislikes %}{{number_of_dislikes}}{% else %}{{page.number_of_dislikes|default:0}}{% endif %}</span></div>
         </div>
         <div class="share-buttons dtc">
           <button class="share-email share cursor w-10-ns w-20 w-20-m mh1 h2 bn bg-white fr p0 bg-right pointer" data-url=""><span class="fixed o-0">Share with WhatsApp</span></button>
@@ -82,7 +125,7 @@
         </div>
       </div>
       <div class="alert share-alert db fr pa1 ba bw1-ns bg--lm-light-red b--dark-red black"></div>
-      {% if page.liked_value == 1 or page.liked_value == -1 %}
+      {% if liked_value == 1 or liked_value == -1 or page.liked_value == 1 or page.liked_value == -1 %}
         {% if like_feedback_submitted %}
           <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-green b--lm-green relative">
             Suggestions submitted successfully!
@@ -93,7 +136,7 @@
             {% csrf_token %}
             <input type="hidden" name="id" value="{{page.id}}" />
             <p>
-              Why {% if page.liked_value == 1 %}would you{% else %}wouldn't you{% endif %} recommend this?
+              Why {% if liked_value == 1 or page.liked_value == 1 %}would you{% else %}wouldn't you{% endif %} recommend this?
             </p>
             <label for="id_{{page.id}}" class="dn"></label>
             <textarea id="id_{{page.id}}" name="feedback" class="h4 f5 w-100 pa3 nr b--lm-grey"></textarea>
@@ -101,7 +144,7 @@
               <button class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover bottom--1 mt2 fr">Submit</button>
             </div>
             <input type="hidden" name="resource_title" value="{{page.title}}" />
-            <input type="hidden" name="liked" value="{{page.liked_value}}" />
+            <input type="hidden" name="liked" value="{% if liked_value %}{{liked_value}}{% else %}{{page.liked_value}}{% endif %}" />
             <input type="hidden" name="resource_name" value="{{page.heading}}" />
           </form>
         {% endif %}
