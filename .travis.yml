@@ -9,6 +9,7 @@ cache:
   pip: true
 script:
   - python manage.py test
+  - flake8 . --exclude=migrations,cms/settings
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 notifications:
