@@ -15,7 +15,9 @@ function feedbackLoopListener() {
 
   selectAll('.remove_visited').forEach(function (el) {
     el.addEventListener('click', function(e) {
-      remove_visited(get_resource_id(e.target));
+      var id = get_resource_id(e.target);
+      remove_visited(id);
+      delete_visited(id);
     });
   });
 }
@@ -34,13 +36,35 @@ function get_resource_id(node) {
 }
 
 function get_visited_resources () {
-  return document.cookie.match(/ldmw_visited_resources=([^;]+);/)[1].split(',');
+  var resources =  document.cookie.match(/ldmw_visited_resources=([^;]+);/)
+  if (resources) {
+    return resources[1].split(',');
+  } else {
+    return [];
+  }
 }
 
 function remove_visited(id) {
+  visited_resources = get_visited_resources().filter(function (el) {
+    return el !== id;
+  });
+  if (visited_resources.length > 0) {
+    document.cookie = 'ldmw_visited_resources=' + visited_resources.join();
+  } else {
+    delete_cookie('ldmw_visited_resources');
+  }
+}
+
+function delete_visited(id) {
   select('#visited_' + id).outerHTML = "";
   visited_resources = get_visited_resources().filter(function (el) {
     return el !== id;
   });
-  document.cookie = 'ldmw_visited_resources=' + visited_resources.join();
+  if (visited_resources.length === 0) {
+    select('#visited_resources').outerHTML = "";
+  }
 }
+
+var delete_cookie = function(name) {
+    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+};
