@@ -77,7 +77,7 @@ a {
 }
 
 h1, h2, h3 {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Segoe UI-Bold', sans-serif;
 }
 
 h2 > span.b {
@@ -739,19 +739,19 @@ lm-ls1 {
     width: 200%;
   }
 
-  .mr-5-ns {
-    margin-right: 5%;
+  .mr-1p-ns {
+    margin-right: 1%;
   }
 
   .r-50-ns {
     right: 50%;
   }
 
-  .r-120-ns {
-    right: 120%;
+  .r-112-ns {
+    right: 112%;
   }
 
-  .l-20-ns {
-    right: -20%;
+  .l-12-ns {
+    right: -12%;
   }
 }
