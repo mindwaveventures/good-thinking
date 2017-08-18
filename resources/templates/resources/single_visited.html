@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="dt dt--fixed">
-      <div class="w-20 dib dtc v-mid">
+      <div class="w-20-ns dib-ns dtc-ns v-mid">
         <form action="/like/" method="post" class="dib pointer like-form">
           <button type="submit" class="{% if v.liked_value == 1 %}liked{% endif %} like w2 h2 bn bg-white fl p0 bg-left pointer" data-url=""><span class="fixed o-0">Recommend</span></button>
           <input type="hidden" name="id" value="{{v.id}}"/>
@@ -23,7 +23,7 @@
           {% csrf_token %}
         </form>
       </div>
-      <div class="dib dtc">
+      <div class="dib-ns dtc-ns">
         {% if like_feedback_submitted %}
         <div class="alert ma0 mb1 mr1 mt2 pa2 ba bw1-ns bg--lm-green b--lm-green relative">
           Suggestions submitted successfully!
