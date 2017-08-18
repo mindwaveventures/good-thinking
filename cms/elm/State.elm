@@ -26,6 +26,9 @@ init flags =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        NoOp ->
+            ( model, Cmd.none )
+
         ChangePosition newPosition ->
             if not (xor (newPosition < 1) (newPosition > 3)) then
                 ( { model | position = newPosition }, Cmd.none )

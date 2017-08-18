@@ -37,7 +37,8 @@ type alias Tag =
 
 
 type Msg
-    = ChangePosition Int
+    = NoOp
+    | ChangePosition Int
     | SelectTag Tag
     | QueryComplete (Result Http.Error (List String))
     | GetData String
