@@ -17,7 +17,7 @@ var app = Elm.Main.embed(personaliseDiv, {
   reason_label: reason_label,
   content_label: content_label,
   selected_tags: selected_tags,
-  query: "?" + window.location.href.split("?")[1]
+  order: window.location.href.split("order=")[1] || "relevance"
 });
 
 function getTags(name) {
@@ -44,7 +44,8 @@ function getQuery() {
 }
 
 function selectedTags(queryObj) {
-  var selected = [];
+  var selected = JSON.parse(localStorage.getItem('selected_tags')) || [];
+
   for (var type in queryObj) {
     tags = queryObj[type].map(function(el) {
       return {tag_type: type, name: el};
@@ -60,4 +61,9 @@ app.ports.listeners.subscribe(function(res) {
     proConListeners();
     seeMoreListener();
   });
+});
+
+app.ports.selectTag.subscribe(function(tags) {
+  localStorage.setItem('selected_tags', JSON.stringify(tags));
+  app.ports.updateTags.send(tags);
 });

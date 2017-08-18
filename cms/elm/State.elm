@@ -7,20 +7,23 @@ import Ports exposing (..)
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    update (GetData flags.query)
-        (Model
-            flags.issue_tags
-            flags.reason_tags
-            flags.content_tags
-            flags.issue_label
-            flags.content_label
-            flags.reason_label
-            flags.selected_tags
-            1
-            []
-            False
-            ""
-        )
+    let
+        model =
+            (Model
+                flags.issue_tags
+                flags.reason_tags
+                flags.content_tags
+                flags.issue_label
+                flags.content_label
+                flags.reason_label
+                flags.selected_tags
+                1
+                []
+                False
+                flags.order
+            )
+    in
+        update (GetData (create_query model)) model
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -35,12 +38,15 @@ update msg model =
             else
                 ( model, Cmd.none )
 
+        UpdateTags tags ->
+            ( model, getData (create_query model) )
+
         SelectTag tag ->
             let
                 new_model =
                     { model | selected_tags = update_selected model tag }
             in
-                ( new_model, getData (create_query new_model) )
+                ( new_model, selectTag new_model.selected_tags )
 
         QueryComplete response ->
             case response of
@@ -85,4 +91,4 @@ create_query model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    updateTags UpdateTags
