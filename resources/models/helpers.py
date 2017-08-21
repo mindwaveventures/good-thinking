@@ -5,7 +5,6 @@ from taggit.models import Tag
 from itertools import chain
 import threading, queue
 
-from resources.models.resources import ResourcePage
 from resources.models.tags import ContentTag, IssueTag, ReasonTag
 
 from django.apps import apps
@@ -26,6 +25,7 @@ def combine_tags(element):
     return element
 
 def get_resource(id, user_hash):
+    ResourcePage = apps.get_model('resources', 'resourcepage')
     return combine_tags(
         ResourcePage.objects
         .annotate(number_of_likes=count_likes(1))

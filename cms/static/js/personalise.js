@@ -59,5 +59,6 @@ app.ports.listeners.subscribe(function(res) {
     likeListeners();
     proConListeners();
     seeMoreListener();
+    feedbackLoopListener();
   });
 });

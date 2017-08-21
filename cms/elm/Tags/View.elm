@@ -10,10 +10,10 @@ import Html.Events exposing (onInput, onClick, onCheck)
 view : Model -> Html Msg
 view model =
     div [ class "overflow-hidden ph4 ph3-m ph3-l mt5" ]
-        [ div [ class "tl w-60-ns center" ] [ h3 [] [ text "Personalise Your Results" ] ]
+        [ div [ class "tl w-60-ns center" ] [ h3 [] [ text "Personalise your results:" ] ]
         , div [ class ("tag-container w-200-ns w-330 relative center " ++ (getPosition model.position)) ]
-            [ render_filter_block 1 model.issue_label model.issue_tags model.selected_tags ("mr-5 " ++ (get_active model 1))
-            , render_filter_block 2 model.reason_label model.reason_tags model.selected_tags ("mr-5 " ++ (get_active model 2))
+            [ render_filter_block 1 model.issue_label model.issue_tags model.selected_tags ("mr-1p-ns mr-5 " ++ (get_active model 1))
+            , render_filter_block 2 model.reason_label model.reason_tags model.selected_tags ("mr-1p-ns mr-5 " ++ (get_active model 2))
             , render_filter_block 3 model.content_label model.content_tags model.selected_tags (get_active model 3)
             ]
         ]
@@ -21,12 +21,12 @@ view model =
 
 render_filter_block : Int -> String -> List String -> List Tag -> String -> Html Msg
 render_filter_block num filter_label tags selected_tags classname =
-    div [ class ("br1 shadow-2 w-30 tl pa4 mb3 dib h6 v-mid relative " ++ classname) ]
+    div [ class ("br1 shadow-2 w-30 tl pa4-ns pa3 mb3 dib h6 v-mid relative " ++ classname) ]
         ([ h3 [ class "ma0" ] [ text ("Q" ++ (toString num) ++ " of 3") ]
          , h4 [ class "w-70 mv3" ] [ text filter_label ]
          ]
             ++ [ div [ class "pv2 overflow-scroll h4" ] ([] ++ (List.map (\t -> render_tag_list t selected_tags num) tags)) ]
-            ++ [ div [ class "mt3 absolute bottom-1 w-100 ph4 left-0" ]
+            ++ [ div [ class "mt3 absolute bottom-1 w-100 ph4-ns ph1 left-0" ]
                     [ div [ class "w-50 dib tl" ]
                         [ button
                             [ class
@@ -79,16 +79,16 @@ getPosition : Int -> String
 getPosition pos =
     case pos of
         1 ->
-            "l-20-ns r-0"
+            "l-12-ns r-0"
 
         2 ->
             "r-50-ns r-115"
 
         3 ->
-            "r-120-ns r-230"
+            "r-112-ns r-230"
 
         _ ->
-            "l-20-ns"
+            "l-12-ns"
 
 
 getTagColour : Tag -> List Tag -> String
