@@ -10,10 +10,10 @@ import Html.Events exposing (onInput, onClick, onCheck)
 view : Model -> Html Msg
 view model =
     div [ class "overflow-hidden ph4 ph3-m ph3-l mt5" ]
-        [ div [ class "tl w-60-ns center" ] [ h3 [] [ text "Personalise Your Results" ] ]
+        [ div [ class "tl w-60-ns center" ] [ h3 [] [ text "Personalise your results:" ] ]
         , div [ class ("tag-container w-200-ns w-330 relative center " ++ (getPosition model.position)) ]
-            [ render_filter_block model 1 model.issue_label model.issue_tags ("mr-5 " ++ (get_active model 1))
-            , render_filter_block model 2 model.reason_label model.reason_tags ("mr-5 " ++ (get_active model 2))
+            [ render_filter_block model 1 model.issue_label model.issue_tags ("mr-1p-ns mr-5 " ++ (get_active model 1))
+            , render_filter_block model 2 model.reason_label model.reason_tags ("mr-1p-ns mr-5 " ++ (get_active model 2))
             , render_filter_block model 3 model.content_label model.content_tags (get_active model 3)
             ]
         ]
@@ -94,16 +94,16 @@ getPosition : Int -> String
 getPosition pos =
     case pos of
         1 ->
-            "l-20-ns r-0"
+            "l-12-ns r-0"
 
         2 ->
             "r-50-ns r-115"
 
         3 ->
-            "r-120-ns r-230"
+            "r-112-ns r-230"
 
         _ ->
-            "l-20-ns"
+            "l-12-ns"
 
 
 getTagColour : Tag -> List Tag -> String

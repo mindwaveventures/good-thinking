@@ -1,14 +1,14 @@
 # cms
 
-Content Management System for LDMW's amazingly relevant and useful content! :tada:
-
-This project works in tandem with the lmdw app, for the client section of the project see: https://github.com/ldmw/app
+Content Management System for LDMW
 
 ### Setup
 
 This project uses:
 + [`python`](https://www.python.org/) (v3.6)
 + [`postgres`](https://www.postgresql.org/download/) (9.6)
++ [`elm`](http://elm-lang.org/) (0.18)
++ (optional)[`node`](https://nodejs.org/en/) (6.11) (Node is not necessary to run the project, however we're using it as a convenient way to install/build our elm files)
 
 Clone the repository:
 
@@ -16,49 +16,26 @@ Clone the repository:
 git clone https://github.com/ldmw/cms.git && cd cms
 ```
 
-Ensure to have the following environment variables in your `$PATH`
-
-```bash
-export DATABASE_URL=<postgres_database_url>
-```
-
-This environment variable should be of the form:
+Ensure you have the following environment variables in your `$PATH`
 
 ```bash
 export DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5432/cms`
+export AWS_ACCESS_KEY_ID=<aws_access_key_id>
+export AWS_SECRET_ACCESS_KEY=<aws_secret_access_key>
+export AWS_STORAGE_BUCKET_NAME=<aws_storage_bucket_name>
 ```
 
 (Ensure postgres is running with: `postgres -D /usr/local/var/postgres/`)
 
 (For the most up to date setup see the wagtail [getting started guide](https://wagtail.io/developers/))
 
-The rest of these commands will be run after setting up the alias:
-
 ```bash
-alias dj="python manage.py"
-```
-
-Set up the database:
-
-```bash
-dj migrate
-```
-
-If you get the error `FATAL: database "cms" does not exist`
-
-You can create this database with:
-
-```bash
-psql -U $CMS_PG_USER -c "create database cms"
-```
-
-Then run this command again
-
-Create an admin account and start the server:
-
-```bash
-dj createsuperuser
-python manage.py runserver
+alias dj="python manage.py" # handy django alias
+psql -c "create database cms" # create the cms database
+dj migrate # set up the database
+dj createsuperuser # create the admin account
+dj runserver # start the django server
+elm make ./cms/elm/Main.elm --output=./cms/static/js/elm.js # compile elm files
 ```
 
 The project should now be running at: `http://localhost:8000/admin`
@@ -74,10 +51,44 @@ dj migrate
 dj loaddata dumpdata.json
 ```
 
+If you get the following error when running `loaddata`:
+
+```bash
+DETAIL:  Key (group_id, collection_id, permission_id)=(1, 1, 5) already exists.
+```
+
+You should run the following command:
+
+```bash
+psql -d cms -c "delete from wagtailcore_groupcollectionpermission where collection_id=1"
+dj loaddata dumpdata.json
+```
+
 You can re-dump the dumpdata with the command:
 
 ```bash
 dj dumpdata --natural-foreign --natural-primary > dumpdata.json
+```
+
+To set up the needed remotes for the project you should run the following:
+
+```bash
+# Remove all remotes
+for r in $(git remote);do;git remote rm $r;done;
+# Add the correct remotes
+git remote add old https://git.heroku.com/ldmw-cms.git
+git remote add heroku https://git.heroku.com/ldmw.git
+git remote add staging https://git.heroku.com/ldmw-staging.git
+git remote add origin https://github.com/ldmw/cms.git
+```
+
+git remote -v should output:
+
+```bash
+old https://git.heroku.com/ldmw-cms.git
+staging https://git.heroku.com/ldmw-staging.git
+heroku https://git.heroku.com/ldmw.git
+origin https://github.com/ldmw/cms.git
 ```
 
 ### Using the CMS
