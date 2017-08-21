@@ -54,11 +54,17 @@ update msg model =
             ( { model | order_box_visible = not model.order_box_visible }, Cmd.none )
 
         UpdateOrder order ->
-            let
-                new_model =
-                    { model | order_by = order }
-            in
-                ( new_model, getData (create_query new_model) )
+            if not (order == model.order_by) then
+                let
+                    new_model =
+                        { model | order_by = order }
+                in
+                    ( new_model, getData (create_query new_model) )
+            else
+                ( model, Cmd.none )
+
+        CloseAndUpdate order ->
+            update (UpdateOrder order) { model | order_box_visible = False }
 
 
 update_selected : Model -> Tag -> List Tag
