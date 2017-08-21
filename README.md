@@ -1,14 +1,14 @@
 # cms
 
-Content Management System for LDMW's amazingly relevant and useful content! :tada:
-
-This project works in tandem with the lmdw app, for the client section of the project see: https://github.com/ldmw/app
+Content Management System for LDMW
 
 ### Setup
 
 This project uses:
 + [`python`](https://www.python.org/) (v3.6)
 + [`postgres`](https://www.postgresql.org/download/) (9.6)
++ [`elm`](http://elm-lang.org/) (0.18)
++ (optional)[`node`](https://nodejs.org/en/) (6.11) (Node is not necessary to run the project, however we're using it as a convenient way to install/build our elm files)
 
 Clone the repository:
 
@@ -16,7 +16,7 @@ Clone the repository:
 git clone https://github.com/ldmw/cms.git && cd cms
 ```
 
-Ensure to have the following environment variables in your `$PATH`
+Ensure you have the following environment variables in your `$PATH`
 
 ```bash
 export DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5432/cms`
@@ -35,6 +35,7 @@ psql -c "create database cms" # create the cms database
 dj migrate # set up the database
 dj createsuperuser # create the admin account
 dj runserver # start the django server
+elm make ./cms/elm/Main.elm --output=./cms/static/js/elm.js # compile elm files
 ```
 
 The project should now be running at: `http://localhost:8000/admin`
