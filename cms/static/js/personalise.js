@@ -17,7 +17,8 @@ var app = Elm.Main.embed(personaliseDiv, {
   reason_label: reason_label,
   content_label: content_label,
   selected_tags: selected_tags,
-  order: window.location.href.split("order=")[1] || "relevance"
+  order: window.location.href.split("order=")[1] || "relevance",
+  search: getQuery('q').q[0] || ""
 });
 
 function getTags(name) {
@@ -61,6 +62,7 @@ app.ports.listeners.subscribe(function(res) {
     proConListeners();
     seeMoreListener();
     feedbackLoopListener();
+    swipeListeners();
   });
 });
 
@@ -68,3 +70,43 @@ app.ports.selectTag.subscribe(function(tags) {
   localStorage.setItem('selected_tags', JSON.stringify(tags));
   app.ports.updateTags.send(tags);
 });
+
+function swipe(el, callback){
+  var swipedir;
+  var startX;
+  var startY;
+  var distX;
+  var distY;
+  var threshold = 50;
+  var restraint = 100;
+
+  el.addEventListener('touchstart', function(e){
+    var touchobj = e.changedTouches[0];
+    swipedir = 'none';
+    startX = touchobj.pageX;
+    startY = touchobj.pageY;
+
+  }, false);
+
+  el.addEventListener('touchend', function(e){
+    var touchobj = e.changedTouches[0]
+    distX = touchobj.pageX - startX;
+    distY = touchobj.pageY - startY;
+
+    if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint) {
+      swipedir = (distX < 0)? 'left' : 'right';
+    }
+
+    callback(swipedir);
+  }, false);
+}
+
+function swipeListeners() {
+  selectAll('.tag-card').forEach(function(el) {
+    swipe(el , function(swipedir){
+      app.ports.swipe.send(swipedir);
+    });
+  });
+}
+
+swipeListeners();

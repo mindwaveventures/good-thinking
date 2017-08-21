@@ -10,3 +10,6 @@ port selectTag : List Tag -> Cmd msg
 
 
 port updateTags : (List Tag -> msg) -> Sub msg
+
+
+port swipe : (String -> msg) -> Sub msg
