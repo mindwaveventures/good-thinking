@@ -14,6 +14,9 @@ from resources.models.tags import (
     ContentTag, HiddenTag
 )
 
+from likes.models import Likes
+
+from resources.models.helpers import combine_tags, count_likes
 
 class ResourceFormField(AbstractFormField):
     page = ParentalKey('ResourceIndexPage', related_name='form_fields')
@@ -138,11 +141,24 @@ class ResourcePage(Page):
     def get_context(self, request):
         context = super(ResourcePage, self).get_context(request)
 
+        if 'ldmw_session' in request.COOKIES:
+            cookie = request.COOKIES['ldmw_session']
+            try:
+                context['liked_value'] = Likes.objects.get(resource_id=self.id, user_hash=cookie).like_value
+            except:
+                context['liked_value'] = 0
+        else:
+            cookie = ''
+            context['liked_value'] = 0
+
         Home = apps.get_model('resources', 'home')
         landing_pages = Home.objects.filter(~Q(slug="home"))
         banner = Home.objects.get(slug="home").banner
         context['landing_pages'] = landing_pages
         context['banner'] = banner
+        context['tags'] = combine_tags(self).specific.tags
+        context['number_of_likes'] = Likes.objects.filter(resource_id=self.id, like_value=1).count()
+        context['number_of_dislikes'] = Likes.objects.filter(resource_id=self.id, like_value=-1).count()
 
         return context
 

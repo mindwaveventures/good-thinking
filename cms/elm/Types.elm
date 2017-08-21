@@ -11,7 +11,7 @@ type alias Flags =
     , content_label : String
     , reason_label : String
     , selected_tags : List Tag
-    , query : String
+    , order : String
     }
 
 
@@ -37,9 +37,12 @@ type alias Tag =
 
 
 type Msg
-    = ChangePosition Int
+    = NoOp
+    | ChangePosition Int
     | SelectTag Tag
     | QueryComplete (Result Http.Error (List String))
     | GetData String
     | ToggleOrderBox
     | UpdateOrder String
+    | CloseAndUpdate String
+    | UpdateTags (List Tag)

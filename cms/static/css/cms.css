@@ -77,7 +77,7 @@ a {
 }
 
 h1, h2, h3 {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Segoe UI-Bold', sans-serif;
 }
 
 h2 > span.b {
@@ -681,16 +681,36 @@ lm-ls1 {
   width: 200%;
 }
 
+.w-330 {
+  width: 330%;
+}
+
+.w-33 {
+  width: 33%;
+}
+
 .mr-5 {
   margin-right: 5%;
+}
+
+.r-0 {
+  right: 0%;
 }
 
 .r-50 {
   right: 50%;
 }
 
+.r-115 {
+  right: 115%;
+}
+
 .r-120 {
   right: 120%;
+}
+
+.r-230 {
+  right: 230%;
 }
 
 .l-20 {
@@ -712,4 +732,26 @@ lm-ls1 {
   -webkit-filter: grayscale(100%);
   filter: grayscale(100%);
   opacity: 0.5;
+}
+
+@media screen and (min-width:30em) {
+  .w-200-ns {
+    width: 200%;
+  }
+
+  .mr-1p-ns {
+    margin-right: 1%;
+  }
+
+  .r-50-ns {
+    right: 50%;
+  }
+
+  .r-112-ns {
+    right: 112%;
+  }
+
+  .l-12-ns {
+    right: -12%;
+  }
 }

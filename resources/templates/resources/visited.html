@@ -1,0 +1,13 @@
+<section id="visited_resources">
+  <div class="br1 shadow-1 tl w-60-ns center ph4-ns ph2 pb4-ns pb2 pt1 ba b--lm-orange lm-bg-orange-20">
+    <div class="ph2">
+      <h3>Visited Resources</h3>
+      <p>
+        You have visited the following resources. How would you rate them?
+      </p>
+      {% for v in visited %}
+        {% include "resources/single_visited.html" with v=v %}
+      {% endfor %}
+    </div>
+  </div>
+</section>

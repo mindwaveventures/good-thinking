@@ -90,9 +90,17 @@
     </section>
 
     <!-- Body Text -->
-    <section class="w-60-ns w-80 pv2 pv0-ns center">
-      {{ page.body|richtext }}
+    <section class="pa1 ph4 ph3-m ph3-l mb3">
+      <div class="w-60-ns center">
+        {{ page.body|richtext }}
+      </div>
     </section>
+
+    {% if visited %}
+      <div class="pa1 ph4 ph3-m ph3-l pb4 pb5-l">
+        {% include "resources/visited.html" with visited=visited %}
+      </div>
+    {% endif %}
 
     <!-- Main Search and Categories -->
     <section class="pt4 ph4 ph3-m ph3-l blurred_background cover bg-center">

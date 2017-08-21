@@ -17,16 +17,19 @@ if (isNotIE8()) {
       makePhoenixFormRequest("POST", e.target, function(err, res) {
         var response = JSON.parse(res);
         var resource = select("#resource_" + response.id);
+        var visited_resource = select("#visited_" + response.id);
 
+        visited_resource.innerHTML = response.visited_result;
         resource.innerHTML = response.result;
         resource.addEventListener("submit", formListener);
-        selectAll([".share-buttons > button"], resource).forEach(function(el) {
-          addEventListener("click", function(e) {
-            if (e.target.classList.contains("share")){
-              shareListener(e, el);
-            }
-          });
-        });
+
+        if (response.feedback) {
+          remove_visited(response.id)
+        }
+
+        feedbackLoopListener();
+        likeListeners();
+
         addAnalytics(select("button[name='like']", resource), "Like", "liked");
         addAnalytics(select("button[name='dislike']", resource), "Dislike", "disliked");
         addAnalytics(select(".share", resource), "Share", "shared");

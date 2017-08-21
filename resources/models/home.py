@@ -174,11 +174,22 @@ class Home(AbstractForm):
 
             resource = get_resource(id, cookie)
 
-            result = render_to_string(
+            resource_result = render_to_string(
                 'resources/resource.html',
                 {'page': resource, 'like_feedback_submitted': True}
             )
-            return JsonResponse({'result': result, 'id': id})
+
+            visited_result = render_to_string(
+                'resources/single_visited.html',
+                {'v': resource, 'like_feedback_submitted': True}
+            )
+
+            return JsonResponse({
+                'result': resource_result,
+                'visited_result': visited_result,
+                'id': id,
+                'feedback': True
+            })
 
         if request.method == 'POST':
             form = self.get_form(request.POST, page=self, user=request.user)

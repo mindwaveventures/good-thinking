@@ -93,5 +93,7 @@ staticfiles/**
 cover
 
 # Elm stuff
-cms/elm/elm-stuff
+elm-stuff
 cms/static/js/elm.js
+
+node_modules

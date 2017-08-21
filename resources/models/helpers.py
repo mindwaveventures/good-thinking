@@ -6,7 +6,6 @@ from itertools import chain
 import threading
 import queue
 
-from resources.models.resources import ResourcePage
 from resources.models.tags import ContentTag, IssueTag, ReasonTag
 
 from django.apps import apps
@@ -34,6 +33,7 @@ def get_resource(id, user_hash):
         + 'like_value from likes_likes ' \
         + 'where resource_id = %s ' \
         + 'and user_hash = %s'
+    ResourcePage = apps.get_model('resources', 'resourcepage')
     return combine_tags(
         ResourcePage.objects
         .annotate(number_of_likes=count_likes(1))
