@@ -11,7 +11,7 @@ type alias Flags =
     , content_label : String
     , reason_label : String
     , selected_tags : List Tag
-    , query : String
+    , order : String
     }
 
 
@@ -45,3 +45,4 @@ type Msg
     | ToggleOrderBox
     | UpdateOrder String
     | CloseAndUpdate String
+    | UpdateTags (List Tag)
