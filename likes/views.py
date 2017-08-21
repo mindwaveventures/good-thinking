@@ -44,11 +44,19 @@ def save_like(request):
     else:
         template = 'resources/short_resource.html'
 
-    result = render_to_string(template, {'page': resource, 'csrf_token': csrf, 'no_disqus': True})
-    visited_result = render_to_string('resources/single_visited.html', {'v': resource, 'csrf_token': csrf})
+    result = render_to_string(
+        template,
+        {'page': resource, 'csrf_token': csrf, 'no_disqus': True}
+    )
+    visited_result = render_to_string(
+        'resources/single_visited.html',
+        {'v': resource, 'csrf_token': csrf}
+    )
 
     if request.META.get('HTTP_ACCEPT') == 'application/json':
-        response = JsonResponse({'result':result, 'visited_result': visited_result, 'id': id})
+        response = JsonResponse(
+            {'result': result, 'visited_result': visited_result, 'id': id}
+        )
     else:
         response = redirect(f'/#resource_{id}')
 

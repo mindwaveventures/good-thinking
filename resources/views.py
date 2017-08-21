@@ -163,6 +163,7 @@ def get_data(request, **kwargs):
 
     return data
 
+
 def get_visited_resources(**kwargs):
     visited_cookie = kwargs.get('visited_cookie')
     user_cookie = kwargs.get('user_cookie')
@@ -172,9 +173,14 @@ def get_visited_resources(**kwargs):
     else:
         visited_ids = []
 
-    visited_resources = ResourcePage.objects.filter(id__in=visited_ids).extra(
-        select={ 'liked_value': 'select like_value from likes_likes where resource_id = resources_resourcepage.page_ptr_id and user_hash = %s'},
-        select_params=([user_cookie])
-    )
+    liked_value = """select like_value from likes_likes
+    where resource_id = resources_resourcepage.page_ptr_id
+    and user_hash = %s"""
+    visited_resources = ResourcePage.objects\
+        .filter(id__in=visited_ids)\
+        .extra(
+          select={'liked_value': liked_value},
+          select_params=([user_cookie])
+        )
 
     return visited_resources
