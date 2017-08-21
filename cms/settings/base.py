@@ -124,8 +124,7 @@ ALLOWED_HOSTS = [
     'ldmw-cms.herokuapp.com',
     'ldmw-cms-staging.herokuapp.com',
     '127.0.0.1',
-    'localhost',
-    'f9f316b7.ngrok.io'
+    'localhost'
 ]
 
 # Setting up project to use bcrypt hashing
