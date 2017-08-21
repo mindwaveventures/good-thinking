@@ -19,16 +19,21 @@ if (isNotIE8()) {
         var resource = select("#resource_" + response.id);
         var visited_resource = select("#visited_" + response.id);
 
-        visited_resource.innerHTML = response.visited_result;
-        resource.innerHTML = response.result;
-        resource.addEventListener("submit", formListener);
+        if (visited_resource) {
+          visited_resource.innerHTML = response.visited_result;
+          visited_resource.addEventListener("submit", formListener);
+        }
+
+        if (resource) {
+          resource.innerHTML = response.result;
+          resource.addEventListener("submit", formListener);
+        }
 
         if (response.feedback) {
           remove_visited(response.id)
         }
 
         feedbackLoopListener();
-        likeListeners();
 
         addAnalytics(select("button[name='like']", resource), "Like", "liked");
         addAnalytics(select("button[name='dislike']", resource), "Dislike", "disliked");

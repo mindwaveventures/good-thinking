@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Sum, Case, When
+from django.db.models import Sum, Case, When, Count
 
 from taggit.models import Tag
 from itertools import chain
@@ -38,12 +38,11 @@ def get_resource(id, user_hash):
     )
 
 def count_likes(like_or_dislike):
-    return Sum(
+    return Count(
         Case(
             When(likes__like_value=like_or_dislike, then=1),
-            default=0,
             output_field=models.IntegerField()
-        )
+        ), distinct=True
     )
 
 def get_liked_value(user_hash):
