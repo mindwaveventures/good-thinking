@@ -43,3 +43,4 @@ type Msg
     | GetData String
     | ToggleOrderBox
     | UpdateOrder String
+    | CloseAndUpdate String
