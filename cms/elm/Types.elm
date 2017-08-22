@@ -29,6 +29,7 @@ type alias Model =
     , order_box_visible : Bool
     , order_by : String
     , search : String
+    , show_more : Bool
     }
 
 
@@ -49,3 +50,4 @@ type Msg
     | CloseAndUpdate String
     | UpdateTags (List Tag)
     | Swipe String
+    | ShowMore Bool

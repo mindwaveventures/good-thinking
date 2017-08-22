@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Sum, Case, When
+from django.db.models import Sum, Case, When, Count
 
 from taggit.models import Tag
 from itertools import chain
@@ -47,12 +47,11 @@ def get_resource(id, user_hash):
 
 
 def count_likes(like_or_dislike):
-    return Sum(
+    return Count(
         Case(
             When(likes__like_value=like_or_dislike, then=1),
-            default=0,
             output_field=models.IntegerField()
-        )
+        ), distinct=True
     )
 
 
@@ -179,10 +178,8 @@ def generate_custom_form(form_fields, request_dict, messages_):
 def get_order(resources, order):
     if order == 'recommended':
         return resources.order_by('-score')
-    elif order == 'relevance':
-        return resources.order_by('-relevance')
     else:
-        return resources.order_by('priority')
+        return resources.order_by('-relevance')
 
 
 def get_relevance(selected_tags):
@@ -192,6 +189,7 @@ def get_relevance(selected_tags):
     return Sum(
         Case(
             When(content_tags__name__in=selected_tags, then=1),
+            When(reason_tags__name__in=selected_tags, then=1),
             default=0,
             output_field=models.IntegerField()
         )

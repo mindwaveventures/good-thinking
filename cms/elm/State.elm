@@ -22,6 +22,7 @@ init flags =
                 False
                 flags.order
                 flags.search
+                False
             )
     in
         update (GetData (create_query model)) model
@@ -86,6 +87,9 @@ update msg model =
 
                 _ ->
                     update NoOp model
+
+        ShowMore show ->
+            ( { model | show_more = show }, Cmd.none )
 
 
 update_selected : Model -> Tag -> List Tag
