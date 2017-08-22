@@ -23,7 +23,7 @@ render_filter_block : Model -> Int -> String -> List String -> String -> Html Ms
 render_filter_block model num filter_label tags classname =
     div
         [ class
-            ("br1 shadow-2 w-30 tl pa4-ns pa3 mb3 dib h6 v-mid relative "
+            ("tag-card br1 shadow-2 w-30 tl pa4-ns pa3 mb3 dib h6 v-mid relative "
                 ++ classname
                 ++ if not (is_active model num) then
                     " pointer"

@@ -21,6 +21,8 @@ init flags =
                 []
                 False
                 flags.order
+                flags.search
+                False
             )
     in
         update (GetData (create_query model)) model
@@ -75,6 +77,20 @@ update msg model =
         CloseAndUpdate order ->
             update (UpdateOrder order) { model | order_box_visible = False }
 
+        Swipe dir ->
+            case dir of
+                "right" ->
+                    update (ChangePosition (model.position - 1)) model
+
+                "left" ->
+                    update (ChangePosition (model.position + 1)) model
+
+                _ ->
+                    update NoOp model
+
+        ShowMore show ->
+            ( { model | show_more = show }, Cmd.none )
+
 
 update_selected : Model -> Tag -> List Tag
 update_selected model tag =
@@ -86,9 +102,13 @@ update_selected model tag =
 
 create_query : Model -> String
 create_query model =
-    List.foldl (\a b -> b ++ a.tag_type ++ "=" ++ a.name ++ "&") "?" model.selected_tags ++ "&order=" ++ model.order_by
+    List.foldl (\a b -> b ++ a.tag_type ++ "=" ++ a.name ++ "&") "?" model.selected_tags
+        ++ ("&order=" ++ model.order_by ++ "&q=" ++ model.search)
 
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    updateTags UpdateTags
+    Sub.batch
+        [ updateTags UpdateTags
+        , swipe Swipe
+        ]

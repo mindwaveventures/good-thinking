@@ -8,9 +8,8 @@ from likes.models import Likes
 from resources.models.resources import ResourcePage
 from resources.models.helpers import get_resource
 
-from pprint import pprint
-
 import re
+
 
 def save_like(request):
     id = request.POST.get('id')
@@ -45,16 +44,25 @@ def save_like(request):
     else:
         template = 'resources/short_resource.html'
 
-    result = render_to_string(template, {'page': resource, 'csrf_token': csrf, 'no_disqus': True})
-    visited_result = render_to_string('resources/single_visited.html', {'v': resource, 'csrf_token': csrf})
+    result = render_to_string(
+        template,
+        {'page': resource, 'csrf_token': csrf, 'no_disqus': True}
+    )
+    visited_result = render_to_string(
+        'resources/single_visited.html',
+        {'v': resource, 'csrf_token': csrf}
+    )
 
     if request.META.get('HTTP_ACCEPT') == 'application/json':
-        response = JsonResponse({'result':result, 'visited_result': visited_result, 'id': id})
+        response = JsonResponse(
+            {'result': result, 'visited_result': visited_result, 'id': id}
+        )
     else:
         response = redirect(f'/#resource_{id}')
 
     response.set_cookie('ldmw_session', cookie)
     return response
+
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')

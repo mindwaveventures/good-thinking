@@ -15,7 +15,7 @@ view model =
         , div [ class "pa1 ph4 ph3-m ph3-l" ]
             [ div [ class "w-60-ns center" ]
                 [ div [ class "w-50-ns dib-ns tl" ]
-                    [ h3 [ class "tl mt5 nunito" ]
+                    [ h3 [ id "results", class "tl mt5 nunito" ]
                         [ text ("Showing " ++ (get_num_resources model.resources))
                         ]
                     ]
@@ -40,7 +40,21 @@ view model =
                     ]
                 ]
             ]
-        , div [ class "pa1 ph4 ph3-m ph3-l pb4 pb5-l" ] (List.map Resources.view model.resources)
+        , div [ class "pa1 ph4 ph3-m ph3-l pb4 pb5-l" ] (get_resources model)
+        , div [ class "tc" ]
+            [ button
+                [ onClick (ShowMore True)
+                , id "see_more"
+                , class
+                    ("f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover "
+                        ++ if model.show_more then
+                            "dn-important"
+                           else
+                            ""
+                    )
+                ]
+                [ text "See More" ]
+            ]
         ]
 
 
@@ -77,3 +91,20 @@ get_order_text order =
 
         _ ->
             "Most Relevant"
+
+
+get_resources : Model -> List (Html Msg)
+get_resources model =
+    List.indexedMap
+        (\i el ->
+            case model.show_more of
+                False ->
+                    if i < 3 then
+                        Resources.view el ""
+                    else
+                        Resources.view el "dn"
+
+                True ->
+                    Resources.view el ""
+        )
+        model.resources
