@@ -11,7 +11,7 @@ from http.cookies import SimpleCookie
 
 class LikeTestCase(WagtailPageTests):
     def setUp(self):
-        parent = Page.objects.get(url_path='/home/')
+        parent = Page.objects.get(url_path='/home/', slug='home')
         page = ResourcePage(title='Title!', slug='test', body='...')
         parent.add_child(instance=page)
 
