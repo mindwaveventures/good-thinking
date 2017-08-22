@@ -4,8 +4,17 @@
   "description": "Content Management System for LDMW",
   "main": "index.js",
   "scripts": {
-    "postinstall": "node_modules/.bin/elm-make ./cms/elm/Main.elm --output=./cms/static/js/elm.js --yes"
+    "postinstall": "npm run install:elm && npm run install:pip",
+    "install:elm": "node_modules/.bin/elm-make ./cms/elm/Main.elm --output=./cms/static/js/elm.js --yes",
+    "install:pip": "pip3 install -r requirements.txt",
+    "test": "TRAVIS=true python3 manage.py test",
+    "lint": "flake8 . --exclude=migrations,cms/settings",
+    "cover": "python3 manage.py test"
   },
+  "pre-commit": [
+    "test",
+    "lint"
+  ],
   "engines": {
     "node": "6.11.0",
     "npm": "4.6.1"
@@ -22,5 +31,8 @@
   "homepage": "https://github.com/LDMW/cms#readme",
   "dependencies": {
     "elm": "^0.18.0"
+  },
+  "devDependencies": {
+    "pre-commit": "^1.2.2"
   }
 }
