@@ -6,7 +6,7 @@ import urllib.request
 import os
 import json
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 
 from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag
 from resources.models.resources import ResourcePage
@@ -20,8 +20,6 @@ from django.apps import apps
 
 def get_location(request):
     google_maps_key = os.environ.get('GOOGLE_MAPS_KEY')
-    print("LOCATION")
-    print(request.path)
     latlng = request.path.split('/location/')[1]
     url_root = "https://maps.googleapis.com/maps/api/geocode/json?"
     res = urllib.request.urlopen(
@@ -29,7 +27,8 @@ def get_location(request):
     ).read()
     address = json.loads(res)['results'][0]['address_components']
     zipcode = address[len(address) - 1]['long_name']
-    print(zipcode)
+    request.session['location'] = zipcode
+    return HttpResponse('Set location session')
 
 def get_json_data(request):
     data = get_data(request)
@@ -73,7 +72,6 @@ def get_data(request, **kwargs):
     content_tags = get_tags(ContentTag)
     reason_tags = get_tags(ReasonTag)
     topic_tags = get_tags(TopicTag)
-
 
     selected_tags = list(chain(
         tag_filter,

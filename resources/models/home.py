@@ -5,6 +5,7 @@ from wagtail.wagtailforms.models import AbstractForm, AbstractFormField
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
+from wagtail.wagtailimages.models import Image
 
 from django.db.models.fields import TextField, URLField
 from django.db import models
@@ -28,6 +29,15 @@ from resources.models.helpers import combine_tags, count_likes, get_liked_value,
 from resources.views import get_data
 
 uid = uuid.uuid4()
+
+
+def get_loc(loc):
+    first_c = loc[:1]
+    loc_map = {'N': 'North', 'E': 'East', 'S': 'South', 'W': 'West'}
+    try:
+        return loc_map[first_c]
+    except:
+        return None
 
 class FormField(AbstractFormField):
     page = ParentalKey('Home', related_name='form_fields')
@@ -62,7 +72,16 @@ class Home(AbstractForm):
     def get_context(self, request):
         context = super(Home, self).get_context(request)
 
-        return get_data(request, data=context, slug=self.slug)
+        context = get_data(request, data=context, slug=self.slug)
+        loc = get_loc(request.session.get('location') or '')
+        if loc:
+            try:
+                context['hero_image'] = Image.objects.get(title=loc)
+            except:
+                context['hero_image'] = self.hero_image
+        else:
+            context['hero_image'] = self.hero_image
+        return context
 
     content_panels = AbstractForm.content_panels + [
         FieldPanel('banner', classname="full"),
