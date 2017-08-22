@@ -346,9 +346,8 @@ footer p a {
   background-image: url("../images/whatsapp_hover.svg");
 }
 
-
 .blurred_background {
-  background-image: url("../images/blurred_gradient.png");
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 /* Styleguide */
@@ -379,6 +378,10 @@ code {
 
 .pt5-plus {
   padding-top: 5rem;
+}
+
+.pt10 {
+  padding-top: 10rem;
 }
 
 @media screen and (min-width: 30em) {

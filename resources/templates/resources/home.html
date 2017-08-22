@@ -10,13 +10,13 @@
     {% endif %}
 
     {% if landing_pages %}
-      <section id="landing_page_navbar" class="dn dt--fixed dt-ns tc pv3 ph4 ph3-m ph3-l blurred_background cover bg-center w-100 {% if page.banner %}mt5{% endif %}">
-        <div class="dib relative mv2-ns mv1 dtc-ns">
+      <section id="landing_page_navbar" class="absolute dn dt--fixed dt-ns tc pv3 ph4 ph3-m ph3-l blurred_background cover bg-center w-100 {% if page.banner %}mt5{% endif %}">
+        <div class="dib relative mv2-ns mv1 dtc-ns v-mid">
           I am, or know someone who is feeling:
         </div>
         {% for topic in landing_pages %}
           <div class="dib relative mv2 mv1 dtc">
-            <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer">
+            <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer v-mid">
               {% if page.url == topic.url %}
                 <a class="ttu nunito-bold link bb bw2" href="/{{topic.slug}}">{{topic.slug}}</a>
               {% else %}
@@ -64,7 +64,7 @@
 
     <!-- Hero Image Block -->
     {% image page.hero_image width-1000 as hero_image %}
-    <section class="pt5-plus ph4 ph5-m ph6-l tc lm-white cover lh-copy bg-center" style="background-image:url('{{ hero_image.url }}')">
+    <section class="pt10 ph4 ph5-m ph6-l tc lm-white cover lh-copy bg-center" style="background-image:url('{{ hero_image.url }}')">
       {% include "resources/logo.html" %}
       <div class="pb5 w-90-ns f1-ns f6 lh-title center">
         <div class="mb4">
