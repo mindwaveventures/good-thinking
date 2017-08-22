@@ -116,6 +116,10 @@ class ResourcePage(Page):
         FieldPanel('priority'),
     ]
 
+    def __init__(self, *args, **kwargs):
+        super(ResourcePage, self).__init__(*args, **kwargs)
+        self.parent = self.get_parent().slug
+
     def get_context(self, request):
         context = super(ResourcePage, self).get_context(request)
 
