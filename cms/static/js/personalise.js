@@ -45,7 +45,7 @@ function getQuery() {
 }
 
 function selectedTags(queryObj) {
-  var selected = JSON.parse(localStorage.getItem('selected_tags')) || [];
+  var selected = JSON.parse(localStorage.getItem('selected_tags_' + getPage())) || [];
 
   for (var type in queryObj) {
     tags = queryObj[type].map(function(el) {
@@ -66,7 +66,7 @@ app.ports.listeners.subscribe(function(res) {
 });
 
 app.ports.selectTag.subscribe(function(tags) {
-  localStorage.setItem('selected_tags', JSON.stringify(tags));
+  localStorage.setItem('selected_tags_' + getPage(), JSON.stringify(tags));
   app.ports.updateTags.send(tags);
 });
 
@@ -106,6 +106,10 @@ function swipeListeners() {
       app.ports.swipe.send(swipedir);
     });
   });
+}
+
+function getPage() {
+  return window.location.href.split('/')[3] || 'home';
 }
 
 swipeListeners();
