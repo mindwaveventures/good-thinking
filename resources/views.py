@@ -33,6 +33,7 @@ def get_location(request):
     request.session['location'] = zipcode
     return HttpResponse('Set location session')
 
+
 def get_json_data(request):
     data = get_data(request)
     json_data = {}

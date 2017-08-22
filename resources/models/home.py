@@ -40,6 +40,7 @@ def get_loc(loc):
     except:
         return None
 
+
 class FormField(AbstractFormField):
     page = ParentalKey('Home', related_name='form_fields')
 
