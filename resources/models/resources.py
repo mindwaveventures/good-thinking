@@ -16,10 +16,12 @@ from resources.models.tags import (
 
 from likes.models import Likes
 
-from resources.models.helpers import combine_tags, count_likes
+from resources.models.helpers import combine_tags
+
 
 class ResourceFormField(AbstractFormField):
     page = ParentalKey('ResourceIndexPage', related_name='form_fields')
+
 
 class ResourceIndexPage(AbstractForm):
     intro = RichTextField(blank=True)
@@ -35,13 +37,32 @@ class ResourceIndexPage(AbstractForm):
         InlinePanel('form_fields', label="Form fields"),
     ]
 
+
 class ResourcePage(Page):
-    heading = TextField(blank=True, help_text="The title of the resource being linked to")
-    resource_url = URLField(blank=True, help_text="The url of the resource to link to")
-    body = RichTextField(blank=True, help_text="A description of the resource")
-    pros = RichTextField(blank=True, help_text="A list of pros for the resource")
-    cons = RichTextField(blank=True, help_text="A list of cons for the resource")
-    video_url = URLField(blank=True, help_text="URL of a youtube video for the resource")
+    heading = TextField(
+        blank=True,
+        help_text="The title of the resource being linked to"
+    )
+    resource_url = URLField(
+        blank=True,
+        help_text="The url of the resource to link to"
+    )
+    body = RichTextField(
+        blank=True,
+        help_text="A description of the resource"
+    )
+    pros = RichTextField(
+        blank=True,
+        help_text="A list of pros for the resource"
+    )
+    cons = RichTextField(
+        blank=True,
+        help_text="A list of cons for the resource"
+    )
+    video_url = URLField(
+        blank=True,
+        help_text="URL of a youtube video for the resource"
+    )
 
     topic_tags = ClusterTaggableManager(
         through=TopicTag, blank=True,
@@ -61,7 +82,9 @@ class ResourcePage(Page):
     content_tags = ClusterTaggableManager(
         through=ContentTag, blank=True,
         verbose_name='Content Tags', related_name='resource_content_tags',
-        help_text='Content Type tags, eg: "videos", "blogs", "free", "subscription"'
+        help_text="""
+            Content Type tags, eg: "videos", "blogs", "free", "subscription"
+        """
     )
     hidden_tags = ClusterTaggableManager(
         through=HiddenTag, blank=True,
@@ -122,7 +145,9 @@ class ResourcePage(Page):
         if 'ldmw_session' in request.COOKIES:
             cookie = request.COOKIES['ldmw_session']
             try:
-                context['liked_value'] = Likes.objects.get(resource_id=self.id, user_hash=cookie).like_value
+                context['liked_value'] = Likes.objects\
+                    .get(resource_id=self.id, user_hash=cookie)\
+                    .like_value
             except:
                 context['liked_value'] = 0
         else:
@@ -135,8 +160,12 @@ class ResourcePage(Page):
         context['landing_pages'] = landing_pages
         context['banner'] = banner
         context['tags'] = combine_tags(self).specific.tags
-        context['number_of_likes'] = Likes.objects.filter(resource_id=self.id, like_value=1).count()
-        context['number_of_dislikes'] = Likes.objects.filter(resource_id=self.id, like_value=-1).count()
+        context['number_of_likes'] = Likes.objects\
+            .filter(resource_id=self.id, like_value=1)\
+            .count()
+        context['number_of_dislikes'] = Likes.objects\
+            .filter(resource_id=self.id, like_value=-1)\
+            .count()
 
         return context
 

@@ -3,11 +3,13 @@ from django.db.models import Sum, Case, When
 
 from taggit.models import Tag
 from itertools import chain
-import threading, queue
+import threading
+import queue
 
 from resources.models.tags import ContentTag, IssueTag, ReasonTag
 
 from django.apps import apps
+
 
 def get_tags(tag_type, **kwargs):
     filtered_tags = kwargs.get('filtered_tags', tag_type.objects.all())
@@ -15,6 +17,7 @@ def get_tags(tag_type, **kwargs):
     tags = Tag.objects.in_bulk(tag_ids)
 
     return tags
+
 
 def combine_tags(element):
     element.specific.tags = list(chain(
@@ -24,18 +27,24 @@ def combine_tags(element):
     ))
     return element
 
+
 def get_resource(id, user_hash):
+    liked_value = 'select ' \
+        + 'like_value from likes_likes ' \
+        + 'where resource_id = %s ' \
+        + 'and user_hash = %s'
     ResourcePage = apps.get_model('resources', 'resourcepage')
     return combine_tags(
         ResourcePage.objects
         .annotate(number_of_likes=count_likes(1))
         .annotate(number_of_dislikes=count_likes(-1))
         .extra(
-            select={ 'liked_value': 'select like_value from likes_likes where resource_id = %s and user_hash = %s'},
+            select={'liked_value': liked_value},
             select_params=([id, user_hash])
         )
         .get(id=id)
     )
+
 
 def count_likes(like_or_dislike):
     return Sum(
@@ -46,12 +55,14 @@ def count_likes(like_or_dislike):
         )
     )
 
+
 def get_liked_value(user_hash):
     return Case(
         When(likes__user_hash=user_hash, then='likes__like_value'),
         default=0,
         output_field=models.IntegerField()
     )
+
 
 def filter_tags(resources, topic):
     Home = apps.get_model('resources', 'home')
@@ -63,31 +74,54 @@ def filter_tags(resources, topic):
     fil = list(map(lambda r: r.id, filter(contains_tag_filter, resources)))
     q = queue.Queue()
 
-    threads = [ threading.Thread(target=filter_resource_by_topic, name=t, args=(fil, t, q)) for t in [ContentTag, IssueTag, ReasonTag] ]
-    # Using threads to make sure all db calls are completed before function returns
+    threads = [
+        threading.Thread(
+            target=filter_resource_by_topic,
+            name=t,
+            args=(fil, t, q)
+        )
+        for t in [ContentTag, IssueTag, ReasonTag]
+    ]
+
+    # Using threads to make sure all db calls
+    # are completed before function returns
 
     for th in threads:
         th.start()
 
-    content_tags = q.get().exclude(tag__in=list(chain(exclude_tags, topic_tag)))
-    issue_tags = q.get().exclude(tag__in=list(chain(exclude_tags, topic_tag)))
-    reason_tags = q.get().exclude(tag__in=list(chain(exclude_tags, topic_tag)))
+    content_tags = q.get().exclude(
+        tag__in=list(chain(exclude_tags, topic_tag))
+    )
+    issue_tags = q.get().exclude(
+        tag__in=list(chain(exclude_tags, topic_tag))
+    )
+    reason_tags = q.get().exclude(
+        tag__in=list(chain(exclude_tags, topic_tag))
+    )
 
     return issue_tags, reason_tags, content_tags
 
+
 def makefilter(t):
     def contains_tag(r):
-        return any(filter(lambda tag: tag.name == t, r.specific.topic_tags.all()))
+        return any(
+            filter(lambda tag: tag.name == t, r.specific.topic_tags.all())
+        )
     return contains_tag
+
 
 def filter_resource_by_topic(resource_ids, tag_type, result_queue):
     result_queue.put(tag_type.objects.filter(content_object__in=resource_ids))
+
 
 def valid_request(request_dict):
     # TODO: don't hardcode this, instead generate it dynamically
     # For now the cms home page cannot cater for further form elements
 
-    return "suggestion" in request_dict or "email" in request_dict or "feedback" in request_dict
+    return "suggestion" in request_dict \
+        or "email" in request_dict \
+        or "feedback" in request_dict
+
 
 def handle_request(request, request_dict, cb, messages_):
     if "suggestion" in request_dict:
@@ -105,6 +139,7 @@ def handle_request(request, request_dict, cb, messages_):
             resource_id = request_dict['id']
         messages_.info(request, 'like_feedback_' + str(resource_id))
         return cb(request.path + "#resource_" + resource_id)
+
 
 def generate_custom_form(form_fields, request_dict, messages_):
     custom_form = []
@@ -140,6 +175,7 @@ def generate_custom_form(form_fields, request_dict, messages_):
 
     return custom_form
 
+
 def get_order(resources, order):
     if order == 'recommended':
         return resources.order_by('-score')
@@ -147,6 +183,7 @@ def get_order(resources, order):
         return resources.order_by('-relevance')
     else:
         return resources.order_by('priority')
+
 
 def get_relevance(selected_tags):
     if not selected_tags:

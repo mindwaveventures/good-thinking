@@ -6,18 +6,31 @@ from django.http import JsonResponse
 
 from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag
 from resources.models.resources import ResourcePage
-from resources.models.helpers import combine_tags, count_likes, filter_tags, get_tags, get_resource,  get_order, get_relevance
+from resources.models.helpers import (
+    combine_tags, count_likes, filter_tags,
+    get_tags, get_order, get_relevance
+)
 
 from django.core import serializers
 from django.template.loader import render_to_string
 
 from django.apps import apps
 
+
 def get_json_data(request):
     data = get_data(request)
     json_data = {}
 
-    resources = list(map(lambda r: render_to_string('resources/short_resource.html', {'page': r}, request=request), data['resources']))
+    resources = list(
+        map(
+            lambda r: render_to_string(
+                'resources/short_resource.html',
+                {'page': r},
+                request=request
+            ),
+            data['resources']
+        )
+    )
 
     json_data['resources'] = resources
 
@@ -28,8 +41,8 @@ def get_json_data(request):
             except:
                 json_data[d] = data[d]
 
-
     return JsonResponse(json_data)
+
 
 def get_data(request, **kwargs):
     data = kwargs.get('data', {})
@@ -56,7 +69,6 @@ def get_data(request, **kwargs):
     reason_tags = get_tags(ReasonTag)
     topic_tags = get_tags(TopicTag)
 
-
     selected_tags = list(chain(
         tag_filter,
         issue_filter,
@@ -73,8 +85,12 @@ def get_data(request, **kwargs):
 
     if 'ldmw_session' in request.COOKIES:
         cookie = request.COOKIES['ldmw_session']
+        liked_value = 'select ' \
+            + 'like_value from likes_likes where ' \
+            + 'resource_id  = resources_resourcepage.page_ptr_id '\
+            + 'and user_hash = %s'
         resources = resources.extra(
-            select={ 'liked_value': 'select like_value from likes_likes where resource_id = resources_resourcepage.page_ptr_id and user_hash = %s'},
+            select={'liked_value': liked_value},
             select_params=([cookie])
         )
     else:
@@ -87,16 +103,29 @@ def get_data(request, **kwargs):
         )
 
     if topic_filter:
-        filtered_issue_tags, filtered_reason_tags, filtered_content_tags = filter_tags(resources, topic_filter)
+        (
+            filtered_issue_tags,
+            filtered_reason_tags,
+            filtered_content_tags,
+        ) = filter_tags(resources, topic_filter)
 
         if filtered_issue_tags:
-            data['issue_tags'] = get_tags(IssueTag, filtered_tags=filtered_issue_tags).values()
+            data['issue_tags'] = get_tags(
+                IssueTag,
+                filtered_tags=filtered_issue_tags
+            ).values()
 
         if filtered_content_tags:
-            data['content_tags'] = get_tags(ContentTag, filtered_tags=filtered_content_tags).values()
+            data['content_tags'] = get_tags(
+                ContentTag,
+                filtered_tags=filtered_content_tags
+            ).values()
 
         if filtered_reason_tags:
-            data['reason_tags'] = get_tags(ReasonTag, filtered_tags=filtered_reason_tags).values()
+            data['reason_tags'] = get_tags(
+                ReasonTag,
+                filtered_tags=filtered_reason_tags
+            ).values()
     else:
         data['issue_tags'] = issue_tags.values()
         data['content_tags'] = content_tags.values()
@@ -111,10 +140,14 @@ def get_data(request, **kwargs):
         ).distinct()
 
     if (issue_filter):
-        resources = resources.filter(issue_tags__name__in=issue_filter).distinct()
+        resources = resources\
+            .filter(issue_tags__name__in=issue_filter)\
+            .distinct()
 
     if (topic_filter):
-        resources = resources.filter(topic_tags__name=topic_filter).distinct()
+        resources = resources\
+            .filter(topic_tags__name=topic_filter)\
+            .distinct()
 
     if (query):
         resources = resources.search(query)
@@ -130,6 +163,7 @@ def get_data(request, **kwargs):
 
     return data
 
+
 def get_visited_resources(**kwargs):
     visited_cookie = kwargs.get('visited_cookie')
     user_cookie = kwargs.get('user_cookie')
@@ -139,9 +173,14 @@ def get_visited_resources(**kwargs):
     else:
         visited_ids = []
 
-    visited_resources = ResourcePage.objects.filter(id__in=visited_ids).extra(
-        select={ 'liked_value': 'select like_value from likes_likes where resource_id = resources_resourcepage.page_ptr_id and user_hash = %s'},
-        select_params=([user_cookie])
-    )
+    liked_value = """select like_value from likes_likes
+    where resource_id = resources_resourcepage.page_ptr_id
+    and user_hash = %s"""
+    visited_resources = ResourcePage.objects\
+        .filter(id__in=visited_ids)\
+        .extra(
+          select={'liked_value': liked_value},
+          select_params=([user_cookie])
+        )
 
     return visited_resources

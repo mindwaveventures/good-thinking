@@ -3,13 +3,13 @@ import uuid
 
 from wagtail.wagtailforms.models import AbstractForm, AbstractFormField
 from wagtail.wagtailcore.fields import RichTextField
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
+from wagtail.wagtailadmin.edit_handlers import (
+    FieldPanel, InlinePanel, MultiFieldPanel
+)
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
 from django.db.models.fields import TextField, URLField
 from django.db import models
-from django.db.models import Q
-from django.db.models.expressions import RawSQL
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib import messages
 from django.shortcuts import render
@@ -19,31 +19,69 @@ from django.template.loader import render_to_string
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from urllib.parse import parse_qs
-from itertools import chain
 
-from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag, ExcludeTag
-from resources.models.resources import ResourcePage, ResourceIndexPage
-from resources.models.helpers import combine_tags, count_likes, get_liked_value, filter_tags, get_tags, generate_custom_form, valid_request, handle_request, get_resource,  get_order, get_relevance
+from resources.models.tags import ExcludeTag
+from resources.models.resources import ResourceIndexPage
+from resources.models.helpers import (
+    generate_custom_form, valid_request, handle_request, get_resource
+)
 
 from resources.views import get_data
 
 uid = uuid.uuid4()
 
+
 class FormField(AbstractFormField):
     page = ParentalKey('Home', related_name='form_fields')
 
+
 class Home(AbstractForm):
-    banner = RichTextField(blank=True, help_text="Banner at the top of every page")
-    header = RichTextField(blank=True, help_text="Hero title")
-    body = RichTextField(blank=True, help_text="Description of page")
-    filter_label_1 = TextField(blank=True, help_text="Label/Question for first set of filters")
-    filter_label_2 = TextField(blank=True, help_text="Label/Question for second set of filters")
-    filter_label_3 = TextField(blank=True, help_text="Label/Question for third set of filters")
-    assessment_text = RichTextField(blank=True, help_text="Label for sleep assessment link")
-    crisis_text = RichTextField(blank=True, help_text="Label for sleep crisis page link")
-    lookingfor = RichTextField(blank=True, help_text="Information on how to leave suggestions and what the suggestions are for")
-    alpha = RichTextField(blank=True, help_text="What is Alpha")
-    alphatext = RichTextField(blank=True, help_text="Why to take part in the alpha")
+    banner = RichTextField(
+        blank=True,
+        help_text="Banner at the top of every page"
+    )
+    header = RichTextField(
+        blank=True,
+        help_text="Hero title"
+    )
+    body = RichTextField(
+        blank=True,
+        help_text="Description of page"
+    )
+    filter_label_1 = TextField(
+        blank=True,
+        help_text="Label/Question for first set of filters"
+    )
+    filter_label_2 = TextField(
+        blank=True,
+        help_text="Label/Question for second set of filters"
+    )
+    filter_label_3 = TextField(
+        blank=True,
+        help_text="Label/Question for third set of filters"
+    )
+    assessment_text = RichTextField(
+        blank=True,
+        help_text="Label for sleep assessment link"
+    )
+    crisis_text = RichTextField(
+        blank=True,
+        help_text="Label for sleep crisis page link"
+    )
+    lookingfor = RichTextField(
+        blank=True,
+        help_text="""
+        Information on how to leave suggestions and what they are for
+        """
+    )
+    alpha = RichTextField(
+        blank=True,
+        help_text="What is Alpha"
+    )
+    alphatext = RichTextField(
+        blank=True,
+        help_text="Why to take part in the alpha"
+    )
     footer = RichTextField(blank=True, help_text="Footer text")
     hero_image = models.ForeignKey(
         'wagtailimages.Image',
@@ -51,12 +89,20 @@ class Home(AbstractForm):
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
-        help_text="Max file size: 10MB. Choose from: GIF, JPEG, PNG (but pick PNG if you have the choice)"
+        help_text="""
+            Max file size: 10MB. Choose from: GIF, JPEG, PNG
+            (but pick PNG if you have the choice)
+        """
     )
-    video_url = URLField(blank=True, help_text="URL of an introductiary youtube video")
+    video_url = URLField(
+        blank=True,
+        help_text="URL of an introductiary youtube video"
+    )
     exclude_tags = ClusterTaggableManager(
         through=ExcludeTag, blank=True, verbose_name="Exclude Tags",
-        help_text='Tags you do not want to show in the filters for this home page'
+        help_text="""
+        Tags you do not want to show in the filters for this home page
+        """
     )
 
     def get_context(self, request):
@@ -176,7 +222,7 @@ class Home(AbstractForm):
             form_fields,
             request_dict,
             messages.get_messages(request)
-        ) # custom
+        )  # custom
 
         return render(
             request,
