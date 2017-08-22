@@ -8,6 +8,6 @@ import Html.Events exposing (onInput, onClick, onCheck)
 import Json.Encode
 
 
-view : String -> Html Msg
-view page =
-    div [ property "innerHTML" (Json.Encode.string page) ] []
+view : String -> String -> Html Msg
+view page classname =
+    div [ property "innerHTML" (Json.Encode.string page), class classname ] []

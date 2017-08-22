@@ -60,7 +60,6 @@ app.ports.listeners.subscribe(function(res) {
   requestAnimationFrame(function() {
     likeListeners();
     proConListeners();
-    seeMoreListener();
     feedbackLoopListener();
     swipeListeners();
   });
