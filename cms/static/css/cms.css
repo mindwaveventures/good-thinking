@@ -346,8 +346,12 @@ footer p a {
   background-image: url("../images/whatsapp_hover.svg");
 }
 
-.blurred_background {
+.blurred_background_header {
   background-color: rgba(255, 255, 255, 0.7);
+}
+
+.blurred_background {
+  background-image: url("../images/blurred_gradient.png");
 }
 
 /* Styleguide */
