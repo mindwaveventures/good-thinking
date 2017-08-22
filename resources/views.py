@@ -76,12 +76,25 @@ def get_data(request, **kwargs):
         reason_filter,
     ))
 
+    num_likes = 'select ' \
+        + 'count(like_value) from likes_likes ' \
+        + 'where resource_id = resources_resourcepage.page_ptr_id ' \
+        + 'and like_value = %s'
+
     resources = get_order(ResourcePage.objects.all().annotate(
-        number_of_likes=count_likes(1),
-        number_of_dislikes=count_likes(-1),
         score=(count_likes(1) - count_likes(-1)),
         relevance=(get_relevance(selected_tags))
     ), resource_order)
+
+    resources = resources.extra(
+        select={'number_of_likes': num_likes},
+        select_params=([1])
+    )
+
+    resources = resources.extra(
+        select={'number_of_dislikes': num_likes},
+        select_params=([-1])
+    )
 
     if 'ldmw_session' in request.COOKIES:
         cookie = request.COOKIES['ldmw_session']

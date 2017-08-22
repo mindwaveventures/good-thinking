@@ -29,15 +29,27 @@ def combine_tags(element):
 
 
 def get_resource(id, user_hash):
+    num_likes = 'select ' \
+        + 'count(like_value) from likes_likes ' \
+        + 'where resource_id = %s ' \
+        + 'and like_value = %s'
+
     liked_value = 'select ' \
         + 'like_value from likes_likes ' \
         + 'where resource_id = %s ' \
         + 'and user_hash = %s'
+
     ResourcePage = apps.get_model('resources', 'resourcepage')
     return combine_tags(
         ResourcePage.objects
-        .annotate(number_of_likes=count_likes(1))
-        .annotate(number_of_dislikes=count_likes(-1))
+        .extra(
+            select={'number_of_likes': num_likes},
+            select_params=([id, 1])
+        )
+        .extra(
+            select={'number_of_dislikes': num_likes},
+            select_params=([id, -1])
+        )
         .extra(
             select={'liked_value': liked_value},
             select_params=([id, user_hash])
