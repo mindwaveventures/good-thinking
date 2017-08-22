@@ -15,7 +15,7 @@ view model =
         , div [ class "pa1 ph4 ph3-m ph3-l" ]
             [ div [ class "w-60-ns center" ]
                 [ div [ class "w-50-ns dib-ns tl" ]
-                    [ h3 [ class "tl mt5 nunito" ]
+                    [ h3 [ id "results", class "tl mt5 nunito" ]
                         [ text ("Showing " ++ (get_num_resources model.resources))
                         ]
                     ]

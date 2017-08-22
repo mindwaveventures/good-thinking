@@ -12,6 +12,7 @@ type alias Flags =
     , reason_label : String
     , selected_tags : List Tag
     , order : String
+    , search : String
     }
 
 
@@ -27,6 +28,7 @@ type alias Model =
     , resources : List String
     , order_box_visible : Bool
     , order_by : String
+    , search : String
     }
 
 
@@ -46,3 +48,4 @@ type Msg
     | UpdateOrder String
     | CloseAndUpdate String
     | UpdateTags (List Tag)
+    | Swipe String
