@@ -10,7 +10,7 @@ from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtaildocs import urls as wagtaildocs_urls
 
 from likes.views import save_like
-from resources.views import get_json_data
+from resources.views import get_json_data, get_location
 
 urlpatterns = [
     url(r'^django-admin/', include(admin.site.urls)),
@@ -23,6 +23,8 @@ urlpatterns = [
     url(r'^like/', save_like),
 
     url(r'^get_json_data/', get_json_data),
+
+    url(r'^location/', get_location),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
