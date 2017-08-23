@@ -46,7 +46,7 @@ function get_visited_resources () {
 
 function remove_visited(id) {
   visited_resources = get_visited_resources().filter(function (el) {
-    return el !== id;
+    return el && el !== id;
   });
   if (visited_resources.length > 0) {
     document.cookie = 'ldmw_visited_resources=' + visited_resources.join();
