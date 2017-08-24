@@ -1,5 +1,5 @@
 
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags wagtailimages_tags %}
 
 {% if banner %}
   {% include "resources/banner.html" with banner=banner %}
@@ -58,6 +58,19 @@
     {% endfor %}
   </div>
 {% endif %}
+
+{% image page.hero_image width-1000 as hero_image %}
+{% image page.brand_logo width-500 as brand_logo %}
+<section class="resource-brand pt4-ns pt10 ph4 ph5-m ph6-l tc lm-white bg-center" style="background-image:url('{{ hero_image.url }}'); background-color: {{page.background_color}}">
+  {% if page.brand_logo %}
+    <img src="{{brand_logo.url}}" alt="{{page.heading}} logo">
+  {% endif %}
+  <div class="pb2 ph5-ns w-90-ns center">
+    <div class="mb4" style="color: {{page.text_color}};">
+      {{ page.brand_text|richtext }}
+    </div>
+  </div>
+</section>
 
 <div id="resource_{{page.id}}" class="resource">
   <div class="br1 shadow-2 tl w-60-ns center">

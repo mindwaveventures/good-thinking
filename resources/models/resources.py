@@ -1,13 +1,18 @@
 from wagtail.wagtailforms.models import AbstractForm, Page, AbstractFormField
 from wagtail.wagtailcore.fields import RichTextField
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.wagtailsearch import index
+
+from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from django.db.models.fields import TextField, URLField, IntegerField
 from django.apps import apps
 from django.db.models import Q
+from django.db import models
+
+from colorful.fields import RGBColorField
 
 from resources.models.tags import (
     TopicTag, IssueTag, ReasonTag,
@@ -104,6 +109,41 @@ class ResourcePage(Page):
       help_text='Highest priority 1, lowest priority 5'
     )
 
+    background_color = RGBColorField(
+        default='#ffffff', null=True, blank=True,
+        help_text="The background colour to use if there is no hero image"
+    )
+    hero_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text="""
+            Max file size: 10MB. Choose from: GIF, JPEG, PNG
+            (but pick PNG if you have the choice)
+        """
+    )
+    brand_logo = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text="""
+            Max file size: 10MB. Choose from: GIF, JPEG, PNG
+            (but pick PNG if you have the choice)
+        """
+    )
+    brand_text = RichTextField(blank=True)
+    text_color = RGBColorField(
+        default='#000000', null=True, blank=True,
+        help_text="""
+            The colour of the brand text.
+            It should contrast well with the background colour or image
+        """
+    )
+
     search_fields = Page.search_fields + [
         index.SearchField('body'),
         index.SearchField('pros'),
@@ -122,6 +162,13 @@ class ResourcePage(Page):
     ]
 
     content_panels = Page.content_panels + [
+        MultiFieldPanel([
+            ImageChooserPanel('hero_image'),
+            FieldPanel('background_color'),
+            ImageChooserPanel('brand_logo'),
+            FieldPanel('brand_text'),
+            FieldPanel('text_color')
+        ], heading="Branding"),
         FieldPanel('heading', classname="full"),
         FieldPanel('resource_url', classname="full"),
         FieldPanel('body', classname="full"),
