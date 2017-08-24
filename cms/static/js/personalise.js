@@ -18,7 +18,8 @@ var app = Elm.Main.embed(personaliseDiv, {
   content_label: content_label,
   selected_tags: selected_tags,
   order: window.location.href.split("order=")[1] || "relevance",
-  search: getQuery('q').q[0] || ""
+  search: getQuery('q').q[0] || "",
+  page: getPage()
 });
 
 function getTags(name) {
@@ -109,7 +110,11 @@ function swipeListeners() {
 }
 
 function getPage() {
-  return window.location.href.split('/')[3] || 'home';
+  var page = window.location.href.split('/')[3];
+  if (!page || page.indexOf('?') > -1) {
+    page = 'home';
+  }
+  return page;
 }
 
 swipeListeners();

@@ -16,9 +16,17 @@ from django.template.loader import render_to_string
 
 from django.apps import apps
 
+from urllib.parse import parse_qs
+
 
 def get_json_data(request):
-    data = get_data(request)
+    try:
+        query = request.GET.urlencode()
+        slug = parse_qs(query)['slug'][0]
+    except:
+        slug = ''
+
+    data = get_data(request, slug=slug)
     json_data = {}
 
     resources = list(
