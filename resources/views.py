@@ -182,7 +182,7 @@ def get_visited_resources(**kwargs):
     user_cookie = kwargs.get('user_cookie')
 
     if visited_cookie:
-        visited_ids = visited_cookie.split(',')
+        visited_ids = filter(lambda x: x != "", visited_cookie.split(','))
     else:
         visited_ids = []
 
