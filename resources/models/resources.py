@@ -1,6 +1,8 @@
 from wagtail.wagtailforms.models import AbstractForm, Page, AbstractFormField
 from wagtail.wagtailcore.fields import RichTextField
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
+from wagtail.wagtailadmin.edit_handlers import (
+    FieldPanel, InlinePanel, MultiFieldPanel
+)
 from wagtail.wagtailsearch import index
 
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
