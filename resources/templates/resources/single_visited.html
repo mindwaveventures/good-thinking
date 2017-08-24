@@ -38,6 +38,7 @@
           <input type="hidden" name="resource_title" value="{{v.title}}" />
           <input type="hidden" name="liked" value="{{v.liked_value}}" />
           <input type="hidden" name="resource_name" value="{{v.heading}}" />
+          {% include "resources/primary-button.html" with value="Submit" class="mv3 fr" %}
         </form>
         {% endif %}
       </div>
