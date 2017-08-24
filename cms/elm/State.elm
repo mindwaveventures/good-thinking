@@ -23,6 +23,7 @@ init flags =
                 flags.order
                 flags.search
                 False
+                flags.page
             )
     in
         update (GetData (create_query model)) model
@@ -103,7 +104,7 @@ update_selected model tag =
 create_query : Model -> String
 create_query model =
     List.foldl (\a b -> b ++ a.tag_type ++ "=" ++ a.name ++ "&") "?" model.selected_tags
-        ++ ("&order=" ++ model.order_by ++ "&q=" ++ model.search)
+        ++ ("&order=" ++ model.order_by ++ "&q=" ++ model.search ++ "&slug=" ++ model.page)
 
 
 subscriptions : Model -> Sub Msg

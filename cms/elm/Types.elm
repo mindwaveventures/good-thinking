@@ -13,6 +13,7 @@ type alias Flags =
     , selected_tags : List Tag
     , order : String
     , search : String
+    , page : String
     }
 
 
@@ -30,6 +31,7 @@ type alias Model =
     , order_by : String
     , search : String
     , show_more : Bool
+    , page : String
     }
 
 
