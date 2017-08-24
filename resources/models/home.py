@@ -145,7 +145,7 @@ class Home(AbstractForm):
 
             form_data = {'email': email, 'suggestion': suggestion}
         else:
-            page = ResourceIndexPage.objects.get(slug="resource-index")
+            page = ResourceIndexPage.objects.get(slug="resources")
             form_data = {
                 'resource_title': request_dict['resource_title'],
                 'resource_name': request_dict['resource_name'],
