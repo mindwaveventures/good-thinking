@@ -2,7 +2,6 @@
   var our_cookie = 'ldmw_accepted_cookie_policy=1';
   function show_cookie_bar () {
     if (document.cookie.indexOf(our_cookie) > -1) {
-      console.log('Cookie policy accepted');
       if (select('#cookie_accept_bar').className.indexOf('dn') === -1) {
         toggleClasses(select('#cookie_accept_bar'), ['dn']);
       }
