@@ -4,9 +4,8 @@
   "description": "Content Management System for LDMW",
   "main": "index.js",
   "scripts": {
-    "postinstall": "npm run install:elm && npm run install:pip",
+    "postinstall": "npm run install:elm",
     "install:elm": "node_modules/.bin/elm-make ./cms/elm/Main.elm --output=./cms/static/js/elm.js --yes",
-    "install:pip": "pip3 install -r requirements.txt",
     "test": "TRAVIS=true python3 manage.py test",
     "lint": "flake8 . --exclude=migrations,cms/settings",
     "cover": "python3 manage.py test"
