@@ -175,7 +175,7 @@ def get_data(request, **kwargs):
 
     filtered_resources = map(combine_tags, resources)
 
-    data['landing_pages'] = Home.objects.filter(~Q(slug="home"))
+    data['landing_pages'] = Home.objects.filter(~Q(slug="home")).live()
     data['resources'] = filtered_resources
     data['resource_count'] = resources.count()
     data['topic_tags'] = topic_tags.values()

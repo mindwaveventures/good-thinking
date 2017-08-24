@@ -209,7 +209,7 @@ class ResourcePage(Page):
             context['liked_value'] = 0
 
         Home = apps.get_model('resources', 'home')
-        landing_pages = Home.objects.filter(~Q(slug="home"))
+        landing_pages = Home.objects.filter(~Q(slug="home")).live()
         banner = Home.objects.get(slug="home").banner
         context['landing_pages'] = landing_pages
         context['banner'] = banner
