@@ -6,7 +6,7 @@
       <h2 class="mt0 mb1 ml2 resource_title">{{ page.heading }}</h2>
       <div class="word-wrap">
         {% if page.resource_url %}
-          <a class="f6 lm-turquoise resource-link link-hover link-visited pv1 ph2" href="{{ page.resource_url }}">{{ page.resource_url }}</a>
+          <a class="f6 lm-turquoise resource-link link-hover link-visited pv1 ph2" href="{{ page.resource_url }}">{{ page.clean_resource_url }}</a>
         {% endif %}
       </div>
       <div class="mt1 mh2">

@@ -24,6 +24,7 @@ from resources.models.tags import (
 from likes.models import Likes
 
 from resources.models.helpers import combine_tags
+import re
 
 
 class ResourceFormField(AbstractFormField):
@@ -220,6 +221,13 @@ class ResourcePage(Page):
         context['number_of_dislikes'] = Likes.objects\
             .filter(resource_id=self.id, like_value=-1)\
             .count()
+
+        try:
+            context['clean_resource_url'] = re.compile(r"https?://(www\.)?")\
+                .sub('', self.resource_url)\
+                .split("?")[0]
+        except:
+            context['clean_resource_url'] = self.resource_url
 
         return context
 
