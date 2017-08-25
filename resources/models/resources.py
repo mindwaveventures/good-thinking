@@ -54,6 +54,10 @@ class ResourcePage(Page):
         blank=True,
         help_text="The url of the resource to link to"
     )
+    resource_url_text = TextField(
+        blank=True,
+        help_text="The text for the url link"
+    )
     body = RichTextField(
         blank=True,
         help_text="A description of the resource"
