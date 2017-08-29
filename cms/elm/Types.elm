@@ -32,6 +32,7 @@ type alias Model =
     , search : String
     , show_more : Bool
     , page : String
+    , resource_count : Int
     }
 
 
@@ -41,15 +42,23 @@ type alias Tag =
     }
 
 
+type alias Results =
+    { resources : List String
+    , count : Int
+    }
+
+
 type Msg
     = NoOp
     | ChangePosition Int
     | SelectTag Tag
-    | QueryComplete (Result Http.Error (List String))
-    | GetData String
+    | QueryComplete (Result Http.Error Results)
+    | GetInitialData String
     | ToggleOrderBox
     | UpdateOrder String
     | CloseAndUpdate String
     | UpdateTags (List Tag)
     | Swipe String
     | ShowMore Bool
+    | LazyLoad String (Result Http.Error Results)
+    | LazyRemainder String (Result Http.Error Results)
