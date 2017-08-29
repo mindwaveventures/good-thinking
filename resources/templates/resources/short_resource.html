@@ -3,7 +3,7 @@
 <div id="resource_{{page.id}}" class="resource">
   <div class="br1 shadow-2 tl w-60-ns center">
     <div class="ph3 pt2 pb0 pt3-ns ph4-ns mt4">
-      <h2 class="mt0 mb1 resource_title">{{ page.heading }}</h2>
+      <h2 class="mt0 mb1 resource_title"><a class="link link-hover" href="/{{page.parent}}/{{page.slug}}/">{{ page.heading }}</a></h2>
       <div class="word-wrap">
         {% if page.resource_url %}
           <a class="f6 lm-turquoise resource-link link-hover link-visited pv1" href="{{ page.resource_url }}">{{ page.resource_url }}</a>
