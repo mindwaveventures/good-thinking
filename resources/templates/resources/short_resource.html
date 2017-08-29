@@ -2,7 +2,7 @@
 
 <div id="resource_{{page.id}}" class="resource">
   <div class="br1 shadow-2 tl w-60-ns center">
-    <div class="ba b--lm-dark-blue ph3 pt2 pb0 pt3-ns ph4-ns mt4">
+    <div class="ph3 pt2 pb0 pt3-ns ph4-ns mt4">
       <h2 class="mt0 mb1 resource_title">{{ page.heading }}</h2>
       <div class="word-wrap">
         {% if page.resource_url %}
@@ -13,9 +13,6 @@
         {% for tag in page.tags %}
           <a href="?tag={{ tag }}"><button class="b--lm-orange lm-bg-orange-20 ba br2 ph2 pv1 lh-tag dib mb1 pointer font nunito">{{tag}}</button></a>
         {% endfor %}
-      </div>
-      <div>
-        {{ page.body|richtext }}
       </div>
       {% if page.video %}
         <div class="tc ma2">
