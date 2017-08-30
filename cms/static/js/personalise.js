@@ -63,6 +63,7 @@ app.ports.listeners.subscribe(function(res) {
     proConListeners();
     feedbackLoopListener();
     swipeListeners();
+    analyticsListeners();
   });
 });
 
