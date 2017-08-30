@@ -3,6 +3,7 @@ module State exposing (init, update, subscriptions)
 import Types exposing (..)
 import Rest exposing (..)
 import Ports exposing (..)
+import Task
 
 
 init : Flags -> ( Model, Cmd Msg )
@@ -71,7 +72,7 @@ update msg model =
                     new_model =
                         { model | order_by = order }
                 in
-                    ( new_model, getData (create_query new_model) )
+                    ( new_model, save_order new_model )
             else
                 ( model, Cmd.none )
 
@@ -113,3 +114,9 @@ subscriptions model =
         [ updateTags UpdateTags
         , swipe Swipe
         ]
+
+
+save_order new_model =
+    Task.andThen
+        |> (\_ -> getData (create_query new_model))
+        |> (\_ -> changeOrder new_model.order_by)
