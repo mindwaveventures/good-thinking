@@ -230,8 +230,13 @@
     </section>
 
     <footer class="lm-bg-dark-blue tc pa3 f6 f5-ns tracked">
-      <div class="ph2 ph5-plus-ns lm-white">
-        {{ page.footer|richtext }}
+      <div class="ph2 ph5-plus-ns lm-white footer tj">
+        {% for footer in footer_links %}
+          {% image footer.footer_image width-400 as footer_image %}
+          <a href="{{footer.footer_link}}" class="dib">
+            <img src="{{footer_image.url}}">
+          </a>
+        {% endfor %}
       </div>
     </footer>
 {% endblock %}

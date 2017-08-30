@@ -232,7 +232,7 @@ class Home(AbstractForm):
             form = self.get_form(page=self, user=request.user)
 
         form_fields = FormField.objects.all().filter(page_id=form.page.id)
-        footer_links = HomeFooterLinks.all()
+        footer_links = HomeFooterLinks.objects.all()
 
         context = self.get_context(request)
         context['form'] = form
