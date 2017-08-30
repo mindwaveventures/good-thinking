@@ -30,7 +30,8 @@ if (isNotIE8()) {
         }
 
         if (response.feedback) {
-          remove_visited(response.id)
+          remove_visited(response.id);
+          add_to_feedback_left_resources(response.id);
         }
 
         feedbackLoopListener();
