@@ -30,15 +30,19 @@ if (isNotIE8()) {
         }
 
         if (response.feedback) {
-          remove_visited(response.id)
+          remove_visited(response.id);
+          add_to_feedback_left_resources(response.id);
         }
 
         feedbackLoopListener();
 
-        addAnalytics(select("button[name='like']", resource), "Like", "liked");
-        addAnalytics(select("button[name='dislike']", resource), "Dislike", "disliked");
-        addAnalytics(select(".share", resource), "Share", "shared");
-        addAnalytics(select(".resource-feedback", resource), "ResourceFeedback", "reviewed");
+        addAnalytics(select("button[name='like']", resource), {event: "Like", variable: "liked", location: "resource"});
+        addAnalytics(select("button[name='dislike']", resource), {event: "Dislike", variable: "disliked", location: "resource"});
+        addAnalytics(select(".share", resource), {event: "Share", variable: "shared"});
+        addAnalytics(select(".resource-feedback", resource), {event: "ResourceFeedback", variable: "reviewed", location: "resource"});
+        addAnalytics(select(".loop-like", visited_resource), {event: "Like", variable: "liked", location: "feedback loop"});
+        addAnalytics(select(".loop-dislike", visited_resource), {event: "Dislike", variable: "disliked", location: "feedback loop"});
+        addAnalytics(select(".loop-feedback", visited_resource), {event: "ResourceFeedback", variable: "reviewed", location: "feedback loop"});
         handle_ios();
       });
     }

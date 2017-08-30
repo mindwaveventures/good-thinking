@@ -2,20 +2,23 @@
 
 <div id="resource_{{page.id}}" class="resource">
   <div class="br1 shadow-2 tl w-60-ns center">
-    <div class="ba b--lm-dark-blue ph3 pt2 pb0 pt3-ns ph4-ns mt4">
-      <h2 class="mt0 mb1 resource_title">{{ page.heading }}</h2>
+    <div class="ph3 pt2 pb0 pt3-ns ph4-ns mt4">
+      <h2 class="mt0 mb1 resource_title"><a class="link link-hover" href="/{{page.parent}}/{{page.slug}}/">{{ page.heading }}</a></h2>
       <div class="word-wrap">
         {% if page.resource_url %}
-          <a class="f6 lm-turquoise resource-link link-hover link-visited pv1" href="{{ page.resource_url }}">{{ page.resource_url }}</a>
+          <a class="f6 lm-turquoise resource-link link-hover link-visited pv1" href="{{ page.resource_url }}">
+              {% if page.resource_url_text %}
+                {{ page.resource_url_text }}
+              {% else %}
+                {{ page.resource_url }}
+              {% endif %}
+          </a>
         {% endif %}
       </div>
       <div class="mt1">
         {% for tag in page.tags %}
           <a href="?tag={{ tag }}"><button class="b--lm-orange lm-bg-orange-20 ba br2 ph2 pv1 lh-tag dib mb1 pointer font nunito">{{tag}}</button></a>
         {% endfor %}
-      </div>
-      <div>
-        {{ page.body|richtext }}
       </div>
       {% if page.video %}
         <div class="tc ma2">
@@ -26,7 +29,7 @@
     <div class="pv4 pb4-ns pt3-ns">
       {% if page.pros %}
         <div class="tc db dn-ns">
-          {% include "resources/secondary_button.html" with value="View pros and cons" background="light" class="view_pcs" id="view_pcs#{@resource.id}" %}
+          {% include "resources/secondary_button.html" with value="View pros and cons" background="light" class="view_pcs" id="view_pcs{{@page.id}}" %}
         </div>
       {% endif %}
       <div class="w-100 dn dt-ns db-ns pros_cons bb b--lm-grey pb3" id="pros_cons{{page.id}}">
@@ -44,13 +47,13 @@
             <div class="dib dtc">
               <div class="dib mb3 v-mid tl"><span>{{page.number_of_likes|default:0}}</span></div>
               <form action="/like/" method="post" class="dib pointer like-form">
-                <button type="submit" class="{% if page.liked_value == 1 %}liked{% endif %} like w2 h2 bn bg-white fl p0 bg-left pointer" data-url=""><span class="fixed o-0">Recommend</span></button>
+                <button type="submit" class="{% if page.liked_value == 1 %}liked{% endif %} like resource-like w2 h2 bn bg-white fl p0 bg-left pointer" data-url="{{page.resource_url}}"><span class="fixed o-0">Recommend</span></button>
                 <input type="hidden" name="id" value="{{page.id}}"/>
                 <input type="hidden" name="like" value="1"/>
                 {% csrf_token %}
               </form>
               <form action="/like/" method="post" class="dib pointer dislike-form">
-                <button name="dislike" type="submit" class="{% if page.liked_value == -1 %}disliked{% endif %} dislike w2 h2 bn bg-white p0 bg-right pointer" data-url=""><span class="fixed o-0">Don't Recommend</span></button>
+                <button name="dislike" type="submit" class="{% if page.liked_value == -1 %}disliked{% endif %} dislike resource-dislike w2 h2 bn bg-white p0 bg-right pointer" data-url="{{page.resource_url}}"><span class="fixed o-0">Don't Recommend</span></button>
                 <input type="hidden" name="id" value="{{page.id}}"/>
                 <input type="hidden" name="like" value="-1"/>
                 {% csrf_token %}
@@ -65,7 +68,7 @@
             <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
           </div>
           {% else %}
-          <form class="like-form">
+          <form class="like-form resource-feedback">
             {% csrf_token %}
             <input type="hidden" name="id" value="{{page.id}}" />
             <p>

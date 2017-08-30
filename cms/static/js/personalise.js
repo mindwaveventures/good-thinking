@@ -17,7 +17,7 @@ var app = Elm.Main.embed(personaliseDiv, {
   reason_label: reason_label,
   content_label: content_label,
   selected_tags: selected_tags,
-  order: window.location.href.split("order=")[1] || "relevance",
+  order: getOrder(),
   search: getQuery('q').q[0] || "",
   page: getPage()
 });
@@ -63,12 +63,17 @@ app.ports.listeners.subscribe(function(res) {
     proConListeners();
     feedbackLoopListener();
     swipeListeners();
+    analyticsListeners();
   });
 });
 
 app.ports.selectTag.subscribe(function(tags) {
   localStorage.setItem('selected_tags_' + getPage(), JSON.stringify(tags));
   app.ports.updateTags.send(tags);
+});
+
+app.ports.changeOrder.subscribe(function(order) {
+  localStorage.setItem('ldmw_resource_order', order);
 });
 
 function swipe(el, callback){
@@ -115,6 +120,14 @@ function getPage() {
     page = 'home';
   }
   return page;
+}
+
+function getOrder() {
+  return (
+    window.location.href.split("order=")[1]
+    || localStorage.getItem('ldmw_resource_order')
+    || "relevance"
+  );
 }
 
 swipeListeners();

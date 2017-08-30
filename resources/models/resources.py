@@ -1,7 +1,7 @@
 from wagtail.wagtailforms.models import AbstractForm, Page, AbstractFormField
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import (
-    FieldPanel, InlinePanel, MultiFieldPanel
+    FieldPanel, InlinePanel, MultiFieldPanel, FieldRowPanel
 )
 from wagtail.wagtailsearch import index
 
@@ -53,6 +53,10 @@ class ResourcePage(Page):
     resource_url = URLField(
         blank=True,
         help_text="The url of the resource to link to"
+    )
+    resource_url_text = TextField(
+        blank=True,
+        help_text="The text for the url link"
     )
     body = RichTextField(
         blank=True,
@@ -171,8 +175,10 @@ class ResourcePage(Page):
             FieldPanel('brand_text'),
             FieldPanel('text_color')
         ], heading="Branding"),
-        FieldPanel('heading', classname="full"),
-        FieldPanel('resource_url', classname="full"),
+        FieldRowPanel([
+            FieldPanel('resource_url', classname="col6"),
+            FieldPanel('resource_url_text', classname="col6"),
+        ], classname="full"),
         FieldPanel('body', classname="full"),
         FieldPanel('pros', classname="full"),
         FieldPanel('cons', classname="full"),
