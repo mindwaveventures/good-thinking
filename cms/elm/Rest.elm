@@ -6,14 +6,16 @@ import Json.Decode as Decode
 import Json.Encode as Encode
 
 
-getData : String -> Cmd Msg
-getData query =
+getData : String -> (Result Http.Error Results -> Msg) -> Cmd Msg
+getData query msg =
     Http.get ("/get_json_data" ++ query) decodeInitialData
-        |> Http.send QueryComplete
+        |> Http.send msg
 
 
 decodeInitialData =
-    Decode.field "resources" resourceDecoder
+    Decode.map2 Results
+        (Decode.field "resources" resourceDecoder)
+        (Decode.field "resource_count" Decode.int)
 
 
 resourceDecoder : Decode.Decoder (List String)

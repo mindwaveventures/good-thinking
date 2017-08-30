@@ -25,9 +25,10 @@ init flags =
                 flags.search
                 False
                 flags.page
+                0
             )
     in
-        update (GetData (create_query model)) model
+        update (GetInitialData (create_query model)) model
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -43,7 +44,7 @@ update msg model =
                 ( model, Cmd.none )
 
         UpdateTags tags ->
-            ( model, getData (create_query model) )
+            ( model, getData (create_query model) QueryComplete )
 
         SelectTag tag ->
             let
@@ -55,13 +56,15 @@ update msg model =
         QueryComplete response ->
             case response of
                 Ok result ->
-                    ( { model | resources = result }, listeners () )
+                    ( { model
+                        | resources = result.resources
+                        , resource_count = result.count
+                      }
+                    , listeners ()
+                    )
 
                 Err error ->
                     ( model, Cmd.none )
-
-        GetData url ->
-            ( model, getData url )
 
         ToggleOrderBox ->
             ( { model | order_box_visible = not model.order_box_visible }, Cmd.none )
@@ -93,6 +96,34 @@ update msg model =
         ShowMore show ->
             ( { model | show_more = show }, Cmd.none )
 
+        GetInitialData url ->
+            ( model, getData (url ++ "&page=initial") (LazyLoad url) )
+
+        LazyLoad url response ->
+            case response of
+                Ok result ->
+                    ( { model
+                        | resources = result.resources
+                        , resource_count = result.count
+                      }
+                    , getData (url ++ "&page=remainder") (LazyRemainder url)
+                    )
+
+                Err error ->
+                    ( model, Cmd.none )
+
+        LazyRemainder url response ->
+            case response of
+                Ok result ->
+                    ( { model
+                        | resources = List.append model.resources result.resources
+                      }
+                    , listeners ()
+                    )
+
+                Err error ->
+                    ( model, Cmd.none )
+
 
 update_selected : Model -> Tag -> List Tag
 update_selected model tag =
@@ -118,5 +149,5 @@ subscriptions model =
 
 save_order new_model =
     Task.andThen
-        |> (\_ -> getData (create_query new_model))
+        |> (\_ -> getData (create_query new_model) QueryComplete)
         |> (\_ -> changeOrder new_model.order_by)

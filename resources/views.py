@@ -18,6 +18,8 @@ from django.apps import apps
 
 from urllib.parse import parse_qs
 
+from django.core.paginator import Paginator
+
 
 def get_json_data(request):
     try:
@@ -173,7 +175,23 @@ def get_data(request, **kwargs):
     if (query):
         resources = resources.search(query)
 
-    filtered_resources = map(combine_tags, resources)
+    paginator = Paginator(resources, 3)
+
+    try:
+        if request.GET.get('page') == 'initial':
+            paged_resources = paginator.page(1)
+        elif request.GET.get('page') == 'remainder':
+            current_page = paginator.page(2)
+            paged_resources = chain(current_page)
+            while current_page.has_next():
+                current_page = paginator.page(current_page.next_page_number())
+                paged_resources = chain(paged_resources, current_page)
+        else:
+            paged_resources = resources
+    except:
+        paged_resources = resources
+
+    filtered_resources = map(combine_tags, paged_resources)
 
     data['landing_pages'] = Home.objects.filter(~Q(slug="home")).live()
     data['resources'] = filtered_resources

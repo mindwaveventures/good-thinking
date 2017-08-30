@@ -17,7 +17,7 @@ view model =
                 [ div [ class "w-50-ns dib-ns tl" ]
                     [ div [ id "results", class "relative top--3 o-0" ] []
                     , h3 [ class "tl mt5 nunito" ]
-                        [ text ("Showing " ++ (get_num_resources model.resources))
+                        [ text ("Showing " ++ (get_num_resources model))
                         ]
                     ]
                 , div [ class "w-50-ns dib-ns tr-ns tc" ]
@@ -59,11 +59,11 @@ view model =
         ]
 
 
-get_num_resources : List String -> String
-get_num_resources resources =
+get_num_resources : Model -> String
+get_num_resources model =
     let
         count =
-            List.length resources
+            model.resource_count
     in
         if count == 1 then
             (toString count) ++ " resource"
