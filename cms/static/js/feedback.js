@@ -56,7 +56,7 @@ function get_resource_id(node) {
 }
 
 function get_feedback_left_resources () {
-  var resources =  document.cookie.match(/ldmw_feedback_left_resources=([^;]+);/)
+  var resources =  document.cookie.match(/ldmw_feedback_left_resources=([^;]+)(;|$)/)
   if (resources) {
     return resources[1].split(',');
   } else {
@@ -65,7 +65,7 @@ function get_feedback_left_resources () {
 }
 
 function get_visited_resources () {
-  var resources =  document.cookie.match(/ldmw_visited_resources=([^;]+);/)
+  var resources =  document.cookie.match(/ldmw_visited_resources=([^;]+)(;|$)/)
   if (resources) {
     return resources[1].split(',');
   } else {
