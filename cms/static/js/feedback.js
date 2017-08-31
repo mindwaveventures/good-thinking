@@ -92,6 +92,7 @@ function delete_visited(id) {
   if (visited_resources.length === 0) {
     select('#visited_resources').outerHTML = "";
   }
+  add_to_feedback_left_resources(id);
 }
 
 var delete_cookie = function(name) {
