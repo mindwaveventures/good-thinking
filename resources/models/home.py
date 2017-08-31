@@ -27,8 +27,32 @@ from resources.models.helpers import (
 )
 
 from resources.views import get_data
+from wagtail.wagtailcore.models import Orderable
 
 uid = uuid.uuid4()
+
+
+class FooterLink(models.Model):
+    footer_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    footer_link = models.URLField(blank=True, )
+
+    panels = [
+        ImageChooserPanel('footer_image'),
+        FieldPanel('footer_link'),
+    ]
+
+    class Meta:
+        abstract = True
+
+
+class HomeFooterLinks(Orderable, FooterLink):
+    page = ParentalKey('Home', related_name='footer_links')
 
 
 class FormField(AbstractFormField):
@@ -128,7 +152,7 @@ class Home(AbstractForm):
         FieldPanel('alpha', classname="full"),
         FieldPanel('alphatext', classname="full"),
         InlinePanel('form_fields', label="Form fields"),
-        FieldPanel('footer', classname="full"),
+        InlinePanel('footer_links', label="Footer"),
     ]
 
     def process_form_submission(self, request_dict):
@@ -208,9 +232,11 @@ class Home(AbstractForm):
             form = self.get_form(page=self, user=request.user)
 
         form_fields = FormField.objects.all().filter(page_id=form.page.id)
+        footer_links = HomeFooterLinks.objects.all()
 
         context = self.get_context(request)
         context['form'] = form
+        context['footer_links'] = footer_links
 
         like_feedback_submitted = False
         for m in messages.get_messages(request):
