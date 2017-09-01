@@ -175,21 +175,7 @@ def get_data(request, **kwargs):
     if (query):
         resources = resources.search(query)
 
-    paginator = Paginator(resources, 3)
-
-    try:
-        if request.GET.get('page') == 'initial':
-            paged_resources = paginator.page(1)
-        elif request.GET.get('page') == 'remainder':
-            current_page = paginator.page(2)
-            paged_resources = chain(current_page)
-            while current_page.has_next():
-                current_page = paginator.page(current_page.next_page_number())
-                paged_resources = chain(paged_resources, current_page)
-        else:
-            paged_resources = resources
-    except:
-        paged_resources = resources
+    paged_resources = get_paged_resources(request, resources)
 
     filtered_resources = map(combine_tags, paged_resources)
 
@@ -223,3 +209,29 @@ def get_visited_resources(**kwargs):
         )
 
     return visited_resources
+
+
+def get_paged_resources(request, resources):
+    paginator = Paginator(resources, 3)
+
+    try:
+        if request.GET.get('page') == 'initial':
+            paged_resources = paginator.page(1)
+        elif request.GET.get('page') == 'remainder':
+            try:
+                current_page = paginator.page(2)
+                paged_resources = chain(current_page)
+
+                while current_page.has_next():
+                    current_page = paginator.page(
+                        current_page.next_page_number()
+                    )
+                    paged_resources = chain(paged_resources, current_page)
+            except:
+                paged_resources = []
+        else:
+            paged_resources = resources
+    except:
+        paged_resources = resources
+
+    return paged_resources
