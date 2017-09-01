@@ -94,7 +94,7 @@ def get_data(request, **kwargs):
     resources = get_order(ResourcePage.objects.all().annotate(
         score=(count_likes(1) - count_likes(-1)),
         relevance=(get_relevance(selected_tags))
-    ), resource_order)
+    ), resource_order).live()
 
     resources = resources.extra(
         select={'number_of_likes': num_likes},
