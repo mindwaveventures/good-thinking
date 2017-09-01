@@ -472,6 +472,10 @@ code {
   top: -3rem;
 }
 
+.top--4 {
+  top: -4rem;
+}
+
 .nr {
   resize: none;
 }
