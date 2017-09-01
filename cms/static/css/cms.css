@@ -777,6 +777,10 @@ lm-ls1 {
   width: 95%;
 }
 
+.footer-block:first-of-type {
+  border-bottom: solid 1px #c2c2c2;
+}
+
 @media screen and (min-width:30em) {
   .w-200-ns {
     width: 200%;

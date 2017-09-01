@@ -4,7 +4,7 @@ import uuid
 from wagtail.wagtailforms.models import AbstractForm, AbstractFormField
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import (
-    FieldPanel, InlinePanel, MultiFieldPanel
+    FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
 )
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
@@ -54,16 +54,20 @@ class FooterLink(models.Model):
 class FooterBlock(models.Model):
     title = TextField(blank=True,)
     description = RichTextField(blank=True,)
-    link = models.URLField(blank=True,)
+    link_page = models.ForeignKey(
+        'wagtailcore.PAge',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
     link_text = TextField(blank=True,)
 
     panels = [
+        PageChooserPanel('link_page'),
         FieldPanel('title', classname="title"),
         FieldPanel('description', classname="full"),
-        MultiFieldPanel([
-            FieldPanel('link', classname="col6"),
-            FieldPanel('link_text', classname="col6"),
-        ]),
+        FieldPanel('link_text'),
     ]
 
     class Meta:
