@@ -82,6 +82,10 @@ class HomeFooterBlocks(Orderable, FooterBlock):
     page = ParentalKey('Home', related_name='footer_blocks')
 
 
+class ProjectInfoBlock(Orderable, FooterBlock):
+    page = ParentalKey('Home', related_name='project_info_block')
+
+
 class FormField(AbstractFormField):
     page = ParentalKey('Home', related_name='form_fields')
 
@@ -167,6 +171,7 @@ class Home(AbstractForm):
         FieldPanel('header', classname="full"),
         FieldPanel('body', classname="full"),
         FieldPanel('video_url', classname="full"),
+        InlinePanel('project_info_block', label="Project Info Block"),
         MultiFieldPanel([
             FieldPanel('filter_label_1', classname="full"),
             FieldPanel('filter_label_2', classname="full"),
@@ -260,11 +265,13 @@ class Home(AbstractForm):
         form_fields = FormField.objects.all().filter(page_id=form.page.id)
         footer_links = HomeFooterLinks.objects.all()
         footer_blocks = HomeFooterBlocks.objects.all()
+        project_info_block = ProjectInfoBlock.objects.all()
 
         context = self.get_context(request)
         context['form'] = form
         context['footer_links'] = footer_links
         context['footer_blocks'] = footer_blocks
+        context['project_info_block'] = project_info_block
 
         like_feedback_submitted = False
         for m in messages.get_messages(request):
