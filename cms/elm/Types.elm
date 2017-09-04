@@ -33,6 +33,7 @@ type alias Model =
     , show_more : Bool
     , page : String
     , resource_count : Int
+    , results_updated : Int
     }
 
 
@@ -62,3 +63,4 @@ type Msg
     | ShowMore Bool
     | LazyLoad String (Result Http.Error Results)
     | LazyRemainder String (Result Http.Error Results)
+    | ResultsLoadingAlert Int Int

@@ -48,6 +48,17 @@ render_filter_block model num filter_label tags classname =
                         [ next_button num ]
                     ]
                ]
+            ++ [ div
+                    [ class
+                        ("absolute bottom-1 left-40 bg--lm-green pv2 ph4 b--lm-green ba"
+                            ++ if model.results_updated /= num then
+                                " dn"
+                               else
+                                ""
+                        )
+                    ]
+                    [ text "Results Updated" ]
+               ]
         )
 
 
@@ -124,7 +135,7 @@ previous_button pos =
         _ ->
             button
                 [ class "tl dib bn bg-white pointer"
-                , onClick (ChangePosition (pos - 1))
+                , onClick (ResultsLoadingAlert pos (pos - 1))
                 ]
                 [ div [ class "h2 br-100 w2 ba bw2 b--lm-dark-blue lm-orange pa1 mr2 dib" ] [ text "◀" ]
                 , div [ class "dib nunito-bold w-50 w-auto-ns" ] [ text "previous question" ]
@@ -140,7 +151,7 @@ next_button pos =
         _ ->
             button
                 [ class "tr dib bn bg-white pointer"
-                , onClick (ChangePosition (pos + 1))
+                , onClick (ResultsLoadingAlert pos (pos + 1))
                 ]
                 [ div [ class "dib nunito-bold w-50 w-auto-ns" ] [ text "next question" ]
                 , div [ class "h2 br-100 w2 ba bw2 b--lm-dark-blue lm-orange pa1 ml2 dib" ] [ text "▶" ]
