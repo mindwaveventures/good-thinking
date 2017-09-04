@@ -21,6 +21,8 @@ init flags =
                 flags.reason_label
                 flags.selected_tags
                 1
+                1
+                []
                 []
                 False
                 flags.order
@@ -42,7 +44,7 @@ update msg model =
 
         ChangePosition newPosition ->
             if not (xor (newPosition < 1) (newPosition > 3)) then
-                ( { model | position = newPosition, results_updated = 0 }, Cmd.none )
+                ( { model | tag_position = newPosition, results_updated = 0 }, Cmd.none )
             else
                 ( model, Cmd.none )
 
@@ -62,6 +64,7 @@ update msg model =
                     ( { model
                         | resources = result.resources
                         , resource_count = result.count
+                        , tips = result.tips
                       }
                     , listeners ()
                     )
@@ -88,10 +91,10 @@ update msg model =
         Swipe dir ->
             case dir of
                 "right" ->
-                    update (ChangePosition (model.position - 1)) model
+                    update (ChangePosition (model.tag_position - 1)) model
 
                 "left" ->
-                    update (ChangePosition (model.position + 1)) model
+                    update (ChangePosition (model.tag_position + 1)) model
 
                 _ ->
                     update NoOp model
@@ -108,6 +111,7 @@ update msg model =
                     ( { model
                         | resources = result.resources
                         , resource_count = result.count
+                        , tips = result.tips
                       }
                     , getData (url ++ "&page=remainder") (LazyRemainder url)
                     )

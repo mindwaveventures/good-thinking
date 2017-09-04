@@ -2,6 +2,7 @@ module View exposing (..)
 
 import Tags.View as Tags
 import Resources.View as Resources
+import Tips.View as Tips
 import Types exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -100,7 +101,12 @@ get_resources model =
         (\i el ->
             case model.show_more of
                 False ->
-                    if i < 3 then
+                    if i == 0 then
+                        div []
+                            ([ Resources.view el "" ]
+                                ++ [ Tips.view model ]
+                            )
+                    else if i < 3 then
                         Resources.view el ""
                     else
                         Resources.view el "dn"

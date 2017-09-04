@@ -25,8 +25,10 @@ type alias Model =
     , content_label : String
     , reason_label : String
     , selected_tags : List Tag
-    , position : Int
+    , tag_position : Int
+    , tip_position : Int
     , resources : List String
+    , tips : List String
     , order_box_visible : Bool
     , order_by : String
     , search : String
@@ -46,6 +48,7 @@ type alias Tag =
 type alias Results =
     { resources : List String
     , count : Int
+    , tips : List String
     }
 
 

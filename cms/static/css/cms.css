@@ -828,6 +828,14 @@ lm-ls1 {
     right: -12%;
   }
 
+  .r-18-ns {
+    right: 18%;
+  }
+
+  .r-80-ns {
+    right: 80%;
+  }
+
   .resource-brand .rich-text h2 {
     font-size: 4rem;
     margin-top: 1rem;

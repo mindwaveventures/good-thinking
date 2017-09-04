@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags static %}
+{% load wagtailcore_tags wagtailimages_tags static modelname %}
 
 {% block body_class %}template-homepage{% endblock %}
 
@@ -110,7 +110,11 @@
         <!-- Resources -->
         <div class="pa1 ph4 ph3-m ph3-l pb4 pb5-l">
           {% for post in resources %}
-            {% include "resources/short_resource.html" with page=post.specific %}
+            {% if page|get_model_name == "Tip"%}
+              {% include "resources/tip.html" with page=post.specific %}
+            {% else %}
+              {% include "resources/short_resource.html" with page=post.specific %}
+            {% endif %}
           {% endfor %}
         </div>
       </div>
