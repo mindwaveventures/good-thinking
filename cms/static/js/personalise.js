@@ -99,7 +99,7 @@ function swipe(el, callback){
     distY = touchobj.pageY - startY;
 
     if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint) {
-      swipedir = (distX < 0)? 'left' : 'right';
+      swipedir = (distX < 0) ? 'left' : 'right';
     }
 
     callback(swipedir);
