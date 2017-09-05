@@ -43,38 +43,21 @@ render_filter_block model num filter_label tags classname =
             ++ [ div [ class "pv2 overflow-scroll h4" ] ([] ++ (List.map (\t -> render_tag_list t model.selected_tags num) tags)) ]
             ++ [ div [ class "mt3 absolute bottom-1 w-100 ph4-ns ph1 left-0" ]
                     [ div [ class "w-50 dib tl" ]
-                        [ button
-                            [ class
-                                ("tl dib bn bg-white pointer "
-                                    ++ (if num == 1 then
-                                            "inactive"
-                                        else
-                                            ""
-                                       )
-                                )
-                            , onClick (ChangePosition (num - 1))
-                            ]
-                            [ div [ class "h2 br-100 w2 ba bw2 b--lm-dark-blue lm-orange pa1 mr2 dib" ] [ text "◀" ]
-                            , div [ class "dib nunito-bold w-50 w-auto-ns" ] [ text "previous question" ]
-                            ]
-                        ]
+                        [ previous_button num ]
                     , div [ class "w-50 dib tr" ]
-                        [ button
-                            [ class
-                                ("tr dib bn bg-white pointer "
-                                    ++ (if num == 3 then
-                                            "inactive"
-                                        else
-                                            ""
-                                       )
-                                )
-                            , onClick (ChangePosition (num + 1))
-                            ]
-                            [ div [ class "dib nunito-bold w-50 w-auto-ns" ] [ text "next question" ]
-                            , div [ class "h2 br-100 w2 ba bw2 b--lm-dark-blue lm-orange pa1 ml2 dib" ] [ text "▶" ]
-                            ]
-                        ]
+                        [ next_button num ]
                     ]
+               ]
+            ++ [ div
+                    [ class
+                        ("absolute bottom-1 left-40 bg--lm-green pv2 ph4 b--lm-green ba"
+                            ++ if model.results_updated /= num then
+                                " dn"
+                               else
+                                ""
+                        )
+                    ]
+                    [ text "Results Updated" ]
                ]
         )
 
@@ -141,3 +124,35 @@ get_active model pos =
         ""
     else
         "inactive"
+
+
+previous_button : Int -> Html Msg
+previous_button pos =
+    case pos of
+        1 ->
+            text ""
+
+        _ ->
+            button
+                [ class "tl dib bn bg-white pointer"
+                , onClick (ResultsLoadingAlert pos (pos - 1))
+                ]
+                [ div [ class "h2 br-100 w2 ba bw2 b--lm-dark-blue lm-orange pa1 mr2 dib" ] [ text "◀" ]
+                , div [ class "dib nunito-bold w-50 w-auto-ns" ] [ text "previous question" ]
+                ]
+
+
+next_button : Int -> Html Msg
+next_button pos =
+    case pos of
+        3 ->
+            button [ class "f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover" ] [ a [ class "link", href "#results" ] [ text "Search" ] ]
+
+        _ ->
+            button
+                [ class "tr dib bn bg-white pointer"
+                , onClick (ResultsLoadingAlert pos (pos + 1))
+                ]
+                [ div [ class "dib nunito-bold w-50 w-auto-ns" ] [ text "next question" ]
+                , div [ class "h2 br-100 w2 ba bw2 b--lm-dark-blue lm-orange pa1 ml2 dib" ] [ text "▶" ]
+                ]

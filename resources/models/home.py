@@ -28,6 +28,7 @@ from resources.models.helpers import (
 )
 
 from resources.views import get_data
+from wagtail.wagtailcore.models import Orderable
 
 uid = uuid.uuid4()
 
@@ -39,6 +40,52 @@ def get_loc(loc):
         return loc_map[first_c]
     except:
         return None
+
+
+class FooterLink(models.Model):
+    footer_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    footer_link = models.URLField(blank=True,)
+
+    panels = [
+        ImageChooserPanel('footer_image'),
+        FieldPanel('footer_link'),
+    ]
+
+    class Meta:
+        abstract = True
+
+
+class FooterBlock(models.Model):
+    title = TextField(blank=True,)
+    description = RichTextField(blank=True,)
+    link = models.URLField(blank=True,)
+    link_text = TextField(blank=True,)
+
+    panels = [
+        FieldPanel('title', classname="title"),
+        FieldPanel('description', classname="full"),
+        MultiFieldPanel([
+            FieldPanel('link', classname="col6"),
+            FieldPanel('link_text', classname="col6"),
+        ]),
+    ]
+
+    class Meta:
+        abstract = True
+
+
+class HomeFooterLinks(Orderable, FooterLink):
+    page = ParentalKey('Home', related_name='footer_links')
+
+
+class HomeFooterBlocks(Orderable, FooterBlock):
+    page = ParentalKey('Home', related_name='footer_blocks')
 
 
 class FormField(AbstractFormField):
@@ -141,13 +188,12 @@ class Home(AbstractForm):
             FieldPanel('filter_label_3', classname="full"),
             FieldPanel('exclude_tags', classname="full")
         ]),
-        FieldPanel('assessment_text', classname="full"),
-        FieldPanel('crisis_text', classname="full"),
         FieldPanel('lookingfor', classname="full"),
         FieldPanel('alpha', classname="full"),
         FieldPanel('alphatext', classname="full"),
         InlinePanel('form_fields', label="Form fields"),
-        FieldPanel('footer', classname="full"),
+        InlinePanel('footer_blocks', label="Footer Blocks"),
+        InlinePanel('footer_links', label="Footer"),
     ]
 
     def process_form_submission(self, request_dict):
@@ -164,7 +210,7 @@ class Home(AbstractForm):
 
             form_data = {'email': email, 'suggestion': suggestion}
         else:
-            page = ResourceIndexPage.objects.get(slug="resource-index")
+            page = ResourceIndexPage.objects.get(slug="resources")
             form_data = {
                 'resource_title': request_dict['resource_title'],
                 'resource_name': request_dict['resource_name'],
@@ -227,9 +273,13 @@ class Home(AbstractForm):
             form = self.get_form(page=self, user=request.user)
 
         form_fields = FormField.objects.all().filter(page_id=form.page.id)
+        footer_links = HomeFooterLinks.objects.all()
+        footer_blocks = HomeFooterBlocks.objects.all()
 
         context = self.get_context(request)
         context['form'] = form
+        context['footer_links'] = footer_links
+        context['footer_blocks'] = footer_blocks
 
         like_feedback_submitted = False
         for m in messages.get_messages(request):

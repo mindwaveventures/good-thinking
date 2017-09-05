@@ -49,6 +49,7 @@
           <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
           <!-- Taken from https://jonsuh.com/hamburgers/ -->
           <link href="https://cdnjs.cloudflare.com/ajax/libs/hamburgers/0.9.1/hamburgers.min.css" rel="stylesheet">
+          <link rel="icon" href="/static/favicon.png">
         {% endblock %}
     </head>
 
@@ -67,5 +68,10 @@
         {% block extra_js %}
             {# Override this in templates to add extra javascript #}
         {% endblock %}
+
+        <div id="cookie_accept_bar" class="lm-bg-white tc pv3 dn bottom-0 fixed z-5 w-100">
+          <p>Before browsing our site, please accept our <a href="/cookie-policy">cookies policy</a></p>
+          {% include "resources/primary-button.html" with value="ACCEPT AND CLOSE" class="mv3" %}
+        </div>
     </body>
 </html>

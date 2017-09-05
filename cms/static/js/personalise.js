@@ -17,8 +17,9 @@ var app = Elm.Main.embed(personaliseDiv, {
   reason_label: reason_label,
   content_label: content_label,
   selected_tags: selected_tags,
-  order: window.location.href.split("order=")[1] || "relevance",
-  search: getQuery('q').q[0] || ""
+  order: getOrder(),
+  search: getQuery('q').q[0] || "",
+  page: getPage()
 });
 
 function getTags(name) {
@@ -45,7 +46,7 @@ function getQuery() {
 }
 
 function selectedTags(queryObj) {
-  var selected = JSON.parse(localStorage.getItem('selected_tags')) || [];
+  var selected = JSON.parse(localStorage.getItem('selected_tags_' + getPage())) || [];
 
   for (var type in queryObj) {
     tags = queryObj[type].map(function(el) {
@@ -62,12 +63,17 @@ app.ports.listeners.subscribe(function(res) {
     proConListeners();
     feedbackLoopListener();
     swipeListeners();
+    analyticsListeners();
   });
 });
 
 app.ports.selectTag.subscribe(function(tags) {
-  localStorage.setItem('selected_tags', JSON.stringify(tags));
+  localStorage.setItem('selected_tags_' + getPage(), JSON.stringify(tags));
   app.ports.updateTags.send(tags);
+});
+
+app.ports.changeOrder.subscribe(function(order) {
+  localStorage.setItem('ldmw_resource_order', order);
 });
 
 function swipe(el, callback){
@@ -93,7 +99,7 @@ function swipe(el, callback){
     distY = touchobj.pageY - startY;
 
     if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint) {
-      swipedir = (distX < 0)? 'left' : 'right';
+      swipedir = (distX < 0) ? 'left' : 'right';
     }
 
     callback(swipedir);
@@ -106,6 +112,22 @@ function swipeListeners() {
       app.ports.swipe.send(swipedir);
     });
   });
+}
+
+function getPage() {
+  var page = window.location.href.split('/')[3];
+  if (!page || page.indexOf('?') > -1) {
+    page = 'home';
+  }
+  return page;
+}
+
+function getOrder() {
+  return (
+    window.location.href.split("order=")[1]
+    || localStorage.getItem('ldmw_resource_order')
+    || "relevance"
+  );
 }
 
 swipeListeners();

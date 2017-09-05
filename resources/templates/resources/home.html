@@ -10,18 +10,14 @@
     {% endif %}
 
     {% if landing_pages %}
-      <section id="landing_page_navbar" class="absolute dn dt--fixed dt-ns tc pv3 ph4 ph3-m ph3-l blurred_background cover bg-center w-100 {% if page.banner %}mt5{% endif %}">
+      <section id="landing_page_navbar" class="absolute dn dt--fixed dt-ns tc pv3 ph4 ph3-m ph3-l blurred_background_header cover bg-center w-100 {% if page.banner %}mt5{% endif %}">
         <div class="dib relative mv2-ns mv1 dtc-ns v-mid">
           I am, or know someone who is feeling:
         </div>
         {% for topic in landing_pages %}
           <div class="dib relative mv2 mv1 dtc">
             <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer v-mid">
-              {% if page.url == topic.url %}
-                <a class="ttu nunito-bold link bb bw2" href="/{{topic.slug}}">{{topic.slug}}</a>
-              {% else %}
-                <a class="ttu nunito-bold link" href="/{{topic.slug}}">{{topic.slug}}</a>
-              {% endif %}
+              <a class="ttu nunito-bold link {% if page.url == topic.url %}bb bw2{% endif %}" href="/{{topic.slug}}">{{topic.title}}</a>
             </div>
           </div>
         {% endfor %}
@@ -102,28 +98,6 @@
       </div>
     {% endif %}
 
-    <!-- Main Search and Categories -->
-    <section class="pt4 ph4 ph3-m ph3-l blurred_background cover bg-center">
-      <form>
-        <div class="w-60-ns center tc tl-ns">
-          <div class="tl lm-dark-blue mb2 nunito-bold">I am, or someone I know, is feeling:</div>
-        </div>
-        <div class="tl w-60-ns center relative pb4">
-          <form action="/{% if not page.slug == 'home' %}{{page.slug}}{% endif %}#results" method="get" id="search-form-2">
-            <input type="text" name="q" value="{{request.GET.q}}" class="mt1 mr2 w-100 pa2 pl3 mb3 nunito br1 b--white ba bg-white-90 focus-lm-orange" placeholder="Enter search term", "aria-label"="search">
-            {% for key, value in request.GET.lists %}
-              {% if not key == "q" %}
-                {% for v in value %}
-                  <input type="hidden" name="{{key}}" value="{{v}}" />
-                {% endfor %}
-              {% endif %}
-            {% endfor %}
-            {% include "resources/primary-button.html" with value="Search" class="absolute bottom--1 right-0 right"%}
-          </form>
-        </div>
-      </form>
-    </section>
-
     <section class="tc-ns">
       <div id="elm-personalise" data-slug="{{page.slug}}">
         <section class="results">
@@ -145,7 +119,7 @@
             </div>
         </section>
 
-        <div id="results" class="relative top--3 o-0"></div>
+        <div id="results" class="relative top--4 o-0"></div>
 
         <div class="pa1 ph4 ph3-m ph3-l">
           <div class="w-60-ns center">
@@ -223,7 +197,7 @@
                   </div>
                 {% else %}
                   <label for="id_{{row.label}}" class="db mv1">Email:</label>
-                  <input type="email" id="id_{{row.label}}" name="{{row.label}}" class="br2 pa2 mb2-l mb3 f5 fw3 ba w-100"></input>
+                  <input type="email" id="id_{{row.label}}" name="{{row.label}}" class="-metrika-nokeys br2 pa2 mb2-l mb3 f5 fw3 ba w-100"></input>
 
                   <div class="relative w-100 mt3">
                     <button type="submit" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover absolute bottom--1 right-0">Submit</button>
@@ -256,8 +230,13 @@
     </section>
 
     <footer class="lm-bg-dark-blue tc pa3 f6 f5-ns tracked">
-      <div class="ph2 ph5-plus-ns lm-white">
-        {{ page.footer|richtext }}
+      <div class="ph2 ph5-plus-ns lm-white footer tj">
+        {% for footer in footer_links %}
+          {% image footer.footer_image width-400 as footer_image %}
+          <a href="{{footer.footer_link}}" class="dib">
+            <img src="{{footer_image.url}}">
+          </a>
+        {% endfor %}
       </div>
     </footer>
 {% endblock %}

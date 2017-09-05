@@ -20,6 +20,10 @@ from django.template.loader import render_to_string
 
 from django.apps import apps
 
+from urllib.parse import parse_qs
+
+from django.core.paginator import Paginator
+
 
 def get_location(request):
     google_maps_key = os.environ.get('GOOGLE_MAPS_KEY')
@@ -35,7 +39,13 @@ def get_location(request):
 
 
 def get_json_data(request):
-    data = get_data(request)
+    try:
+        query = request.GET.urlencode()
+        slug = parse_qs(query)['slug'][0]
+    except:
+        slug = ''
+
+    data = get_data(request, slug=slug)
     json_data = {}
 
     resources = list(
@@ -93,12 +103,25 @@ def get_data(request, **kwargs):
         reason_filter,
     ))
 
+    num_likes = 'select ' \
+        + 'count(like_value) from likes_likes ' \
+        + 'where resource_id = resources_resourcepage.page_ptr_id ' \
+        + 'and like_value = %s'
+
     resources = get_order(ResourcePage.objects.all().annotate(
-        number_of_likes=count_likes(1),
-        number_of_dislikes=count_likes(-1),
         score=(count_likes(1) - count_likes(-1)),
         relevance=(get_relevance(selected_tags))
-    ), resource_order)
+    ), resource_order).live()
+
+    resources = resources.extra(
+        select={'number_of_likes': num_likes},
+        select_params=([1])
+    )
+
+    resources = resources.extra(
+        select={'number_of_dislikes': num_likes},
+        select_params=([-1])
+    )
 
     if 'ldmw_session' in request.COOKIES:
         cookie = request.COOKIES['ldmw_session']
@@ -169,9 +192,11 @@ def get_data(request, **kwargs):
     if (query):
         resources = resources.search(query)
 
-    filtered_resources = map(combine_tags, resources)
+    paged_resources = get_paged_resources(request, resources)
 
-    data['landing_pages'] = Home.objects.filter(~Q(slug="home"))
+    filtered_resources = map(combine_tags, paged_resources)
+
+    data['landing_pages'] = Home.objects.filter(~Q(slug="home")).live()
     data['resources'] = filtered_resources
     data['resource_count'] = resources.count()
     data['topic_tags'] = topic_tags.values()
@@ -186,7 +211,7 @@ def get_visited_resources(**kwargs):
     user_cookie = kwargs.get('user_cookie')
 
     if visited_cookie:
-        visited_ids = visited_cookie.split(',')
+        visited_ids = filter(lambda x: x != "", visited_cookie.split(','))
     else:
         visited_ids = []
 
@@ -201,3 +226,29 @@ def get_visited_resources(**kwargs):
         )
 
     return visited_resources
+
+
+def get_paged_resources(request, resources):
+    paginator = Paginator(resources, 3)
+
+    try:
+        if request.GET.get('page') == 'initial':
+            paged_resources = paginator.page(1)
+        elif request.GET.get('page') == 'remainder':
+            try:
+                current_page = paginator.page(2)
+                paged_resources = chain(current_page)
+
+                while current_page.has_next():
+                    current_page = paginator.page(
+                        current_page.next_page_number()
+                    )
+                    paged_resources = chain(paged_resources, current_page)
+            except:
+                paged_resources = []
+        else:
+            paged_resources = resources
+    except:
+        paged_resources = resources
+
+    return paged_resources

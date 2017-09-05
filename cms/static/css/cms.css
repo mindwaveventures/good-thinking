@@ -346,8 +346,12 @@ footer p a {
   background-image: url("../images/whatsapp_hover.svg");
 }
 
-.blurred_background {
+.blurred_background_header {
   background-color: rgba(255, 255, 255, 0.7);
+}
+
+.blurred_background {
+  background-image: url("../images/blurred_gradient.png");
 }
 
 /* Styleguide */
@@ -737,6 +741,27 @@ lm-ls1 {
   opacity: 0.5;
 }
 
+.resource-brand .rich-text h2 {
+  font-size: 2rem;
+}
+
+.resource-brand .rich-text p {
+  font-size: 1rem;
+}
+
+/* taken from:
+ https://css-tricks.com/equidistant-objects-with-css/#article-header-id-5
+*/
+.footer:after {
+  content: '';
+  width: 100%;
+  display: inline-block;
+}
+
+.left-40 {
+  left: 40%;
+}
+
 @media screen and (min-width:30em) {
   .w-200-ns {
     width: 200%;
@@ -756,5 +781,15 @@ lm-ls1 {
 
   .l-12-ns {
     right: -12%;
+  }
+
+  .resource-brand .rich-text h2 {
+    font-size: 4rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .resource-brand .rich-text p {
+    font-size: 1.1rem;
   }
 }

@@ -11,13 +11,13 @@
     <div class="dt dt--fixed">
       <div class="w-20-ns dib-ns dtc-ns v-mid">
         <form action="/like/" method="post" class="dib pointer like-form">
-          <button type="submit" class="{% if v.liked_value == 1 %}liked{% endif %} like w2 h2 bn bg-white fl p0 bg-left pointer" data-url=""><span class="fixed o-0">Recommend</span></button>
+          <button type="submit" class="{% if v.liked_value == 1 %}liked{% endif %} like loop-like w2 h2 bn bg-white fl p0 bg-left pointer" data-url="{{v.resource_url}}"><span class="fixed o-0">Recommend</span></button>
           <input type="hidden" name="id" value="{{v.id}}"/>
           <input type="hidden" name="like" value="1"/>
           {% csrf_token %}
         </form>
         <form action="/like/" method="post" class="dib pointer dislike-form">
-          <button name="dislike" type="submit" class="{% if v.liked_value == -1 %}disliked{% endif %} dislike w2 h2 bn bg-white p0 bg-right pointer" data-url=""><span class="fixed o-0">Don't Recommend</span></button>
+          <button name="dislike" type="submit" class="{% if v.liked_value == -1 %}disliked{% endif %} dislike loop-dislike w2 h2 bn bg-white p0 bg-right pointer" data-url="{{v.resource_url}}"><span class="fixed o-0">Don't Recommend</span></button>
           <input type="hidden" name="id" value="{{v.id}}"/>
           <input type="hidden" name="like" value="-1"/>
           {% csrf_token %}
@@ -30,14 +30,15 @@
           <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
         </div>
         {% else %}
-        <form class="like-form dib v-mid w-100">
+        <form class="like-form dib v-mid w-100 loop-feedback">
           {% csrf_token %}
           <input type="hidden" name="id" value="{{v.id}}" />
           <label for="id_{{v.id}}" class="dn"></label>
-          <input type="text" id="id_{{v.id}}" placeholder="Why have you chosen this rating?" name="feedback" class="b--black br1 h2 w-100 pa2" />
+          <input type="text" id="id_{{v.id}}" placeholder="Why have you chosen this rating?" name="feedback" class="b--black br1 h2 w-70 pa2" />
           <input type="hidden" name="resource_title" value="{{v.title}}" />
           <input type="hidden" name="liked" value="{{v.liked_value}}" />
           <input type="hidden" name="resource_name" value="{{v.heading}}" />
+          {% include "resources/primary-button.html" with value="Submit" class="mv3" %}
         </form>
         {% endif %}
       </div>

@@ -15,8 +15,9 @@ view model =
         , div [ class "pa1 ph4 ph3-m ph3-l" ]
             [ div [ class "w-60-ns center" ]
                 [ div [ class "w-50-ns dib-ns tl" ]
-                    [ h3 [ id "results", class "tl mt5 nunito" ]
-                        [ text ("Showing " ++ (get_num_resources model.resources))
+                    [ div [ id "results", class "relative top--3 o-0" ] []
+                    , h3 [ class "tl mt5 nunito" ]
+                        [ text ("Showing " ++ (get_num_resources model))
                         ]
                     ]
                 , div [ class "w-50-ns dib-ns tr-ns tc" ]
@@ -47,7 +48,7 @@ view model =
                 , id "see_more"
                 , class
                     ("f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover "
-                        ++ if model.show_more then
+                        ++ if model.show_more || model.resource_count < 4 then
                             "dn-important"
                            else
                             ""
@@ -58,11 +59,11 @@ view model =
         ]
 
 
-get_num_resources : List String -> String
-get_num_resources resources =
+get_num_resources : Model -> String
+get_num_resources model =
     let
         count =
-            List.length resources
+            model.resource_count
     in
         if count == 1 then
             (toString count) ++ " resource"

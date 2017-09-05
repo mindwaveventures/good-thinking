@@ -11,6 +11,7 @@ from wagtail.wagtaildocs import urls as wagtaildocs_urls
 
 from likes.views import save_like
 from resources.views import get_json_data, get_location
+from home.views import landing_page_controller
 
 urlpatterns = [
     url(r'^django-admin/', include(admin.site.urls)),
@@ -25,6 +26,13 @@ urlpatterns = [
     url(r'^get_json_data/', get_json_data),
 
     url(r'^location/', get_location),
+
+    url('sleep/', landing_page_controller),
+    url('sleep/tips/', landing_page_controller),
+    url('events/grenfell/', landing_page_controller),
+    url('sleep-and-stress/', landing_page_controller),
+    url('sleep-and-mind-racing/', landing_page_controller),
+    url('sleep/talk-about-it/', landing_page_controller),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in

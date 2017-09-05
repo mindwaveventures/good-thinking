@@ -9,6 +9,9 @@ port listeners : () -> Cmd msg
 port selectTag : List Tag -> Cmd msg
 
 
+port changeOrder : String -> Cmd msg
+
+
 port updateTags : (List Tag -> msg) -> Sub msg
 
 

@@ -3,6 +3,9 @@ module State exposing (init, update, subscriptions)
 import Types exposing (..)
 import Rest exposing (..)
 import Ports exposing (..)
+import Task
+import Time
+import Process
 
 
 init : Flags -> ( Model, Cmd Msg )
@@ -23,9 +26,12 @@ init flags =
                 flags.order
                 flags.search
                 False
+                flags.page
+                0
+                0
             )
     in
-        update (GetData (create_query model)) model
+        update (GetInitialData (create_query model)) model
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -36,12 +42,12 @@ update msg model =
 
         ChangePosition newPosition ->
             if not (xor (newPosition < 1) (newPosition > 3)) then
-                ( { model | position = newPosition }, Cmd.none )
+                ( { model | position = newPosition, results_updated = 0 }, Cmd.none )
             else
                 ( model, Cmd.none )
 
         UpdateTags tags ->
-            ( model, getData (create_query model) )
+            ( model, getData (create_query model) QueryComplete )
 
         SelectTag tag ->
             let
@@ -53,13 +59,15 @@ update msg model =
         QueryComplete response ->
             case response of
                 Ok result ->
-                    ( { model | resources = result }, listeners () )
+                    ( { model
+                        | resources = result.resources
+                        , resource_count = result.count
+                      }
+                    , listeners ()
+                    )
 
                 Err error ->
                     ( model, Cmd.none )
-
-        GetData url ->
-            ( model, getData url )
 
         ToggleOrderBox ->
             ( { model | order_box_visible = not model.order_box_visible }, Cmd.none )
@@ -70,7 +78,7 @@ update msg model =
                     new_model =
                         { model | order_by = order }
                 in
-                    ( new_model, getData (create_query new_model) )
+                    ( new_model, save_order new_model )
             else
                 ( model, Cmd.none )
 
@@ -91,6 +99,37 @@ update msg model =
         ShowMore show ->
             ( { model | show_more = show }, Cmd.none )
 
+        GetInitialData url ->
+            ( model, getData (url ++ "&page=initial") (LazyLoad url) )
+
+        LazyLoad url response ->
+            case response of
+                Ok result ->
+                    ( { model
+                        | resources = result.resources
+                        , resource_count = result.count
+                      }
+                    , getData (url ++ "&page=remainder") (LazyRemainder url)
+                    )
+
+                Err error ->
+                    ( model, Cmd.none )
+
+        LazyRemainder url response ->
+            case response of
+                Ok result ->
+                    ( { model
+                        | resources = List.append model.resources result.resources
+                      }
+                    , listeners ()
+                    )
+
+                Err error ->
+                    ( model, Cmd.none )
+
+        ResultsLoadingAlert old_pos new_pos ->
+            ( { model | results_updated = old_pos }, results_loading new_pos )
+
 
 update_selected : Model -> Tag -> List Tag
 update_selected model tag =
@@ -103,7 +142,7 @@ update_selected model tag =
 create_query : Model -> String
 create_query model =
     List.foldl (\a b -> b ++ a.tag_type ++ "=" ++ a.name ++ "&") "?" model.selected_tags
-        ++ ("&order=" ++ model.order_by ++ "&q=" ++ model.search)
+        ++ ("&order=" ++ model.order_by ++ "&q=" ++ model.search ++ "&slug=" ++ model.page)
 
 
 subscriptions : Model -> Sub Msg
@@ -112,3 +151,20 @@ subscriptions model =
         [ updateTags UpdateTags
         , swipe Swipe
         ]
+
+
+save_order new_model =
+    Task.andThen
+        |> (\_ -> getData (create_query new_model) QueryComplete)
+        |> (\_ -> changeOrder new_model.order_by)
+
+
+delay : Time.Time -> msg -> Cmd msg
+delay time msg =
+    Process.sleep time
+        |> Task.perform (\_ -> msg)
+
+
+results_loading : Int -> Cmd Msg
+results_loading new_pos =
+    delay (Time.second * 0.5) (ChangePosition new_pos)

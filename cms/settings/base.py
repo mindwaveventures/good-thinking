@@ -37,6 +37,7 @@ INSTALLED_APPS = [
 
     'storages',
     'pipeline',
+    'colorful',
 
     'wagtail.wagtailforms',
     'wagtail.wagtailredirects',
@@ -119,6 +120,8 @@ DATABASES['default'] = dj_database_url.config(default='postgres://127.0.0.1:5432
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ALLOWED_HOSTS = [
+    'londonminds.co.uk',
+    'www.londonminds.co.uk',
     'ldmw.herokuapp.com',
     'ldmw-staging.herokuapp.com',
     'ldmw-cms.herokuapp.com',
