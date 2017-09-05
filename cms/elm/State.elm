@@ -4,6 +4,8 @@ import Types exposing (..)
 import Rest exposing (..)
 import Ports exposing (..)
 import Task
+import Time
+import Process
 
 
 init : Flags -> ( Model, Cmd Msg )
@@ -26,6 +28,7 @@ init flags =
                 False
                 flags.page
                 0
+                0
             )
     in
         update (GetInitialData (create_query model)) model
@@ -39,7 +42,7 @@ update msg model =
 
         ChangePosition newPosition ->
             if not (xor (newPosition < 1) (newPosition > 3)) then
-                ( { model | position = newPosition }, Cmd.none )
+                ( { model | position = newPosition, results_updated = 0 }, Cmd.none )
             else
                 ( model, Cmd.none )
 
@@ -124,6 +127,9 @@ update msg model =
                 Err error ->
                     ( model, Cmd.none )
 
+        ResultsLoadingAlert old_pos new_pos ->
+            ( { model | results_updated = old_pos }, results_loading new_pos )
+
 
 update_selected : Model -> Tag -> List Tag
 update_selected model tag =
@@ -151,3 +157,14 @@ save_order new_model =
     Task.andThen
         |> (\_ -> getData (create_query new_model) QueryComplete)
         |> (\_ -> changeOrder new_model.order_by)
+
+
+delay : Time.Time -> msg -> Cmd msg
+delay time msg =
+    Process.sleep time
+        |> Task.perform (\_ -> msg)
+
+
+results_loading : Int -> Cmd Msg
+results_loading new_pos =
+    delay (Time.second * 0.5) (ChangePosition new_pos)
