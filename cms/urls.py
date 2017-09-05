@@ -10,7 +10,7 @@ from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtaildocs import urls as wagtaildocs_urls
 
 from likes.views import save_like
-from resources.views import get_json_data
+from resources.views import get_json_data, get_location
 from home.views import landing_page_controller
 
 urlpatterns = [
@@ -24,6 +24,8 @@ urlpatterns = [
     url(r'^like/', save_like),
 
     url(r'^get_json_data/', get_json_data),
+
+    url(r'^location/', get_location),
 
     url('sleep/', landing_page_controller),
     url('sleep/tips/', landing_page_controller),
