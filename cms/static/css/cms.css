@@ -785,6 +785,10 @@ lm-ls1 {
   border-bottom: solid 1px #c2c2c2;
 }
 
+.left-40 {
+  left: 40%;
+}
+
 @media screen and (min-width:30em) {
   .w-200-ns {
     width: 200%;

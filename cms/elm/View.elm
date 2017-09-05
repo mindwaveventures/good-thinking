@@ -48,7 +48,7 @@ view model =
                 , id "see_more"
                 , class
                     ("f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover "
-                        ++ if model.show_more then
+                        ++ if model.show_more || model.resource_count < 4 then
                             "dn-important"
                            else
                             ""
