@@ -50,23 +50,38 @@
     return Element.prototype.addEventListener && Array.prototype.forEach;
   }
 
+  function request(method, url, payload, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.statusCode === 200) {
+          callback(null, xhr.response);
+          return;
+        }
+        callback(true, xhr.responseText);
+      }
+    }
+    xhr.open(method, url);
+    xhr.send(JSON.stringify(payload));
+  }
+
   // Make an AJAX request with a Phoenix form using the csrf value of that form
   function makePhoenixFormRequest(type, form, callback) {
-    var request = new XMLHttpRequest();
+    var xhr = new XMLHttpRequest();
     var url = form.action;
 
-    request.addEventListener('load', function (e) {
+    xhr.addEventListener('load', function (e) {
       return callback(null, this.responseText);
     });
 
-    request.open(type, url);
+    xhr.open(type, url);
 
-    request.setRequestHeader('accept', 'application/json');
+    xhr.setRequestHeader('accept', 'application/json');
 
     if (type === "POST") {
-      request.send(new FormData(form));
+      xhr.send(new FormData(form));
     } else {
-      request.send();
+      xhr.send();
     }
   }
 
