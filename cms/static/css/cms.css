@@ -346,6 +346,16 @@ footer p a {
   background-image: url("../images/whatsapp_hover.svg");
 }
 
+.next_left {
+  background-image: url("../images/next_left.svg");
+  background-size:contain;
+}
+
+.next_right {
+  background-image: url("../images/next_right.svg");
+  background-size:contain;
+}
+
 .blurred_background_header {
   background-color: rgba(255, 255, 255, 0.7);
 }
