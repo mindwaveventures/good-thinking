@@ -19,13 +19,18 @@ def get_tags(tag_type, **kwargs):
     return tags
 
 
-def combine_tags(element):
-    element.specific.tags = list(chain(
-        element.specific.content_tags.all(),
-        element.specific.issue_tags.all(),
-        element.specific.reason_tags.all(),
-    ))
-    return element
+def create_tag_combiner(exclude):
+    if not exclude:
+        exclude = []
+
+    def combine_tags(element):
+        element.specific.tags = filter(lambda x: x not in exclude, list(chain(
+            element.specific.content_tags.all(),
+            element.specific.issue_tags.all(),
+            element.specific.reason_tags.all(),
+        )))
+        return element
+    return combine_tags
 
 
 def get_resource(id, user_hash):
@@ -40,6 +45,9 @@ def get_resource(id, user_hash):
         + 'and user_hash = %s'
 
     ResourcePage = apps.get_model('resources', 'resourcepage')
+
+    combine_tags = create_tag_combiner(None)
+
     return combine_tags(
         ResourcePage.objects
         .extra(

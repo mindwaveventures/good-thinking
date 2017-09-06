@@ -23,7 +23,7 @@ from resources.models.tags import (
 
 from likes.models import Likes
 
-from resources.models.helpers import combine_tags
+from resources.models.helpers import create_tag_combiner
 
 
 class ResourceFormField(AbstractFormField):
@@ -216,6 +216,8 @@ class ResourcePage(Page):
 
         Home = apps.get_model('resources', 'home')
         Main = apps.get_model('resources', 'main')
+
+        combine_tags = create_tag_combiner(None)
 
         landing_pages = Home.objects.filter(~Q(slug="home")).live()
         banner = Main.objects.get(slug="home").banner
