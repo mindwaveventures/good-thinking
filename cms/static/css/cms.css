@@ -472,6 +472,10 @@ code {
   top: -3rem;
 }
 
+.top--4 {
+  top: -4rem;
+}
+
 .nr {
   resize: none;
 }
@@ -758,6 +762,29 @@ lm-ls1 {
   display: inline-block;
 }
 
+.cubes {
+  background-image: url('../images/box-background.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.bottom--1-5 {
+  bottom: -1.5rem;
+}
+
+.w-5 {
+  width: 5%;
+}
+
+.w-95 {
+  width: 95%;
+}
+
+.footer-block:first-of-type {
+  border-bottom: solid 1px #c2c2c2;
+}
+
 .left-40 {
   left: 40%;
 }
@@ -765,6 +792,14 @@ lm-ls1 {
 @media screen and (min-width:30em) {
   .w-200-ns {
     width: 200%;
+  }
+
+  .w-5-ns {
+    width: 5%;
+  }
+
+  .w-95-ns {
+    width: 95%;
   }
 
   .mr-1p-ns {
@@ -791,5 +826,9 @@ lm-ls1 {
 
   .resource-brand .rich-text p {
     font-size: 1.1rem;
+  }
+
+  .bottom--1-5-ns {
+    bottom: -1.5rem;
   }
 }

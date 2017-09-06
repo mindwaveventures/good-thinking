@@ -58,32 +58,7 @@
       </div>
     {% endif %}
 
-    <!-- Hero Image Block -->
-    {% image page.hero_image width-1000 as hero_image %}
-    <section class="pt10 ph4 ph5-m ph6-l tc lm-white cover lh-copy bg-center" style="background-image:url('{{ hero_image.url }}')">
-      {% include "resources/logo.html" %}
-      <div class="pb5 w-90-ns f1-ns f6 lh-title center">
-        <div class="mb4">
-          {{ page.header|richtext }}
-          <form action="/{% if not page.slug == 'home' %}{{page.slug}}{% endif %}#results" method="get" id="search-form-1">
-            <input name="q" type="text" value="{{request.GET.q}}" class="w-50-ns w-100 db center mt1 b--white ba pa1 pa2-ns nunito f5 br1 bg-white-90 focus-lm-orange" placeholder="Enter search term", "aria-label"="search">
-            {% for key, value in request.GET.lists %}
-              {% if not key == "q" %}
-                {% for v in value %}
-                  <input type="hidden" name="{{key}}" value="{{v}}" />
-                {% endfor %}
-              {% endif %}
-            {% endfor %}
-            {% include "resources/primary-button.html" with value="Search" class="mv3"%}
-          </form>
-        </div>
-        {% if page.video_url %}
-          <div class="dib homepage_video_container v-mid ml5-l">
-            {{ video_url }}
-          </div>
-        {% endif %}
-      </div>
-    </section>
+    {% include "resources/components/hero-image.html" with page=page %}
 
     <!-- Body Text -->
     <section class="pa1 ph4 ph3-m ph3-l mb3">
@@ -145,98 +120,16 @@
       </div>
     </section>
 
-    <!-- Suggestion Form -->
-    <form action="{% pageurl page %}" method="POST">
-      {% csrf_token %}
-      <section class="tc-ns tl-m w-100 pa1 ph4 ph3-m ph3-l pb4 pb5-l" id="suggestion_form">
-        <div class="w-60-ns center">
-          <div class="pt3 pb2 mt4 tl center ma0-ns">
-            {{page.lookingfor|richtext}}
-          </div>
-          {% for row in custom_form %}
-            {% if row.field_type == 'multiline' %}
-              <div>
-                {% if row.suggestion_submitted %}
-                  <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-green b--lm-green relative">
-                    Suggestions submitted successfully!
-                    <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
-                  </div>
-                {% else %}
-                  <label for="id_{{row.label}}" class="dn"></label>
-                  <textarea id="id_{{row.label}}" name="{{row.label}}" class="h4 f5 w-100 pa3 nr b--lm-grey"></textarea>
-
-                  <div class="tr mt2">
-                    <button type="submit" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover bottom--1 right-0">Submit</button>
-                  </div>
-                {% endif %}
-              </div>
-            {% endif %}
+    {% if footer_links %}
+      <footer class="tc pa3 f6 f5-ns tracked">
+        <div class="ph2 ph5-plus-ns lm-white footer tj">
+          {% for footer in footer_links %}
+            {% image footer.footer_image width-400 as footer_image %}
+            <a href="{{footer.footer_link}}" class="dib">
+              <img src="{{footer_image.url}}">
+            </a>
           {% endfor %}
         </div>
-      </section>
-
-      <!-- Alpha/Beta Section -->
-      <section class="lm-white lm-bg-dark-blue pa1 ph4 ph3-m ph3-l pb4 pb5-l" id="email_form">
-        <div class="mv3 w-60-ns center" id="alpha">
-          {% if page.alpha %}
-            {{page.alpha|richtext}}
-          {% else %}
-            {{page.alpha_feedback|richtext}}
-          {% endif %}
-        </div>
-
-        <div id="alphasection" class="lm-dark-blue lm-bg-white pa1 ph4 ph3-m ph3-l pv1 pv3-l w-60-ns center tracked relative">
-          {{page.alphatext|richtext}}
-          <div>
-            {% for row in custom_form %}
-              {% if row.field_type == 'email' %}
-                {% if row.email_submitted %}
-                  <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-green b--lm-green relative">
-                    Email address entered successfully!
-                    <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
-                  </div>
-                {% else %}
-                  <label for="id_{{row.label}}" class="db mv1">Email:</label>
-                  <input type="email" id="id_{{row.label}}" name="{{row.label}}" class="-metrika-nokeys br2 pa2 mb2-l mb3 f5 fw3 ba w-100"></input>
-
-                  <div class="relative w-100 mt3">
-                    <button type="submit" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover absolute bottom--1 right-0">Submit</button>
-                  </div>
-                  <div class="mt4 pt1"></div> <!-- TODO: remove <<<this div and style properly -->
-                {% endif %}
-              {% endif %}
-            {% endfor %}
-          </div>
-        </div>
-      </section>
-    </form>
-
-    <section class="pv1 ph3 lm-bg-orange tl">
-      <a href="/coming-soon" class="link banners">
-        <div class="relative">
-          {{ page.assessment_text|richtext }}
-          <p class="absolute right-1 top--1 dn dib-ns b pointer">></p>
-        </div>
-      </a>
-    </section>
-
-    <section class="pv1 ph3 tl lm-bg-white">
-      <a href="/crisis" class="link banners crisis-link">
-        <div class="relative">
-          {{ page.crisis_text|richtext }}
-          <p class="absolute right-1 top--1 dn dib-ns b pointer">></p>
-        </div>
-      </a>
-    </section>
-
-    <footer class="lm-bg-dark-blue tc pa3 f6 f5-ns tracked">
-      <div class="ph2 ph5-plus-ns lm-white footer tj">
-        {% for footer in footer_links %}
-          {% image footer.footer_image width-400 as footer_image %}
-          <a href="{{footer.footer_link}}" class="dib">
-            <img src="{{footer_image.url}}">
-          </a>
-        {% endfor %}
-      </div>
-    </footer>
+      </footer>
+    {% endif %}
 {% endblock %}
