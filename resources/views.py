@@ -179,14 +179,16 @@ def get_data(request, **kwargs):
             Q(topic_tags__name__in=tag_filter)
         ).distinct()
 
-    tips = filter_resources(Tip.objects.all(),
+    tips = filter_resources(
+        Tip.objects.all(),
         tag_filter=tag_filter,
         issue_filter=issue_filter,
         topic_filter=topic_filter,
         query=query
     )
 
-    resources = filter_resources(resources,
+    resources = filter_resources(
+        resources,
         tag_filter=tag_filter,
         issue_filter=issue_filter,
         topic_filter=topic_filter,
@@ -256,6 +258,7 @@ def get_paged_resources(request, resources):
         paged_resources = resources
 
     return paged_resources
+
 
 def filter_resources(resources, **kwargs):
     tag_filter = kwargs.get('data')

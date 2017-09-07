@@ -237,6 +237,7 @@ class ResourcePage(Page):
     class Meta:
         verbose_name = "Resource"
 
+
 class Tip(ResourcePage):
     tip_text = RichTextField(blank=True)
     credit = TextField(blank=True)
