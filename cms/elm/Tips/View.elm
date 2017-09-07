@@ -8,35 +8,33 @@ import Html.Events exposing (onInput, onClick, onCheck)
 import Json.Encode
 
 
-view : Model -> Html Msg
-view model =
-    case List.length model.tips of
+view : Model -> List String -> Html Msg
+view model tips =
+    case List.length tips of
         1 ->
-            case List.head model.tips of
+            case List.head tips of
                 Just tip ->
-                    tip_view tip ""
+                    tip_view 0 tip "w-60 center"
 
                 Nothing ->
                     div [] []
 
         2 ->
             div [ class "overflow-hidden" ]
-                [ div [ class ("tag-container w-200-ns w-330 relative center " ++ (getPosition model.tag_position)) ]
-                    (List.map (\el -> tip_view el "dib w-30 mr-1p-ns mr-5") model.tips)
+                [ div [ class ("tag-container w-200-ns w-330 relative center " ++ (getPosition model.tip_position)) ]
+                    (List.indexedMap (\i el -> tip_view i el "dib w-30 mr-1p-ns mr-5") tips)
                 ]
 
         _ ->
-            div [] []
+            div [ class "overflow-hidden" ]
+                [ div [ class ("tag-container w-200-ns w-330 relative center " ++ (getPositionThree model.tip_position)) ]
+                    (List.indexedMap (\i el -> tip_view i el "dib w-30 mr-1p-ns mr-5") tips)
+                ]
 
 
-render_tips : Model -> List (Html Msg)
-render_tips model =
-    List.map (\el -> tip_view el "") model.tips
-
-
-tip_view : String -> String -> Html Msg
-tip_view page classname =
-    div [ property "innerHTML" (Json.Encode.string page), class classname ] []
+tip_view : Int -> String -> String -> Html Msg
+tip_view index page classname =
+    div [ onClick (ChangeTipPosition (index + 1)), property "innerHTML" (Json.Encode.string page), class classname ] []
 
 
 getPosition : Int -> String
@@ -48,8 +46,21 @@ getPosition pos =
         2 ->
             "r-80-ns r-115"
 
+        _ ->
+            "r-18-ns"
+
+
+getPositionThree : Int -> String
+getPositionThree pos =
+    case pos of
+        1 ->
+            "l-13-ns r-0"
+
+        2 ->
+            "r-49-ns r-115"
+
         3 ->
-            "r-112-ns r-230"
+            "r-111-ns r-230"
 
         _ ->
-            "l-12-ns"
+            "l-13-ns"

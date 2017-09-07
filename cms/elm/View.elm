@@ -101,17 +101,33 @@ get_resources model =
         (\i el ->
             case model.show_more of
                 False ->
-                    if i == 0 then
-                        div []
-                            ([ Resources.view el "" ]
-                                ++ [ Tips.view model ]
-                            )
-                    else if i < 3 then
+                    if i < 2 then
                         Resources.view el ""
+                    else if (rem (i + 1) 3) == 0 && (i < 3) then
+                        div []
+                            ([ Tips.view model (List.take 3 (List.drop (i - 3) model.tips)) ]
+                                ++ [ Resources.view el "" ]
+                            )
                     else
                         Resources.view el "dn"
 
                 True ->
-                    Resources.view el ""
+                    if (rem (i + 1) 3) == 0 then
+                        div []
+                            ([ Tips.view model (List.take 3 (List.drop (i - 3) model.tips)) ]
+                                ++ [ Resources.view el "" ]
+                            )
+                    else
+                        Resources.view el ""
         )
         model.resources
+
+
+split : Int -> List a -> List (List a)
+split i list =
+    case List.take i list of
+        [] ->
+            []
+
+        listHead ->
+            listHead :: split i (List.drop i list)

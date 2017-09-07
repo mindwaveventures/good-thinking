@@ -839,12 +839,24 @@ lm-ls1 {
     right: 50%;
   }
 
+  .r-49-ns {
+    right: 49%;
+  }
+
   .r-112-ns {
     right: 112%;
   }
 
+  .r-111-ns {
+    right: 111%;
+  }
+
   .l-12-ns {
     right: -12%;
+  }
+
+  .l-13-ns {
+    right: -13%;
   }
 
   .r-18-ns {

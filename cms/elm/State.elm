@@ -48,6 +48,12 @@ update msg model =
             else
                 ( model, Cmd.none )
 
+        ChangeTipPosition newPosition ->
+            if not (xor (newPosition < 1) (newPosition > 3)) then
+                ( { model | tip_position = newPosition }, Cmd.none )
+            else
+                ( model, Cmd.none )
+
         UpdateTags tags ->
             ( model, getData (create_query model) QueryComplete )
 

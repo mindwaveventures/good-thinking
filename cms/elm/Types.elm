@@ -55,6 +55,7 @@ type alias Results =
 type Msg
     = NoOp
     | ChangePosition Int
+    | ChangeTipPosition Int
     | SelectTag Tag
     | QueryComplete (Result Http.Error Results)
     | GetInitialData String
