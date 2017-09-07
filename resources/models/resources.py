@@ -4,7 +4,7 @@ from wagtail.wagtailadmin.edit_handlers import (
     FieldPanel, InlinePanel, MultiFieldPanel, FieldRowPanel
 )
 from wagtail.wagtailsearch import index
-
+from wagtail.wagtailcore.models import Orderable
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -24,6 +24,29 @@ from resources.models.tags import (
 from likes.models import Likes
 
 from resources.models.helpers import combine_tags
+
+
+class Badges(models.Model):
+    badge_color = RGBColorField(
+        default='#ffffff', null=True, blank=True
+    )
+    badge_text_color = RGBColorField(
+        default='#000000', null=True, blank=True
+    )
+    badge_text = TextField(blank=True)
+
+    panels = [
+        FieldPanel('badge_color'),
+        FieldPanel('badge_text_color'),
+        FieldPanel('badge_text')
+    ]
+
+    class Meta:
+        abstract = True
+
+
+class ResourcePageBadges(Orderable, Badges):
+    page = ParentalKey('ResourcePage', related_name='badges')
 
 
 class ResourceFormField(AbstractFormField):
@@ -175,6 +198,7 @@ class ResourcePage(Page):
             FieldPanel('brand_text'),
             FieldPanel('text_color')
         ], heading="Branding"),
+        InlinePanel('badges', label="Badge"),
         FieldRowPanel([
             FieldPanel('resource_url', classname="col6"),
             FieldPanel('resource_url_text', classname="col6"),
@@ -228,6 +252,7 @@ class ResourcePage(Page):
         context['number_of_dislikes'] = Likes.objects\
             .filter(resource_id=self.id, like_value=-1)\
             .count()
+        # context['badges'] = ResourcePageBadges.objects.all()
 
         return context
 
