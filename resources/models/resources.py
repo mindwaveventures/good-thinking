@@ -175,6 +175,7 @@ class ResourcePage(Page):
             FieldPanel('brand_text'),
             FieldPanel('text_color')
         ], heading="Branding"),
+        FieldPanel('heading', classname="full"),
         FieldRowPanel([
             FieldPanel('resource_url', classname="col6"),
             FieldPanel('resource_url_text', classname="col6"),
