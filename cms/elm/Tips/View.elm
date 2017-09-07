@@ -8,27 +8,27 @@ import Html.Events exposing (onInput, onClick, onCheck)
 import Json.Encode
 
 
-view : Model -> List String -> Html Msg
-view model tips =
+view : Model -> List String -> String -> Html Msg
+view model tips classname =
     case List.length tips of
         1 ->
             case List.head tips of
                 Just tip ->
-                    tip_view 0 tip "w-60 center"
+                    tip_view 0 tip ("w-60 center " ++ classname)
 
                 Nothing ->
                     div [] []
 
         2 ->
             div [ class "overflow-hidden" ]
-                [ div [ class ("tag-container w-200-ns w-330 relative center " ++ (getPosition model.tip_position)) ]
-                    (List.indexedMap (\i el -> tip_view i el "dib w-30 mr-1p-ns mr-5") tips)
+                [ div [ class (classname ++ " tag-container w-200-ns w-330 relative center " ++ (getPosition model.tip_position)) ]
+                    (List.indexedMap (\i el -> tip_view i el "dib w-30 mr-1p-ns mr-1p") tips)
                 ]
 
         _ ->
             div [ class "overflow-hidden" ]
                 [ div [ class ("tag-container w-200-ns w-330 relative center " ++ (getPositionThree model.tip_position)) ]
-                    (List.indexedMap (\i el -> tip_view i el "dib w-30 mr-1p-ns mr-5") tips)
+                    (List.indexedMap (\i el -> tip_view i el ("dib w-30 mr-1p-ns mr-1p " ++ classname)) tips)
                 ]
 
 
@@ -44,7 +44,7 @@ getPosition pos =
             "r-18-ns r-0"
 
         2 ->
-            "r-80-ns r-115"
+            "r-80-ns r-102"
 
         _ ->
             "r-18-ns"
@@ -57,10 +57,10 @@ getPositionThree pos =
             "l-13-ns r-0"
 
         2 ->
-            "r-49-ns r-115"
+            "r-49-ns r-102"
 
         3 ->
-            "r-111-ns r-230"
+            "r-111-ns r-204"
 
         _ ->
             "l-13-ns"

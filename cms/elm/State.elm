@@ -105,6 +105,17 @@ update msg model =
                 _ ->
                     update NoOp model
 
+        TipSwipe dir ->
+            case dir of
+                "right" ->
+                    update (ChangeTipPosition (model.tip_position - 1)) model
+
+                "left" ->
+                    update (ChangeTipPosition (model.tip_position + 1)) model
+
+                _ ->
+                    update NoOp model
+
         ShowMore show ->
             ( { model | show_more = show }, Cmd.none )
 
@@ -160,6 +171,7 @@ subscriptions model =
     Sub.batch
         [ updateTags UpdateTags
         , swipe Swipe
+        , tipSwipe TipSwipe
         ]
 
 

@@ -64,6 +64,7 @@ type Msg
     | CloseAndUpdate String
     | UpdateTags (List Tag)
     | Swipe String
+    | TipSwipe String
     | ShowMore Bool
     | LazyLoad String (Result Http.Error Results)
     | LazyRemainder String (Result Http.Error Results)

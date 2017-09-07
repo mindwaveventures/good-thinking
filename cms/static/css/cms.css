@@ -818,6 +818,18 @@ lm-ls1 {
   width: 95%;
 }
 
+.mr-1p {
+  margin-right: 1%;
+}
+
+.r-102 {
+  right: 102%;
+}
+
+.r-204 {
+  right: 204%;
+}
+
 @media screen and (min-width:30em) {
   .w-200-ns {
     width: 200%;

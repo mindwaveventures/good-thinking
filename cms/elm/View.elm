@@ -105,8 +105,13 @@ get_resources model =
                         Resources.view el ""
                     else if (rem (i + 1) 3) == 0 && (i < 3) then
                         div []
-                            ([ Tips.view model (List.take 3 (List.drop (i - 3) model.tips)) ]
+                            ([ Tips.view model (List.take 3 (List.drop (i - 3) model.tips)) "" ]
                                 ++ [ Resources.view el "" ]
+                            )
+                    else if (rem (i + 1) 3) == 0 then
+                        div []
+                            ([ Tips.view model (List.take 3 (List.drop (i - 3) model.tips)) "dn" ]
+                                ++ [ Resources.view el "dn" ]
                             )
                     else
                         Resources.view el "dn"
@@ -114,7 +119,7 @@ get_resources model =
                 True ->
                     if (rem (i + 1) 3) == 0 then
                         div []
-                            ([ Tips.view model (List.take 3 (List.drop (i - 3) model.tips)) ]
+                            ([ Tips.view model (List.take 3 (List.drop (i - 3) model.tips)) "" ]
                                 ++ [ Resources.view el "" ]
                             )
                     else
