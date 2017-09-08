@@ -39,6 +39,7 @@ urlpatterns = [
     url('sleep-and-stress/', landing_page_controller),
     url('sleep-and-mind-racing/', landing_page_controller),
     url('sleep/talk-about-it/', landing_page_controller),
+    url('assessment', landing_page_controller),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
