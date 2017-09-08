@@ -1,0 +1,36 @@
+<form id="summary_form" method="post" action="/server-assessment/">
+  {% csrf_token %}
+  <input type="hidden" name="member_id" value="{{member_id}}" />
+  <input type="hidden" name="traversal_id" value="{{traversal_id}}" />
+  <input id="algo_id_summary" type="hidden" name="algo_id" value="{{algo_id}}" />
+  <input id="node_id_summary" type="hidden" name="node_id" value="{{node_id}}" />
+  <button id="return_summary" type="submit" name="return_summary" value="Get">Back</button>
+</form>
+
+<h1>summary</h1>
+
+{% for c in Categories %}
+  <h2>
+    {{c.DisplayText}}
+  </h2>
+  {% for s in c.SubCategories %}
+    <h3>
+      {{s.DisplayText}}
+    </h3>
+    {% for g in s.Groups %}
+    <div>
+      <a onClick='goBack({{g.AlgoID}}, {{g.NodeID}})'>{{g.DisplayText}}</a>
+    </div>
+    {% endfor %}
+  {% endfor %}
+{% endfor %}
+
+<script type="text/javascript">
+  function goBack(algoID, nodeID) {
+    document.getElementById("algo_id_summary").value = algoID;
+    document.getElementById("node_id_summary").value = nodeID;
+    document.getElementById("return_summary").value = "GoBack";
+
+    document.getElementById('return_summary').click();
+  }
+</script>

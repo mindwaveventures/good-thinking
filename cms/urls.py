@@ -11,7 +11,11 @@ from wagtail.wagtaildocs import urls as wagtaildocs_urls
 
 from likes.views import save_like
 from resources.views import get_json_data
-from home.views import landing_page_controller
+from home.views import (
+    landing_page_controller,
+    assessment_controller,
+    assessment_summary_controller
+)
 
 from django.views.generic import TemplateView
 
@@ -33,13 +37,15 @@ urlpatterns = [
         name="cms"
     ),
 
+    url('server-assessment/', assessment_controller),
+    url('assessment-summary/', assessment_summary_controller),
     url('sleep/', landing_page_controller),
     url('sleep/tips/', landing_page_controller),
     url('events/grenfell/', landing_page_controller),
     url('sleep-and-stress/', landing_page_controller),
     url('sleep-and-mind-racing/', landing_page_controller),
     url('sleep/talk-about-it/', landing_page_controller),
-    url('assessment', landing_page_controller),
+    url('assessment/', landing_page_controller),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
