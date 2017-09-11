@@ -14,9 +14,5 @@
       {% include_block page.body %}
     </div>
   </section>
-  <footer class="lm-bg-dark-blue tc pa3 f6 f5-ns tracked">
-    <div class="ph2 ph5-plus-ns lm-white">
-      {{ footer|richtext }}
-    </div>
-  </footer>
+  {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
 {% endblock %}
