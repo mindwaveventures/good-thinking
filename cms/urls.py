@@ -33,7 +33,7 @@ urlpatterns = [
         name="cms"
     ),
 
-    url('sleep/', landing_page_controller),
+    url(r'^sleep/', landing_page_controller),
     url('sleep/tips/', landing_page_controller),
     url('events/grenfell/', landing_page_controller),
     url('sleep-and-stress/', landing_page_controller),
