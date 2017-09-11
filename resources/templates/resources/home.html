@@ -124,16 +124,5 @@
       </div>
     </section>
 
-    {% if footer_links %}
-      <footer class="tc pa3 f6 f5-ns tracked">
-        <div class="ph2 ph5-plus-ns lm-white footer tj">
-          {% for footer in footer_links %}
-            {% image footer.footer_image width-400 as footer_image %}
-            <a href="{{footer.footer_link}}" class="dib">
-              <img src="{{footer_image.url}}">
-            </a>
-          {% endfor %}
-        </div>
-      </footer>
-    {% endif %}
+    {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
 {% endblock %}

@@ -23,7 +23,7 @@ from resources.models.tags import (
 
 from likes.models import Likes
 
-from resources.models.helpers import create_tag_combiner
+from resources.models.helpers import create_tag_combiner, base_context
 
 
 class ResourceFormField(AbstractFormField):
@@ -197,8 +197,10 @@ class ResourcePage(Page):
 
     def __init__(self, *args, **kwargs):
         super(ResourcePage, self).__init__(*args, **kwargs)
-        if self.get_parent():
+        try:
             self.parent = self.get_parent().slug
+        except:
+            self.parent = None
 
     def get_context(self, request):
         context = super(ResourcePage, self).get_context(request)
@@ -216,14 +218,11 @@ class ResourcePage(Page):
             context['liked_value'] = 0
 
         Home = apps.get_model('resources', 'home')
-        Main = apps.get_model('resources', 'main')
 
         combine_tags = create_tag_combiner(None)
-
         landing_pages = Home.objects.filter(~Q(slug="home")).live()
-        banner = Main.objects.get(slug="home").banner
+
         context['landing_pages'] = landing_pages
-        context['banner'] = banner
         context['tags'] = combine_tags(self).specific.tags
         context['number_of_likes'] = Likes.objects\
             .filter(resource_id=self.id, like_value=1)\
@@ -232,7 +231,7 @@ class ResourcePage(Page):
             .filter(resource_id=self.id, like_value=-1)\
             .count()
 
-        return context
+        return base_context(context)
 
     class Meta:
         verbose_name = "Resource"
