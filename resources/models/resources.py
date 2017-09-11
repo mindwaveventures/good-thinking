@@ -28,6 +28,7 @@ from resources.models.tags import (
 from likes.models import Likes
 
 from resources.models.helpers import create_tag_combiner
+from gpxpy.geo import haversine_distance
 
 
 def check_latlong(self, latlong_input, n):
@@ -282,6 +283,21 @@ class ResourcePage(Page):
         else:
             cookie = ''
             context['liked_value'] = 0
+
+        if 'ldmw_location_latlong' in request.COOKIES:
+            try:
+                location = request.COOKIES['ldmw_location_latlong']
+                [latitude, longitude] = location.split(",")
+                dist_km = haversine_distance(
+                    float(latitude), float(longitude),
+                    float(self.latitude), float(self.longitude)
+                )
+                context['is_near'] = dist_km / 1.6 < 2000  # less than 2 miles
+            except:
+                print("Failed to get location")
+                context['is_near'] = False
+        else:
+            context['is_near'] = False
 
         Home = apps.get_model('resources', 'home')
         Main = apps.get_model('resources', 'main')

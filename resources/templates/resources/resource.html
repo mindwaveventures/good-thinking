@@ -1,4 +1,3 @@
-
 {% load wagtailcore_tags wagtailimages_tags %}
 
 {% if banner %}
@@ -81,6 +80,11 @@
   <div class="br1 shadow-2 tl w-60-ns center">
     <div class="ba b--lm-dark-blue ph2 pt2 pb0 pt3-ns ph4-ns mt4">
       <h2 class="mt0 mb1 ml2">{{ page.heading }}</h2>
+      {% if is_near %}
+        <div class="fr">
+          <div class="segoe-bold pa2 lm-bg-turquoise white">Near you</div>
+        </div>
+      {% endif %}
       <div class="word-wrap">
         {% if page.resource_url %}
           <a target="_blank" class="f6 lm-turquoise resource-link link-hover link-visited pv1 ph2" href="{{page.resource_url}}">

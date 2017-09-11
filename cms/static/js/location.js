@@ -19,16 +19,15 @@ function handleGeolocationMessage () {
 }
 
 if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(function (position) {
-    var location = position.coords.latitude + ',' + position.coords.longitude;
-    request('get', '/location/' + location, null, function (err, res) {
-      if (err) {
-        console.log('Problem getting geolocation: ', err);
-        return;
-      }
-      handleGeolocationMessage();
+  if (document.cookie.indexOf('ldmw_location_latlong') > -1) {
+    handleGeolocationMessage();
+  } else {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      var location = position.coords.latitude + ',' + position.coords.longitude;
+      document.cookie = 'ldmw_location_latlong=' + location;
+      window.location.reload();
     });
-  });
+  }
 } else {
   console.log('Navigator Geolocation not available');
 }
