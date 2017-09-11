@@ -197,8 +197,10 @@ class ResourcePage(Page):
 
     def __init__(self, *args, **kwargs):
         super(ResourcePage, self).__init__(*args, **kwargs)
-        if self.get_parent():
+        try:
             self.parent = self.get_parent().slug
+        except:
+            self.parent = None
 
     def get_context(self, request):
         context = super(ResourcePage, self).get_context(request)
