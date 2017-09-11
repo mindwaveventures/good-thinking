@@ -11,7 +11,7 @@ view : Model -> Html Msg
 view model =
     div [ class "overflow-hidden ph4 ph3-m ph3-l mt5" ]
         [ div [ class "tl w-60-ns center" ] [ h3 [] [ text "Personalise your results:" ] ]
-        , div [ class ("tag-container w-200-ns w-330 relative center " ++ (getPosition model.position)) ]
+        , div [ class ("tag-container w-200-ns w-330 relative center " ++ (getPosition model.tag_position)) ]
             [ render_filter_block model 1 model.issue_label model.issue_tags ("mr-1p-ns mr-5 " ++ (get_active model 1))
             , render_filter_block model 2 model.reason_label model.reason_tags ("mr-1p-ns mr-5 " ++ (get_active model 2))
             , render_filter_block model 3 model.content_label model.content_tags (get_active model 3)
@@ -115,7 +115,7 @@ create_tag num name =
 
 is_active : Model -> Int -> Bool
 is_active model pos =
-    model.position == pos
+    model.tag_position == pos
 
 
 get_active : Model -> Int -> String
