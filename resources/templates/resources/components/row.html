@@ -1,0 +1,9 @@
+{% load wagtailcore_tags wagtailimages_tags static spacing %}
+
+{% for list in element_list|split_list:length %}
+  <div class="{{class}}">
+    {% for el in list %}
+        {% include render_template with width=width page=el %}
+    {% endfor %}
+  </div>
+{% endfor %}

@@ -11,7 +11,7 @@ from django.http import JsonResponse, HttpResponse
 from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag
 from resources.models.resources import ResourcePage
 from resources.models.helpers import (
-    combine_tags, count_likes, filter_tags,
+    create_tag_combiner, count_likes, filter_tags,
     get_tags, get_order, get_relevance
 )
 
@@ -166,10 +166,15 @@ def get_data(request, **kwargs):
                 ReasonTag,
                 filtered_tags=filtered_reason_tags
             ).values()
+
+        excluded_tags = (
+            Home.objects.get(slug=topic_filter).specific.exclude_tags.all()
+        )
     else:
         data['issue_tags'] = issue_tags.values()
         data['content_tags'] = content_tags.values()
         data['reason_tags'] = reason_tags.values()
+        excluded_tags = []
 
     if (tag_filter):
         resources = resources.filter(
@@ -193,6 +198,8 @@ def get_data(request, **kwargs):
         resources = resources.search(query)
 
     paged_resources = get_paged_resources(request, resources)
+
+    combine_tags = create_tag_combiner(excluded_tags)
 
     filtered_resources = map(combine_tags, paged_resources)
 
