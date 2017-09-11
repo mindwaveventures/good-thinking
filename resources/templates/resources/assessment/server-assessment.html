@@ -35,7 +35,7 @@
       {% endif %}
     </div>
     {% if q.Questions|length > 0 %}
-      {% include "home/question-table.html" with table=q %}
+      {% include "resources/assessment/question-table.html" with table=q %}
     {% endif %}
     {% for a in q.Answers %}
       <div>
@@ -71,14 +71,14 @@
     <div>
       {{Report.MessageDescription}}
     </div>
-    {% include "home/bullets.html" with bullets=Report.ContactBullets title=Report.ContactBulletTitle %}
-    {% include "home/bullets.html" with bullets=Report.DangerBullets title=Report.DangerBulletTitle %}
+    {% include "resources/assessment/bullets.html" with bullets=Report.ContactBullets title=Report.ContactBulletTitle %}
+    {% include "resources/assessment/bullets.html" with bullets=Report.DangerBullets title=Report.DangerBulletTitle %}
 
-    {% include "home/conclusions.html" with conclusions=Report.ReasonConclusions title=Report.ReasonConclusionTitle %}
-    {% include "home/bullets.html" with bullets=Report.ReasonBullets title=Report.ReasonBulletTitle %}
+    {% include "resources/assessment/conclusions.html" with conclusions=Report.ReasonConclusions title=Report.ReasonConclusionTitle %}
+    {% include "resources/assessment/bullets.html" with bullets=Report.ReasonBullets title=Report.ReasonBulletTitle %}
 
-    {% include "home/conclusions.html" with conclusions=Report.OtherConclusions title=Report.OtherConclusionTitle %}
-    {% include "home/conclusions.html" with conclusions=Report.InformationConclusions title=Report.InformationConclusionTitle %}
+    {% include "resources/assessment/conclusions.html" with conclusions=Report.OtherConclusions title=Report.OtherConclusionTitle %}
+    {% include "resources/assessment/conclusions.html" with conclusions=Report.InformationConclusions title=Report.InformationConclusionTitle %}
   {% endif %}
 
   {% csrf_token %}

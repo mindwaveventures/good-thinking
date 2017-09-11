@@ -254,3 +254,24 @@ class Tip(ResourcePage):
         FieldPanel('hidden_tags'),
         FieldPanel('priority'),
     ]
+
+
+class Assessment(ResourcePage):
+    content_panels = Page.content_panels + [
+        FieldPanel('heading', classname="full"),
+        FieldPanel('body', classname="full")
+    ]
+
+    promote_panels = Page.promote_panels + [
+        FieldPanel('topic_tags'),
+        FieldPanel('issue_tags'),
+        FieldPanel('reason_tags'),
+        FieldPanel('content_tags'),
+        FieldPanel('hidden_tags'),
+        FieldPanel('priority'),
+    ]
+
+    def get_context(self, request):
+        context = super(Assessment, self).get_context(request)
+
+        return base_context(context)
