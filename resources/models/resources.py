@@ -236,3 +236,22 @@ class ResourcePage(Page):
 
     class Meta:
         verbose_name = "Resource"
+
+
+class Tip(ResourcePage):
+    tip_text = RichTextField(blank=True)
+    credit = TextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('tip_text', classname="full"),
+        FieldPanel('credit', classname="full")
+    ]
+
+    promote_panels = Page.promote_panels + [
+        FieldPanel('topic_tags'),
+        FieldPanel('issue_tags'),
+        FieldPanel('reason_tags'),
+        FieldPanel('content_tags'),
+        FieldPanel('hidden_tags'),
+        FieldPanel('priority'),
+    ]

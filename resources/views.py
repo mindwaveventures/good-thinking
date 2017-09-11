@@ -5,7 +5,7 @@ from itertools import chain
 from django.http import JsonResponse
 
 from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag
-from resources.models.resources import ResourcePage
+from resources.models.resources import ResourcePage, Tip
 from resources.models.helpers import (
     create_tag_combiner, count_likes, filter_tags,
     get_tags, get_order, get_relevance
@@ -42,10 +42,22 @@ def get_json_data(request):
         )
     )
 
+    tips = list(
+        map(
+            lambda r: render_to_string(
+                'resources/tip.html',
+                {'page': r},
+                request=request
+            ),
+            data['tips']
+        )
+    )
+
     json_data['resources'] = resources
+    json_data['tips'] = tips
 
     for d in data:
-        if not d == 'resources':
+        if d != 'resources' and d != 'tips':
             try:
                 json_data[d] = serializers.serialize('json', data[d])
             except:
@@ -167,18 +179,21 @@ def get_data(request, **kwargs):
             Q(topic_tags__name__in=tag_filter)
         ).distinct()
 
-    if (issue_filter):
-        resources = resources\
-            .filter(issue_tags__name__in=issue_filter)\
-            .distinct()
+    tips = filter_resources(
+        Tip.objects.all(),
+        tag_filter=tag_filter,
+        issue_filter=issue_filter,
+        topic_filter=topic_filter,
+        query=query
+    )
 
-    if (topic_filter):
-        resources = resources\
-            .filter(topic_tags__name=topic_filter)\
-            .distinct()
-
-    if (query):
-        resources = resources.search(query)
+    resources = filter_resources(
+        resources,
+        tag_filter=tag_filter,
+        issue_filter=issue_filter,
+        topic_filter=topic_filter,
+        query=query
+    ).filter(~Q(page_ptr_id__in=tips))
 
     paged_resources = get_paged_resources(request, resources)
 
@@ -188,7 +203,8 @@ def get_data(request, **kwargs):
 
     data['landing_pages'] = Home.objects.filter(~Q(slug="home")).live()
     data['resources'] = filtered_resources
-    data['resource_count'] = resources.count()
+    data['tips'] = tips
+    data['resource_count'] = resources.count() + tips.count()
     data['topic_tags'] = topic_tags.values()
     data['selected_topic'] = topic_filter
     data['selected_tags'] = selected_tags
@@ -242,3 +258,33 @@ def get_paged_resources(request, resources):
         paged_resources = resources
 
     return paged_resources
+
+
+def filter_resources(resources, **kwargs):
+    tag_filter = kwargs.get('data')
+    issue_filter = kwargs.get('issue_filter')
+    topic_filter = kwargs.get('topic_filter')
+    query = kwargs.get('query')
+
+    if (tag_filter):
+        resources = resources.filter(
+            Q(content_tags__name__in=tag_filter) |
+            Q(reason_tags__name__in=tag_filter) |
+            Q(issue_tags__name__in=tag_filter) |
+            Q(topic_tags__name__in=tag_filter)
+        ).distinct()
+
+    if (issue_filter):
+        resources = resources\
+            .filter(issue_tags__name__in=issue_filter)\
+            .distinct()
+
+    if (topic_filter):
+        resources = resources\
+            .filter(topic_tags__name=topic_filter)\
+            .distinct()
+
+    if (query):
+        resources = resources.search(query)
+
+    return resources
