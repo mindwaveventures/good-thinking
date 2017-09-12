@@ -17,7 +17,7 @@
     <div id="topics" class="relative top--4 o-0"></div>
     <div id="landing_page_navbar" class="dn dt--fixed dt-ns tc pv3 ph4 ph3-m ph3-l blurred_background_header bg-center w-100">
       <div class="dib mv2-ns mv1 dtc-ns v-mid">
-        I am, or know someone who is feeling:
+        I am, or know someone who is, feeling:
       </div>
       {% for topic in landing_pages %}
         <div class="dib mv2 mv1 dtc">
@@ -68,22 +68,5 @@
     </div>
   </section>
 
-  {% if footer_blocks %}
-    <div class="pa3 tc mb2 pb4">
-      {% include "resources/components/row.html" with render_template="resources/components/page-block.html" element_list=footer_blocks length=2 width="w-40" class="footer-block mb2" %}
-    </div>
-  {% endif %}
-
-  {% if footer_links %}
-    <footer class="tc pa3 f6 f5-ns tracked">
-      <div class="ph2 ph5-plus-ns lm-white footer tj">
-        {% for footer in footer_links %}
-          {% image footer.footer_image width-400 as footer_image %}
-          <a href="{{footer.footer_link}}" class="dib">
-            <img src="{{footer_image.url}}">
-          </a>
-        {% endfor %}
-      </div>
-    </footer>
-  {% endif %}
+  {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
 {% endblock %}

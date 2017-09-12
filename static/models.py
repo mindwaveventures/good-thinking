@@ -8,18 +8,14 @@ from wagtail.wagtailcore.fields import StreamField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.wagtailimages.blocks import ImageChooserBlock
 
-from resources.models.home import Home
+from resources.models.helpers import base_context
 
 
 class StaticPage(Page):
     def get_context(self, request):
         context = super(StaticPage, self).get_context(request)
 
-        home = Home.objects.first()
-
-        context['banner'] = home.banner
-        context['footer'] = home.footer
-        return context
+        return base_context(context)
 
     body = StreamField([
         ('heading', blocks.RichTextBlock()),

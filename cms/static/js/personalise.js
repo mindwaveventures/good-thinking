@@ -112,6 +112,12 @@ function swipeListeners() {
       app.ports.swipe.send(swipedir);
     });
   });
+
+  selectAll('.tip-card').forEach(function(el) {
+    swipe(el , function(swipedir){
+      app.ports.tipSwipe.send(swipedir);
+    });
+  });
 }
 
 function getPage() {

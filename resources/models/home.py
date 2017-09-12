@@ -23,7 +23,8 @@ from urllib.parse import parse_qs
 from resources.models.tags import ExcludeTag
 from resources.models.resources import ResourceIndexPage
 from resources.models.helpers import (
-    generate_custom_form, valid_request, handle_request, get_resource
+    generate_custom_form, valid_request,
+    handle_request, get_resource, base_context
 )
 
 from resources.views import get_data
@@ -329,15 +330,15 @@ def custom_serve(self, request, *args, **kwargs):
     else:
         form = self.get_form(page=self, user=request.user)
 
-    form_fields = FormField.objects.all().filter(page_id=form.page.id)
-    footer_links = HomeFooterLinks.objects.all()
-    footer_blocks = HomeFooterBlocks.objects.all()
+    if str(self) == 'Main':
+        form_fields = MainFormField.objects.all().filter(page_id=form.page.id)
+    elif str(self) == 'Home':
+        form_fields = FormField.objects.all().filter(page_id=form.page.id)
+
     project_info_block = ProjectInfoBlock.objects.all()
 
     context = self.get_context(request)
     context['form'] = form
-    context['footer_links'] = footer_links
-    context['footer_blocks'] = footer_blocks
     context['project_info_block'] = project_info_block
 
     like_feedback_submitted = False
@@ -355,7 +356,7 @@ def custom_serve(self, request, *args, **kwargs):
     return render(
         request,
         self.get_template(request),
-        context
+        base_context(context)
     )
 
 
