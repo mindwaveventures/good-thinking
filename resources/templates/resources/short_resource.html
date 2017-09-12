@@ -15,11 +15,6 @@
           </a>
         {% endif %}
       </div>
-      <div class="mt1">
-        {% for tag in page.tags %}
-          <a href="?tag={{ tag }}"><button class="b--lm-orange lm-bg-orange-20 ba br2 ph2 pv1 lh-tag dib mb1 pointer font nunito">{{tag}}</button></a>
-        {% endfor %}
-      </div>
       {% if page.video %}
         <div class="tc ma2">
           {{ page.video }}

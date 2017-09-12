@@ -13,9 +13,10 @@ getData query msg =
 
 
 decodeInitialData =
-    Decode.map2 Results
+    Decode.map3 Results
         (Decode.field "resources" resourceDecoder)
         (Decode.field "resource_count" Decode.int)
+        (Decode.field "tips" resourceDecoder)
 
 
 resourceDecoder : Decode.Decoder (List String)

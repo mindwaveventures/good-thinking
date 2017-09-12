@@ -7,6 +7,7 @@ from wagtail.wagtailadmin.edit_handlers import (
     FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
 )
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
+from wagtail.wagtailimages.models import Image
 
 from django.db.models.fields import TextField, URLField
 from django.db import models
@@ -23,13 +24,23 @@ from urllib.parse import parse_qs
 from resources.models.tags import ExcludeTag
 from resources.models.resources import ResourceIndexPage
 from resources.models.helpers import (
-    generate_custom_form, valid_request, handle_request, get_resource
+    generate_custom_form, valid_request,
+    handle_request, get_resource, base_context
 )
 
 from resources.views import get_data
 from wagtail.wagtailcore.models import Orderable
 
 uid = uuid.uuid4()
+
+
+def get_loc(loc):
+    first_c = loc[:1]
+    loc_map = {'N': 'North', 'E': 'East', 'S': 'South', 'W': 'West'}
+    try:
+        return loc_map[first_c]
+    except:
+        return None
 
 
 class FooterLink(models.Model):
@@ -174,7 +185,16 @@ class Home(AbstractForm):
     def get_context(self, request):
         context = super(Home, self).get_context(request)
 
-        return get_data(request, data=context, slug=self.slug)
+        context = get_data(request, data=context, slug=self.slug)
+        loc = get_loc(request.session.get('location') or '')
+        if loc:
+            try:
+                context['hero_image'] = Image.objects.get(title=loc)
+            except:
+                context['hero_image'] = self.hero_image
+        else:
+            context['hero_image'] = self.hero_image
+        return context
 
     content_panels = AbstractForm.content_panels + [
         MultiFieldPanel([
@@ -329,15 +349,17 @@ def custom_serve(self, request, *args, **kwargs):
     else:
         form = self.get_form(page=self, user=request.user)
 
-    form_fields = FormField.objects.all().filter(page_id=form.page.id)
-    footer_links = HomeFooterLinks.objects.all()
-    footer_blocks = HomeFooterBlocks.objects.all()
+    if str(self.__class__.__name__) == 'Main':
+        form_fields = MainFormField.objects.all().filter(page_id=form.page.id)
+    elif str(self.__class__.__name__) == 'Home':
+        form_fields = FormField.objects.all().filter(page_id=form.page.id)
+    else:
+        form_fields = None
+
     project_info_block = ProjectInfoBlock.objects.all()
 
     context = self.get_context(request)
     context['form'] = form
-    context['footer_links'] = footer_links
-    context['footer_blocks'] = footer_blocks
     context['project_info_block'] = project_info_block
 
     like_feedback_submitted = False
@@ -355,7 +377,7 @@ def custom_serve(self, request, *args, **kwargs):
     return render(
         request,
         self.get_template(request),
-        context
+        base_context(context)
     )
 
 

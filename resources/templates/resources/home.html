@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags static %}
+{% load wagtailcore_tags wagtailimages_tags static modelname %}
 
 {% block body_class %}template-homepage{% endblock %}
 
@@ -12,7 +12,7 @@
     {% if landing_pages %}
       <section id="landing_page_navbar" class="absolute dn dt--fixed dt-ns tc pv3 ph4 ph3-m ph3-l blurred_background_header cover bg-center w-100 {% if page.banner %}mt5{% endif %}">
         <div class="dib relative mv2-ns mv1 dtc-ns v-mid">
-          I am, or know someone who is feeling:
+          I am, or know someone who is, feeling:
         </div>
         {% for topic in landing_pages %}
           <div class="dib relative mv2 mv1 dtc">
@@ -42,7 +42,7 @@
 
       <div id="hamburger_content_id" class="db dn-ns absolute bg-white w-100 pa2 overflow-scroll z-999">
         <div class="dib relative mv2-ns mv1 dtc-ns">
-          I am, or know someone who is feeling:
+          I am, or know someone who is, feeling:
         </div>
         {% for topic in landing_pages %}
           <div class="relative mv2-ns mv1 dtc-ns">
@@ -110,7 +110,11 @@
         <!-- Resources -->
         <div class="pa1 ph4 ph3-m ph3-l pb4 pb5-l">
           {% for post in resources %}
-            {% include "resources/short_resource.html" with page=post.specific %}
+            {% if page|get_model_name == "Tip"%}
+              {% include "resources/tip.html" with page=post.specific %}
+            {% else %}
+              {% include "resources/short_resource.html" with page=post.specific %}
+            {% endif %}
           {% endfor %}
         </div>
       </div>
@@ -120,16 +124,5 @@
       </div>
     </section>
 
-    {% if footer_links %}
-      <footer class="tc pa3 f6 f5-ns tracked">
-        <div class="ph2 ph5-plus-ns lm-white footer tj">
-          {% for footer in footer_links %}
-            {% image footer.footer_image width-400 as footer_image %}
-            <a href="{{footer.footer_link}}" class="dib">
-              <img src="{{footer_image.url}}">
-            </a>
-          {% endfor %}
-        </div>
-      </footer>
-    {% endif %}
+    {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
 {% endblock %}

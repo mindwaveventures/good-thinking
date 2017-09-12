@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'storages',
     'pipeline',
     'colorful',
+    'requests',
 
     'wagtail.wagtailforms',
     'wagtail.wagtailredirects',

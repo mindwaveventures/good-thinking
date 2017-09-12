@@ -1,0 +1,12 @@
+{% if bullets %}
+  <div>
+    <h2>{{title}}</h2>
+    <ul>
+      {% for b in bullets%}
+      <li>
+        {{b.DisplayText}}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
