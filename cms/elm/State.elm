@@ -62,7 +62,7 @@ update msg model =
                 new_model =
                     { model | selected_tags = update_selected model tag }
             in
-                ( new_model, selectTag new_model.selected_tags )
+                ( new_model, selectTag tag )
 
         QueryComplete response ->
             case response of
