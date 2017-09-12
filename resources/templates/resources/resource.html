@@ -81,6 +81,17 @@
   <div class="br1 shadow-2 tl w-60-ns center">
     <div class="ba b--lm-dark-blue ph2 pt2 pb0 pt3-ns ph4-ns mt4">
       <h2 class="mt0 mb1 ml2">{{ page.heading }}</h2>
+      <div class="fr">
+        {% for badge in badges %}
+          <div>
+            <div
+              style="color:{{badge.badge_text_color}};background-color:{{badge.badge_color}}"
+              class="segoe-bold pa2">
+              {{badge.badge_text}}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
       <div class="word-wrap">
         {% if page.resource_url %}
           <a target="_blank" class="f6 lm-turquoise resource-link link-hover link-visited pv1 ph2" href="{{page.resource_url}}">

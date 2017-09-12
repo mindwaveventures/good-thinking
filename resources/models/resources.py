@@ -252,7 +252,7 @@ class ResourcePage(Page):
         context['number_of_dislikes'] = Likes.objects\
             .filter(resource_id=self.id, like_value=-1)\
             .count()
-        # context['badges'] = ResourcePageBadges.objects.all()
+        context['badges'] = ResourcePageBadges.objects.all()
 
         return context
 
