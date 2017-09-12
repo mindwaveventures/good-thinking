@@ -383,7 +383,7 @@ def custom_serve(self, request, *args, **kwargs):
 
 def custom_form_submission(self, request_dict):
     if 'email' in request_dict or 'suggestion' in request_dict:
-        page = Home.objects.get(slug='home')
+        page = Main.objects.get(slug='home')
         try:
             email = request_dict['email'][0]
         except:
