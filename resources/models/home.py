@@ -349,10 +349,12 @@ def custom_serve(self, request, *args, **kwargs):
     else:
         form = self.get_form(page=self, user=request.user)
 
-    if str(self) == 'Main':
+    if str(self.__class__.__name__) == 'Main':
         form_fields = MainFormField.objects.all().filter(page_id=form.page.id)
-    elif str(self) == 'Home':
+    elif str(self.__class__.__name__) == 'Home':
         form_fields = FormField.objects.all().filter(page_id=form.page.id)
+    else:
+        form_fields = None
 
     project_info_block = ProjectInfoBlock.objects.all()
 
