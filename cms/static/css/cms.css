@@ -799,6 +799,37 @@ lm-ls1 {
   left: 40%;
 }
 
+.cubes {
+  background-image: url('../images/box-background.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.bottom--1-5 {
+  bottom: -1.5rem;
+}
+
+.w-5 {
+  width: 5%;
+}
+
+.w-95 {
+  width: 95%;
+}
+
+.mr-1p {
+  margin-right: 1%;
+}
+
+.r-102 {
+  right: 102%;
+}
+
+.r-204 {
+  right: 204%;
+}
+
 @media screen and (min-width:30em) {
   .w-200-ns {
     width: 200%;
@@ -820,12 +851,32 @@ lm-ls1 {
     right: 50%;
   }
 
+  .r-49-ns {
+    right: 49%;
+  }
+
   .r-112-ns {
     right: 112%;
   }
 
+  .r-111-ns {
+    right: 111%;
+  }
+
   .l-12-ns {
     right: -12%;
+  }
+
+  .l-13-ns {
+    right: -13%;
+  }
+
+  .r-18-ns {
+    right: 18%;
+  }
+
+  .r-80-ns {
+    right: 80%;
   }
 
   .resource-brand .rich-text h2 {

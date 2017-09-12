@@ -27,7 +27,7 @@ from resources.models.tags import (
 
 from likes.models import Likes
 
-from resources.models.helpers import create_tag_combiner
+from resources.models.helpers import create_tag_combiner, base_context
 from gpxpy.geo import haversine_distance
 
 
@@ -56,9 +56,6 @@ class LatitudeField(CharField):
     default_error_messages = {
         'invalid': _('Enter a valid latitude.'),
     }
-
-    # def __init__(self, **kwargs):
-    #     super().__init__(strip=True, **kwargs)
 
     def to_python(self, value):
         value = super().to_python(value)
@@ -266,8 +263,10 @@ class ResourcePage(Page):
 
     def __init__(self, *args, **kwargs):
         super(ResourcePage, self).__init__(*args, **kwargs)
-        if self.get_parent():
+        try:
             self.parent = self.get_parent().slug
+        except:
+            self.parent = None
 
     def get_context(self, request):
         context = super(ResourcePage, self).get_context(request)
@@ -300,14 +299,11 @@ class ResourcePage(Page):
             context['is_near'] = False
 
         Home = apps.get_model('resources', 'home')
-        Main = apps.get_model('resources', 'main')
 
         combine_tags = create_tag_combiner(None)
-
         landing_pages = Home.objects.filter(~Q(slug="home")).live()
-        banner = Main.objects.get(slug="home").banner
+
         context['landing_pages'] = landing_pages
-        context['banner'] = banner
         context['tags'] = combine_tags(self).specific.tags
         context['number_of_likes'] = Likes.objects\
             .filter(resource_id=self.id, like_value=1)\
@@ -316,7 +312,47 @@ class ResourcePage(Page):
             .filter(resource_id=self.id, like_value=-1)\
             .count()
 
-        return context
+        return base_context(context)
 
     class Meta:
         verbose_name = "Resource"
+
+
+class Tip(ResourcePage):
+    tip_text = RichTextField(blank=True)
+    credit = TextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('tip_text', classname="full"),
+        FieldPanel('credit', classname="full")
+    ]
+
+    promote_panels = Page.promote_panels + [
+        FieldPanel('topic_tags'),
+        FieldPanel('issue_tags'),
+        FieldPanel('reason_tags'),
+        FieldPanel('content_tags'),
+        FieldPanel('hidden_tags'),
+        FieldPanel('priority'),
+    ]
+
+
+class Assessment(ResourcePage):
+    content_panels = Page.content_panels + [
+        FieldPanel('heading', classname="full"),
+        FieldPanel('body', classname="full")
+    ]
+
+    promote_panels = Page.promote_panels + [
+        FieldPanel('topic_tags'),
+        FieldPanel('issue_tags'),
+        FieldPanel('reason_tags'),
+        FieldPanel('content_tags'),
+        FieldPanel('hidden_tags'),
+        FieldPanel('priority'),
+    ]
+
+    def get_context(self, request):
+        context = super(Assessment, self).get_context(request)
+
+        return base_context(context)

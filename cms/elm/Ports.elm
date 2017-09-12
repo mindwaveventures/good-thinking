@@ -16,3 +16,6 @@ port updateTags : (List Tag -> msg) -> Sub msg
 
 
 port swipe : (String -> msg) -> Sub msg
+
+
+port tipSwipe : (String -> msg) -> Sub msg

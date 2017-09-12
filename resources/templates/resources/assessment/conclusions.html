@@ -1,0 +1,14 @@
+{% load wagtailcore_tags %}
+
+<h2>{{title}}</h2>
+{% for c in conclusions %}
+  <div>
+    {{c.DisplayText}}
+    {% if c.Explanation %}
+      <button onClick='toggleExplanation({{c.ConclusionID}}); return false;'>?</button>
+      <div id="{{c.ConclusionID}}" style="display: none;">
+        {{c.Explanation|richtext}}
+      </div>
+    {% endif %}
+  </div>
+{% endfor %}

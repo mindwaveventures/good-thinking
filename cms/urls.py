@@ -12,6 +12,9 @@ from wagtail.wagtaildocs import urls as wagtaildocs_urls
 from likes.views import save_like
 from resources.views import get_json_data, get_location
 from home.views import landing_page_controller
+from resources.views import (
+    assessment_controller, assessment_summary_controller
+)
 
 from django.views.generic import TemplateView
 
@@ -35,7 +38,9 @@ urlpatterns = [
         name="cms"
     ),
 
-    url('sleep/', landing_page_controller),
+    url('server-assessment/', assessment_controller),
+    url('assessment-summary/', assessment_summary_controller),
+    url(r'^sleep/', landing_page_controller),
     url('sleep/tips/', landing_page_controller),
     url('events/grenfell/', landing_page_controller),
     url('sleep-and-stress/', landing_page_controller),

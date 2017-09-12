@@ -1,0 +1,20 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% if footer_blocks %}
+  <div class="pa3 tc mb2 pb4">
+    {% include "resources/components/row.html" with render_template="resources/components/page-block.html" element_list=footer_blocks length=2 width="w-40" class="footer-block mb2" %}
+  </div>
+{% endif %}
+
+{% if footer_links %}
+  <footer class="tc pa3 f6 f5-ns tracked">
+    <div class="ph2 ph5-plus-ns lm-white footer tj">
+      {% for footer in footer_links %}
+        {% image footer.footer_image width-400 as footer_image %}
+        <a href="{{footer.footer_link}}" class="dib">
+          <img src="{{footer_image.url}}">
+        </a>
+      {% endfor %}
+    </div>
+  </footer>
+{% endif %}
