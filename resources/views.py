@@ -309,7 +309,7 @@ def assessment_controller(request, **kwargs):
     if not (params.get("member_id") and params.get("traversal_id")):
         r = requests.get(
             "http://apps.expert-24.com/WebBuilder/"
-            + "TraversalService/Member?callback=raw"
+            + "TraversalService/Member?callback=raw&@usertype=300"
         )
 
         response = r.json()
