@@ -692,10 +692,12 @@ lm-ls1 {
 #hamburger_content_id {
   top: -1000px;
   transition: 0.4s;
+  z-index: -1;
 }
 
 .show_hamburger {
   top: 0px !important;
+  z-index: 9999 !important;
 }
 
 .w-200 {
