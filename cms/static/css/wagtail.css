@@ -1,4 +1,4 @@
-#id_background_color, #id_text_color {
+li.rgb_color_field input {
   height: 40px!important;
   width: 100px!important;
   padding: 0px!important;
