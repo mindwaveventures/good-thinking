@@ -1,4 +1,7 @@
 function handleGeolocationMessage () {
+  if (document.cookie.indexOf('ldmw_shown_location_message') > -1) {
+    return;
+  }
   var geolocationMessage = document.createElement('div');
   geolocationMessage.className = 'lm-bg-dark-blue lm-white w-100 tc z-4 absolute top-0 f5';
   var fontSize = parseFloat(window.getComputedStyle(select('body'), null).getPropertyValue('font-size'));
@@ -14,6 +17,8 @@ function handleGeolocationMessage () {
     select('#geolocation_message_id').style.WebkitTransition = 'opacity 1s';
     select('#geolocation_message_id').style.MozTransition = 'opacity 1s';
     select('#geolocation_message_id').style.opacity = '0';
+    select('#geolocation_message_id').style.zIndex = '-1';
+    document.cookie = 'ldmw_shown_location_message=1'; /* only lasts for browser session */
   }
   window.setTimeout(removeGeolocation_message, 5000);
 }
