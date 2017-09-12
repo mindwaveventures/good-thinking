@@ -291,7 +291,7 @@ class ResourcePage(Page):
                     float(latitude), float(longitude),
                     float(self.latitude), float(self.longitude)
                 )
-                context['is_near'] = dist_km / 1.6 < 2000  # less than 2 miles
+                context['is_near'] = dist_km / 1.6 < 1000  # less than 1 mile
             except:
                 print("Failed to get location")
                 context['is_near'] = False
