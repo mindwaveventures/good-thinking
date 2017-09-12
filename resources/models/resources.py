@@ -23,7 +23,7 @@ from resources.models.tags import (
 
 from likes.models import Likes
 
-from resources.models.helpers import create_tag_combiner
+from resources.models.helpers import create_tag_combiner, base_context
 
 
 class ResourceFormField(AbstractFormField):
@@ -218,14 +218,11 @@ class ResourcePage(Page):
             context['liked_value'] = 0
 
         Home = apps.get_model('resources', 'home')
-        Main = apps.get_model('resources', 'main')
 
         combine_tags = create_tag_combiner(None)
-
         landing_pages = Home.objects.filter(~Q(slug="home")).live()
-        banner = Main.objects.get(slug="home").banner
+
         context['landing_pages'] = landing_pages
-        context['banner'] = banner
         context['tags'] = combine_tags(self).specific.tags
         context['number_of_likes'] = Likes.objects\
             .filter(resource_id=self.id, like_value=1)\
@@ -234,7 +231,7 @@ class ResourcePage(Page):
             .filter(resource_id=self.id, like_value=-1)\
             .count()
 
-        return context
+        return base_context(context)
 
     class Meta:
         verbose_name = "Resource"
@@ -257,3 +254,24 @@ class Tip(ResourcePage):
         FieldPanel('hidden_tags'),
         FieldPanel('priority'),
     ]
+
+
+class Assessment(ResourcePage):
+    content_panels = Page.content_panels + [
+        FieldPanel('heading', classname="full"),
+        FieldPanel('body', classname="full")
+    ]
+
+    promote_panels = Page.promote_panels + [
+        FieldPanel('topic_tags'),
+        FieldPanel('issue_tags'),
+        FieldPanel('reason_tags'),
+        FieldPanel('content_tags'),
+        FieldPanel('hidden_tags'),
+        FieldPanel('priority'),
+    ]
+
+    def get_context(self, request):
+        context = super(Assessment, self).get_context(request)
+
+        return base_context(context)

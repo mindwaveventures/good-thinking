@@ -1,0 +1,31 @@
+{% load wagtailcore_tags %}
+
+{% with table.Questions|first as first_question %}
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        {% for a in first_question.Answers %}
+          <th>
+            {{a.DisplayText}}
+          </th>
+        {% endfor %}
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for q in table.Questions %}
+        <tr {% if q.Error %}style="background-color: red;" alt="please choose an aswer for this question"{% endif %}>
+          <td>
+            {{q.DisplayText|richtext}}
+          </td>
+          {% for a in q.Answers %}
+            <td>
+              <input type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlName}}" value="{{a.ControlValue}}" {% if a.isChecked %}checked{% endif %} />
+            </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endwith %}

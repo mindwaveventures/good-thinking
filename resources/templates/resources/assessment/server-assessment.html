@@ -1,0 +1,106 @@
+{% load wagtailcore_tags %}
+
+<form method="post" action="/assessment-summary/">
+  {% csrf_token %}
+  <input type="hidden" name="member_id" value="{{member_id}}" />
+  <input type="hidden" name="traversal_id" value="{{traversal_id}}" />
+  <input type="hidden" name="algo_id" value="{{AlgoID}}" />
+  <input type="hidden" name="node_id" value="{{NodeID}}" />
+  <button type="submit">Summary</button>
+</form>
+
+{% if info %}
+ {% with info.Table|first as info_text %}
+  {{info_text.Explanation|richtext}}
+ {% endwith %}
+{% endif %}
+
+{% if Error %}
+  <div style="color: red;">
+    {{Error}}
+  </div>
+{% endif %}
+
+<form method="post" action="/server-assessment/">
+  {% for q in Questions %}
+    <div>
+      {{q.DisplayText|richtext}}
+      {% if q.hasInfo %}
+        <button name="q_info" value="{{q.QuestionID}}">?</button>
+      {% endif %}
+      {% if q.Error %}
+        <div style="color: red;">
+          {{q.Error}}
+        </div>
+      {% endif %}
+    </div>
+    {% if q.Questions|length > 0 %}
+      {% include "resources/assessment/question-table.html" with table=q %}
+    {% endif %}
+    {% for a in q.Answers %}
+      <div>
+        {% if a.ControlType == "text" %}
+          <input type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlID}}" value="{{a.ControlValue}}" />
+        {% else %}
+          <input type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlName}}" value="{{a.ControlValue}}" {% if a.isChecked %}checked{% endif %} />
+        {% endif %}
+        <label for="{{a.ControlID}}">
+          {{a.DisplayText}}
+        </label>
+        {% if a.hasInfo %}
+          <button name="a_info" value="{{a.AnswerID}}">?</button>
+        {% endif %}
+        {% if a.Error %}
+          <div style="color: red;">
+            {{a.Error}}
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  {% endfor %}
+
+  {% if Conclusions %}
+    <div
+      {% if Report.MessageLevel == 1 %}style="color: red;"
+      {% elif Report.MessageLevel == 3 %}style="color: green;"
+      {% else %}style="color: yellow;"
+      {% endif %}
+    >
+      {{Report.MessageTitle}}
+    </div>
+    <div>
+      {{Report.MessageDescription}}
+    </div>
+    {% include "resources/assessment/bullets.html" with bullets=Report.ContactBullets title=Report.ContactBulletTitle %}
+    {% include "resources/assessment/bullets.html" with bullets=Report.DangerBullets title=Report.DangerBulletTitle %}
+
+    {% include "resources/assessment/conclusions.html" with conclusions=Report.ReasonConclusions title=Report.ReasonConclusionTitle %}
+    {% include "resources/assessment/bullets.html" with bullets=Report.ReasonBullets title=Report.ReasonBulletTitle %}
+
+    {% include "resources/assessment/conclusions.html" with conclusions=Report.OtherConclusions title=Report.OtherConclusionTitle %}
+    {% include "resources/assessment/conclusions.html" with conclusions=Report.InformationConclusions title=Report.InformationConclusionTitle %}
+  {% endif %}
+
+  {% csrf_token %}
+  <input type="hidden" name="member_id" value="{{member_id}}" />
+  <input type="hidden" name="traversal_id" value="{{traversal_id}}" />
+  <input type="hidden" name="algo_id" value="{{AlgoID}}" />
+  <input type="hidden" name="node_id" value="{{NodeID}}" />
+
+  <button type="submit" name="previous" value="Previous">Back</button>
+  {% if not Conclusions %}
+    <button type="submit" name="next" value="Next">Next</button>
+  {% endif %}
+</form>
+
+<script type="text/javascript">
+  function toggleExplanation(id) {
+    var explanation = document.getElementById(id);
+
+    if (explanation.style.display === "block") {
+      explanation.style.display = "none";
+    } else {
+      explanation.style.display = "block";
+    }
+  }
+</script>
