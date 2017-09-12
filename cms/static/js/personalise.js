@@ -42,6 +42,11 @@ function getQuery() {
       query[a].push(myArray[1].split(splitreg).join(' '));
     }
   });
+
+  if(window.location.href.split('/').length == 6) {
+    query['issue'] = [window.location.href.split('/')[4].split("-").join(" ")];
+  };
+
   return query;
 }
 
