@@ -214,3 +214,19 @@ def get_relevance(selected_tags):
             output_field=models.IntegerField()
         )
     )
+
+
+def base_context(context):
+    Main = apps.get_model('resources', 'main')
+    HomeFooterLinks = apps.get_model('resources', 'homefooterlinks')
+    HomeFooterBlocks = apps.get_model('resources', 'homefooterblocks')
+
+    banner = Main.objects.get(slug="home").banner
+    footer_links = HomeFooterLinks.objects.all()
+    footer_blocks = HomeFooterBlocks.objects.all()
+
+    context['banner'] = banner
+    context['footer_links'] = footer_links
+    context['footer_blocks'] = footer_blocks
+
+    return context
