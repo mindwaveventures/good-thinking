@@ -23,10 +23,7 @@ export DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5432/cms`
 export AWS_ACCESS_KEY_ID=<aws_access_key_id>
 export AWS_SECRET_ACCESS_KEY=<aws_secret_access_key>
 export AWS_STORAGE_BUCKET_NAME=<aws_storage_bucket_name>
-export GOOGLE_MAPS_KEY=<google_maps_key>
 ```
-
-The google maps api key can easily be obtained by clicking the `get a key` button [here](https://developers.google.com/maps/documentation/javascript/get-api-key)
 
 (Ensure postgres is running with: `postgres -D /usr/local/var/postgres/`)
 
