@@ -3,7 +3,7 @@ function handleGeolocationMessage () {
   geolocationMessage.className = 'lm-bg-dark-blue lm-white w-100 tc z-4 absolute top-0 f5';
   var fontSize = parseFloat(window.getComputedStyle(select('body'), null).getPropertyValue('font-size'));
   geolocationMessage.id = 'geolocation_message_id';
-  var betaBannerHeight = select('#beta-banner').clientHeight;
+  var betaBannerHeight = (select('#beta-banner') || {}).clientHeight || 0;
   geolocationMessage.style.marginTop = betaBannerHeight + 'px';
   geolocationMessage.style.height = betaBannerHeight + 'px';
   geolocationMessage.style.paddingTop = (betaBannerHeight - fontSize) / 2 + 'px';
