@@ -14,6 +14,7 @@ function handleGeolocationMessage () {
     select('#geolocation_message_id').style.WebkitTransition = 'opacity 1s';
     select('#geolocation_message_id').style.MozTransition = 'opacity 1s';
     select('#geolocation_message_id').style.opacity = '0';
+    select('#geolocation_message_id').style.zIndex = '-1';
   }
   window.setTimeout(removeGeolocation_message, 5000);
 }
