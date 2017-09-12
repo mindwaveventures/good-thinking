@@ -1,11 +1,11 @@
 {% load wagtailcore_tags %}
 
-<div class="dib-ns {{width}}-ns shadow-2 ph3-ns pa2 ma2 h45-ns">
-  <h3 class="segoe-bold ma1 ma2-ns">{{el.title}}</h3>
-  <div class="tl ph3-ns">
+<div class="dib-l {{width}}-l shadow-2 ph3-l pa2 ma2 h45-l">
+  <h3 class="segoe-bold ma1 ma2-l">{{el.title}}</h3>
+  <div class="tl ph3-l">
     <p>
       {{el.description|richtext}}
     </p>
   </div>
-  <a href="{{el.slug}}"><button class="relative w-100 bottom--1-5-ns f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover">{{el.link_text}}</button></a>
+  <a href="{{el.slug}}"><button class="relative w-100 bottom--1-5-l f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover">{{el.link_text}}</button></a>
 </div>
