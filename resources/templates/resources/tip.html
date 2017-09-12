@@ -1,0 +1,20 @@
+{% load wagtailcore_tags %}
+
+<div id="tip{{page.id}}" class="tip tip-card">
+  <div class="br1 shadow-1 tl center ba b--lm-orange lm-bg-orange-20 mt4">
+    <div class="ph3 pv2 pv3-ns ph4-ns">
+      <div class="f3">
+        <i class="fa fa-quote-left lm-orange mr3" aria-hidden="true"></i>
+        <i class="fa fa-quote-right lm-orange" aria-hidden="true"></i>
+      </div>
+      <p>
+        {{page.tip_text|richtext}}
+      </p>
+      <div class="tr">
+        <span>
+          - {{page.credit}}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

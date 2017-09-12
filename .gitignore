@@ -87,3 +87,13 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+staticfiles/**
+!staticfiles/.gitkeep
+cover
+
+# Elm stuff
+elm-stuff
+cms/static/js/elm.js
+
+node_modules

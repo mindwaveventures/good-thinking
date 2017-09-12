@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags static modelname %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block content %}
+    {% if page.banner %}
+      {% include "resources/banner.html" with banner=page.banner %}
+    {% endif %}
+
+    {% if landing_pages %}
+      <section id="landing_page_navbar" class="absolute dn dt--fixed dt-ns tc pv3 ph4 ph3-m ph3-l blurred_background_header cover bg-center w-100 {% if page.banner %}mt5{% endif %}">
+        <div class="dib relative mv2-ns mv1 dtc-ns v-mid">
+          I am, or know someone who is, feeling:
+        </div>
+        {% for topic in landing_pages %}
+          <div class="dib relative mv2 mv1 dtc">
+            <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer v-mid">
+              <a class="ttu nunito-bold link {% if page.url == topic.url %}bb bw2{% endif %}" href="/{{topic.slug}}">{{topic.title}}</a>
+            </div>
+          </div>
+        {% endfor %}
+      </section>
+
+      <!-- ensuring hamburger takes up the correct space -->
+      <section class="db dn-ns bg-white o-0">
+        <button class="hamburger hamburger--slider relative" type="button">
+          <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+          </span>
+        </button>
+      </section>
+
+      <section id="landing_page_hamburger" class="db dn-ns absolute bg-white w-100 z-4">
+        <button id="hamburger_id" class="hamburger hamburger--slider relative" type="button">
+          <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+          </span>
+        </button>
+      </section>
+
+      <div id="hamburger_content_id" class="db dn-ns absolute bg-white w-100 pa2 overflow-scroll z-999">
+        <div class="dib relative mv2-ns mv1 dtc-ns">
+          I am, or know someone who is, feeling:
+        </div>
+        {% for topic in landing_pages %}
+          <div class="relative mv2-ns mv1 dtc-ns">
+            <div class="b--lm-dark-blue lm-dark-blue ph3 pv2">
+              {% if page.url == topic.url %}
+                <a class="ttu nunito-bold link bb bw2" href="/{{topic.slug}}">{{topic.slug}}</a>
+              {% else %}
+                <a class="ttu nunito-bold link" href="/{{topic.slug}}">{{topic.slug}}</a>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% include "resources/components/hero-image.html" with page=page %}
+
+    <!-- Body Text -->
+    <section class="pa1 ph4 ph3-m ph3-l mb3">
+      <div class="w-60-ns center">
+        {{ page.body|richtext }}
+      </div>
+    </section>
+
+    {% if visited %}
+      <div class="pa1 ph4 ph3-m ph3-l pb4 pb5-l">
+        {% include "resources/visited.html" with visited=visited %}
+      </div>
+    {% endif %}
+
+    <section class="tc-ns">
+      <div id="elm-personalise" data-slug="{{page.slug}}">
+        <section class="results">
+          <!-- <%= if is_ie8? @conn do %>
+            <%= render "ie8_filters.html", content: @content, conn: @conn, tags: @tags%>
+          <% else %> -->
+            <div class="pa1 pt4 pt3-m pt3-l mt4">
+              <div class="w-60-ns center">
+                <h3 class="tl">Personalise Your Results:</h3>
+              </div>
+              <form action="/{% if not page.slug == 'home' %}{{page.slug}}{% endif %}#results" method="get" id="filter-form">
+                {% include "resources/filter-blocks.html" with filter_label=page.filter_label_1 tags=issue_tags num=1 name="issue" %}
+                {% include "resources/filter-blocks.html" with filter_label=page.filter_label_2 tags=reason_tags num=2 name="reason" %}
+                {% include "resources/filter-blocks.html" with filter_label=page.filter_label_3 tags=content_tags num=3 name="content" %}
+                <div class="tr w-60-ns center pa3 mb3 pr0">
+                  {% include "resources/primary-button.html" with value="Search" %}
+                </div>
+              </form>
+            </div>
+        </section>
+
+        <div id="results" class="relative top--4 o-0"></div>
+
+        <div class="pa1 ph4 ph3-m ph3-l">
+          <div class="w-60-ns center">
+            <h3 class="tl mt5 nunito">Showing {{resource_count}} {% if resource_count == 1 %}resource{% else %}resources{% endif %} {% if selected_topic %} for {% else %} about wellbeing {% endif %}</h3>
+            {% if selected_topic %}
+              <div class="tl">
+                  <span class="b--lm-orange lm-bg-orange-20 ba br-pill ph2 pv0 lh-tag mh1 dib mb1 font nunito f6">{{ selected_topic }}</span>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Resources -->
+        <div class="pa1 ph4 ph3-m ph3-l pb4 pb5-l">
+          {% for post in resources %}
+            {% if page|get_model_name == "Tip"%}
+              {% include "resources/tip.html" with page=post.specific %}
+            {% else %}
+              {% include "resources/short_resource.html" with page=post.specific %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="tc">
+        {% include "resources/primary-button.html" with value="See More" class="dn-important" id="see_more"%}
+      </div>
+    </section>
+
+    {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
+{% endblock %}
