@@ -9,10 +9,14 @@ from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
-from django.db.models.fields import TextField, URLField, IntegerField
+from django.db.models.fields import (
+    TextField, URLField, IntegerField, CharField
+)
 from django.apps import apps
 from django.db.models import Q
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
 
 from colorful.fields import RGBColorField
 
@@ -24,6 +28,50 @@ from resources.models.tags import (
 from likes.models import Likes
 
 from resources.models.helpers import create_tag_combiner, base_context
+from gpxpy.geo import haversine_distance
+
+
+def check_latlong(self, latlong_input, n):
+    """
+        latlong_input :: string :: either the latitude or longitude input
+        n :: positive integer ::
+        representing the bounds for the inputs max and min
+    """
+    if latlong_input.strip() == "":
+        return latlong_input
+    try:
+        if abs(float(latlong_input)) <= n:
+            return latlong_input
+        else:
+            raise ValidationError(
+                self.error_messages['invalid'], code='invalid'
+            )
+    except ValueError:
+        raise ValidationError(
+            self.error_messages['invalid'], code='invalid'
+        )
+
+
+class LatitudeField(CharField):
+    default_error_messages = {
+        'invalid': _('Enter a valid latitude.'),
+    }
+
+    def to_python(self, value):
+        value = super().to_python(value)
+        value = check_latlong(self, value, 90)
+        return value
+
+
+class LongitudeField(CharField):
+    default_error_messages = {
+        'invalid': _('Enter a valid longitude.'),
+    }
+
+    def to_python(self, value):
+        value = super().to_python(value)
+        value = check_latlong(self, value, 180)
+        return value
 
 
 class ResourceFormField(AbstractFormField):
@@ -74,7 +122,6 @@ class ResourcePage(Page):
         blank=True,
         help_text="URL of a youtube video for the resource"
     )
-
     topic_tags = ClusterTaggableManager(
         through=TopicTag, blank=True,
         verbose_name='Topic Tags', related_name='resource_topic_tags',
@@ -114,7 +161,6 @@ class ResourcePage(Page):
       default='5',
       help_text='Highest priority 1, lowest priority 5'
     )
-
     background_color = RGBColorField(
         default='#ffffff', null=True, blank=True,
         help_text="The background colour to use if there is no hero image"
@@ -147,6 +193,20 @@ class ResourcePage(Page):
         help_text="""
             The colour of the brand text.
             It should contrast well with the background colour or image
+        """
+    )
+    latitude = LatitudeField(
+        blank=True,
+        max_length=255,
+        help_text="""
+            latitude. This should be a number between -90 and 90
+        """
+    )
+    longitude = LongitudeField(
+        blank=True,
+        max_length=255,
+        help_text="""
+            longitude. This should be a number between -180 and 180
         """
     )
 
@@ -184,6 +244,12 @@ class ResourcePage(Page):
         FieldPanel('pros', classname="full"),
         FieldPanel('cons', classname="full"),
         FieldPanel('video_url', classname="full"),
+        MultiFieldPanel([
+          FieldRowPanel([
+              FieldPanel('latitude', classname="col6"),
+              FieldPanel('longitude', classname="col6"),
+          ], classname="full"),
+        ], heading="latlong")
     ]
 
     promote_panels = Page.promote_panels + [
@@ -216,6 +282,21 @@ class ResourcePage(Page):
         else:
             cookie = ''
             context['liked_value'] = 0
+
+        if 'ldmw_location_latlong' in request.COOKIES:
+            try:
+                location = request.COOKIES['ldmw_location_latlong']
+                [latitude, longitude] = location.split(",")
+                dist_km = haversine_distance(
+                    float(latitude), float(longitude),
+                    float(self.latitude), float(self.longitude)
+                )
+                context['is_near'] = dist_km / 1.6 < 2000  # less than 2 miles
+            except:
+                print("Failed to get location")
+                context['is_near'] = False
+        else:
+            context['is_near'] = False
 
         Home = apps.get_model('resources', 'home')
 
