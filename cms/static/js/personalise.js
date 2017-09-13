@@ -76,7 +76,7 @@ app.ports.selectTag.subscribe(function(tag) {
   var selectedTags = JSON.parse(localStorage.getItem('selected_tags_' + getPage()));
 
   for (var i = 0; i < selectedTags.length; i++) {
-    if (selectedTags[i].tag_type === tag.tag_type && selectedTags[i].name == tag.name) {
+    if (selectedTags[i].tag_type === tag.tag_type && selectedTags[i].name === tag.name) {
       selectedTags.splice(i, 1);
       break;
     } else if (i === selectedTags.length - 1) {
@@ -157,28 +157,71 @@ function getOrder() {
 
 function updateUrl(tag) {
   var jointTag = tag.name.split(' ').join('%20');
-  var reg = new RegExp("&*" + tag.tag_type + "=" + jointTag + "(&|$)");
-  var newUrl = window.location.href;
+  var baseUrl = window.location.origin + '/' + window.location.pathname.split('/')[1] + '/';
   var prefix;
+  var querystring = "";
+  var tags = {};
 
-  if (window.location.href.indexOf('?') > -1) {
-    prefix = "&";
+  ['issue', 'reason', 'content'].forEach(function(el) {
+    tags[el] = getTagsOfType(el);
+  });
+
+  if (
+    tags.issue.length === 0 && !tagSelected(tag) &&
+    tags.reason.length === 0 && tags.content.length === 0 && tag.tag_type === 'issue'
+  ) {
+    /* No tags are selected & this is an issue tag - make friendly url */
+    querystring = tag.name.split(' ').join('-');
+  } else if (tags.issue.length == 1 && tagSelected(tag) && tags.reason.length === 0 && tags.content.length === 0) {
+    /* Currently one issue tag selected, and has been deselected - remove friendly url*/
+    querystring = "";
   } else {
-    prefix = "?";
+    /* Multiple tags selected - build query string with parameters */
+
+    /* Build query with already selected tags,
+    do not include new tag if it was already selected */
+    for (var type in tags) {
+      tags[type].forEach(function(el) {
+        if (tag.tag_type !== type || jointTag !== el || !tagSelected({tag_type: type, name: el})) {
+          prefix = querystring === "" ?  "?" : "&";
+          querystring += prefix + type + "=" + el;
+        }
+      });
+    }
+
+    /* Add newly selected tag */
+    if (!tagSelected(tag)) {
+      prefix = querystring === "" ?  "?" : "&";
+      querystring += prefix + tag.tag_type + "=" + tag.name;
+    }
   }
 
-  if (tagSelected(tag)) {
-    newUrl = window.location.href.replace(reg, "&");
-  } else {
-    newUrl += prefix + tag.tag_type + "=" + tag.name;
+  history.replaceState(null, null, baseUrl + querystring);
+}
+
+function getTagsOfType(type) {
+  var singleIssueReg = new RegExp('https*:\/\/[^\/]+\/[^\/]+\/([^\/?]+)\/*');
+  var reg = new RegExp(type + "=([^&#]+)", "g");
+  var res;
+  var matches = [];
+  var singleIssue = window.location.href.match(singleIssueReg);
+
+  if (type === "issue" && singleIssue) {
+    matches.push(singleIssue[1].split('-').join(' '));
   }
 
-  history.replaceState(null, null, newUrl);
+  while ((res = reg.exec(window.location.href)) !== null) {
+    matches.push(res[1]);
+  }
+
+  return matches;
 }
 
 function tagSelected(tag) {
   var jointTag = tag.name.split(' ').join('%20');
+  var hyphenTag = tag.name.split(' ').join('-');
   var reg = new RegExp(tag.tag_type + "=" + jointTag + "(&|$)");
+  var singleIssueReg = new RegExp('https*:\/\/[^\/]+\/[^\/]+\/' + hyphenTag + '\/*');
 
   var selectedTags = JSON.parse(localStorage.getItem('selected_tags_' + getPage()));
 
@@ -188,7 +231,7 @@ function tagSelected(tag) {
     }
   }
 
-  return reg.test(window.location.href);
+  return reg.test(window.location.href) || singleIssueReg.test(window.location.href);
 }
 
 swipeListeners();
