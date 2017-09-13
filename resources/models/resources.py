@@ -269,10 +269,10 @@ class ResourcePage(Page):
         FieldPanel('cons', classname="full"),
         FieldPanel('video_url', classname="full"),
         MultiFieldPanel([
-          FieldRowPanel([
-              FieldPanel('latitude', classname="col6"),
-              FieldPanel('longitude', classname="col6"),
-          ], classname="full"),
+            FieldRowPanel([
+                FieldPanel('latitude', classname="col6"),
+                FieldPanel('longitude', classname="col6"),
+            ], classname="full"),
         ], heading="latlong")
     ]
 

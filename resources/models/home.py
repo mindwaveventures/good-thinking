@@ -4,7 +4,8 @@ import uuid
 from wagtail.wagtailforms.models import AbstractForm, AbstractFormField
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import (
-    FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
+    FieldPanel, InlinePanel, MultiFieldPanel,
+    PageChooserPanel, FieldRowPanel
 )
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailimages.models import Image
@@ -32,15 +33,6 @@ from resources.views import get_data
 from wagtail.wagtailcore.models import Orderable
 
 uid = uuid.uuid4()
-
-
-def get_loc(loc):
-    first_c = loc[:1]
-    loc_map = {'N': 'North', 'E': 'East', 'S': 'South', 'W': 'West'}
-    try:
-        return loc_map[first_c]
-    except:
-        return None
 
 
 class FooterLink(models.Model):
@@ -164,6 +156,24 @@ class Home(AbstractForm):
             (but pick PNG if you have the choice)
         """
     )
+    location_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text="""
+            Max file size: 10MB. Choose from: GIF, JPEG, PNG
+            (but pick PNG if you have the choice)
+        """
+    )
+    first_letters_of_postcode = TextField(
+        blank=True,
+        help_text="""
+            The first letter or letters of the postcode
+            you would like to match with, e.g. TW or E
+        """
+    )
     video_url = URLField(
         blank=True,
         help_text="URL of an introductiary youtube video"
@@ -186,10 +196,15 @@ class Home(AbstractForm):
         context = super(Home, self).get_context(request)
 
         context = get_data(request, data=context, slug=self.slug)
-        loc = get_loc(request.session.get('location') or '')
-        if loc:
+        if 'ldmw_location_zipcode' in request.COOKIES:
             try:
-                context['hero_image'] = Image.objects.get(title=loc)
+                zipcode = request.COOKIES['ldmw_location_zipcode']
+                print('-------------------')
+                print(zipcode)
+                # get all first_letter_zipcodes which have been added to the cms
+                # take the first match
+                # let `context['hero_image'] = that_hero_image
+                # if none is found, let context['hero_image'] = self.hero_image
             except:
                 context['hero_image'] = self.hero_image
         else:
@@ -202,6 +217,10 @@ class Home(AbstractForm):
             FieldPanel('link_text')
         ], heading="Link Block"),
         ImageChooserPanel('hero_image'),
+        FieldRowPanel([
+            ImageChooserPanel('location_image'),
+            FieldPanel('first_letters_of_postcode')
+        ]),
         FieldPanel('header', classname="full"),
         FieldPanel('body', classname="full"),
         FieldPanel('video_url', classname="full"),

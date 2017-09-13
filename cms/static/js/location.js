@@ -21,6 +21,13 @@ function handleGeolocationMessage () {
     document.cookie = 'ldmw_shown_location_message=1'; /* only lasts for browser session */
   }
   window.setTimeout(removeGeolocation_message, 5000);
+  request('get', '/location/', null, function (err, res) {
+    if (err) {
+      console.log('Err: ', err);
+      return;
+    }
+    document.cookie = 'ldmw_location_zipcode=' + res;
+  });
 }
 
 if (navigator.geolocation) {
