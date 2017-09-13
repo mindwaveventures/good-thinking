@@ -101,16 +101,16 @@ create_tag : Int -> String -> Tag
 create_tag num name =
     case num of
         1 ->
-            Tag "issue" name
+            Tag "q1" name
 
         2 ->
-            Tag "reason" name
+            Tag "q2" name
 
         3 ->
-            Tag "content" name
+            Tag "q3" name
 
         _ ->
-            Tag "issue" name
+            Tag "q1" name
 
 
 is_active : Model -> Int -> Bool
@@ -137,7 +137,7 @@ previous_button pos =
                 [ class "tl dib bn bg-white pointer"
                 , onClick (ResultsLoadingAlert pos (pos - 1))
                 ]
-                [ div [ class "v-mid h2 br-100 w2 pa1 mr2 dib next_left" ] [ ]
+                [ div [ class "v-mid h2 br-100 w2 pa1 mr2 dib next_left" ] []
                 , div [ class "dib nunito-bold w-50 w-auto-ns" ] [ text "previous question" ]
                 ]
 
@@ -154,5 +154,5 @@ next_button pos =
                 , onClick (ResultsLoadingAlert pos (pos + 1))
                 ]
                 [ div [ class "dib nunito-bold w-50 w-auto-ns" ] [ text "next question" ]
-                , div [ class "v-mid h2 br-100 w2 pa1 ml2 dib next_right" ] [ ]
+                , div [ class "v-mid h2 br-100 w2 pa1 ml2 dib next_right" ] []
                 ]
