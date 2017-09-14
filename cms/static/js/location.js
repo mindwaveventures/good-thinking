@@ -30,9 +30,7 @@ if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function (position) {
       var location = position.coords.latitude + ',' + position.coords.longitude;
       document.cookie = 'ldmw_location_latlong=' + location;
-      if (!navigator.platform || !/ipad|iphone|ipod/.test(navigator.platform)) {
-        window.location.reload();
-      }
+      window.location.reload();
     });
   }
 } else {
