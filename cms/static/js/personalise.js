@@ -39,12 +39,12 @@ function getQuery() {
     var splitreg = /(?:%20|\+)/g;
 
     while ((myArray = reg.exec(qs)) !== null) {
-      query[a].push(myArray[1].split(splitreg).join(' '));
+      query[a].push(myArray[1].replace(splitreg, ' '));
     }
   });
 
-  if(window.location.href.split('/').length == 6) {
-    query['q1'] = [window.location.href.split('/')[4].split("-").join(" ")];
+  if(window.location.href.split('/').length === 6) {
+    query['q1'] = [window.location.href.split('/')[4].replace(/-/g, " ")];
   };
 
   return query;
@@ -156,7 +156,7 @@ function getOrder() {
 }
 
 function updateUrl(tag) {
-  var jointTag = tag.name.split(' ').join('%20');
+  var jointTag = tag.name.replace(/\s/g, '%20');
   var baseUrl = window.location.origin + '/' + window.location.pathname.split('/')[1] + '/';
   var prefix;
   var querystring = "";
@@ -171,8 +171,8 @@ function updateUrl(tag) {
     tags.q2.length === 0 && tags.q3.length === 0 && tag.tag_type === 'q1'
   ) {
     /* No tags are selected & this is an issue tag - make friendly url */
-    querystring = tag.name.split(' ').join('-');
-  } else if (tags.q1.length == 1 && tagSelected(tag) && tags.q2.length === 0 && tags.q3.length === 0) {
+    querystring = tag.name.replace(/\s/g, '-');
+  } else if (tags.q1.length === 1 && tagSelected(tag) && tags.q2.length === 0 && tags.q3.length === 0) {
     /* Currently one issue tag selected, and has been deselected - remove friendly url*/
     querystring = "";
   } else {
@@ -207,7 +207,7 @@ function getTagsOfType(type) {
   var singleIssue = window.location.href.match(singleIssueReg);
 
   if (type === "q1" && singleIssue) {
-    matches.push(singleIssue[1].split('-').join(' '));
+    matches.push(singleIssue[1].replace(/-/g, ' '));
   }
 
   while ((res = reg.exec(window.location.href)) !== null) {
@@ -218,8 +218,8 @@ function getTagsOfType(type) {
 }
 
 function tagSelected(tag) {
-  var jointTag = tag.name.split(' ').join('%20');
-  var hyphenTag = tag.name.split(' ').join('-');
+  var jointTag = tag.name.replace(/\s/g, '%20');
+  var hyphenTag = tag.name.replace(/\s/g, '-');
   var reg = new RegExp(tag.tag_type + "=" + jointTag + "(&|$)");
   var singleIssueReg = new RegExp('https*:\/\/[^\/]+\/[^\/]+\/' + hyphenTag + '\/*');
 
