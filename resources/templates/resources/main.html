@@ -7,7 +7,7 @@
     {% include "resources/banner.html" with banner=page.banner %}
   {% endif %}
 
-  {% include "resources/components/hero-image.html" with page=page %}
+  {% include "resources/components/hero-image.html" with page=page hero_image=hero_image %}
 
   <div class="tc">
     {% include "resources/components/row.html" with render_template="resources/components/page-block.html" element_list=project_info_block length=2 width="w-40" class="mb2" %}

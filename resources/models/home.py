@@ -1,22 +1,23 @@
 import json
 import uuid
+import re
 
 from wagtail.wagtailforms.models import AbstractForm, AbstractFormField
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import (
-    FieldPanel, InlinePanel, MultiFieldPanel,
-    PageChooserPanel, FieldRowPanel
+    FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
 )
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
-from wagtail.wagtailimages.models import Image
 
-from django.db.models.fields import TextField, URLField
+from django.db.models.fields import TextField, URLField, CharField
 from django.db import models
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib import messages
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, JsonResponse
 from django.template.loader import render_to_string
+from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
 
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
@@ -33,6 +34,60 @@ from resources.views import get_data
 from wagtail.wagtailcore.models import Orderable
 
 uid = uuid.uuid4()
+
+
+def check_two_letter_zipcode(self, value):
+    if value.strip() == "" or re.match(r"^[A-Za-z][A-Za-z]?$", value):
+        return value
+    else:
+        raise ValidationError(
+            self.error_messages['invalid'], code='invalid'
+        )
+
+
+class TwoCharsZipcodeField(CharField):
+    default_error_messages = {
+        'invalid': _('Enter one or 2 letters of the zipcode'),
+    }
+
+    def to_python(self, value):
+        value = super().to_python(value)
+        value = check_two_letter_zipcode(self, value)
+        return value
+
+
+class LocationImages(models.Model):
+    location_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text="""
+            Max file size: 10MB. Choose from: GIF, JPEG, PNG
+            (but pick PNG if you have the choice)
+        """
+    )
+    first_letters_of_zip = TwoCharsZipcodeField(
+        blank=True,
+        max_length=255,
+        help_text="""
+            The first letter or letters of the postcode
+            you would like to match with, e.g. TW or E
+        """
+    )
+
+    panels = [
+        FieldPanel('location_image', classname="col6"),
+        FieldPanel('first_letters_of_zip', classname="col6"),
+    ]
+
+    class Meta:
+        abstract = True
+
+
+class MainLocationImages(Orderable, LocationImages):
+    page = ParentalKey('Main', related_name='location_images')
 
 
 class FooterLink(models.Model):
@@ -156,24 +211,6 @@ class Home(AbstractForm):
             (but pick PNG if you have the choice)
         """
     )
-    location_image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text="""
-            Max file size: 10MB. Choose from: GIF, JPEG, PNG
-            (but pick PNG if you have the choice)
-        """
-    )
-    first_letters_of_postcode = TextField(
-        blank=True,
-        help_text="""
-            The first letter or letters of the postcode
-            you would like to match with, e.g. TW or E
-        """
-    )
     video_url = URLField(
         blank=True,
         help_text="URL of an introductiary youtube video"
@@ -192,35 +229,12 @@ class Home(AbstractForm):
         help_text="Text to display for the link to this page"
     )
 
-    def get_context(self, request):
-        context = super(Home, self).get_context(request)
-
-        context = get_data(request, data=context, slug=self.slug)
-        if 'ldmw_location_zipcode' in request.COOKIES:
-            try:
-                zipcode = request.COOKIES['ldmw_location_zipcode']
-                print('-------------------')
-                print(zipcode)
-                # get all first_letter_zipcodes which have been added to the cms
-                # take the first match
-                # let `context['hero_image'] = that_hero_image
-                # if none is found, let context['hero_image'] = self.hero_image
-            except:
-                context['hero_image'] = self.hero_image
-        else:
-            context['hero_image'] = self.hero_image
-        return context
-
     content_panels = AbstractForm.content_panels + [
         MultiFieldPanel([
             FieldPanel('description'),
             FieldPanel('link_text')
         ], heading="Link Block"),
         ImageChooserPanel('hero_image'),
-        FieldRowPanel([
-            ImageChooserPanel('location_image'),
-            FieldPanel('first_letters_of_postcode')
-        ]),
         FieldPanel('header', classname="full"),
         FieldPanel('body', classname="full"),
         FieldPanel('video_url', classname="full"),
@@ -293,6 +307,7 @@ class Main(AbstractForm):
     content_panels = AbstractForm.content_panels + [
         FieldPanel('banner', classname="full"),
         ImageChooserPanel('hero_image'),
+        InlinePanel('location_images', label="Location Images"),
         FieldPanel('header', classname="full"),
         FieldPanel('body', classname="full"),
         InlinePanel('project_info_block', label="Project Info Block"),
@@ -309,6 +324,21 @@ class Main(AbstractForm):
 
     def get_context(self, request):
         context = super(Main, self).get_context(request)
+        if 'ldmw_location_zipcode' in request.COOKIES:
+            try:
+                zipcode = request.COOKIES['ldmw_location_zipcode']
+                for loc_img in MainLocationImages.objects.all():
+                    short_zip = loc_img.first_letters_of_zip
+                    if zipcode[:len(short_zip)] == short_zip:
+                        location_hero_image = loc_img.location_image
+                        break
+                if not location_hero_image:
+                    location_hero_image = self.hero_image
+                context['hero_image'] = location_hero_image
+            except:
+                context['hero_image'] = self.hero_image
+        else:
+            context['hero_image'] = self.hero_image
         return get_data(request, data=context, slug=self.slug)
 
     def process_form_submission(self, request_dict):
