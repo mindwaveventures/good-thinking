@@ -2,8 +2,7 @@
 
 <!-- Hero Image Block -->
 {% image page.hero_image width-1000 as hero_image %}
-<section class="{% if page.slug == 'home' %}pt6{% else %}pt10{% endif %} ph4 ph5-m ph6-l tc lm-white cover lh-copy bg-center" style="background-image:url('{{ hero_image.url }}')">
-  {% include "resources/logo.html" %}
+<section class="{% if page.slug == 'home' %}pt4{% else %}pt6{% endif %} ph4 ph5-m ph6-l tc lm-white cover lh-copy bg-center" style="background-image:url('{{ hero_image.url }}')">
   <div class="pb5 w-90-ns f1-ns f6 lh-title center">
     <div class="mb4">
       {{ page.header|richtext }}
