@@ -32,8 +32,8 @@
   background-color: #FFFFFF;
 }
 
-.lm-bg-turquoise {
-  background-color: #009EE2;
+.lm-bg-light-turquoise {
+  background-color: #d5f5f6;
 }
 
 .lm-bg-dark-turquoise, .lm-bg-dark-turquoise-hover:hover {
@@ -82,7 +82,7 @@
 }
 
 .lm-turquoise {
-  color: #009EE2;
+  color: #2dccd3;
 }
 
 .lm-dark-turquoise, .lm-dark-turquoise-hover:hover {
@@ -116,7 +116,7 @@
 }
 
 .b--lm-turquoise {
-  border-color: #009EE2;
+  border-color: #2dccd3;
 }
 
 .b--lm-dark-turquoise {

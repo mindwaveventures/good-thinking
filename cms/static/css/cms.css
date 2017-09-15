@@ -644,3 +644,9 @@ lm-ls1 {
     bottom: -1.5rem;
   }
 }
+
+@media screen and (min-width:60em) {
+  .bottom--1-5-l {
+    bottom: -1.5rem;
+  }
+}
