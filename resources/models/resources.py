@@ -141,10 +141,6 @@ class ResourcePage(Page):
         blank=True,
         help_text="A list of cons for the resource"
     )
-    video_url = URLField(
-        blank=True,
-        help_text="URL of a youtube video for the resource"
-    )
     topic_tags = ClusterTaggableManager(
         through=TopicTag, blank=True,
         verbose_name='Topic Tags', related_name='resource_topic_tags',
@@ -267,7 +263,6 @@ class ResourcePage(Page):
         FieldPanel('body', classname="full"),
         FieldPanel('pros', classname="full"),
         FieldPanel('cons', classname="full"),
-        FieldPanel('video_url', classname="full"),
         MultiFieldPanel([
             FieldRowPanel([
                 FieldPanel('latitude', classname="col6"),
