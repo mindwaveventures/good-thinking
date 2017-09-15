@@ -249,7 +249,7 @@ class Home(AbstractForm):
             request, data=context, slug=self.slug,
             path_components=kwargs.get('path_components', [])
         )
-        
+
         return context
 
     content_panels = AbstractForm.content_panels + [
