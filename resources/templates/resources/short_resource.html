@@ -15,11 +15,9 @@
           </a>
         {% endif %}
       </div>
-      {% if page.video %}
-        <div class="tc ma2">
-          {{ page.video }}
-        </div>
-      {% endif %}
+      <div class="mh2 dib">
+        {{ page.body|truncatechars:140|richtext }}
+      </div>
     </div>
     <div class="pv4 pb4-ns pt3-ns">
       {% if page.pros %}
