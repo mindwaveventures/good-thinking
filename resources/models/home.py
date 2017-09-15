@@ -3,6 +3,7 @@ import uuid
 
 from wagtail.wagtailforms.models import AbstractForm, AbstractFormField
 from wagtail.wagtailcore.fields import RichTextField
+from wagtail.wagtailcore.url_routing import RouteResult
 from wagtail.wagtailadmin.edit_handlers import (
     FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
 )
@@ -15,6 +16,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib import messages
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, JsonResponse
+from django.http.response import Http404
 from django.template.loader import render_to_string
 
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -106,6 +108,17 @@ class MainFormField(AbstractFormField):
 
 
 class Home(AbstractForm):
+    def route(self, request, path_components):
+        if path_components:
+            return RouteResult(
+                self, kwargs={'path_components': path_components}
+            )
+        else:
+            if self.live:
+                return RouteResult(self)
+            else:
+                raise Http404
+
     banner = RichTextField(
         blank=True,
         help_text="Banner at the top of every page"
@@ -182,10 +195,14 @@ class Home(AbstractForm):
         help_text="Text to display for the link to this page"
     )
 
-    def get_context(self, request):
+    def get_context(self, request, **kwargs):
         context = super(Home, self).get_context(request)
 
-        context = get_data(request, data=context, slug=self.slug)
+        context = get_data(
+            request, data=context, slug=self.slug,
+            path_components=kwargs.get('path_components', [])
+        )
+
         loc = get_loc(request.session.get('location') or '')
         if loc:
             try:
@@ -217,6 +234,7 @@ class Home(AbstractForm):
         return custom_form_submission(self, request_dict)
 
     def serve(self, request, *args, **kwargs):
+        path_components = kwargs.get('path_components', [])
         return custom_serve(**locals())
 
 
@@ -288,7 +306,7 @@ class Main(AbstractForm):
         InlinePanel('footer_links', label="Footer"),
     ]
 
-    def get_context(self, request):
+    def get_context(self, request, **kwargs):
         context = super(Main, self).get_context(request)
         return get_data(request, data=context, slug=self.slug)
 
@@ -358,7 +376,11 @@ def custom_serve(self, request, *args, **kwargs):
 
     project_info_block = ProjectInfoBlock.objects.all()
 
-    context = self.get_context(request)
+    path_components = kwargs.get('path_components', [])
+
+    list(map(lambda x: " ".join(x.split("-")), path_components))
+
+    context = self.get_context(request, path_components=path_components)
     context['form'] = form
     context['project_info_block'] = project_info_block
 

@@ -1,13 +1,13 @@
 var personaliseDiv = document.getElementById('elm-personalise');
 
-var issue_tags = getTags('issue')
-var content_tags = getTags('content')
-var reason_tags = getTags('reason')
-var issue_label = document.getElementById('issue_label').innerText;
-var reason_label = document.getElementById('reason_label').innerText;
-var content_label = document.getElementById('content_label').innerText;
+var issue_tags = getTags('q1')
+var reason_tags = getTags('q2')
+var content_tags = getTags('q3')
+var issue_label = document.getElementById('q1_label').innerText;
+var reason_label = document.getElementById('q2_label').innerText;
+var content_label = document.getElementById('q3_label').innerText;
 
-var selected_tags = selectedTags(getQuery('issue', 'content', 'reason'));
+var selected_tags = selectedTags(getQuery('q1', 'q2', 'q3'));
 
 var app = Elm.Main.embed(personaliseDiv, {
   issue_tags: issue_tags,
@@ -39,9 +39,14 @@ function getQuery() {
     var splitreg = /(?:%20|\+)/g;
 
     while ((myArray = reg.exec(qs)) !== null) {
-      query[a].push(myArray[1].split(splitreg).join(' '));
+      query[a].push(myArray[1].replace(splitreg, ' '));
     }
   });
+
+  if(window.location.href.split('/').length === 6) {
+    query['q1'] = [window.location.href.split('/')[4].replace(/-/g, " ")];
+  };
+
   return query;
 }
 
@@ -68,10 +73,10 @@ app.ports.listeners.subscribe(function(res) {
 });
 
 app.ports.selectTag.subscribe(function(tag) {
-  var selectedTags = JSON.parse(localStorage.getItem('selected_tags_' + getPage()));
+  var selectedTags = JSON.parse(localStorage.getItem('selected_tags_' + getPage())) || [];
 
   for (var i = 0; i < selectedTags.length; i++) {
-    if (selectedTags[i].tag_type === tag.tag_type && selectedTags[i].name == tag.name) {
+    if (selectedTags[i].tag_type === tag.tag_type && selectedTags[i].name === tag.name) {
       selectedTags.splice(i, 1);
       break;
     } else if (i === selectedTags.length - 1) {
@@ -151,31 +156,74 @@ function getOrder() {
 }
 
 function updateUrl(tag) {
-  var jointTag = tag.name.split(' ').join('%20');
-  var reg = new RegExp("&*" + tag.tag_type + "=" + jointTag + "(&|$)");
-  var newUrl = window.location.href;
+  var jointTag = tag.name.replace(/\s/g, '%20');
+  var baseUrl = window.location.origin + '/' + window.location.pathname.split('/')[1] + '/';
   var prefix;
+  var querystring = "";
+  var tags = {};
 
-  if (window.location.href.indexOf('?') > -1) {
-    prefix = "&";
+  ['q1', 'q2', 'q3'].forEach(function(el) {
+    tags[el] = getTagsOfType(el);
+  });
+
+  if (
+    tags.q1.length === 0 && !tagSelected(tag) &&
+    tags.q2.length === 0 && tags.q3.length === 0 && tag.tag_type === 'q1'
+  ) {
+    /* No tags are selected & this is an issue tag - make friendly url */
+    querystring = tag.name.replace(/\s/g, '-');
+  } else if (tags.q1.length === 1 && tagSelected(tag) && tags.q2.length === 0 && tags.q3.length === 0) {
+    /* Currently one issue tag selected, and has been deselected - remove friendly url*/
+    querystring = "";
   } else {
-    prefix = "?";
+    /* Multiple tags selected - build query string with parameters */
+
+    /* Build query with already selected tags,
+    do not include new tag if it was already selected */
+    for (var type in tags) {
+      tags[type].forEach(function(el) {
+        if (tag.tag_type !== type || jointTag !== el || !tagSelected({tag_type: type, name: el})) {
+          prefix = querystring === "" ?  "?" : "&";
+          querystring += prefix + type + "=" + el;
+        }
+      });
+    }
+
+    /* Add newly selected tag */
+    if (!tagSelected(tag)) {
+      prefix = querystring === "" ?  "?" : "&";
+      querystring += prefix + tag.tag_type + "=" + tag.name;
+    }
   }
 
-  if (tagSelected(tag)) {
-    newUrl = window.location.href.replace(reg, "&");
-  } else {
-    newUrl += prefix + tag.tag_type + "=" + tag.name;
+  history.replaceState(null, null, baseUrl + querystring);
+}
+
+function getTagsOfType(type) {
+  var singleIssueReg = new RegExp('https*:\/\/[^\/]+\/[^\/]+\/([^\/?]+)\/*');
+  var reg = new RegExp(type + "=([^&#]+)", "g");
+  var res;
+  var matches = [];
+  var singleIssue = window.location.href.match(singleIssueReg);
+
+  if (type === "q1" && singleIssue) {
+    matches.push(singleIssue[1].replace(/-/g, ' '));
   }
 
-  history.replaceState(null, null, newUrl);
+  while ((res = reg.exec(window.location.href)) !== null) {
+    matches.push(res[1]);
+  }
+
+  return matches;
 }
 
 function tagSelected(tag) {
-  var jointTag = tag.name.split(' ').join('%20');
+  var jointTag = tag.name.replace(/\s/g, '%20');
+  var hyphenTag = tag.name.replace(/\s/g, '-');
   var reg = new RegExp(tag.tag_type + "=" + jointTag + "(&|$)");
+  var singleIssueReg = new RegExp('https*:\/\/[^\/]+\/[^\/]+\/' + hyphenTag + '\/*');
 
-  var selectedTags = JSON.parse(localStorage.getItem('selected_tags_' + getPage()));
+  var selectedTags = JSON.parse(localStorage.getItem('selected_tags_' + getPage())) || [];
 
   for (var i = 0; i < selectedTags.length; i++) {
     if (selectedTags[i].tag_type === tag.tag_type && selectedTags[i].name == tag.name) {
@@ -183,7 +231,7 @@ function tagSelected(tag) {
     }
   }
 
-  return reg.test(window.location.href);
+  return reg.test(window.location.href) || singleIssueReg.test(window.location.href);
 }
 
 swipeListeners();

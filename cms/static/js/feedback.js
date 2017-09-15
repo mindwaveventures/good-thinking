@@ -3,7 +3,9 @@ function feedbackLoopListener() {
     el.addEventListener('click', function (e) {
       var resource_id = get_resource_id(e.target);
       add_visited(resource_id);
-      window.location.reload();
+      if (!isMobileDevice()) {
+        window.location.reload();
+      }
     });
   });
 

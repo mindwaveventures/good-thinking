@@ -76,9 +76,9 @@ def get_data(request, **kwargs):
     Home = apps.get_model('resources', 'home')
 
     tag_filter = request.GET.getlist('tag')
-    issue_filter = request.GET.getlist('issue')
-    content_filter = request.GET.getlist('content')
-    reason_filter = request.GET.getlist('reason')
+    issue_filter = kwargs.get('path_components', request.GET.getlist('q1'))
+    content_filter = request.GET.getlist('q3')
+    reason_filter = request.GET.getlist('q2')
     topic_filter = request.GET.getlist('topic')
 
     if request.GET.get('order'):
