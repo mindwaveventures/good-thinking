@@ -1,12 +1,12 @@
 {% load wagtailcore_tags %}
 
-<div id="resource_{{page.id}}" class="resource">
-  <div class="br1 shadow-2 tl w-60-ns center">
-    <div class="ph3 pt2 pb0 pt3-ns ph4-ns mt4">
-      <h2 class="mt0 mb1 resource_title"><a class="link link-hover" href="/{{page.parent}}/{{page.slug}}/">{{ page.heading }}</a></h2>
+<div id="resource_{{page.id}}" class="resource mb4 mt4">
+  <div class="br1 ba shadow-2 tl w-60-ns center">
+    <div class="b--lm-grey bb ph3 pt2 pb0 pt3-ns ph4-ns">
+      <h2 class="mt0 mb1 resource_title pv1"><a class="link link-hover f4" href="/{{page.parent}}/{{page.slug}}/">{{ page.heading }}</a></h2>
       <div class="word-wrap">
         {% if page.resource_url %}
-          <a target="_blank" class="f6 lm-turquoise resource-link link-hover link-visited pv1" href="{{ page.resource_url }}">
+          <a target="_blank" class="f6 lm-dark-turquoise lm-pink-hover resource-link link-visited pv1" href="{{ page.resource_url }}">
             {% if page.resource_url_text %}
               {{ page.resource_url_text }}
             {% else %}
@@ -15,27 +15,27 @@
           </a>
         {% endif %}
       </div>
-      <div class="mh2 dib">
+      <div class="dib copy">
         {{ page.body|truncatechars:140|richtext }}
       </div>
     </div>
-    <div class="pv4 pb4-ns pt3-ns">
+    <div class="pt3-ns">
       {% if page.pros %}
         <div class="tc db dn-ns">
           {% include "resources/secondary_button.html" with value="View pros and cons" background="light" class="view_pcs" id="view_pcs{{@page.id}}" %}
         </div>
       {% endif %}
-      <div class="w-100 dn dt-ns db-ns pros_cons bb b--lm-grey pb3" id="pros_cons{{page.id}}">
-        <div class="ph4-ns ph3 w-50-ns dib-ns dtc-ns br-ns b--lm-grey pros">
+      <div class="w-100 dn dt-ns db-ns pros_cons bb b--lm-grey pb3 copy" id="pros_cons{{page.id}}">
+        <div class="ph4-ns ph3 w-50-ns dib-ns dtc-ns pros">
           {{page.pros|richtext}}
         </div>
         <div class="ph4-ns ph3 w-50-ns dib-ns dtc-ns">
           {{page.cons|richtext}}
         </div>
       </div>
-      <div class="dt pt3">
-        <div class="ph4-ns ph3 w-50-ns dib-ns dtc-ns br-ns bb bb-0-ns mb2 mb0-ns b1 v-top b--lm-grey">
-          <h4 class="nunito-bold mt0">Would you recommend this?</h4>
+      <div class="dt">
+        <div class="pt3 pb4 ph4-ns ph3 w-50-ns dib-ns dtc-ns br-ns bb bb-0-ns mb2 mb0-ns b1 v-top b--lm-grey">
+          <h4 class="f5 mt0">Would you recommend this?</h4>
           <div class="dt dt--fixed">
             <div class="dib dtc">
               <div class="dib mb3 v-mid tl"><span>{{page.number_of_likes|default:0}}</span></div>
@@ -70,7 +70,7 @@
             <label for="id_{{page.id}}" class="dn"></label>
             <textarea id="id_{{page.id}}" name="feedback" class="h3 f5 w-100 pa2 nr b--lm-grey"></textarea>
             <div class="dib w-100">
-              <button class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover bottom--1 mt2 fr">Submit</button>
+              <button class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise button lm-bg-orange-hover lm-dark-blue-hover bottom--1 mt2 fr">Submit</button>
             </div>
             <input type="hidden" name="resource_title" value="{{page.title}}" />
             <input type="hidden" name="liked" value="{{page.liked_value}}" />
@@ -79,12 +79,12 @@
           {% endif %}
           {% endif %}
         </div>
-        <div class="dib-ns dtc-ns ph4-ns ph3">
-          <h4 class="nunito-bold mt0">Get more info</h4>
+        <div class="pt3 pb4 dib-ns dtc-ns ph4-ns ph3 copy">
+          <h4 class="mt0 f5">Get more info</h4>
           <p>
             Find out more about this tool, get more info and discuss with others
           </p>
-          <button class="f6 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover">
+          <button class="f6 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba bw1 b--lm-dark-turquoise">
             <a class="link" href="/{{page.parent}}/{{page.slug}}/">Get more info and discuss with others</a>
           </button>
         </div>
