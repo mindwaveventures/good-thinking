@@ -16,8 +16,6 @@ from resources.views import (
     assessment_controller, assessment_summary_controller
 )
 
-from django.views.generic import TemplateView
-
 urlpatterns = [
     url(r'^django-admin/', include(admin.site.urls)),
 
@@ -29,12 +27,6 @@ urlpatterns = [
     url(r'^like/', save_like),
 
     url(r'^get_json_data/', get_json_data),
-
-    url(
-        r'^robots\.txt',
-        TemplateView.as_view(template_name='robots.txt'),
-        name="cms"
-    ),
 
     url('server-assessment/', assessment_controller),
     url('assessment-summary/', assessment_summary_controller),
