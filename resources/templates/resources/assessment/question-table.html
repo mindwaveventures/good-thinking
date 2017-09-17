@@ -20,7 +20,7 @@
             {{q.DisplayText|richtext}}
           </td>
           {% for a in q.Answers %}
-            <td>
+            <td class="tc">
               <input type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlName}}" value="{{a.ControlValue}}" {% if a.isChecked %}checked{% endif %} />
             </td>
           {% endfor %}

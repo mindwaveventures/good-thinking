@@ -3,39 +3,52 @@
 {% load wagtailcore_tags %}
 
 {% block content %}
-  <form method="post" action="/assessment-summary/">
-    {% csrf_token %}
-    <input type="hidden" name="member_id" value="{{member_id}}" />
-    <input type="hidden" name="traversal_id" value="{{traversal_id}}" />
-    <input type="hidden" name="algo_id" value="{{AlgoID}}" />
-    <input type="hidden" name="node_id" value="{{NodeID}}" />
-    <input type="hidden" name="parent" value="{{parent}}" />
-    <input type="hidden" name="slug" value="{{slug}}" />
-    <button type="submit">Summary</button>
-  </form>
-
-  {% if info %}
-   {% with info.Table|first as info_text %}
-    {{info_text.Explanation|richtext}}
-   {% endwith %}
+  {% if banner %}
+    {% include "resources/banner.html" with banner=banner %}
   {% endif %}
 
-  {% if Error %}
-    <div style="color: red;">
-      {{Error}}
+  <div class="mt6 mb5">
+    <div class="w-60-ns center pb3">
+      <h3>{{heading}}</h3>
+      <div class="copy">
+        {{body|richtext}}
+      </div>
     </div>
-  {% endif %}
+    <div class="br1 shadow-2 tl w-60-ns center ph4 pv2">
+      <form method="post" action="/assessment-summary/" class="pt2 pb4">
+        {% csrf_token %}
+        <input type="hidden" name="member_id" value="{{member_id}}" />
+        <input type="hidden" name="traversal_id" value="{{traversal_id}}" />
+        <input type="hidden" name="algo_id" value="{{AlgoID}}" />
+        <input type="hidden" name="node_id" value="{{NodeID}}" />
+        <input type="hidden" name="parent" value="{{parent}}" />
+        <input type="hidden" name="slug" value="{{slug}}" />
+        {% include "resources/secondary_button.html" with value="Summary"%}
+      </form>
 
-  <div class="br1 shadow-2 tl w-60-ns center ph4 pv2">
-    <form method="post" action="/{{parent}}/{{slug}}/">
-      {% for q in Questions %}
+      {% if info %}
+        {% with info.Table|first as info_text %}
+        <div class="lm-bg-dark-turquoise ba pa2 white">
+          {{info_text.Explanation|richtext}}
+        </div>
+        {% endwith %}
+      {% endif %}
+
+      {% if Error %}
+        <div style="color: red;">
+          {{Error}}
+        </div>
+      {% endif %}
+
+      <form method="post" action="/{{parent}}/{{slug}}/">
+        {% for q in Questions %}
         <div class="pv2">
           <div class="pv2">
             <div class="dib">
               {{q.DisplayText|richtext}}
             </div>
             {% if q.hasInfo %}
-            <button name="q_info" value="{{q.QuestionID}}">?</button>
+              <button class="lm-bg-dark-turquoise b--none white br1 pv0 ph1" name="q_info" value="{{q.QuestionID}}">?</button>
             {% endif %}
             {% if q.Error %}
             <div style="color: red;">
@@ -57,7 +70,7 @@
               {{a.DisplayText}}
             </label>
             {% if a.hasInfo %}
-            <button name="a_info" value="{{a.AnswerID}}">?</button>
+            <button class="lm-bg-dark-turquoise b--none white br1 pv0 ph1" name="a_info" value="{{a.AnswerID}}">?</button>
             {% endif %}
             {% if a.Error %}
             <div style="color: red;">
@@ -67,46 +80,46 @@
           </div>
           {% endfor %}
         </div>
-      {% endfor %}
+        {% endfor %}
 
-      {% if Conclusions %}
-      <div
-      {% if Report.MessageLevel == 1 %}style="color: red;"
-      {% elif Report.MessageLevel == 3 %}style="color: green;"
-      {% else %}style="color: yellow;"
-      {% endif %}
-      >
-      {{Report.MessageTitle}}
-    </div>
-    <div>
-      {{Report.MessageDescription}}
-    </div>
-    {% include "resources/assessment/bullets.html" with bullets=Report.ContactBullets title=Report.ContactBulletTitle %}
-    {% include "resources/assessment/bullets.html" with bullets=Report.DangerBullets title=Report.DangerBulletTitle %}
-
-    {% include "resources/assessment/conclusions.html" with conclusions=Report.ReasonConclusions title=Report.ReasonConclusionTitle %}
-    {% include "resources/assessment/bullets.html" with bullets=Report.ReasonBullets title=Report.ReasonBulletTitle %}
-
-    {% include "resources/assessment/conclusions.html" with conclusions=Report.OtherConclusions title=Report.OtherConclusionTitle %}
-    {% include "resources/assessment/conclusions.html" with conclusions=Report.InformationConclusions title=Report.InformationConclusionTitle %}
-    {% endif %}
-
-    {% csrf_token %}
-    <input type="hidden" name="member_id" value="{{member_id}}" />
-    <input type="hidden" name="traversal_id" value="{{traversal_id}}" />
-    <input type="hidden" name="algo_id" value="{{AlgoID}}" />
-    <input type="hidden" name="node_id" value="{{NodeID}}" />
-    <div class="pv3 w-100">
-      <div class="w-50 tl dib dtc">
-        <button type="submit" name="previous" value="Previous">previous question</button>
+        {% if Conclusions %}
+        <div
+        {% if Report.MessageLevel == 1 %}style="color: red;"
+        {% elif Report.MessageLevel == 3 %}style="color: green;"
+        {% else %}style="color: yellow;"
+        {% endif %}
+        >
+        {{Report.MessageTitle}}
       </div>
-      {% if not Conclusions %}
-      <div class="tr dib">
-        <button type="submit" name="next" value="Next">next question</button>
+      <div>
+        {{Report.MessageDescription}}
       </div>
+      {% include "resources/assessment/bullets.html" with bullets=Report.ContactBullets title=Report.ContactBulletTitle %}
+      {% include "resources/assessment/bullets.html" with bullets=Report.DangerBullets title=Report.DangerBulletTitle %}
+
+      {% include "resources/assessment/conclusions.html" with conclusions=Report.ReasonConclusions title=Report.ReasonConclusionTitle %}
+      {% include "resources/assessment/bullets.html" with bullets=Report.ReasonBullets title=Report.ReasonBulletTitle %}
+
+      {% include "resources/assessment/conclusions.html" with conclusions=Report.OtherConclusions title=Report.OtherConclusionTitle %}
+      {% include "resources/assessment/conclusions.html" with conclusions=Report.InformationConclusions title=Report.InformationConclusionTitle %}
       {% endif %}
-    </div>
-  </form>
+
+      {% csrf_token %}
+      <input type="hidden" name="member_id" value="{{member_id}}" />
+      <input type="hidden" name="traversal_id" value="{{traversal_id}}" />
+      <input type="hidden" name="algo_id" value="{{AlgoID}}" />
+      <input type="hidden" name="node_id" value="{{NodeID}}" />
+      <div class="pv3 w-100">
+        <div class="w-50 tl dib">
+          <button class="b--none bg-white fw6 lm-dark-turquoise pointer ph0" type="submit" name="previous" value="Previous">previous question</button>
+        </div>
+        {% if not Conclusions %}
+        <div class="w-49 tr dib">
+          <button class="b--none bg-white fw6 lm-dark-turquoise pointer ph0" type="submit" name="next" value="Next">next question</button>
+        </div>
+        {% endif %}
+      </div>
+    </form>
   </div>
 
   <script type="text/javascript">
@@ -120,5 +133,7 @@
       }
     }
   </script>
+  </div>
 
+  {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
 {% endblock %}

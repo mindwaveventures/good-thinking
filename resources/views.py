@@ -7,7 +7,7 @@ from django.http import JsonResponse, HttpResponse
 from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag
 from resources.models.helpers import (
     create_tag_combiner, count_likes, filter_tags,
-    get_tags, get_order, get_relevance
+    get_tags, get_order, get_relevance, base_context
 )
 
 from django.core import serializers
@@ -69,7 +69,7 @@ def get_json_data(request):
 
 
 def get_data(request, **kwargs):
-    ResourcePage = apps.get_model('resources', 'resource_page')
+    ResourcePage = apps.get_model('resources', 'resourcepage')
     Tip = apps.get_model('resources', 'tip')
 
     data = kwargs.get('data', {})
@@ -218,7 +218,7 @@ def get_data(request, **kwargs):
 
 
 def get_visited_resources(**kwargs):
-    ResourcePage = apps.get_model('resources', 'resource_page')
+    ResourcePage = apps.get_model('resources', 'resourcepage')
     visited_cookie = kwargs.get('visited_cookie')
     user_cookie = kwargs.get('user_cookie')
 
@@ -371,6 +371,9 @@ def assessment_controller(self, request, **kwargs):
         context['parent'] = None
         context['slug'] = None
 
+    context['heading'] = self.heading
+    context['body'] = self.body
+
     if params.get("q_info") or params.get("a_info"):
         context["info"] = requests.get(
             f"http://apps.expert-24.com/WebBuilder/TraversalService/Info/"
@@ -378,7 +381,9 @@ def assessment_controller(self, request, **kwargs):
             + f"{node_type_id}&@AssetID={asset_id}"
         ).json()
 
-    return HttpResponse(template.render(context=context, request=request))
+    return HttpResponse(
+        template.render(context=base_context(context), request=request)
+    )
 
 
 def assessment_summary_controller(request, **kwargs):
@@ -401,4 +406,6 @@ def assessment_summary_controller(request, **kwargs):
     context["parent"] = request.POST.get("parent")
     context["slug"] = request.POST.get("slug")
 
-    return HttpResponse(template.render(context=context, request=request))
+    return HttpResponse(
+        template.render(context=base_context(context), request=request)
+    )

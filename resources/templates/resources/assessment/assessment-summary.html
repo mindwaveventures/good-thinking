@@ -1,36 +1,58 @@
-<form id="summary_form" method="post" action="/{{parent}}/{{slug}}/">
-  {% csrf_token %}
-  <input type="hidden" name="member_id" value="{{member_id}}" />
-  <input type="hidden" name="traversal_id" value="{{traversal_id}}" />
-  <input id="algo_id_summary" type="hidden" name="algo_id" value="{{algo_id}}" />
-  <input id="node_id_summary" type="hidden" name="node_id" value="{{node_id}}" />
-  <button id="return_summary" type="submit" name="return_summary" value="Get">Back</button>
-</form>
+{% extends "base.html" %}
 
-<h1>summary</h1>
+{% load wagtailcore_tags %}
 
-{% for c in Categories %}
-  <h2>
-    {{c.DisplayText}}
-  </h2>
-  {% for s in c.SubCategories %}
-    <h3>
-      {{s.DisplayText}}
-    </h3>
-    {% for g in s.Groups %}
-    <div>
-      <a onClick='goBack({{g.AlgoID}}, {{g.NodeID}})'>{{g.DisplayText}}</a>
+{% block content %}
+  {% if banner %}
+    {% include "resources/banner.html" with banner=banner %}
+  {% endif %}
+
+  <div class="mt6 mb5">
+    <div class="w-60-ns center pb3">
+      <form id="summary_form" method="post" action="/{{parent}}/{{slug}}/">
+        {% csrf_token %}
+        <input type="hidden" name="member_id" value="{{member_id}}" />
+        <input type="hidden" name="traversal_id" value="{{traversal_id}}" />
+        <input id="algo_id_summary" type="hidden" name="algo_id" value="{{algo_id}}" />
+        <input id="node_id_summary" type="hidden" name="node_id" value="{{node_id}}" />
+        <button class="f6 f7-m link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise" id="return_summary" type="submit" name="return_summary" value="Get">Back</button>
+      </form>
+
+      <h3>Assessment Summary</h3>
+      <div class="copy">
+        <p>
+          View or change your assessment answers.
+        </p>
+      </div>
     </div>
-    {% endfor %}
-  {% endfor %}
-{% endfor %}
+    <div class="br1 shadow-2 tl w-60-ns center ph4 pt2 pb4">
+      {% for c in Categories %}
+        <h3>
+          {{c.DisplayText}}
+        </h3>
+        {% for s in c.SubCategories %}
+          <h4>
+            {{s.DisplayText}}
+          </h4>
+          {% for g in s.Groups %}
+            <div>
+              <a class="lm-dark-turquoise pointer lm-pink-hover" onClick='goBack({{g.AlgoID}}, {{g.NodeID}})'>{{g.DisplayText}}</a>
+            </div>
+          {% endfor %}
+        {% endfor %}
+      {% endfor %}
+    </div>
 
-<script type="text/javascript">
-  function goBack(algoID, nodeID) {
-    document.getElementById("algo_id_summary").value = algoID;
-    document.getElementById("node_id_summary").value = nodeID;
-    document.getElementById("return_summary").value = "GoBack";
+    <script type="text/javascript">
+    function goBack(algoID, nodeID) {
+      document.getElementById("algo_id_summary").value = algoID;
+      document.getElementById("node_id_summary").value = nodeID;
+      document.getElementById("return_summary").value = "GoBack";
 
-    document.getElementById('return_summary').click();
-  }
-</script>
+      document.getElementById('return_summary').click();
+    }
+    </script>
+  </div>
+
+  {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
+{% endblock %}
