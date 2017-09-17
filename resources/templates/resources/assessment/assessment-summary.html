@@ -1,4 +1,4 @@
-<form id="summary_form" method="post" action="/server-assessment/">
+<form id="summary_form" method="post" action="/{{parent}}/{{slug}}/">
   {% csrf_token %}
   <input type="hidden" name="member_id" value="{{member_id}}" />
   <input type="hidden" name="traversal_id" value="{{traversal_id}}" />

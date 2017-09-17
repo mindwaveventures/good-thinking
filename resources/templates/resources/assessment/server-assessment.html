@@ -1,71 +1,81 @@
+{% extends "base.html" %}
+
 {% load wagtailcore_tags %}
 
-<form method="post" action="/assessment-summary/">
-  {% csrf_token %}
-  <input type="hidden" name="member_id" value="{{member_id}}" />
-  <input type="hidden" name="traversal_id" value="{{traversal_id}}" />
-  <input type="hidden" name="algo_id" value="{{AlgoID}}" />
-  <input type="hidden" name="node_id" value="{{NodeID}}" />
-  <button type="submit">Summary</button>
-</form>
+{% block content %}
+  <form method="post" action="/assessment-summary/">
+    {% csrf_token %}
+    <input type="hidden" name="member_id" value="{{member_id}}" />
+    <input type="hidden" name="traversal_id" value="{{traversal_id}}" />
+    <input type="hidden" name="algo_id" value="{{AlgoID}}" />
+    <input type="hidden" name="node_id" value="{{NodeID}}" />
+    <input type="hidden" name="parent" value="{{parent}}" />
+    <input type="hidden" name="slug" value="{{slug}}" />
+    <button type="submit">Summary</button>
+  </form>
 
-{% if info %}
- {% with info.Table|first as info_text %}
-  {{info_text.Explanation|richtext}}
- {% endwith %}
-{% endif %}
+  {% if info %}
+   {% with info.Table|first as info_text %}
+    {{info_text.Explanation|richtext}}
+   {% endwith %}
+  {% endif %}
 
-{% if Error %}
-  <div style="color: red;">
-    {{Error}}
-  </div>
-{% endif %}
-
-<form method="post" action="/server-assessment/">
-  {% for q in Questions %}
-    <div>
-      {{q.DisplayText|richtext}}
-      {% if q.hasInfo %}
-        <button name="q_info" value="{{q.QuestionID}}">?</button>
-      {% endif %}
-      {% if q.Error %}
-        <div style="color: red;">
-          {{q.Error}}
-        </div>
-      {% endif %}
+  {% if Error %}
+    <div style="color: red;">
+      {{Error}}
     </div>
-    {% if q.Questions|length > 0 %}
-      {% include "resources/assessment/question-table.html" with table=q %}
-    {% endif %}
-    {% for a in q.Answers %}
-      <div>
-        {% if a.ControlType == "text" %}
-          <input type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlID}}" value="{{a.ControlValue}}" />
-        {% else %}
-          <input type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlName}}" value="{{a.ControlValue}}" {% if a.isChecked %}checked{% endif %} />
-        {% endif %}
-        <label for="{{a.ControlID}}">
-          {{a.DisplayText}}
-        </label>
-        {% if a.hasInfo %}
-          <button name="a_info" value="{{a.AnswerID}}">?</button>
-        {% endif %}
-        {% if a.Error %}
-          <div style="color: red;">
-            {{a.Error}}
-          </div>
-        {% endif %}
-      </div>
-    {% endfor %}
-  {% endfor %}
+  {% endif %}
 
-  {% if Conclusions %}
-    <div
+  <div class="br1 shadow-2 tl w-60-ns center ph4 pv2">
+    <form method="post" action="/{{parent}}/{{slug}}/">
+      {% for q in Questions %}
+        <div class="pv2">
+          <div class="pv2">
+            <div class="dib">
+              {{q.DisplayText|richtext}}
+            </div>
+            {% if q.hasInfo %}
+            <button name="q_info" value="{{q.QuestionID}}">?</button>
+            {% endif %}
+            {% if q.Error %}
+            <div style="color: red;">
+              {{q.Error}}
+            </div>
+            {% endif %}
+          </div>
+          {% if q.Questions|length > 0 %}
+          {% include "resources/assessment/question-table.html" with table=q %}
+          {% endif %}
+          {% for a in q.Answers %}
+          <div>
+            {% if a.ControlType == "text" %}
+            <input type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlID}}" value="{{a.ControlValue}}" />
+            {% else %}
+            <input type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlName}}" value="{{a.ControlValue}}" {% if a.isChecked %}checked{% endif %} />
+            {% endif %}
+            <label for="{{a.ControlID}}">
+              {{a.DisplayText}}
+            </label>
+            {% if a.hasInfo %}
+            <button name="a_info" value="{{a.AnswerID}}">?</button>
+            {% endif %}
+            {% if a.Error %}
+            <div style="color: red;">
+              {{a.Error}}
+            </div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      {% if Conclusions %}
+      <div
       {% if Report.MessageLevel == 1 %}style="color: red;"
       {% elif Report.MessageLevel == 3 %}style="color: green;"
       {% else %}style="color: yellow;"
       {% endif %}
-    >
+      >
       {{Report.MessageTitle}}
     </div>
     <div>
@@ -79,28 +89,36 @@
 
     {% include "resources/assessment/conclusions.html" with conclusions=Report.OtherConclusions title=Report.OtherConclusionTitle %}
     {% include "resources/assessment/conclusions.html" with conclusions=Report.InformationConclusions title=Report.InformationConclusionTitle %}
-  {% endif %}
+    {% endif %}
 
-  {% csrf_token %}
-  <input type="hidden" name="member_id" value="{{member_id}}" />
-  <input type="hidden" name="traversal_id" value="{{traversal_id}}" />
-  <input type="hidden" name="algo_id" value="{{AlgoID}}" />
-  <input type="hidden" name="node_id" value="{{NodeID}}" />
+    {% csrf_token %}
+    <input type="hidden" name="member_id" value="{{member_id}}" />
+    <input type="hidden" name="traversal_id" value="{{traversal_id}}" />
+    <input type="hidden" name="algo_id" value="{{AlgoID}}" />
+    <input type="hidden" name="node_id" value="{{NodeID}}" />
+    <div class="pv3 w-100">
+      <div class="w-50 tl dib dtc">
+        <button type="submit" name="previous" value="Previous">previous question</button>
+      </div>
+      {% if not Conclusions %}
+      <div class="tr dib">
+        <button type="submit" name="next" value="Next">next question</button>
+      </div>
+      {% endif %}
+    </div>
+  </form>
+  </div>
 
-  <button type="submit" name="previous" value="Previous">Back</button>
-  {% if not Conclusions %}
-    <button type="submit" name="next" value="Next">Next</button>
-  {% endif %}
-</form>
+  <script type="text/javascript">
+    function toggleExplanation(id) {
+      var explanation = document.getElementById(id);
 
-<script type="text/javascript">
-  function toggleExplanation(id) {
-    var explanation = document.getElementById(id);
-
-    if (explanation.style.display === "block") {
-      explanation.style.display = "none";
-    } else {
-      explanation.style.display = "block";
+      if (explanation.style.display === "block") {
+        explanation.style.display = "none";
+      } else {
+        explanation.style.display = "block";
+      }
     }
-  }
-</script>
+  </script>
+
+{% endblock %}
