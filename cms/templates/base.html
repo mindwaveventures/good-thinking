@@ -45,6 +45,24 @@
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+        <!-- twitter cards -->
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@goodthinkinguk" />
+        <meta name="twitter:creator" content="@goodthinkinguk" />
+
+        <!-- open graph data -->
+        <meta property="og:url" content="https://londonminds.co.uk{% if page.parent %}/{{page.parent}}{% endif %}/{{page.slug}}" />
+        <meta property="og:title" content="{{page.title}}" />
+        {% load wagtailcore_tags wagtailimages_tags %}
+        {% image page.hero_image width-500 as img %}
+        {% image page.brand_logo width-500 as logo %}
+        {% if img %}
+          <meta property="og:image" content="{{img.url}}" />
+        {% elif logo %}
+          <meta property="og:image" content="{{logo.url}}" />
+        {% endif %}
+        <meta property="og:description" content="From helping you sleep better, to identifying opportunities to talk to like-minded people: whatever it is that you need, we will help you find it." />
+
         {# Global stylesheets #}
         {% block extra_css %}
           <link rel="stylesheet" href="https://npmcdn.com/tachyons-word-break@3.0.0/css/tachyons-word-break.min.css" />
