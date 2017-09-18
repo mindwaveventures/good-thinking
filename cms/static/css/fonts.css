@@ -83,6 +83,10 @@ button, button a {
   word-break: normal;
 }
 
+#cookie_accept_bar a {
+  word-break: normal;
+}
+
 .copy b {
   font-weight: 600;
 }

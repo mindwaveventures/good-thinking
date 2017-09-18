@@ -67,11 +67,12 @@
             <p>
               Why {% if page.liked_value == 1 %}would you{% else %}wouldn't you{% endif %} recommend this?
             </p>
-            <label for="id_{{page.id}}" class="dn"></label>
-            <textarea id="id_{{page.id}}" name="feedback" class="h3 f5 w-100 pa2 nr b--lm-grey"></textarea>
-            <div class="dib w-100">
-              <button class="f5 link dib ph3 pv2 br1 pointer montserrat tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover bottom--1 mt2 fr ba b--lm-dark-turquoise">Submit</button>
+            <div class="dt dt--fixed">
+              <label for="id_{{page.id}}" class="dn"></label>
+              <textarea id="id_{{page.id}}" name="feedback" class="dtc h2 f5 w-90 pa1 nr b--lm-dark-turquoise"></textarea>
+              <button type="submit" class="f5 h2 w-10 fr link dtc pa1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba b--lm-dark-turquoise">></button>
             </div>
+
             <input type="hidden" name="resource_title" value="{{page.title}}" />
             <input type="hidden" name="liked" value="{{page.liked_value}}" />
             <input type="hidden" name="resource_name" value="{{page.heading}}" />
