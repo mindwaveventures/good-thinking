@@ -134,8 +134,9 @@ class FeedbackPage(AbstractForm):
                         submitted_val = request_dict[val.label][0]
                     except:
                         submitted_val = False
-                    choice = 'checked' if choice == submitted_val else ''
-                    choices_list.append({'val': choice})
+                    checked = 'checked' if choice == submitted_val else ''
+                    choices_list.append({'val': choice,
+                                         'checked': checked})
                 dict['choices'] = choices_list
             else:
                 try:
