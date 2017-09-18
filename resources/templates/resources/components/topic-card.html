@@ -1,6 +1,6 @@
 {% load wagtailcore_tags %}
 
-<div class="dib-l {{width}}-l shadow-2 ph3-l pa2 ma2 h45-l">
+<div class="dib-l v-top {{width}}-l shadow-2 ph3-l pa2 ma2 h5-ns relative">
   <h3 class="montserrat ma1 ma2-l{% if el.mobile_title %} dn dib-ns{% endif %}">
     {{el.title}}
   </h3>
@@ -12,5 +12,5 @@
       {{el.description|richtext}}
     </div>
   </div>
-  <a href="{{el.slug}}"><button class="relative w-100 bottom--1-5-l f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba bw1 b--lm-dark-turquoise">{{el.link_text}}</button></a>
+  <a href="{{el.slug}}"><button class="absolute-l w-90-l w-100 bottom--1-2-l r-5-l f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba bw1 b--lm-dark-turquoise">{{el.link_text}}</button></a>
 </div>
