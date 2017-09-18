@@ -4,6 +4,10 @@ from itertools import chain
 
 from django.http import JsonResponse, HttpResponse
 
+import urllib.request
+import os
+import json
+
 from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag
 from resources.models.resources import ResourcePage, Tip
 from resources.models.helpers import (
@@ -22,6 +26,19 @@ from urllib.parse import parse_qs
 from django.core.paginator import Paginator
 
 import requests
+
+
+def get_location(request):
+    google_maps_key = os.environ.get('GOOGLE_MAPS_KEY')
+    latlng = request.path.split('/location/')[1]
+    url_root = "https://maps.googleapis.com/maps/api/geocode/json?"
+    res = urllib.request.urlopen(
+        url_root + "latlng=%s&key=%s" % (latlng, google_maps_key)
+    ).read()
+    address = json.loads(res)['results'][0]['address_components']
+    zipcode = address[len(address) - 1]['long_name']
+    # zipcode to be returned to be set as a session cookie on the client side
+    return HttpResponse(zipcode)
 
 
 def get_json_data(request):

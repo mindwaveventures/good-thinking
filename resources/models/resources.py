@@ -264,10 +264,10 @@ class ResourcePage(Page):
         FieldPanel('pros', classname="full"),
         FieldPanel('cons', classname="full"),
         MultiFieldPanel([
-          FieldRowPanel([
-              FieldPanel('latitude', classname="col6"),
-              FieldPanel('longitude', classname="col6"),
-          ], classname="full"),
+            FieldRowPanel([
+                FieldPanel('latitude', classname="col6"),
+                FieldPanel('longitude', classname="col6"),
+            ], classname="full"),
         ], heading="latlong")
     ]
 

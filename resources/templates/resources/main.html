@@ -7,7 +7,7 @@
     {% include "resources/banner.html" with banner=page.banner %}
   {% endif %}
 
-  {% include "resources/components/hero-image.html" with page=page %}
+  {% include "resources/components/hero-image.html" with page=page hero_image=hero_image %}
 
   <div class="tc">
     {% include "resources/components/row.html" with render_template="resources/components/page-block.html" element_list=project_info_block length=2 width="w-40" class="mb2" %}
@@ -22,7 +22,7 @@
       {% for topic in landing_pages %}
         <div class="dib mv2 mv1 dtc">
           <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer v-mid">
-            <a class="ttu nunito-bold link {% if page.url == topic.url %}bb bw2{% endif %}" href="/{{topic.slug}}">{{topic.title}}</a>
+            <a class="ttu montserrat fw6 f6 link bb-hover bw2-hover lm-dark-turquoise-hover {% if page.url == topic.url %}bb bw2{% endif %}" href="/{{topic.slug}}">{{topic.title}}</a>
           </div>
         </div>
       {% endfor %}
@@ -55,8 +55,8 @@
                     {% else %}
                       <div class="dt dt--fixed">
                         <label for="id_{{row.label}}" class="dn"></label>
-                        <textarea id="id_{{row.label}}" name="{{row.label}}" class="dtc h2 f5 w-95-ns w-80 pa1 nr b--lm-grey"></textarea>
-                        <button type="submit" class="f5 h2 w-5-ns w-20 fr link dtc pa1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover">></button>
+                        <textarea id="id_{{row.label}}" name="{{row.label}}" class="dtc h2 f5 w-95-ns w-80 pa1 nr b--lm-dark-turquoise"></textarea>
+                        <button type="submit" class="f5 h2 w-5-ns w-20 fr link dtc pa1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba b--lm-dark-turquoise">></button>
                       </div>
                     {% endif %}
                   </div>
