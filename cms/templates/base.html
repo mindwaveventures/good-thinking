@@ -29,12 +29,17 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title>
             {% block title %}
-                {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
-            {% endblock %}
-            {% block title_suffix %}
-                {% with self.get_site.site_name as site_name %}
-                    {% if site_name %}- {{ site_name }}{% endif %}
-                {% endwith %}
+                {% if self.seo_title %}
+                    Good Thinking
+                    {% if self.seo_title != "Home" %}
+                        | {{ self.seo_title }}
+                    {% endif %}
+                {% else %}
+                    London Minds
+                    {% if self.title != "Home" %}
+                        | {{ self.title }}
+                    {% endif %}
+                {% endif %}
             {% endblock %}
         </title>
         <meta name="description" content="" />
