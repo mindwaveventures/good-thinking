@@ -1,7 +1,7 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 <!-- Hero Image Block -->
-{% image page.hero_image width-1000 as hero_image %}
+{% image hero_image width-1000 as hero_image %}
 <section class="{% if page.slug == 'home' %}pt6{% else %}pt10{% endif %} ph4 ph5-m ph6-l tc lm-white cover lh-copy bg-center" style="background-image:url('{{ hero_image.url }}')">
   {% include "resources/logo.html" %}
   <div class="pb5 w-90-ns f1-ns lh-title center">
