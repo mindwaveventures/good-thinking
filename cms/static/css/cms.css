@@ -657,4 +657,8 @@ lm-ls1 {
   .r-5-l {
     right: 5%;
   }
+
+  .bottom--1-2-l {
+    bottom: -1.2rem;
+  }
 }

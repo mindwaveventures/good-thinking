@@ -72,7 +72,18 @@ def get_json_data(request):
         )
     )
 
-    json_data['resources'] = resources
+    assessments = list(
+        map(
+            lambda r: render_to_string(
+                'resources/assessment.html',
+                {'page': r},
+                request=request
+            ),
+            data['assessments']
+        )
+    )
+
+    json_data['resources'] = list(chain(resources, assessments))
     json_data['tips'] = tips
 
     for d in data:
@@ -88,6 +99,7 @@ def get_json_data(request):
 def get_data(request, **kwargs):
     ResourcePage = apps.get_model('resources', 'resourcepage')
     Tip = apps.get_model('resources', 'tip')
+    Assessment = apps.get_model('resources', 'assessment')
 
     data = kwargs.get('data', {})
     slug = kwargs.get('slug')
@@ -209,13 +221,21 @@ def get_data(request, **kwargs):
         query=query
     )
 
+    assessments = filter_resources(
+        Assessment.objects.all(),
+        tag_filter=tag_filter,
+        issue_filter=issue_filter,
+        topic_filter=topic_filter,
+        query=query
+    )
+
     resources = filter_resources(
         resources,
         tag_filter=tag_filter,
         issue_filter=issue_filter,
         topic_filter=topic_filter,
         query=query
-    ).filter(~Q(page_ptr_id__in=tips))
+    ).filter(~Q(page_ptr_id__in=list(chain(tips, assessments))))
 
     paged_resources = get_paged_resources(request, resources)
 
@@ -226,6 +246,7 @@ def get_data(request, **kwargs):
     data['landing_pages'] = Home.objects.filter(~Q(slug="home")).live()
     data['resources'] = filtered_resources
     data['tips'] = tips
+    data['assessments'] = assessments
     data['resource_count'] = resources.count() + tips.count()
     data['topic_tags'] = topic_tags.values()
     data['selected_topic'] = topic_filter
