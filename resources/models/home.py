@@ -1,5 +1,6 @@
 import json
 import uuid
+import re
 
 from wagtail.wagtailforms.models import AbstractForm, AbstractFormField
 from wagtail.wagtailcore.fields import RichTextField
@@ -8,9 +9,8 @@ from wagtail.wagtailadmin.edit_handlers import (
     FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
 )
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
-from wagtail.wagtailimages.models import Image
 
-from django.db.models.fields import TextField, URLField
+from django.db.models.fields import TextField, URLField, CharField
 from django.db import models
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib import messages
@@ -18,6 +18,8 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, JsonResponse
 from django.http.response import Http404
 from django.template.loader import render_to_string
+from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
 
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
@@ -36,13 +38,58 @@ from wagtail.wagtailcore.models import Orderable
 uid = uuid.uuid4()
 
 
-def get_loc(loc):
-    first_c = loc[:1]
-    loc_map = {'N': 'North', 'E': 'East', 'S': 'South', 'W': 'West'}
-    try:
-        return loc_map[first_c]
-    except:
-        return None
+def check_two_letter_zipcode(self, value):
+    if value.strip() == "" or re.match(r"^[A-Za-z][A-Za-z]?$", value):
+        return value
+    else:
+        raise ValidationError(
+            self.error_messages['invalid'], code='invalid'
+        )
+
+
+class TwoCharsZipcodeField(CharField):
+    default_error_messages = {
+        'invalid': _('Enter one or 2 letters of the zipcode'),
+    }
+
+    def to_python(self, value):
+        value = super().to_python(value)
+        value = check_two_letter_zipcode(self, value)
+        return value
+
+
+class LocationImages(models.Model):
+    location_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text="""
+            Max file size: 10MB. Choose from: GIF, JPEG, PNG
+            (but pick PNG if you have the choice)
+        """
+    )
+    first_letters_of_zip = TwoCharsZipcodeField(
+        blank=True,
+        max_length=255,
+        help_text="""
+            The first letter or letters of the postcode
+            you would like to match with, e.g. TW or E
+        """
+    )
+
+    panels = [
+        FieldPanel('location_image', classname="col6"),
+        FieldPanel('first_letters_of_zip', classname="col6"),
+    ]
+
+    class Meta:
+        abstract = True
+
+
+class MainLocationImages(Orderable, LocationImages):
+    page = ParentalKey('Main', related_name='location_images')
 
 
 class FooterLink(models.Model):
@@ -123,7 +170,7 @@ class Home(AbstractForm):
         blank=True,
         help_text="Banner at the top of every page"
     )
-    header = RichTextField(
+    header = TextField(
         blank=True,
         help_text="Hero title"
     )
@@ -203,14 +250,6 @@ class Home(AbstractForm):
             path_components=kwargs.get('path_components', [])
         )
 
-        loc = get_loc(request.session.get('location') or '')
-        if loc:
-            try:
-                context['hero_image'] = Image.objects.get(title=loc)
-            except:
-                context['hero_image'] = self.hero_image
-        else:
-            context['hero_image'] = self.hero_image
         return context
 
     content_panels = AbstractForm.content_panels + [
@@ -243,7 +282,7 @@ class Main(AbstractForm):
         blank=True,
         help_text="Banner at the top of every page"
     )
-    header = RichTextField(
+    header = TextField(
         blank=True,
         help_text="Hero title"
     )
@@ -292,6 +331,7 @@ class Main(AbstractForm):
     content_panels = AbstractForm.content_panels + [
         FieldPanel('banner', classname="full"),
         ImageChooserPanel('hero_image'),
+        InlinePanel('location_images', label="Location Images"),
         FieldPanel('header', classname="full"),
         FieldPanel('body', classname="full"),
         InlinePanel('project_info_block', label="Project Info Block"),
@@ -308,6 +348,21 @@ class Main(AbstractForm):
 
     def get_context(self, request, **kwargs):
         context = super(Main, self).get_context(request)
+        if 'ldmw_location_zipcode' in request.COOKIES:
+            try:
+                zipcode = request.COOKIES['ldmw_location_zipcode']
+                for loc_img in MainLocationImages.objects.all():
+                    short_zip = loc_img.first_letters_of_zip
+                    if zipcode[:len(short_zip)] == short_zip:
+                        location_hero_image = loc_img.location_image
+                        break
+                if not location_hero_image:
+                    location_hero_image = self.hero_image
+                context['hero_image'] = location_hero_image
+            except:
+                context['hero_image'] = self.hero_image
+        else:
+            context['hero_image'] = self.hero_image
         return get_data(request, data=context, slug=self.slug)
 
     def process_form_submission(self, request_dict):
