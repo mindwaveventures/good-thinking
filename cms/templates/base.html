@@ -53,6 +53,7 @@
           <!-- Taken from https://jonsuh.com/hamburgers/ -->
           <link href="https://cdnjs.cloudflare.com/ajax/libs/hamburgers/0.9.1/hamburgers.min.css" rel="stylesheet">
           <link rel="icon" href="/static/favicon.png">
+          <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i" rel="stylesheet">
         {% endblock %}
         {% stylesheet 'cms' %}
     </head>
@@ -75,7 +76,7 @@
 
         <div id="cookie_accept_bar" class="lm-bg-white tc pv3 dn bottom-0 fixed z-5 w-100">
           <p>Before browsing our site, please accept our <a href="/cookie-policy">cookies policy</a></p>
-          {% include "resources/primary-button.html" with value="ACCEPT AND CLOSE" class="mv3" %}
+          <button class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover mv3">ACCEPT AND CLOSE</button>
         </div>
     </body>
 </html>

@@ -1,15 +1,17 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
 <!-- Hero Image Block -->
-{% image page.hero_image width-1000 as hero_image %}
+{% image hero_image width-1000 as hero_image %}
 <section class="{% if page.slug == 'home' %}pt6{% else %}pt10{% endif %} ph4 ph5-m ph6-l tc lm-white cover lh-copy bg-center" style="background-image:url('{{ hero_image.url }}')">
   {% include "resources/logo.html" %}
-  <div class="pb5 w-90-ns f1-ns f6 lh-title center">
+  <div class="pb5 w-90-ns f1-ns lh-title center">
     <div class="mb4">
-      {{ page.header|richtext }}
+      <h1>
+        {{ page.header }}
+      </h1>
       {% if page.slug == 'home' %}
         <span class="f4 db segoe-bold">Browse some topics below</span>
-        <a href="#topics"><i class="lm-orange fa fa-chevron-down" aria-hidden="true"></i></a>
+        <a href="#topics"><i class="lm-orange fa fa-chevron-down browse-arrow" aria-hidden="true"></i></a>
       {% endif %}
     </div>
     {% if page.video_url %}

@@ -38,7 +38,7 @@ render_filter_block model num filter_label tags classname =
             )
         ]
         ([ h3 [ class "ma0" ] [ text ("Q" ++ (toString num) ++ " of 3") ]
-         , h4 [ class "w-70 mv3" ] [ text filter_label ]
+         , p [ class "w-70 mv3" ] [ text filter_label ]
          ]
             ++ [ div [ class "pv2 overflow-scroll h4" ] ([] ++ (List.map (\t -> render_tag_list t model.selected_tags num) tags)) ]
             ++ [ div [ class "mt3 absolute bottom-1 w-100 ph4-ns ph1 left-0" ]
@@ -66,7 +66,7 @@ render_tag_list : String -> List Tag -> Int -> Html Msg
 render_tag_list tag selected_tags num =
     div [ class "dib" ]
         [ button
-            [ class ("b--lm-orange ba br2 ph2 pv1 lh-tag dib mb1 pointer font nunito mr1 " ++ (getTagColour (create_tag num tag) selected_tags))
+            [ class ("b--lm-orange lm-bg-orange-hover ba br2 ph2 pv1 lh-tag dib mb1 pointer montserrat mr1 " ++ (getTagColour (create_tag num tag) selected_tags))
             , onClick (SelectTag (create_tag num tag))
             ]
             [ text tag ]
@@ -92,9 +92,9 @@ getPosition pos =
 getTagColour : Tag -> List Tag -> String
 getTagColour tag selected_tags =
     if List.member tag selected_tags then
-        "lm-bg-orange-70"
+        "lm-bg-orange"
     else
-        "lm-bg-orange-20"
+        "lm-bg-light-orange"
 
 
 create_tag : Int -> String -> Tag
@@ -138,7 +138,7 @@ previous_button pos =
                 , onClick (ResultsLoadingAlert pos (pos - 1))
                 ]
                 [ div [ class "v-mid h2 br-100 w2 pa1 mr2 dib next_left" ] []
-                , div [ class "dib nunito-bold w-50 w-auto-ns" ] [ text "previous question" ]
+                , div [ class "dib montserrat fw6 w-50 w-auto-ns" ] [ text "previous question" ]
                 ]
 
 
@@ -146,13 +146,13 @@ next_button : Int -> Html Msg
 next_button pos =
     case pos of
         3 ->
-            button [ class "f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover" ] [ a [ class "link", href "#results" ] [ text "Search" ] ]
+            button [ class "f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise button lm-bg-orange-hover lm-dark-blue-hover" ] [ a [ class "link", href "#results" ] [ text "Search" ] ]
 
         _ ->
             button
                 [ class "tr dib bn bg-white pointer"
                 , onClick (ResultsLoadingAlert pos (pos + 1))
                 ]
-                [ div [ class "dib nunito-bold w-50 w-auto-ns" ] [ text "next question" ]
+                [ div [ class "dib montserrat fw6 w-50 w-auto-ns" ] [ text "next question" ]
                 , div [ class "v-mid h2 br-100 w2 pa1 ml2 dib next_right" ] []
                 ]

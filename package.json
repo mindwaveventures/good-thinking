@@ -29,7 +29,8 @@
   },
   "homepage": "https://github.com/LDMW/cms#readme",
   "dependencies": {
-    "elm": "^0.18.0"
+    "elm": "^0.18.0",
+    "yuglify": "^1.0.1"
   },
   "devDependencies": {
     "pre-commit": "^1.2.2"

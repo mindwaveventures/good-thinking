@@ -1,11 +1,16 @@
 {% load wagtailcore_tags %}
 
 <div class="dib-l {{width}}-l shadow-2 ph3-l pa2 ma2 h45-l">
-  <h3 class="segoe-bold ma1 ma2-l">{{el.title}}</h3>
+  <h3 class="montserrat ma1 ma2-l{% if el.mobile_title %} dn dib-ns{% endif %}">
+    {{el.title}}
+  </h3>
+  {% if el.mobile_title %}
+    <h3 class="dib dn-ns">{{el.mobile_title}}</h3>
+  {% endif %}
   <div class="tl ph3-l">
-    <p>
+    <div class="copy">
       {{el.description|richtext}}
-    </p>
+    </div>
   </div>
-  <a href="{{el.slug}}"><button class="relative w-100 bottom--1-5-l f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-blue button lm-bg-orange-hover lm-dark-blue-hover">{{el.link_text}}</button></a>
+  <a href="{{el.slug}}"><button class="relative w-100 bottom--1-5-l f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba bw1 b--lm-dark-turquoise">{{el.link_text}}</button></a>
 </div>
