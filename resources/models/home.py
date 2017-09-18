@@ -241,6 +241,10 @@ class Home(AbstractForm):
         blank=True,
         help_text="Text to display for the link to this page"
     )
+    mobile_title = TextField(
+        blank=True,
+        help_text="Title to show on mobile"
+    )
 
     def get_context(self, request, **kwargs):
         context = super(Home, self).get_context(request)
@@ -255,7 +259,8 @@ class Home(AbstractForm):
     content_panels = AbstractForm.content_panels + [
         MultiFieldPanel([
             FieldPanel('description'),
-            FieldPanel('link_text')
+            FieldPanel('link_text'),
+            FieldPanel('mobile_title')
         ], heading="Link Block"),
         ImageChooserPanel('hero_image'),
         FieldPanel('header', classname="full"),
