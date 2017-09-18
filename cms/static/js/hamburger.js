@@ -38,11 +38,15 @@
   }
 
   function resize  () {
-    sizeHamburgerContent();
-    positionHamburger();
+    if (select('#hamburger_id')) {
+      sizeHamburgerContent();
+      positionHamburger();
+    }
   }
 
-  hamburger.addEventListener('click', toggleHamburger);
+  if (select('#hamburger_id')) {
+    hamburger.addEventListener('click', toggleHamburger);
+  }
 
   window.addEventListener('resize', resize);
   resize();
