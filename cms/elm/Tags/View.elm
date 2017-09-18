@@ -146,7 +146,7 @@ next_button : Int -> Html Msg
 next_button pos =
     case pos of
         3 ->
-            button [ class "f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise button lm-bg-orange-hover lm-dark-blue-hover" ] [ a [ class "link", href "#results" ] [ text "Search" ] ]
+            button [ class "f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover b--lm-dark-turquoise ba" ] [ a [ class "link", href "#results" ] [ text "Search" ] ]
 
         _ ->
             button
