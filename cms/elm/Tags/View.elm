@@ -37,15 +37,20 @@ render_filter_block model num filter_label tags classname =
                 (ChangePosition num)
             )
         ]
-        ([ h3 [ class "ma0" ] [ text ("Q" ++ (toString num) ++ " of 3") ]
-         , p [ class "w-70 mv3" ] [ text filter_label ]
+        ([ h3 [ class "ma0 pl1" ] [ text ("Q" ++ (toString num) ++ " of 3") ]
+         , p [ class "w-70 mv3 pl1" ] [ text filter_label ]
          ]
-            ++ [ div [ class ("pv2 overflow-scroll h4"
-                ++ if (List.length tags) > 4 then
-                    " mobile-scrollbars"
-                else
-                    "")
-                ] ([] ++ (List.map (\t -> render_tag_list t model.selected_tags num) tags)) ]
+            ++ [ div
+                    [ class
+                        ("pv2 pl1 overflow-scroll h4"
+                            ++ if (List.length tags) > 4 then
+                                " mobile-scrollbars"
+                               else
+                                ""
+                        )
+                    ]
+                    ([] ++ (List.map (\t -> render_tag_list t model.selected_tags num) tags))
+               ]
             ++ [ div [ class "mt3 absolute bottom-1 w-100 ph4-ns ph1 left-0" ]
                     [ div [ class "w-50 dib tl" ]
                         [ previous_button num ]
