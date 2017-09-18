@@ -43,19 +43,19 @@ view model =
                 ]
             ]
         , div [ class "pa1 ph4 ph3-m ph3-l pb4 pb5-l" ] (get_resources model)
-        , div [ class "tc" ]
+        , div [ class "tc ph4 ph3-m ph3-l" ]
             [ button
                 [ onClick (ShowMore True)
                 , id "see_more"
                 , class
-                    ("f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba b--lm-dark-turquoise"
+                    ("w-60-ns f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba b--lm-dark-turquoise "
                         ++ if model.show_more || model.resource_count < 4 then
                             "dn-important"
                            else
                             ""
                     )
                 ]
-                [ text "See More" ]
+                [ text ("See " ++ toString (model.resource_count - 3) ++ " More Resources") ]
             ]
         ]
 
