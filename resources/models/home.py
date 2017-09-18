@@ -170,7 +170,7 @@ class Home(AbstractForm):
         blank=True,
         help_text="Banner at the top of every page"
     )
-    header = RichTextField(
+    header = TextField(
         blank=True,
         help_text="Hero title"
     )
@@ -282,7 +282,7 @@ class Main(AbstractForm):
         blank=True,
         help_text="Banner at the top of every page"
     )
-    header = RichTextField(
+    header = TextField(
         blank=True,
         help_text="Hero title"
     )
