@@ -60,6 +60,14 @@ button, button a {
   font-weight: 300;
 }
 
+.banner p a {
+  color: #008099;
+}
+
+.banner p a:hover {
+  color: #de2183;
+}
+
 .copy a {
   word-break: break-all;
 }

@@ -69,6 +69,10 @@
 
 /* Font Colours */
 
+.lm-black {
+  color: #04091a;
+}
+
 .lm-orange {
   color: #FAB781;
 }
@@ -77,7 +81,7 @@
   color: #242E50;
 }
 
-.lm-white {
+.lm-white, .lm-white-hover:hover {
   color: #FFFFFF;
 }
 
