@@ -28,6 +28,7 @@ from resources.models.tags import (
 from likes.models import Likes
 
 from resources.models.helpers import create_tag_combiner, base_context
+from resources.views import assessment_controller
 from gpxpy.geo import haversine_distance
 
 
@@ -358,9 +359,15 @@ class Tip(ResourcePage):
 
 
 class Assessment(ResourcePage):
+    algorithm_id = IntegerField(
+        default=4648,
+        help_text='The ID of the assessment algorithm'
+    )
+
     content_panels = Page.content_panels + [
         FieldPanel('heading', classname="full"),
-        FieldPanel('body', classname="full")
+        FieldPanel('body', classname="full"),
+        FieldPanel('algorithm_id', classname="full")
     ]
 
     promote_panels = Page.promote_panels + [
@@ -376,3 +383,6 @@ class Assessment(ResourcePage):
         context = super(Assessment, self).get_context(request)
 
         return base_context(context)
+
+    def serve(self, request, *args, **kwargs):
+        return assessment_controller(self, request, **kwargs)

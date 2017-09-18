@@ -9,10 +9,9 @@ import os
 import json
 
 from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag
-from resources.models.resources import ResourcePage, Tip
 from resources.models.helpers import (
     create_tag_combiner, count_likes, filter_tags,
-    get_tags, get_order, get_relevance
+    get_tags, get_order, get_relevance, base_context
 )
 
 from django.core import serializers
@@ -87,6 +86,9 @@ def get_json_data(request):
 
 
 def get_data(request, **kwargs):
+    ResourcePage = apps.get_model('resources', 'resourcepage')
+    Tip = apps.get_model('resources', 'tip')
+
     data = kwargs.get('data', {})
     slug = kwargs.get('slug')
     query = request.GET.get('q')
@@ -233,6 +235,7 @@ def get_data(request, **kwargs):
 
 
 def get_visited_resources(**kwargs):
+    ResourcePage = apps.get_model('resources', 'resourcepage')
     visited_cookie = kwargs.get('visited_cookie')
     user_cookie = kwargs.get('user_cookie')
 
@@ -310,7 +313,7 @@ def filter_resources(resources, **kwargs):
     return resources
 
 
-def assessment_controller(request, **kwargs):
+def assessment_controller(self, request, **kwargs):
     params = request.POST
 
     answers = filter(lambda p: p[:2] == "Q_", params)
@@ -336,7 +339,7 @@ def assessment_controller(request, **kwargs):
         member_id = params.get("member_id")
         traversal_id = params.get("traversal_id")
 
-    algo_id = 4648
+    algo_id = self.algorithm_id
     node_id = 0
 
     if params.get("node_id"):
@@ -378,6 +381,16 @@ def assessment_controller(request, **kwargs):
     context["member_id"] = member_id
     context["traversal_id"] = traversal_id
 
+    try:
+        context['parent'] = self.get_parent().slug
+        context['slug'] = self.slug
+    except:
+        context['parent'] = None
+        context['slug'] = None
+
+    context['heading'] = self.heading
+    context['body'] = self.body
+
     if params.get("q_info") or params.get("a_info"):
         context["info"] = requests.get(
             f"http://apps.expert-24.com/WebBuilder/TraversalService/Info/"
@@ -385,7 +398,9 @@ def assessment_controller(request, **kwargs):
             + f"{node_type_id}&@AssetID={asset_id}"
         ).json()
 
-    return HttpResponse(template.render(context=context, request=request))
+    return HttpResponse(
+        template.render(context=base_context(context), request=request)
+    )
 
 
 def assessment_summary_controller(request, **kwargs):
@@ -405,5 +420,9 @@ def assessment_summary_controller(request, **kwargs):
     context["traversal_id"] = traversal_id
     context["node_id"] = request.POST.get("node_id")
     context["algo_id"] = request.POST.get("algo_id")
+    context["parent"] = request.POST.get("parent")
+    context["slug"] = request.POST.get("slug")
 
-    return HttpResponse(template.render(context=context, request=request))
+    return HttpResponse(
+        template.render(context=base_context(context), request=request)
+    )
