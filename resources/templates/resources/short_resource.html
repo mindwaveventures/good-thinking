@@ -1,4 +1,4 @@
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags continuereading %}
 
 <div id="resource_{{page.id}}" class="resource mb4 mt4">
   <div class="br1 ba shadow-2 tl w-60-ns center">
@@ -16,7 +16,7 @@
         {% endif %}
       </div>
       <div class="copy dib">
-        {{ page.body|truncatechars:200|richtext }}
+        {{ page.body|truncatechars:200|continue_reading:page|richtext }}
       </div>
     </div>
     <div class="pt3">
