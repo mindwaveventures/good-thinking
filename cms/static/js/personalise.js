@@ -157,7 +157,7 @@ if (personaliseDiv) {
   }
 
   function updateUrl(tag) {
-    var jointTag = tag.name.replace(/\s/g, '%20');
+    var jointTag = tag.name.replace(/\s/g, '%20').replace(/'/g, '%27');
     var baseUrl = window.location.origin + '/' + window.location.pathname.split('/')[1] + '/';
     var prefix;
     var querystring = "";
@@ -172,7 +172,7 @@ if (personaliseDiv) {
       tags.q2.length === 0 && tags.q3.length === 0 && tag.tag_type === 'q1'
     ) {
       /* No tags are selected & this is an issue tag - make friendly url */
-      querystring = tag.name.replace(/\s/g, '-');
+      querystring = tag.name.replace(/\s/g, '-').replace(/'/g, '%27');
     } else if (tags.q1.length === 1 && tagSelected(tag) && tags.q2.length === 0 && tags.q3.length === 0) {
       /* Currently one issue tag selected, and has been deselected - remove friendly url*/
       querystring = "";
@@ -219,8 +219,8 @@ if (personaliseDiv) {
   }
 
   function tagSelected(tag) {
-    var jointTag = tag.name.replace(/\s/g, '%20');
-    var hyphenTag = tag.name.replace(/\s/g, '-');
+    var jointTag = tag.name.replace(/\s/g, '%20').replace(/'/g, '%27');
+    var hyphenTag = tag.name.replace(/\s/g, '-').replace(/'/g, '%27');
     var reg = new RegExp(tag.tag_type + "=" + jointTag + "(&|$)");
     var singleIssueReg = new RegExp('https*:\/\/[^\/]+\/[^\/]+\/' + hyphenTag + '\/*');
 
