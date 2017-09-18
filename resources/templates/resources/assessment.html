@@ -1,18 +1,17 @@
-{% extends "base.html" %}
+{% load wagtailcore_tags %}
 
-{% block content %}
-  {% if banner %}
-    {% include "resources/banner.html" with banner=banner %}
-  {% endif %}
-
-  <div class="tc w-100 mt6">
-    {% include "resources/logo.html" %}
+<div id="assessment{{page.id}}" class="assessment assessment-card">
+  <div class="br1 w-60-ns tl center ba b--lm-orange lm-bg-orange-20 mt4">
+    <div class="ph3 pt2 pt3-ns ph4-ns">
+      <h3>{{page.heading}}</h3>
+      <div class="copy">
+        {{page.body|richtext}}
+      </div>
+      <div class="w-100 tc bottom--1-2-l relative">
+        <a href="/{{page.parent}}/{{page.slug}}">
+          {% include "resources/primary-button.html" with  value="Take the assessment" %}
+        </a>
+      </div>
+    </div>
   </div>
-
-  <div class="mt3 pa5">
-    <div id="traversal-container"></div>
-    <script src="//apps.expert-24.com/WebBuilder/TraversalService/Embed2.js?algoid=4648&id=traversal-container&memberid=new&staticurl=true" type="text/javascript" defer></script>
-  </div>
-
-  {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
-{% endblock %}
+</div>

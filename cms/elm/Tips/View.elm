@@ -14,7 +14,7 @@ view model tips classname =
         1 ->
             case List.head tips of
                 Just tip ->
-                    tip_view 0 tip ("w-60 center " ++ classname)
+                    tip_view 0 tip ("w-60-ns center " ++ classname)
 
                 Nothing ->
                     div [] []

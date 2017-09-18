@@ -653,4 +653,8 @@ lm-ls1 {
   .bottom--1-5-l {
     bottom: -1.5rem;
   }
+
+  .bottom--1-2-l {
+    bottom: -1.2rem;
+  }
 }

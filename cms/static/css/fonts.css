@@ -48,10 +48,24 @@ p, li {
   font-size: 20px;
 }
 
+button, button a {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  text-decoration: none;
+}
+
 .copy p, .copy li {
   font-family: 'Montserrat', sans-serif;
   letter-spacing: 0.5pt;
   font-weight: 300;
+}
+
+.copy a {
+  word-break: break-all;
+}
+
+.copy button a {
+  word-break: normal;
 }
 
 .copy b {
