@@ -1,237 +1,239 @@
 var personaliseDiv = document.getElementById('elm-personalise');
 
-var issue_tags = getTags('q1')
-var reason_tags = getTags('q2')
-var content_tags = getTags('q3')
-var issue_label = document.getElementById('q1_label').innerText;
-var reason_label = document.getElementById('q2_label').innerText;
-var content_label = document.getElementById('q3_label').innerText;
+if (personaliseDiv) {
+  var issue_tags = getTags('q1')
+  var reason_tags = getTags('q2')
+  var content_tags = getTags('q3')
+  var issue_label = document.getElementById('q1_label').innerText;
+  var reason_label = document.getElementById('q2_label').innerText;
+  var content_label = document.getElementById('q3_label').innerText;
 
-var selected_tags = selectedTags(getQuery('q1', 'q2', 'q3'));
+  var selected_tags = selectedTags(getQuery('q1', 'q2', 'q3'));
 
-var app = Elm.Main.embed(personaliseDiv, {
-  issue_tags: issue_tags,
-  content_tags: content_tags,
-  reason_tags: reason_tags,
-  issue_label: issue_label,
-  reason_label: reason_label,
-  content_label: content_label,
-  selected_tags: selected_tags,
-  order: getOrder(),
-  search: getQuery('q').q[0] || "",
-  page: getPage()
-});
-
-function getTags(name) {
-  return Array.prototype.map.call(personaliseDiv.querySelectorAll("input[name='" + name + "']"), function(el){
-    return el.value;
-  });
-}
-
-function getQuery() {
-  var qs = window.location.href.split("?")[1];
-  var query = {};
-
-  Array.prototype.forEach.call(arguments, function(a) {
-    query[a] = [];
-    var reg = new RegExp("(?:^" + a + "|&" + a + ")=([^&#]+)", "g")
-    var arr;
-    var splitreg = /(?:%20|\+)/g;
-
-    while ((myArray = reg.exec(qs)) !== null) {
-      query[a].push(myArray[1].replace(splitreg, ' '));
-    }
+  var app = Elm.Main.embed(personaliseDiv, {
+    issue_tags: issue_tags,
+    content_tags: content_tags,
+    reason_tags: reason_tags,
+    issue_label: issue_label,
+    reason_label: reason_label,
+    content_label: content_label,
+    selected_tags: selected_tags,
+    order: getOrder(),
+    search: getQuery('q').q[0] || "",
+    page: getPage()
   });
 
-  if(window.location.href.split('/').length === 6) {
-    query['q1'] = [window.location.href.split('/')[4].replace(/-/g, " ")];
-  };
-
-  return query;
-}
-
-function selectedTags(queryObj) {
-  var selected = JSON.parse(localStorage.getItem('selected_tags_' + getPage())) || [];
-
-  for (var type in queryObj) {
-    tags = queryObj[type].map(function(el) {
-      return {tag_type: type, name: el};
+  function getTags(name) {
+    return Array.prototype.map.call(personaliseDiv.querySelectorAll("input[name='" + name + "']"), function(el){
+      return el.value;
     });
-    selected = selected.concat(tags);
-  }
-  return selected;
-}
-
-app.ports.listeners.subscribe(function(res) {
-  requestAnimationFrame(function() {
-    likeListeners();
-    proConListeners();
-    feedbackLoopListener();
-    swipeListeners();
-    analyticsListeners();
-  });
-});
-
-app.ports.selectTag.subscribe(function(tag) {
-  var selectedTags = JSON.parse(localStorage.getItem('selected_tags_' + getPage())) || [];
-
-  for (var i = 0; i < selectedTags.length; i++) {
-    if (selectedTags[i].tag_type === tag.tag_type && selectedTags[i].name === tag.name) {
-      selectedTags.splice(i, 1);
-      break;
-    } else if (i === selectedTags.length - 1) {
-      selectedTags.push(tag);
-      break;
-    }
   }
 
-  updateUrl(tag);
+  function getQuery() {
+    var qs = window.location.href.split("?")[1];
+    var query = {};
 
-  localStorage.setItem('selected_tags_' + getPage(), JSON.stringify(selectedTags));
-  app.ports.updateTags.send(selectedTags);
-});
+    Array.prototype.forEach.call(arguments, function(a) {
+      query[a] = [];
+      var reg = new RegExp("(?:^" + a + "|&" + a + ")=([^&#]+)", "g")
+      var arr;
+      var splitreg = /(?:%20|\+)/g;
 
-app.ports.changeOrder.subscribe(function(order) {
-  localStorage.setItem('ldmw_resource_order', order);
-});
-
-function swipe(el, callback){
-  var swipedir;
-  var startX;
-  var startY;
-  var distX;
-  var distY;
-  var threshold = 50;
-  var restraint = 100;
-
-  el.addEventListener('touchstart', function(e){
-    var touchobj = e.changedTouches[0];
-    swipedir = 'none';
-    startX = touchobj.pageX;
-    startY = touchobj.pageY;
-
-  }, false);
-
-  el.addEventListener('touchend', function(e){
-    var touchobj = e.changedTouches[0]
-    distX = touchobj.pageX - startX;
-    distY = touchobj.pageY - startY;
-
-    if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint) {
-      swipedir = (distX < 0) ? 'left' : 'right';
-    }
-
-    callback(swipedir);
-  }, false);
-}
-
-function swipeListeners() {
-  selectAll('.tag-card').forEach(function(el) {
-    swipe(el , function(swipedir){
-      app.ports.swipe.send(swipedir);
+      while ((myArray = reg.exec(qs)) !== null) {
+        query[a].push(myArray[1].replace(splitreg, ' '));
+      }
     });
-  });
 
-  selectAll('.tip-card').forEach(function(el) {
-    swipe(el , function(swipedir){
-      app.ports.tipSwipe.send(swipedir);
-    });
-  });
-}
+    if(window.location.href.split('/').length === 6) {
+      query['q1'] = [window.location.href.split('/')[4].replace(/-/g, " ")];
+    };
 
-function getPage() {
-  var page = window.location.href.split('/')[3];
-  if (!page || page.indexOf('?') > -1) {
-    page = 'home';
+    return query;
   }
-  return page;
-}
 
-function getOrder() {
-  return (
-    window.location.href.split("order=")[1]
-    || localStorage.getItem('ldmw_resource_order')
-    || "relevance"
-  );
-}
+  function selectedTags(queryObj) {
+    var selected = JSON.parse(localStorage.getItem('selected_tags_' + getPage())) || [];
 
-function updateUrl(tag) {
-  var jointTag = tag.name.replace(/\s/g, '%20');
-  var baseUrl = window.location.origin + '/' + window.location.pathname.split('/')[1] + '/';
-  var prefix;
-  var querystring = "";
-  var tags = {};
-
-  ['q1', 'q2', 'q3'].forEach(function(el) {
-    tags[el] = getTagsOfType(el);
-  });
-
-  if (
-    tags.q1.length === 0 && !tagSelected(tag) &&
-    tags.q2.length === 0 && tags.q3.length === 0 && tag.tag_type === 'q1'
-  ) {
-    /* No tags are selected & this is an issue tag - make friendly url */
-    querystring = tag.name.replace(/\s/g, '-');
-  } else if (tags.q1.length === 1 && tagSelected(tag) && tags.q2.length === 0 && tags.q3.length === 0) {
-    /* Currently one issue tag selected, and has been deselected - remove friendly url*/
-    querystring = "";
-  } else {
-    /* Multiple tags selected - build query string with parameters */
-
-    /* Build query with already selected tags,
-    do not include new tag if it was already selected */
-    for (var type in tags) {
-      tags[type].forEach(function(el) {
-        if (tag.tag_type !== type || jointTag !== el || !tagSelected({tag_type: type, name: el})) {
-          prefix = querystring === "" ?  "?" : "&";
-          querystring += prefix + type + "=" + el;
-        }
+    for (var type in queryObj) {
+      tags = queryObj[type].map(function(el) {
+        return {tag_type: type, name: el};
       });
+      selected = selected.concat(tags);
+    }
+    return selected;
+  }
+
+  app.ports.listeners.subscribe(function(res) {
+    requestAnimationFrame(function() {
+      likeListeners();
+      proConListeners();
+      feedbackLoopListener();
+      swipeListeners();
+      analyticsListeners();
+    });
+  });
+
+  app.ports.selectTag.subscribe(function(tag) {
+    var selectedTags = JSON.parse(localStorage.getItem('selected_tags_' + getPage())) || [];
+
+    for (var i = 0; i < selectedTags.length; i++) {
+      if (selectedTags[i].tag_type === tag.tag_type && selectedTags[i].name === tag.name) {
+        selectedTags.splice(i, 1);
+        break;
+      } else if (i === selectedTags.length - 1) {
+        selectedTags.push(tag);
+        break;
+      }
     }
 
-    /* Add newly selected tag */
-    if (!tagSelected(tag)) {
-      prefix = querystring === "" ?  "?" : "&";
-      querystring += prefix + tag.tag_type + "=" + tag.name;
+    updateUrl(tag);
+
+    localStorage.setItem('selected_tags_' + getPage(), JSON.stringify(selectedTags));
+    app.ports.updateTags.send(selectedTags);
+  });
+
+  app.ports.changeOrder.subscribe(function(order) {
+    localStorage.setItem('ldmw_resource_order', order);
+  });
+
+  function swipe(el, callback){
+    var swipedir;
+    var startX;
+    var startY;
+    var distX;
+    var distY;
+    var threshold = 50;
+    var restraint = 100;
+
+    el.addEventListener('touchstart', function(e){
+      var touchobj = e.changedTouches[0];
+      swipedir = 'none';
+      startX = touchobj.pageX;
+      startY = touchobj.pageY;
+
+    }, false);
+
+    el.addEventListener('touchend', function(e){
+      var touchobj = e.changedTouches[0]
+      distX = touchobj.pageX - startX;
+      distY = touchobj.pageY - startY;
+
+      if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint) {
+        swipedir = (distX < 0) ? 'left' : 'right';
+      }
+
+      callback(swipedir);
+    }, false);
+  }
+
+  function swipeListeners() {
+    selectAll('.tag-card').forEach(function(el) {
+      swipe(el , function(swipedir){
+        app.ports.swipe.send(swipedir);
+      });
+    });
+
+    selectAll('.tip-card').forEach(function(el) {
+      swipe(el , function(swipedir){
+        app.ports.tipSwipe.send(swipedir);
+      });
+    });
+  }
+
+  function getPage() {
+    var page = window.location.href.split('/')[3];
+    if (!page || page.indexOf('?') > -1) {
+      page = 'home';
     }
+    return page;
   }
 
-  history.replaceState(null, null, baseUrl + querystring);
-}
-
-function getTagsOfType(type) {
-  var singleIssueReg = new RegExp('https*:\/\/[^\/]+\/[^\/]+\/([^\/?]+)\/*');
-  var reg = new RegExp(type + "=([^&#]+)", "g");
-  var res;
-  var matches = [];
-  var singleIssue = window.location.href.match(singleIssueReg);
-
-  if (type === "q1" && singleIssue) {
-    matches.push(singleIssue[1].replace(/-/g, ' '));
+  function getOrder() {
+    return (
+      window.location.href.split("order=")[1]
+      || localStorage.getItem('ldmw_resource_order')
+      || "relevance"
+    );
   }
 
-  while ((res = reg.exec(window.location.href)) !== null) {
-    matches.push(res[1]);
-  }
+  function updateUrl(tag) {
+    var jointTag = tag.name.replace(/\s/g, '%20');
+    var baseUrl = window.location.origin + '/' + window.location.pathname.split('/')[1] + '/';
+    var prefix;
+    var querystring = "";
+    var tags = {};
 
-  return matches;
-}
+    ['q1', 'q2', 'q3'].forEach(function(el) {
+      tags[el] = getTagsOfType(el);
+    });
 
-function tagSelected(tag) {
-  var jointTag = tag.name.replace(/\s/g, '%20');
-  var hyphenTag = tag.name.replace(/\s/g, '-');
-  var reg = new RegExp(tag.tag_type + "=" + jointTag + "(&|$)");
-  var singleIssueReg = new RegExp('https*:\/\/[^\/]+\/[^\/]+\/' + hyphenTag + '\/*');
+    if (
+      tags.q1.length === 0 && !tagSelected(tag) &&
+      tags.q2.length === 0 && tags.q3.length === 0 && tag.tag_type === 'q1'
+    ) {
+      /* No tags are selected & this is an issue tag - make friendly url */
+      querystring = tag.name.replace(/\s/g, '-');
+    } else if (tags.q1.length === 1 && tagSelected(tag) && tags.q2.length === 0 && tags.q3.length === 0) {
+      /* Currently one issue tag selected, and has been deselected - remove friendly url*/
+      querystring = "";
+    } else {
+      /* Multiple tags selected - build query string with parameters */
 
-  var selectedTags = JSON.parse(localStorage.getItem('selected_tags_' + getPage())) || [];
+      /* Build query with already selected tags,
+      do not include new tag if it was already selected */
+      for (var type in tags) {
+        tags[type].forEach(function(el) {
+          if (tag.tag_type !== type || jointTag !== el || !tagSelected({tag_type: type, name: el})) {
+            prefix = querystring === "" ?  "?" : "&";
+            querystring += prefix + type + "=" + el;
+          }
+        });
+      }
 
-  for (var i = 0; i < selectedTags.length; i++) {
-    if (selectedTags[i].tag_type === tag.tag_type && selectedTags[i].name == tag.name) {
-      return true;
+      /* Add newly selected tag */
+      if (!tagSelected(tag)) {
+        prefix = querystring === "" ?  "?" : "&";
+        querystring += prefix + tag.tag_type + "=" + tag.name;
+      }
     }
+
+    history.replaceState(null, null, baseUrl + querystring);
   }
 
-  return reg.test(window.location.href) || singleIssueReg.test(window.location.href);
-}
+  function getTagsOfType(type) {
+    var singleIssueReg = new RegExp('https*:\/\/[^\/]+\/[^\/]+\/([^\/?]+)\/*');
+    var reg = new RegExp(type + "=([^&#]+)", "g");
+    var res;
+    var matches = [];
+    var singleIssue = window.location.href.match(singleIssueReg);
 
-swipeListeners();
+    if (type === "q1" && singleIssue) {
+      matches.push(singleIssue[1].replace(/-/g, ' '));
+    }
+
+    while ((res = reg.exec(window.location.href)) !== null) {
+      matches.push(res[1]);
+    }
+
+    return matches;
+  }
+
+  function tagSelected(tag) {
+    var jointTag = tag.name.replace(/\s/g, '%20');
+    var hyphenTag = tag.name.replace(/\s/g, '-');
+    var reg = new RegExp(tag.tag_type + "=" + jointTag + "(&|$)");
+    var singleIssueReg = new RegExp('https*:\/\/[^\/]+\/[^\/]+\/' + hyphenTag + '\/*');
+
+    var selectedTags = JSON.parse(localStorage.getItem('selected_tags_' + getPage())) || [];
+
+    for (var i = 0; i < selectedTags.length; i++) {
+      if (selectedTags[i].tag_type === tag.tag_type && selectedTags[i].name == tag.name) {
+        return true;
+      }
+    }
+
+    return reg.test(window.location.href) || singleIssueReg.test(window.location.href);
+  }
+
+  swipeListeners();
+}

@@ -27,9 +27,7 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 INSTALLED_APPS = [
     'home',
     'search',
-    'articles',
     'resources',
-    'info',
     'feedback',
     'crisis',
     'static',
@@ -174,7 +172,7 @@ STATICFILES_DIRS = [
 STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
+STATIC_URL = '/staticfiles/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -193,7 +191,7 @@ AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
 PIPELINE = {
-    'JS_COMPRESSOR': None,
+    'PIPELINE_ENABLED': True,
     'JAVASCRIPT': {
         'scripts': {
             'source_filenames': (
@@ -203,14 +201,13 @@ PIPELINE = {
             'output_filename': 'scripts.js',
         }
     },
-    'CSS_COMPRESSOR': None,
     'STYLESHEETS': {
-      'cms': {
-        'source_filenames': (
-          'css/*.css',
-        ),
-        'output_filename': 'cms.css',
-      }
+        'cms': {
+            'source_filenames': (
+                'css/*.css',
+            ),
+            'output_filename': 'cms.css',
+        }
     }
 }
 
