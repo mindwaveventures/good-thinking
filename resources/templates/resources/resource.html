@@ -74,7 +74,7 @@
   </section>
 {% endif %}
 
-<div class="mb5 mt5">
+<div class="mb5 mt5-ns">
   <div id="resource_{{page.id}}" class="resource">
     <div class="br1 ba shadow-2 tl w-60-ns center">
       <div class="bb b--lm-grey ph2 pt2 pb0 pt3-ns ph4-ns">
@@ -185,11 +185,13 @@
       {% endif %}
       {% endif %}
     </div>
+    <div class="pa2 pt3 bt b--lm-grey">
+      {% if not no_disqus %}
+        {% include "resources/disqus.html" with page=page %}
+      {% endif %}
+    </div>
   </div>
 </div>
-{% if not no_disqus%}
-{% include "resources/disqus.html" with page=page %}
 </div>
-{% endif %}
 
 {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
