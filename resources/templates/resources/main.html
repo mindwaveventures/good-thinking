@@ -63,8 +63,8 @@
       </button>
     </section>
 
-    <div class="pa5-ns pa4">
-      <div class="pa2 tc shadow-2 bg-white mb2 pb4 pt4">
+    <div class="pa5-ns">
+      <div class="pa2-ns pa3 tc shadow-2 bg-white mb2 pb4 pt4">
         {% if landing_pages|length < 5 %}
           {% include "resources/components/row.html" with render_template="resources/components/topic-card.html" element_list=landing_pages length=2 width="w-40" class="mb4" %}
         {% else %}
