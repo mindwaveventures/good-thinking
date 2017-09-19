@@ -85,13 +85,13 @@ button, button a {
   word-break: break-all;
 }
 
-.resource .copy a {
+.resource .copy a:not(button a) {
   color: #008099;
   font-size: 14px;
   text-decoration: none;
 }
 
-.resource .copy a:hover {
+.resource .copy a:hover:not(button a) {
   color: #de2183;
 }
 
