@@ -608,6 +608,10 @@ lm-ls1 {
     width: 95%;
   }
 
+  .w-49-ns {
+    width: 49%;
+  }
+
   .h4-5-ns {
     height: 13rem;
   }
