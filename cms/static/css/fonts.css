@@ -17,28 +17,32 @@ h1 {
   font-family: 'Montserrat', sans-serif;
   letter-spacing: 0.5pt;
   font-weight: 600;
-  font-size: 43px;
+  font-size: 40px;
+  line-height: 43px;
 }
 
 h2 {
   font-family: 'Montserrat', sans-serif;
   letter-spacing: 0.5pt;
   font-weight: 600;
-  font-size: 30px;
+  font-size: 18px;
+  line-height: 24px;
 }
 
 h3 {
   font-family: 'Montserrat', sans-serif;
   letter-spacing: 0.5pt;
   font-weight: 600;
-  font-size: 24px;
+  font-size: 16px;
+  line-height: 22px;
 }
 
 h4 {
   font-family: 'Montserrat', sans-serif;
   letter-spacing: 0.5pt;
   font-weight: 500;
-  font-size: 22px;
+  font-size: 16px;
+  line-height: 22px;
 }
 
 h5 {
@@ -46,13 +50,15 @@ h5 {
   letter-spacing: 0.5pt;
   font-weight: 500;
   font-size: 20px;
+  line-height: 20px;
 }
 
 p, li {
   font-family: 'Montserrat', sans-serif;
   letter-spacing: 0.5pt;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 button, button a {
