@@ -18,7 +18,8 @@ function show_cookie_bar () {
 
 function accept_cookie_listener() {
   select('#cookie_accept_bar > button')
-    .addEventListener('click', function () {
+    .addEventListener('click', function (e) {
+      e.preventDefault();
       var d = new Date();
       var one_day = 24 * 60 * 60 * 1000;
       d.setTime(d.getTime() + one_day);
