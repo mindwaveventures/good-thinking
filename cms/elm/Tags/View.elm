@@ -23,7 +23,7 @@ render_filter_block : Model -> Int -> String -> List String -> String -> Html Ms
 render_filter_block model num filter_label tags classname =
     div
         [ class
-            ("tag-card br1 shadow-2 w-30 tl pa4-ns pa3 mb3 dib h6 v-mid relative "
+            ("tag-card br1 shadow-2 w-30 tl pa3 mb3 dib h5-5-ns h7 v-mid relative "
                 ++ classname
                 ++ if not (is_active model num) then
                     " pointer"
@@ -42,8 +42,8 @@ render_filter_block model num filter_label tags classname =
          ]
             ++ [ div
                     [ class
-                        ("pv2 pl1 overflow-scroll h4"
-                            ++ if (List.length tags) > 4 then
+                        ("pv2 pl1 overflow-scroll h4-ns"
+                            ++ if (List.length tags) > 10 then
                                 " mobile-scrollbars"
                                else
                                 ""

@@ -595,6 +595,10 @@ lm-ls1 {
   border-width: 0.25rem;
 }
 
+.h7 {
+  height: 30rem;
+}
+
 @media screen and (min-width:30em) {
   .w-200-ns {
     width: 200%;
@@ -614,6 +618,10 @@ lm-ls1 {
 
   .h4-5-ns {
     height: 13rem;
+  }
+
+  .h5-5-ns {
+    height: 18rem;
   }
 
   .mr-1p-ns {
