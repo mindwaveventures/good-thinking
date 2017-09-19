@@ -144,7 +144,7 @@ previous_button pos =
 
         _ ->
             button
-                [ class "tl dib bn bg-white pointer"
+                [ class "tl dib bn bg-white pointer pa0"
                 , onClick (ResultsLoadingAlert pos (pos - 1))
                 ]
                 [ div [ class "v-mid h2 br-100 w2 pa1 mr2 dib next_left" ] []
@@ -160,9 +160,9 @@ next_button pos =
 
         _ ->
             button
-                [ class "tr dib bn bg-white pointer"
+                [ class "tr dib bn bg-white pointer pa0"
                 , onClick (ResultsLoadingAlert pos (pos + 1))
                 ]
-                [ div [ class "dib montserrat fw6 w-50 w-auto-ns" ] [ text "next question" ]
+                [ div [ class "dib montserrat fw6 w-50 w-auto-ns mr3" ] [ text "next question" ]
                 , div [ class "v-mid h2 br-100 w2 pa1 ml2 dib next_right" ] []
                 ]
