@@ -6,6 +6,6 @@ register = template.Library()
 @register.filter
 def continue_reading(text, obj):
     return text + ' ' \
-        + f'<a class="lm-dark-turquoise lm-pink-hover ' \
-        + 'link" href="/{obj.parent}' \
+        + '<a class="lm-dark-turquoise lm-pink-hover ' \
+        + f'link" href="/{obj.parent}' \
         + '/' + f'{obj.slug}">continue reading</a>'
