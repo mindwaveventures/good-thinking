@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Sum, Case, When, Count
+from django.db.models import Sum, Case, When, Count, Q
 
 from taggit.models import Tag
 from itertools import chain
@@ -220,6 +220,7 @@ def base_context(context):
     Main = apps.get_model('resources', 'main')
     HomeFooterLinks = apps.get_model('resources', 'homefooterlinks')
     HomeFooterBlocks = apps.get_model('resources', 'homefooterblocks')
+    Home = apps.get_model('resources', 'home')
 
     banner = Main.objects.get(slug="home").banner
     footer_links = HomeFooterLinks.objects.all()
@@ -228,5 +229,6 @@ def base_context(context):
     context['banner'] = banner
     context['footer_links'] = footer_links
     context['footer_blocks'] = footer_blocks
+    context['landing_pages'] = Home.objects.filter(~Q(slug="home")).live()
 
     return context

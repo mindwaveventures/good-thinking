@@ -7,7 +7,63 @@
     {% include "resources/banner.html" with banner=banner %}
   {% endif %}
 
-  <div class="mt6 mb5 assessment-text">
+  {% if landing_pages %}
+    <section id="landing_page_navbar" class="dn dt--fixed dt-ns tc pv3 ph4 ph3-m ph3-l blurred_background_header cover bg-center w-100 {% if banner %}mt5{%endif%}">
+      <div class="dib relative mv2-ns mv1 dtc-ns v-mid">
+        I am, or know someone who is, feeling:
+      </div>
+      {% for topic in landing_pages %}
+        <div class="dib mv2 mv1 dtc">
+          <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer v-mid">
+            <a class="ttu montserrat fw6 f6 link bb-hover lm-black bw2-hover lm-dark-turquoise-hover {% if page.url == topic.url %}bb bw2{% endif %}" href="/{{topic.slug}}">{{topic.title}}</a>
+          </div>
+        </div>
+      {% endfor %}
+    </section>
+
+    <!-- ensuring hamburger takes up the correct space -->
+    <section class="db dn-ns bg-white o-0">
+      <button class="hamburger hamburger--slider relative" type="button">
+        <span class="hamburger-box">
+          <span class="hamburger-inner"></span>
+        </span>
+      </button>
+    </section>
+
+    <section id="landing_page_hamburger" class="db dn-ns absolute bg-white w-100 z-4">
+      <button id="hamburger_id" class="hamburger hamburger--slider relative" type="button">
+        <span class="hamburger-box">
+          <span class="hamburger-inner"></span>
+        </span>
+      </button>
+    </section>
+
+    <div id="hamburger_content_id" class="db dn-ns absolute bg-white w-100 overflow-scroll z-999">
+      <a href="/" class="link">
+        <div class="pv1 ph3 tl lm-bg-dark-blue">
+          <p class="nunito-bold pointer white">< Home</p>
+        </div>
+      </a>
+      <div class="pa2">
+        <div class="dib relative mv2-ns mv1 dtc-ns">
+          I am, or know someone who is, feeling:
+        </div>
+        {% for topic in landing_pages %}
+        <div class="relative mv2-ns mv1 dtc-ns">
+          <div class="b--lm-dark-blue lm-dark-blue ph3 pv2">
+            {% if page.url == topic.url %}
+            <a class="ttu link bb bw2" href="/{{topic.slug}}">{{topic.slug}}</a>
+            {% else %}
+            <a class="ttu link" href="/{{topic.slug}}">{{topic.slug}}</a>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="mt6 mt5-ns mb5 assessment-text pa0-ns pa2">
     <div class="w-60-ns center pb3">
       <h3>{{heading}}</h3>
       <div class="copy">
@@ -113,7 +169,7 @@
           <button class="b--none bg-white fw6 lm-dark-turquoise pointer ph0" type="submit" name="previous" value="Previous">previous question</button>
         </div>
         {% if not Conclusions %}
-        <div class="w-49 tr dib">
+        <div class="w-49-ns w-40 tr dib">
           <button class="b--none bg-white fw6 lm-dark-turquoise pointer ph0" type="submit" name="next" value="Next">next question</button>
         </div>
         {% endif %}
