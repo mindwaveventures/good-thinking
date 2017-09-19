@@ -97,6 +97,10 @@ button, button a {
   line-height: 20px;
 }
 
+.assessment-text * {
+  line-height: 24px;
+}
+
 .copy b {
   font-weight: 600;
 }
