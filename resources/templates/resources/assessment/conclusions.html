@@ -2,10 +2,10 @@
 
 <h2>{{title}}</h2>
 {% for c in conclusions %}
-  <div>
+  <div class="copy">
     {{c.DisplayText}}
     {% if c.Explanation %}
-      <button onClick='toggleExplanation({{c.ConclusionID}}); return false;'>?</button>
+      <button class="lm-bg-dark-turquoise b--none white br1 pv0 ph1" onClick='toggleExplanation({{c.ConclusionID}}); return false;'>?</button>
       <div id="{{c.ConclusionID}}" style="display: none;">
         {{c.Explanation|richtext}}
       </div>

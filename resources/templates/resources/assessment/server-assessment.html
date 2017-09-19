@@ -83,15 +83,14 @@
         {% endfor %}
 
         {% if Conclusions %}
-        <div
+        <div class="fw6 f3 mb2"
         {% if Report.MessageLevel == 1 %}style="color: red;"
         {% elif Report.MessageLevel == 3 %}style="color: green;"
-        {% else %}style="color: yellow;"
         {% endif %}
         >
         {{Report.MessageTitle}}
       </div>
-      <div>
+      <div class="copy">
         {{Report.MessageDescription}}
       </div>
       {% include "resources/assessment/bullets.html" with bullets=Report.ContactBullets title=Report.ContactBulletTitle %}

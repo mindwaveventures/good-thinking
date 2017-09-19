@@ -320,6 +320,16 @@ code {
   display: none !important;
 }
 
+.disqus {
+  border-top: none;
+  border-radius: 0 0 0.125rem 0.125rem;
+}
+
+.full-resource {
+  border-radius: 0.125rem 0.125rem 0 0;
+  border-bottom: solid 1px #c2c2c2;
+}
+
 lm-ls1 {
   letter-spacing: 0.1rem;
 }
