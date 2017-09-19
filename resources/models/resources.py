@@ -1,3 +1,6 @@
+import uuid
+import json
+
 from wagtail.wagtailforms.models import AbstractForm, Page, AbstractFormField
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import (
@@ -17,6 +20,10 @@ from django.db.models import Q
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
+from django.template.response import TemplateResponse
+from django.template.loader import render_to_string
+from django.core.serializers.json import DjangoJSONEncoder
+from django.http import JsonResponse
 
 from colorful.fields import RGBColorField
 
@@ -24,12 +31,15 @@ from resources.models.tags import (
     TopicTag, IssueTag, ReasonTag,
     ContentTag, HiddenTag
 )
-
 from likes.models import Likes
 
-from resources.models.helpers import create_tag_combiner, base_context
+from resources.models.helpers import (
+    create_tag_combiner, base_context, get_resource
+)
 from resources.views import assessment_controller
 from gpxpy.geo import haversine_distance
+
+uid = uuid.uuid4()
 
 
 def check_latlong(self, latlong_input, n):
@@ -117,7 +127,68 @@ class ResourceIndexPage(AbstractForm):
     ]
 
 
-class ResourcePage(Page):
+def custom_form_submission(self, request_dict):
+    page = ResourceIndexPage.objects.get(slug="resources")
+    form_data = {
+        'resource_title': request_dict['resource_title'],
+        'resource_name': request_dict['resource_name'],
+        'feedback': request_dict['feedback'],
+        'liked': request_dict['liked'],
+    }
+
+    return self.get_submission_class().objects.create(
+        form_data=json.dumps(form_data, cls=DjangoJSONEncoder),
+        page=page,
+    )
+
+
+class ResourcePage(AbstractForm):
+    def process_form_submission(self, request_dict):
+        return custom_form_submission(self, request_dict)
+
+    def serve(self, request, *args, **kwargs):
+        try:
+            request_dict = request.POST.dict()
+
+            id = request_dict['id']
+
+            self.process_form_submission(request_dict)
+
+            try:
+                cookie = request.COOKIES['ldmw_session']
+            except:
+                cookie = uid.hex
+
+            resource = get_resource(id, cookie)
+
+            resource_result = render_to_string(
+                'resources/resource.html',
+                {'page': resource, 'like_feedback_submitted': True}
+            )
+
+            visited_result = render_to_string(
+                'resources/single_visited.html',
+                {'v': resource, 'like_feedback_submitted': True}
+            )
+
+            return JsonResponse({
+                'result': resource_result,
+                'visited_result': visited_result,
+                'id': id,
+                'feedback': True
+            })
+
+        except:
+            request.is_preview = getattr(request, 'is_preview', False)
+
+            return TemplateResponse(
+                request,
+                self.get_template(request, *args, **kwargs),
+                self.get_context(request, *args, **kwargs)
+            )
+
+    form_fields = None
+
     heading = TextField(
         blank=True,
         help_text="The title of the resource being linked to"
