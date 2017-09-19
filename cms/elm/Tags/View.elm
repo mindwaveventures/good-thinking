@@ -64,7 +64,7 @@ render_filter_block model num filter_label tags classname =
                             ++ if model.results_updated /= num then
                                 " dn"
                                else
-                                ""
+                                " db-ns dn"
                         )
                     ]
                     [ text "Results Updated" ]
