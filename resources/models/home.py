@@ -385,6 +385,11 @@ def custom_serve(self, request, *args, **kwargs):
 
         id = request_dict['id']
 
+        if request_dict['short_resource'] == "true":
+            template = 'resources/short_resource.html'
+        else:
+            template = 'resources/resource.html'
+
         self.process_form_submission(request_dict)
 
         try:
@@ -395,7 +400,7 @@ def custom_serve(self, request, *args, **kwargs):
         resource = get_resource(id, cookie)
 
         resource_result = render_to_string(
-            'resources/resource.html',
+            template,
             {'page': resource, 'like_feedback_submitted': True}
         )
 

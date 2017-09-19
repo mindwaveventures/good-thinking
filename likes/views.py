@@ -58,7 +58,7 @@ def save_like(request):
             {'result': result, 'visited_result': visited_result, 'id': id}
         )
     else:
-        response = redirect(f'/#resource_{id}')
+        response = redirect(request.META['HTTP_REFERER'] + f'#resource_{id}')
 
     response.set_cookie('ldmw_session', cookie)
     return response
