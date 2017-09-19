@@ -93,6 +93,10 @@ button, button a {
   word-break: normal;
 }
 
+#landing_page_navbar {
+  line-height: 20px;
+}
+
 .copy b {
   font-weight: 600;
 }

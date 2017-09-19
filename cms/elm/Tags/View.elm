@@ -9,7 +9,7 @@ import Html.Events exposing (onInput, onClick, onCheck)
 
 view : Model -> Html Msg
 view model =
-    div [ class "overflow-hidden ph4 ph3-m ph3-l mt5" ]
+    div [ class "overflow-hidden ph2 mt2" ]
         [ div [ class "tl w-60-ns center" ] [ h3 [] [ text "Personalise your results:" ] ]
         , div [ class ("tag-container w-200-ns w-330 relative center " ++ (getPosition model.tag_position)) ]
             [ render_filter_block model 1 model.issue_label model.issue_tags ("mr-1p-ns mr-5 " ++ (get_active model 1))
