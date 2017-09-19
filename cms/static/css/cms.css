@@ -284,15 +284,6 @@ code {
   box-shadow: 0 2px 7px 0 #000000 inset;
 }
 
-.feedback-section h4,
-.feedback-section h3 {
-  font-family: 'Segoe UI-Bold';
-  margin-bottom: 1rem;
-  margin-top: 0;
-  font-size: 1.2rem;
-  line-height: 1.2;
-}
-
 .feedback-form-section {
   font-size: 1.2rem;
   line-height: 1.2;

@@ -42,7 +42,7 @@ view model =
                     ]
                 ]
             ]
-        , div [ class "pa1 ph4 ph3-m ph3-l pb4 pb5-l" ] (get_resources model)
+        , div [ class "pa1 ph3 pb1 pb2-l" ] (get_resources model)
         , div [ class "tc ph4 ph3-m ph3-l" ]
             [ button
                 [ onClick (ShowMore True)

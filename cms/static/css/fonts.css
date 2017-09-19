@@ -85,6 +85,16 @@ button, button a {
   word-break: break-all;
 }
 
+.resource .copy a:not(button a) {
+  color: #008099;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.resource .copy a:hover:not(button a) {
+  color: #de2183;
+}
+
 .copy button a {
   word-break: normal;
 }
@@ -95,6 +105,10 @@ button, button a {
 
 #landing_page_navbar {
   line-height: 20px;
+}
+
+.assessment-text * {
+  line-height: 24px;
 }
 
 .copy b {
