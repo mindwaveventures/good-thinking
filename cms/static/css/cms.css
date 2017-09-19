@@ -552,13 +552,6 @@ lm-ls1 {
   left: 40%;
 }
 
-.cubes {
-  background-image: url('../images/box-background.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
-
 .bottom--1-5 {
   bottom: -1.5rem;
 }
