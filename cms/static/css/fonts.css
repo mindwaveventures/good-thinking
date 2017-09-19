@@ -85,6 +85,16 @@ button, button a {
   word-break: break-all;
 }
 
+.resource .copy a {
+  color: #008099;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.resource .copy a:hover {
+  color: #de2183;
+}
+
 .copy button a {
   word-break: normal;
 }
