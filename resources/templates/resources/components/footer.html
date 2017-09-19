@@ -2,7 +2,7 @@
 
 {% if footer_blocks %}
   <div class="pa3 tc mb2 pb4">
-    {% include "resources/components/row.html" with render_template="resources/components/page-block.html" element_list=footer_blocks length=2 width="w-40" class="footer-block mb2" %}
+    {% include "resources/components/row.html" with render_template="resources/components/page-block.html" page=page element_list=footer_blocks length=2 width="w-40" class="footer-block mb2" %}
   </div>
 {% endif %}
 

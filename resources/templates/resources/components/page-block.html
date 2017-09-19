@@ -1,6 +1,6 @@
 {% load wagtailcore_tags %}
 
-<div class="dib-ns {{width}}-ns mv2 mh4-ns pa2 pb4 v-top tl">
+<div class="{% if el.link_page.slug == slug %}bg-footer-grey {% endif %}dib-ns {{width}}-ns mv2 mh4-ns pa2 pb4 v-top tl">
   <h4 class="segoe-bold">{{el.title}}</h4>
   <div class="copy">
     {{el.description|richtext}}
