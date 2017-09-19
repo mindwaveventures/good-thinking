@@ -5,8 +5,8 @@
 {% block body_class %}template-homepage{% endblock %}
 
 {% block content %}
-    {% if page.banner %}
-      {% include "resources/banner.html" with banner=page.banner %}
+    {% if banner %}
+      {% include "resources/banner.html" with banner=banner %}
     {% endif %}
 
     {% if landing_pages %}
