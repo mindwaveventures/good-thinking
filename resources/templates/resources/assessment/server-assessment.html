@@ -96,7 +96,7 @@
         </div>
       {% endif %}
 
-      <form method="post" action="/{{parent}}/{{slug}}/">
+      <form method="post" action="{%if parent != 'home' %}/{{parent}}{% endif %}/{{slug}}/">
         {% for q in Questions %}
         <div class="pv2">
           <div class="pv2">
