@@ -60,12 +60,6 @@
   </div>
 {% endif %}
 
-<a href="/" class="link">
-  <div class="pv1 ph3 tl lm-bg-dark-blue {% if landing_pages %}mt5 mt0-ns{% endif %} dn db-ns">
-    <p class="nunito-bold pointer white">< Home</p>
-  </div>
-</a>
-
 {% if page.hero_image or page.brand_logo or page.brand_text %}
   {% image page.hero_image width-1000 as hero_image %}
   {% image page.brand_logo width-500 as brand_logo %}
@@ -98,7 +92,7 @@
         {% endfor %}
         {% if is_near %}
         <div>
-          <div class="segoe-bold pa2 lm-bg-turquoise white">Less than a mile away</div>
+          <div class="segoe-bold pa2 lm-bg-dark-turquoise white">Less than a mile away</div>
         </div>
         {% endif %}
       </div>
