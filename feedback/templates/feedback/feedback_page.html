@@ -5,7 +5,12 @@
 {% block body_class %}template-feedbackpage{% endblock %}
 
 {% block content %}
-    <section class="f3 pa3 ph4 ph3-m ph3-l tl lh-copy lm-dark-blue segoe feedback-section">
+
+    {% if banner %}
+      {% include "resources/banner.html" with banner=banner %}
+    {% endif %}
+
+    <section class="f3 pa3 ph4 ph3-m ph3-l tl lh-copy lm-dark-blue segoe feedback-section {% if banner %}mt5{%endif%}">
       <div class="w-60-ns center">
         <a href="/" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise">< Back</a>
       </div>
@@ -72,14 +77,20 @@
                   {% endif %}
                   <label for="id_{{row.label}}">Email: </label>
                   <input id="id_{{row.label}}" name="{{row.label}}" type="email" {{required}}>{{row.submitted_val}}</input>
-                  <div class="w-100 tr mt3">
-                    {% include "resources/primary-button.html" with value="Submit" %}
-                  </div>
                 </div>
               </section>
             {% endif %}
           {% endif %}
         {% endif %}
       {% endfor %}
+      <div class="f3 pa3 ph4 ph3-m ph3-l tl copy lm-dark-blue nunito feedback-form-section">
+        <div class="w-60-ns center">
+          <div class="w-100 tl mt3">
+            {% include "resources/primary-button.html" with value="Submit" %}
+          </div>
+        </div>
+      </div>
     </form>
+
+  {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
 {% endblock %}

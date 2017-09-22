@@ -10,6 +10,8 @@ from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailforms.models import AbstractForm, AbstractFormField
 
+from resources.models.helpers import base_context
+
 FORM_FIELD_CHOICES = (
     ('singleline', _('Single line text')),
     ('multiline', _('Multi-line text')),
@@ -161,5 +163,5 @@ class FeedbackPage(AbstractForm):
         return render(
             request,
             self.get_template(request),
-            context
+            base_context(context)
         )
