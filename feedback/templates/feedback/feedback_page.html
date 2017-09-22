@@ -10,6 +10,8 @@
       {% include "resources/banner.html" with banner=banner %}
     {% endif %}
 
+    {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages %}
+
     <section class="f3 pa3 ph4 ph3-m ph3-l tl lh-copy lm-dark-blue segoe feedback-section {% if banner %}mt5{%endif%}">
       <div class="w-60-ns center">
         <a href="/" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise">< Back</a>

@@ -6,6 +6,7 @@
 
 {% block content %}
   {% include "resources/banner.html" %}
+  {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages %}
   <section class="pt5-plus ph4 ph5-m ph6-l tc">
     <div class="{{ page.text_alignment }} copy">
       {% include_block page.body %}

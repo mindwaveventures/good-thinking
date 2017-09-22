@@ -416,10 +416,6 @@ lm-ls1 {
   margin: 1em;
 }
 
-.block-paragraph {
-  padding: 1em 2em;
-}
-
 .responsive-object {
     position: relative;
 }
@@ -658,6 +654,10 @@ lm-ls1 {
 
   .r-80-ns {
     right: 80%;
+  }
+
+  .block-paragraph {
+    padding: 1em 2em;
   }
 
   .resource-brand .rich-text h2 {
