@@ -82,16 +82,12 @@
         {% include "resources/secondary_button.html" with value="View pros and cons" background="light" class="view_pcs" id="view_pcs{{page.id}}" %}
       </div>
       {% endif %}
-      <div class="bb b--lm-grey w-100 dn db-ns pros_cons" id="pros_cons{{page.id}}">
-        <div class="w-50-ns dib-ns br-ns b--lm-grey pros pv2">
-          <div class="w-80-ns center-ns copy">
-            {{page.pros|richtext}}
-          </div>
+      <div class="w-100 dn dt-ns db-ns pros_cons bb b--lm-grey copy" id="pros_cons{{page.id}}">
+        <div class="ph4-ns ph3 w-50-ns dib-ns br-ns b--lm-grey dtc-ns pros pb3">
+          {{page.pros|richtext}}
         </div>
-        <div class="w-50-ns dib-ns fr-ns pv2">
-          <div class="w-80-ns center-ns copy">
-            {{page.cons|richtext}}
-          </div>
+        <div class="ph4-ns ph3 w-50-ns dib-ns dtc-ns pb3">
+          {{page.cons|richtext}}
         </div>
       </div>
       <div class="ph2">
