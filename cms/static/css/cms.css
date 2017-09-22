@@ -502,14 +502,6 @@ lm-ls1 {
   opacity: 0.5;
 }
 
-.resource-brand .rich-text h2 {
-  font-size: 2rem;
-}
-
-.resource-brand .rich-text p {
-  font-size: 1rem;
-}
-
 /* taken from:
  https://css-tricks.com/equidistant-objects-with-css/#article-header-id-5
 */

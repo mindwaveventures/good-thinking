@@ -13,7 +13,7 @@ a {
   font-size: 1rem;
 }
 
-h1 {
+h1, .resource-brand .rich-text h2 {
   font-family: 'Montserrat', sans-serif;
   letter-spacing: 0.5pt;
   font-weight: 600;
@@ -65,6 +65,10 @@ button, button a {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   text-decoration: none;
+}
+
+.resource-brand .rich-text p {
+  font-size: 1rem;
 }
 
 .copy p, .copy li {
