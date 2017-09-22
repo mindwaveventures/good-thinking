@@ -85,10 +85,6 @@ button, button a {
   color: #de2183;
 }
 
-.copy a {
-  word-break: break-all;
-}
-
 .resource .copy a:not(button a) {
   color: #008099;
   font-size: 14px;

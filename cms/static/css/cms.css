@@ -393,7 +393,6 @@ lm-ls1 {
   max-width: 100%;
   min-width: 50%;
   overflow: hidden;
-  word-wrap: break-word;
 }
 
 .rich-text img {
