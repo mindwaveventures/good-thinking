@@ -679,3 +679,9 @@ lm-ls1 {
     bottom: -1.2rem;
   }
 }
+
+@media screen and (max-width: 60em) and (min-width: 30em) {
+  .w-15-m {
+    width: 15%;
+  }
+}
