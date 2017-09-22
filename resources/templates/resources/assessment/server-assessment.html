@@ -53,7 +53,7 @@
       {% endif %}
 
       {% if Error %}
-        <div style="color: red;">
+        <div class="bg--lm-light-red ba b--lm-dark-red bw1 br1 dib">
           {{Error}}
         </div>
       {% endif %}
@@ -69,9 +69,9 @@
               <button class="lm-bg-dark-turquoise b--none white br1 pv0 ph1" name="q_info" value="{{q.QuestionID}}">?</button>
             {% endif %}
             {% if q.Error %}
-            <div style="color: red;">
-              {{q.Error}}
-            </div>
+              <div class="bg--lm-light-red ba b--lm-dark-red bw1 br1 dib pa1">
+                {{q.Error}}
+              </div>
             {% endif %}
           </div>
           {% if q.Questions|length > 0 %}
@@ -91,7 +91,7 @@
             <button class="lm-bg-dark-turquoise b--none white br1 pv0 ph1" name="a_info" value="{{a.AnswerID}}">?</button>
             {% endif %}
             {% if a.Error %}
-            <div style="color: red;">
+            <div class="bg--lm-light-red ba b--lm-dark-red bw1 br1 dib pa1">
               {{a.Error}}
             </div>
             {% endif %}
