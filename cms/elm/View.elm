@@ -7,13 +7,14 @@ import Types exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onClick, onCheck)
+import Html.Attributes.Aria as Aria
 
 
 view : Model -> Html Msg
 view model =
     div []
         [ Tags.view model
-        , div [ class "pa1 ph4 ph3-m ph3-l" ]
+        , div [ class "pa1 ph3" ]
             [ div [ class "w-60-ns center" ]
                 [ div [ class "w-50-ns dib-ns tl" ]
                     [ div [ id "results", class "relative top--3 o-0" ] []
@@ -21,18 +22,15 @@ view model =
                         [ text ("Showing " ++ (get_num_resources model))
                         ]
                     ]
-                , div [ class "w-50-ns dib-ns tr-ns tc" ]
-                    [ div [ class "w-40 tl tc-ns dib" ] [ h4 [ class "pl1 ph2-ns montserrat ma0 mr3 mr1-ns f5 dib ttu" ] [ text "Order By" ] ]
-                    , div [ class "w-60 tl dib" ]
+                , div [ class "w-50-ns dib-ns tr-ns" ]
+                    [ div [ class "w-40-ns tl tc-ns dib" ] [ h4 [ class "ph2-ns montserrat ma0 mr3 mr1-ns f5 dib ttu" ] [ text "Order By" ] ]
+                    , div [ class "w-60-ns tl dib" ]
                         [ div [ class "w-100 relative dib" ]
                             [ div [ class "w-100 pv2 b--lm-dark-turquoise ba pointer tc", onClick ToggleOrderBox ]
                                 [ h5 [ class "pl1 ph2-ns montserrat fw3 lm-dark-turquoise ma0 f5" ]
                                     [ span []
                                         [ text (get_order_text model.order_by)
-                                        , span [ class "filter-arrow fa-down lm-dark-turquoise fr" ]
-                                            [ text "▼" ]
-                                        , span [ class "filter-arrow filter-arrow-hide fa-up lm-dark-turquoise fr" ]
-                                            [ text "▲" ]
+                                        , i [ class "fa fa-caret-down ph2", Aria.ariaHidden True ] []
                                         ]
                                     ]
                                 ]
