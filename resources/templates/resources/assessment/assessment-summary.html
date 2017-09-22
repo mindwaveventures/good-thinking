@@ -9,7 +9,7 @@
 
   <div class="mt6 mb5">
     <div class="w-60-ns center pb3">
-      <form id="summary_form" method="post" action="{%if parent != 'home' %}/{{parent}}{% endif %}/{{slug}}/">
+      <form id="summary_form" method="post" action="{%if parent != 'home' %}/{{parent}}{% endif %}/{{slug}}/#assessment-container">
         {% csrf_token %}
         <input type="hidden" name="member_id" value="{{member_id}}" />
         <input type="hidden" name="traversal_id" value="{{traversal_id}}" />
