@@ -163,8 +163,18 @@ footer p a {
   background-size:contain;
 }
 
+.next_left:hover {
+  background-image: url("../images/next_left_hover.svg");
+  background-size:contain;
+}
+
 .next_right {
   background-image: url("../images/next_right.svg");
+  background-size:contain;
+}
+
+.next_right:hover {
+  background-image: url("../images/next_right_hover.svg");
   background-size:contain;
 }
 

@@ -48,6 +48,10 @@
   background-color: #f1f2f4;
 }
 
+.lm-bg-pink-hover:hover {
+  background-color: #de2183;
+}
+
 .bg--lm-green {
   background-color: #E2F6D6;
 }
@@ -77,7 +81,7 @@
 }
 
 .lm-orange {
-  color: #FAB781;
+  color: #FF9e1b;
 }
 
 .lm-dark-blue, .lm-dark-blue-hover:hover {
