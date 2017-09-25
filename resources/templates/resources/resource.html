@@ -17,47 +17,7 @@
       </div>
     {% endfor %}
   </section>
-
-  <!-- ensuring hamburger takes up the correct space -->
-  <section class="db dn-ns bg-white o-0">
-    <button class="hamburger hamburger--slider relative" type="button">
-      <span class="hamburger-box">
-        <span class="hamburger-inner"></span>
-      </span>
-    </button>
-  </section>
-
-  <section id="landing_page_hamburger" class="db dn-ns absolute bg-white w-100 z-4">
-    <button id="hamburger_id" class="hamburger hamburger--slider relative" type="button">
-      <span class="hamburger-box">
-        <span class="hamburger-inner"></span>
-      </span>
-    </button>
-  </section>
-
-  <div id="hamburger_content_id" class="db dn-ns absolute bg-white w-100 overflow-scroll z-999">
-    <a href="/" class="link">
-      <div class="pv1 ph3 tl lm-bg-dark-blue">
-        <p class="nunito-bold pointer white">< Home</p>
-      </div>
-    </a>
-    <div class="pa2">
-      <div class="dib relative mv2-ns mv1 dtc-ns">
-        I am, or know someone who is, feeling:
-      </div>
-      {% for topic in landing_pages %}
-      <div class="relative mv2-ns mv1 dtc-ns">
-        <div class="b--lm-dark-blue lm-dark-blue ph3 pv2">
-          {% if page.url == topic.url %}
-          <a class="ttu link bb bw2" href="/{{topic.slug}}">{{topic.slug}}</a>
-          {% else %}
-          <a class="ttu link" href="/{{topic.slug}}">{{topic.slug}}</a>
-          {% endif %}
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
+  {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages %}
 {% endif %}
 
 {% if page.hero_image or page.brand_logo or page.brand_text %}
@@ -122,16 +82,12 @@
         {% include "resources/secondary_button.html" with value="View pros and cons" background="light" class="view_pcs" id="view_pcs{{page.id}}" %}
       </div>
       {% endif %}
-      <div class="bb b--lm-grey w-100 dn db-ns pros_cons" id="pros_cons{{page.id}}">
-        <div class="w-50-ns dib-ns br-ns b--lm-grey pros pv2">
-          <div class="w-80-ns center-ns copy">
-            {{page.pros|richtext}}
-          </div>
+      <div class="w-100 dn dt-ns db-ns pros_cons bb b--lm-grey copy" id="pros_cons{{page.id}}">
+        <div class="ph4-ns ph3 w-50-ns dib-ns br-ns b--lm-grey dtc-ns pros pb3">
+          {{page.pros|richtext}}
         </div>
-        <div class="w-50-ns dib-ns fr-ns pv2">
-          <div class="w-80-ns center-ns copy">
-            {{page.cons|richtext}}
-          </div>
+        <div class="ph4-ns ph3 w-50-ns dib-ns dtc-ns pb3">
+          {{page.cons|richtext}}
         </div>
       </div>
       <div class="ph2">

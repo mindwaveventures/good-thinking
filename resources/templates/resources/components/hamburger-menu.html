@@ -1,0 +1,44 @@
+<!-- ensuring hamburger takes up the correct space -->
+<section class="db dn-ns bg-white o-0">
+  <button class="hamburger hamburger--slider relative" type="button">
+    <span class="hamburger-box">
+      <span class="hamburger-inner"></span>
+    </span>
+  </button>
+</section>
+
+<section id="landing_page_hamburger" class="db dn-ns absolute bg-white w-100 z-4">
+  <button id="hamburger_id" class="hamburger hamburger--slider relative" type="button">
+    <span class="hamburger-box">
+      <span class="hamburger-inner"></span>
+    </span>
+  </button>
+</section>
+
+<div id="hamburger_content_id" class="db dn-ns absolute bg-white w-100 overflow-scroll z-999">
+  <div class="pa2">
+    <div class="dib relative mv2-ns mv1 dtc-ns">
+      I am, or know someone who is, feeling:
+    </div>
+    <div class="relative mv2-ns mv1 dtc-ns">
+      <div class="b--lm-dark-blue lm-dark-blue ph3 pv2">
+        {% if page.slug == "home" %}
+        <a class="ttu link bb bw2" href="/">Home</a>
+        {% else %}
+        <a class="ttu link" href="/">Home</a>
+        {% endif %}
+      </div>
+    </div>
+    {% for topic in landing_pages %}
+    <div class="relative mv2-ns mv1 dtc-ns">
+      <div class="b--lm-dark-blue lm-dark-blue ph3 pv2">
+        {% if page.url == topic.url %}
+        <a class="ttu link bb bw2" href="/{{topic.slug}}">{{topic.slug}}</a>
+        {% else %}
+        <a class="ttu link" href="/{{topic.slug}}">{{topic.slug}}</a>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>

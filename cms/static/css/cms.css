@@ -416,10 +416,6 @@ lm-ls1 {
   margin: 1em;
 }
 
-.block-paragraph {
-  padding: 1em 2em;
-}
-
 .responsive-object {
     position: relative;
 }
@@ -504,14 +500,6 @@ lm-ls1 {
   -webkit-filter: grayscale(100%);
   filter: grayscale(100%);
   opacity: 0.5;
-}
-
-.resource-brand .rich-text h2 {
-  font-size: 2rem;
-}
-
-.resource-brand .rich-text p {
-  font-size: 1rem;
 }
 
 /* taken from:
@@ -658,6 +646,10 @@ lm-ls1 {
 
   .r-80-ns {
     right: 80%;
+  }
+
+  .block-paragraph {
+    padding: 1em 2em;
   }
 
   .resource-brand .rich-text h2 {

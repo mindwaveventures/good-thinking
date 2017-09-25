@@ -5,21 +5,17 @@
 {% block body_class %}template-feedbackpage{% endblock %}
 
 {% block content %}
-    <section class="pt5-plus f3 pb3 ph4 ph3-ns tl lh-copy lm-dark-blue segoe feedback-section">
-      <div class="w-60-ns center">
-        <img src="{% static "images/london_minds_logo.png" %}" class="w5 mt4 logo" />
-      </div>
-    </section>
+  {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages %}
 
-    <section class="f3 pa3 ph4 ph3-m ph3-l tl lh-copy lm-dark-blue segoe feedback-section">
-      <div class="w-60-ns center">
-        <a href="/" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-gb-white lm-bg-dark-blue-hover lm-dark-blue lm-white-hover ba b--lm-dark-blue">< Back</a>
-      </div>
-    </section>
+  <section class="f3 pa3 ph4 ph3-m ph3-l tl lh-copy lm-dark-blue segoe feedback-section {% if banner %}mt5{%endif%}">
+    <div class="w-60-ns center">
+      <a href="/" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise">< Back</a>
+    </div>
+  </section>
 
-    <section class="f3 pa3 ph4 ph3-m ph3-l tl lh-copy lm-dark-blue segoe feedback-section">
-      <div class="w-60-ns center">
-        <h2 class="ma0 f3 segoe-bold">Thankyou your feedback has been recieved</h2>
-      </div>
-    </section>
+  <section class="f3 pa3 ph4 ph3-m ph3-l tl lh-copy lm-dark-blue segoe feedback-section">
+    <div class="w-60-ns center">
+      <h2 class="ma0 f3 segoe-bold">Thank you, your feedback has been received</h2>
+    </div>
+  </section>
 {% endblock %}

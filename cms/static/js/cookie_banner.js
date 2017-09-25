@@ -24,7 +24,7 @@ function accept_cookie_listener() {
       var one_day = 24 * 60 * 60 * 1000;
       d.setTime(d.getTime() + one_day);
       var expires = ';expires=' + d.toUTCString();
-      document.cookie = our_cookie + expires;
+      document.cookie = our_cookie + expires + ";path=/";
       show_cookie_bar();
     });
 }
