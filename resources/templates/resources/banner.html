@@ -1,11 +1,15 @@
 {% load wagtailcore_tags %}
 
 <div class="lm-bg-white pa3 w-100 f6 f5-l f5-m banner segoe fixed top-0 z-5 dt-ns dt--fixed-ns shadow-2" id="beta-banner">
-  <div class="dtc-ns w-50-l w-40-m v-mid banner">
+  {% if page.slug != "home"%}
+    <div class="dtc-ns w-10-l w-15-m dn tl v-mid banner_buttons">
+      <a href="/" class="f6 f7-m link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise">Home</a>
+    </div>
+  {% endif %}
+  <div class="dtc-ns w-50-l w-30-m v-mid banner">
     {{banner|richtext}}
   </div>
   <div class="dtc-ns dn tr v-mid banner_buttons">
-    {% if page.slug != "home"%}<a href="/" class="f6 f7-m link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise">Home</a>{% endif %}
     <a href="/self-assessment" class="f6 f7-m link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise" id="assessment">Take self-assessment</a>
     <a href="/crisis" class="f6 f7-m link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise crisis-link">Get urgent support</a>
   </div>
