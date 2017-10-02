@@ -19,7 +19,7 @@ class StaticPage(Page):
 
     body = StreamField([
         ('heading', blocks.RichTextBlock()),
-        ('paragraph', blocks.RichTextBlock()),
+        ('paragraph', blocks.RichTextBlock(template="static/display.html")),
         ('image', ImageChooserBlock()),
     ])
 

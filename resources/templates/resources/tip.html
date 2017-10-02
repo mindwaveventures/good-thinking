@@ -1,4 +1,4 @@
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags new_tab %}
 
 <div id="tip{{page.id}}" class="tip tip-card">
   <div class="br1 tl center ba b--lm-turquoise lm-bg-light-turquoise mt4">
@@ -8,7 +8,7 @@
         <i class="fa fa-quote-right lm-turquoise" aria-hidden="true"></i>
       </div>
       <p>
-        {{page.tip_text|richtext}}
+        {{page.tip_text|new_tab|richtext}}
       </p>
       <div class="bt b--lm-turquoise">
         <p>

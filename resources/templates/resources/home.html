@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags static modelname %}
+{% load wagtailcore_tags wagtailimages_tags static modelname new_tab %}
 
 {% block body_class %}template-homepage{% endblock %}
 
@@ -31,7 +31,7 @@
     <!-- Body Text -->
     <section class="pa1 ph4 ph3-m ph3-l mb3">
       <div class="w-60-ns center copy">
-        {{ page.body|richtext }}
+        {{ page.body|new_tab|richtext }}
       </div>
     </section>
 

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags static %}
+{% load wagtailcore_tags wagtailimages_tags static new_tab %}
 
 {% block body_class %}template-homepage{% endblock %}
 
@@ -9,7 +9,9 @@
   {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages %}
   <section class="pt5-plus ph4 ph5-m ph6-l tc">
     <div class="{{ page.text_alignment }} copy">
-      {% include_block page.body %}
+      {% for block in page.body %}
+        {% include_block block %}
+      {% endfor %}
     </div>
   </section>
   {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
