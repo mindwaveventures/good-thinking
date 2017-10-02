@@ -390,12 +390,15 @@ class ResourcePage(AbstractForm):
         if 'ldmw_location_latlong' in request.COOKIES:
             try:
                 location = request.COOKIES['ldmw_location_latlong']
-                [latitude, longitude] = location.split(",")
-                dist_km = haversine_distance(
-                    float(latitude), float(longitude),
-                    float(self.latitude), float(self.longitude)
-                )
-                context['is_near'] = dist_km / 1.6 < 1000  # less than 1 mile
+                [user_lat, user_long] = location.split(",")
+                context['is_near'] = any(
+                    filter(
+                        lambda e: haversine_distance(
+                            float(user_lat), float(user_long),
+                            float(e.latitude), float(e.longitude)
+                        ) / 1.6 < 1000, self.latlong.all())
+                    )
+                # less than 1 mile
             except:
                 print("Failed to get location")
                 context['is_near'] = False
