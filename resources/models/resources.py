@@ -73,6 +73,9 @@ class LatitudeField(CharField):
         value = check_latlong(self, value, 90)
         return value
 
+    class Meta:
+        abstract = True
+
 
 class LongitudeField(CharField):
     default_error_messages = {
@@ -83,6 +86,9 @@ class LongitudeField(CharField):
         value = super().to_python(value)
         value = check_latlong(self, value, 180)
         return value
+
+    class Meta:
+        abstract = True
 
 
 class Badges(models.Model):
@@ -106,6 +112,18 @@ class Badges(models.Model):
 
 class ResourcePageBadges(Orderable, Badges):
     page = ParentalKey('ResourcePage', related_name='badges')
+
+
+class LatLong(Orderable):
+    latitude = LatitudeField(max_length=10)
+    longitude = LongitudeField(max_length=10)
+
+    panels = [
+        FieldPanel('latitude'),
+        FieldPanel('longitude')
+    ]
+
+    page = ParentalKey('ResourcePage', related_name='latlong')
 
 
 class ResourceFormField(AbstractFormField):
@@ -327,6 +345,7 @@ class ResourcePage(AbstractForm):
             FieldPanel('text_color')
         ], heading="Branding"),
         InlinePanel('badges', label="Badge"),
+        InlinePanel('latlong', label="Latitude and Longitude"),
         FieldPanel('heading', classname="full"),
         FieldRowPanel([
             FieldPanel('resource_url', classname="col6"),
@@ -334,13 +353,7 @@ class ResourcePage(AbstractForm):
         ], classname="full"),
         FieldPanel('body', classname="full"),
         FieldPanel('pros', classname="full"),
-        FieldPanel('cons', classname="full"),
-        MultiFieldPanel([
-            FieldRowPanel([
-                FieldPanel('latitude', classname="col6"),
-                FieldPanel('longitude', classname="col6"),
-            ], classname="full"),
-        ], heading="latlong")
+        FieldPanel('cons', classname="full")
     ]
 
     promote_panels = Page.promote_panels + [
