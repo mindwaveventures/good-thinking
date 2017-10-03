@@ -73,6 +73,9 @@ class LatitudeField(CharField):
         value = check_latlong(self, value, 90)
         return value
 
+    class Meta:
+        abstract = True
+
 
 class LongitudeField(CharField):
     default_error_messages = {
@@ -83,6 +86,9 @@ class LongitudeField(CharField):
         value = super().to_python(value)
         value = check_latlong(self, value, 180)
         return value
+
+    class Meta:
+        abstract = True
 
 
 class Badges(models.Model):
@@ -106,6 +112,18 @@ class Badges(models.Model):
 
 class ResourcePageBadges(Orderable, Badges):
     page = ParentalKey('ResourcePage', related_name='badges')
+
+
+class LatLong(Orderable):
+    latitude = LatitudeField(max_length=10)
+    longitude = LongitudeField(max_length=10)
+
+    panels = [
+        FieldPanel('latitude'),
+        FieldPanel('longitude')
+    ]
+
+    page = ParentalKey('ResourcePage', related_name='latlong')
 
 
 class ResourceFormField(AbstractFormField):
@@ -327,6 +345,7 @@ class ResourcePage(AbstractForm):
             FieldPanel('text_color')
         ], heading="Branding"),
         InlinePanel('badges', label="Badge"),
+        InlinePanel('latlong', label="Latitude and Longitude"),
         FieldPanel('heading', classname="full"),
         FieldRowPanel([
             FieldPanel('resource_url', classname="col6"),
@@ -334,13 +353,7 @@ class ResourcePage(AbstractForm):
         ], classname="full"),
         FieldPanel('body', classname="full"),
         FieldPanel('pros', classname="full"),
-        FieldPanel('cons', classname="full"),
-        MultiFieldPanel([
-            FieldRowPanel([
-                FieldPanel('latitude', classname="col6"),
-                FieldPanel('longitude', classname="col6"),
-            ], classname="full"),
-        ], heading="latlong")
+        FieldPanel('cons', classname="full")
     ]
 
     promote_panels = Page.promote_panels + [
@@ -377,12 +390,15 @@ class ResourcePage(AbstractForm):
         if 'ldmw_location_latlong' in request.COOKIES:
             try:
                 location = request.COOKIES['ldmw_location_latlong']
-                [latitude, longitude] = location.split(",")
-                dist_km = haversine_distance(
-                    float(latitude), float(longitude),
-                    float(self.latitude), float(self.longitude)
-                )
-                context['is_near'] = dist_km / 1.6 < 1000  # less than 1 mile
+                [user_lat, user_long] = location.split(",")
+                context['is_near'] = any(
+                    filter(
+                        lambda e: haversine_distance(
+                            float(user_lat), float(user_long),
+                            float(e.latitude), float(e.longitude)
+                        ) / 1.6 < 1000, self.latlong.all())
+                    )
+                # less than 1 mile
             except:
                 print("Failed to get location")
                 context['is_near'] = False

@@ -2,6 +2,8 @@ from django.db.models import Q
 
 from itertools import chain
 
+from gpxpy.geo import haversine_distance
+
 from django.http import JsonResponse, HttpResponse
 
 import urllib.request
@@ -241,7 +243,10 @@ def get_data(request, **kwargs):
 
     combine_tags = create_tag_combiner(excluded_tags)
 
-    filtered_resources = map(combine_tags, paged_resources)
+    filtered_resources = map(
+        lambda el: add_near(request, el),
+        map(combine_tags, paged_resources)
+    )
 
     data['landing_pages'] = Home.objects.filter(~Q(slug="home")).live()
     data['resources'] = filtered_resources
@@ -253,6 +258,33 @@ def get_data(request, **kwargs):
     data['selected_tags'] = selected_tags
 
     return data
+
+
+def add_near(request, el):
+    if 'ldmw_location_latlong' in request.COOKIES:
+        try:
+            location = request.COOKIES['ldmw_location_latlong']
+            [user_lat, user_long] = location.split(",")
+            el.specific.is_near = any(
+                filter(
+                    lambda e: within_mile(e, user_lat, user_long),
+                    el.specific.latlong.all()
+                )
+            )
+        except:
+            print("Failed to get location")
+            el.specific.is_near = False
+    else:
+        el.specific.is_near = False
+    return el
+
+
+def within_mile(resource, user_lat, user_long):
+    dist = haversine_distance(
+        float(user_lat), float(user_long),
+        float(resource.latitude), float(resource.longitude)
+    )
+    return dist / 1.6 < 1000
 
 
 def get_visited_resources(**kwargs):
