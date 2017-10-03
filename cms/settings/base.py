@@ -128,7 +128,9 @@ ALLOWED_HOSTS = [
     'ldmw-cms.herokuapp.com',
     'ldmw-cms-staging.herokuapp.com',
     '127.0.0.1',
-    'localhost'
+    'localhost',
+    'good-thinking.uk',
+    'www.good-thinking.uk'
 ]
 
 # Setting up project to use bcrypt hashing
