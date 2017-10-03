@@ -1,4 +1,4 @@
-{% load wagtailcore_tags continuereading %}
+{% load wagtailcore_tags continuereading new_tab %}
 
 <div id="resource_{{page.id}}" class="resource mb4 mt4">
   <div class="br1 ba shadow-2 tl w-60-ns center">
@@ -32,7 +32,7 @@
         {% endif %}
       </div>
       <div class="copy dib">
-        {{ page.body|truncatechars:200|continue_reading:page|richtext }}
+        {{ page.body|truncatechars:200|continue_reading:page|new_tab|richtext }}
       </div>
     </div>
     <div class="pt3">
@@ -43,10 +43,10 @@
       {% endif %}
       <div class="w-100 dn dt-ns db-ns pros_cons bb b--lm-grey pb3 copy" id="pros_cons{{page.id}}">
         <div class="ph4-ns ph3 w-50-ns dib-ns dtc-ns pros">
-          {{page.pros|richtext}}
+          {{page.pros|new_tab|richtext}}
         </div>
         <div class="ph4-ns ph3 w-50-ns dib-ns dtc-ns">
-          {{page.cons|richtext}}
+          {{page.cons|new_tab|richtext}}
         </div>
       </div>
       <div class="dt">

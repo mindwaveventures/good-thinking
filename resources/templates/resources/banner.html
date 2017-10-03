@@ -1,4 +1,4 @@
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags new_tab %}
 
 <div class="lm-bg-white pa3 w-100 f6 f5-l f5-m banner segoe fixed top-0 z-5 dt-ns dt--fixed-ns shadow-2" id="beta-banner">
   {% if page.slug != "home"%}
@@ -7,7 +7,7 @@
     </div>
   {% endif %}
   <div class="dtc-ns w-50-l w-30-m v-mid banner">
-    {{banner|richtext}}
+    {{banner|new_tab|richtext}}
   </div>
   <div class="dtc-ns dn tr v-mid banner_buttons">
     <a href="/self-assessment" class="f6 f7-m link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise" id="assessment">Take self-assessment</a>

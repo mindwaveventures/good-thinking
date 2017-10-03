@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags static %}
+{% load wagtailcore_tags wagtailimages_tags static new_tab %}
 
 {% block body_class %}template-feedbackpage{% endblock %}
 
@@ -26,7 +26,7 @@
           <section class="f3 pa3 ph4 ph3-m ph3-l tl copy lm-dark-blue nunito feedback-form-section">
             <div class="w-60-ns center">
               <div class="around_form_input">
-                {{row.before_input|richtext}}
+                {{row.before_input|new_tab|richtext}}
               </div>
               {% if row.errors %}
                 {% for error in row.errors %}
@@ -42,7 +42,7 @@
                 {% endfor %}
               </div>
               <div class="around_form_input">
-                {{row.after_input|richtext}}
+                {{row.after_input|new_tab|richtext}}
               </div>
             </div>
         </section>
@@ -51,7 +51,7 @@
             <section class="f3 pt3 ph4 ph3-m ph3-l tl copy pb3 segoe feedback-section">
               <div class="w-60-ns center">
                 <div class="around_form_input">
-                  {{row.before_input|richtext}}
+                  {{row.before_input|new_tab|richtext}}
                 </div>
                 {% if row.errors %}
                   {% for error in row.errors %}
@@ -61,7 +61,7 @@
                 <label for="id_{{row.label}}" class="dn"></label>
                 <textarea id="id_{{row.label}}" name="{{row.label}}" class="h4 f5 w-100 pa3 nr b--lm-grey" {{required}}>{{row.submitted_val}}</textarea>
                 <div class="around_form_input">
-                  {{row.after_input|richtext}}
+                  {{row.after_input|new_tab|richtext}}
                 </div>
               </div>
             </section>
@@ -70,7 +70,7 @@
               <section class="f3 pa3 ph4 ph3-m ph3-l tl copy segoe feedback-section">
                 <div id="alphasection" class="w-60-ns nunito center f5">
                   <div class="around_form_input">
-                    {{row.before_input|richtext}}
+                    {{row.before_input|new_tab|richtext}}
                   </div>
                   {% if row.errors %}
                     {% for error in row.errors %}

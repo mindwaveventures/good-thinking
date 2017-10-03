@@ -1,4 +1,4 @@
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags new_tab %}
 
 {% if banner %}
   {% include "resources/banner.html" with banner=banner %}
@@ -29,7 +29,7 @@
     {% endif %}
     <div class="pb2 ph5-ns w-90-ns center">
       <div class="mb4 copy" style="color: {{page.text_color}};">
-        {{ page.brand_text|richtext }}
+        {{ page.brand_text|new_tab|richtext }}
       </div>
     </div>
   </section>
@@ -73,7 +73,7 @@
         {% endfor %}
       </div>
       <div class="mh2 copy">
-        {{ page.body|richtext }}
+        {{ page.body|new_tab|richtext }}
       </div>
     </div>
     <div class="pb4-ns mh2 mh0-ns">
@@ -84,10 +84,10 @@
       {% endif %}
       <div class="w-100 dn dt-ns db-ns pros_cons bb b--lm-grey copy" id="pros_cons{{page.id}}">
         <div class="ph4-ns ph3 w-50-ns dib-ns br-ns b--lm-grey dtc-ns pros pb3">
-          {{page.pros|richtext}}
+          {{page.pros|new_tab|richtext}}
         </div>
         <div class="ph4-ns ph3 w-50-ns dib-ns dtc-ns pb3">
-          {{page.cons|richtext}}
+          {{page.cons|new_tab|richtext}}
         </div>
       </div>
       <div class="ph2">

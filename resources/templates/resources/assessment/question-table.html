@@ -1,4 +1,4 @@
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags new_tab %}
 
 {% with table.Questions|first as first_question %}
   <table>
@@ -17,7 +17,7 @@
       {% for q in table.Questions %}
         <tr {% if q.Error %}class="bg--lm-light-red" alt="please choose an aswer for this question"{% endif %}>
           <td {% if q.Error %}class="ba b--lm-dark-red bw1 br1"{% endif %}>
-            {{q.DisplayText|richtext}}
+            {{q.DisplayText|new_tab|richtext}}
           </td>
           {% for a in q.Answers %}
             <td class="tc {% if q.Error %}ba b--lm-dark-red bw1 br1{% endif %}">
