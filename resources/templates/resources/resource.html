@@ -17,7 +17,7 @@
       </div>
     {% endfor %}
   </section>
-  {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages %}
+  {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages back=back %}
 {% endif %}
 
 {% if page.hero_image or page.brand_logo or page.brand_text %}
@@ -35,7 +35,13 @@
   </section>
 {% endif %}
 
-<div class="mt5 pa2 pa0-ns">
+{% if back %}
+  <div class="w-60-ns center mt2 dn db-ns">
+    <a href="/{{back}}"><button class="f6 f7-m link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise"><i class="fa fa-caret-left" aria-hidden="true"></i> Back to Results</button></a>
+  </div>
+{% endif %}
+
+<div class="mt4-ns mt5 pa2 pa0-ns">
   <div id="resource_{{page.id}}" class="resource">
     <div class="full-resource br1 ba bb-0 tl w-60-ns center">
       <div class="bb b--lm-grey ph2 pt2 pb0 pt3-ns ph4-ns">
