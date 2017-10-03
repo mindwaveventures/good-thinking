@@ -6,7 +6,7 @@ function handleGeolocationMessage () {
         console.log('Err: ', err);
         return;
       }
-      document.cookie = 'ldmw_location_zipcode=' + res;
+      document.cookie = 'ldmw_location_zipcode=' + res + ";path=/";
     });
   }
   if (document.cookie.indexOf('ldmw_shown_location_message') > -1) {
@@ -28,7 +28,7 @@ function handleGeolocationMessage () {
     select('#geolocation_message_id').style.MozTransition = 'opacity 1s';
     select('#geolocation_message_id').style.opacity = '0';
     select('#geolocation_message_id').style.zIndex = '-1';
-    document.cookie = 'ldmw_shown_location_message=1'; /* only lasts for browser session */
+    document.cookie = 'ldmw_shown_location_message=1;path=/'; /* only lasts for browser session */
   }
   window.setTimeout(removeGeolocation_message, 5000);
 }
@@ -39,7 +39,7 @@ if (navigator.geolocation) {
   } else {
     navigator.geolocation.getCurrentPosition(function (position) {
       var location = position.coords.latitude + ',' + position.coords.longitude;
-      document.cookie = 'ldmw_location_latlong=' + location;
+      document.cookie = 'ldmw_location_latlong=' + location  + ";path=/";
       window.location.reload();
     });
   }
