@@ -433,6 +433,7 @@ def assessment_controller(self, request, **kwargs):
 
     context["member_id"] = member_id
     context["traversal_id"] = traversal_id
+    context["first_question"] = (node_id == 0)
 
     try:
         context['parent'] = self.get_parent().slug
