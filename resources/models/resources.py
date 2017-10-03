@@ -362,6 +362,12 @@ class ResourcePage(AbstractForm):
     def get_context(self, request):
         context = super(ResourcePage, self).get_context(request)
 
+        if (
+            request.META.get('HTTP_REFERER') and
+            request.session.get('results_page')
+        ):
+            context['back'] = request.session.pop('results_page')
+
         if 'ldmw_session' in request.COOKIES:
             cookie = request.COOKIES['ldmw_session']
             try:
