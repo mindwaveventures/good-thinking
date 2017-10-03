@@ -30,15 +30,9 @@
         <title>
             {% block title %}
                 {% if self.seo_title %}
-                    Good Thinking
-                    {% if self.seo_title != "Home" %}
-                        | {{ self.seo_title }}
-                    {% endif %}
+                  {{ self.seo_title }} | {{self.get_site.site_name}}
                 {% else %}
-                    London Minds
-                    {% if self.title != "Home" %}
-                        | {{ self.title }}
-                    {% endif %}
+                  {{self.get_site.site_name}}
                 {% endif %}
             {% endblock %}
         </title>
