@@ -13,7 +13,7 @@ a {
   font-size: 1rem;
 }
 
-h1, .resource-brand .rich-text h2 {
+h1, .resource-brand .rich-text h2, .static-page .rich-text h2 {
   font-family: 'Montserrat', sans-serif;
   letter-spacing: 0.5pt;
   font-weight: 600;
