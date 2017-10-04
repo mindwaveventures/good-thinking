@@ -2,21 +2,38 @@
 
 <!-- Hero Image Block -->
 {% image page.hero_image width-1000 as hero_image %}
-<section class="pt6 ph4 ph5-m ph6-l tc lm-white cover lh-copy bg-center" style="background-image:url('{{ hero_image.url }}')">
-  <div class="pb3 w-90-ns f1-ns lh-title center">
-    <div class="mb4">
-      <h1>
-        {{ page.header }}
-      </h1>
-      {% if page.slug == 'home' %}
+<section class="cover bg-center" style="background-image:url('{{ hero_image.url }}')">
+  <div class="pt6 ph4 ph5-m ph6-l tc lm-white lh-copy">
+    <div class="pb3 w-90-ns f1-ns lh-title center">
+      <div class="mb4">
+        <h1>
+          {{ page.header }}
+        </h1>
+        {% if page.slug == 'home' %}
         <span class="f4 db segoe-bold">Browse some topics below</span>
         <a href="#topics"><i class="lm-orange lm-pink-hover fa fa-chevron-down browse-arrow" aria-hidden="true"></i></a>
-      {% endif %}
-    </div>
-    {% if page.video_url %}
+        {% endif %}
+      </div>
+      {% if page.video_url %}
       <div class="dib homepage_video_container v-mid ml5-l">
         {{ video_url }}
       </div>
-    {% endif %}
+      {% endif %}
+    </div>
   </div>
+  {% if page.slug == 'home' %}
+    <div id="topics" class="relative top--4 o-0"></div>
+    <div id="landing_page_navbar" class="dn dt--fixed dt-ns tc pv3 ph4 ph3-m ph3-l blurred_background_header bg-center w-100">
+      <div class="dib mv2-ns mv1 dtc-ns v-mid">
+        I am, or know someone who is, feeling:
+      </div>
+      {% for topic in landing_pages %}
+        <div class="dib mv2 mv1 dtc">
+          <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer v-mid">
+            <a class="ttu montserrat lm-black fw6 f6 link bb-hover bw2-hover lm-dark-turquoise-hover {% if page.url == topic.url %}bb bw2{% endif %}" href="/{{topic.slug}}">{{topic.title}}</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
 </section>

@@ -7,7 +7,7 @@
     {% include "resources/banner.html" with banner=page.banner %}
   {% endif %}
 
-  {% include "resources/components/hero-image.html" with page=page hero_image=hero_image %}
+  {% include "resources/components/hero-image.html" with page=page hero_image=hero_image landing_pages=landing_pages %}
 
   <div class="tc">
     {% include "resources/components/row.html" with render_template="resources/components/page-block.html" element_list=project_info_block length=2 width="w-40" class="mb2 pa3" %}
@@ -16,20 +16,6 @@
   {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages %}
 
   <section class="cubes">
-    <div id="topics" class="relative top--4 o-0"></div>
-    <div id="landing_page_navbar" class="dn dt--fixed dt-ns tc pv3 ph4 ph3-m ph3-l blurred_background_header bg-center w-100">
-      <div class="dib mv2-ns mv1 dtc-ns v-mid">
-        I am, or know someone who is, feeling:
-      </div>
-      {% for topic in landing_pages %}
-        <div class="dib mv2 mv1 dtc">
-          <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer v-mid">
-            <a class="ttu montserrat lm-black fw6 f6 link bb-hover bw2-hover lm-dark-turquoise-hover {% if page.url == topic.url %}bb bw2{% endif %}" href="/{{topic.slug}}">{{topic.title}}</a>
-          </div>
-        </div>
-      {% endfor %}
-    </div>
-
     <div class="pa5-ns">
       <div class="pa2-ns pa3 tc shadow-2 bg-white mb2 pb4 pt4">
         {% if landing_pages|length < 5 %}
