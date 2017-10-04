@@ -106,6 +106,10 @@ footer p a {
   line-height: 1.7;
 }
 
+.tag-selected, .tag-selected:hover {
+  background-color: #FF9e1b;
+}
+
 /* Landing Page - resource like buttons */
 
 .like, .like_no_hover {

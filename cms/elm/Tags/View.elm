@@ -76,7 +76,7 @@ render_tag_list : String -> List Tag -> Int -> Html Msg
 render_tag_list tag selected_tags num =
     div [ class "dib" ]
         [ button
-            [ class ("b--lm-orange lm-bg-orange-hover ba br2 ph2 pv1 lh-tag dib mb1 pointer montserrat mr1 " ++ (getTagColour (create_tag num tag) selected_tags))
+            [ class ("b--lm-orange ba br2 ph2 pv1 lh-tag dib mb1 pointer montserrat mr1 " ++ (getTagColour (create_tag num tag) selected_tags))
             , onClick (SelectTag (create_tag num tag))
             ]
             [ text tag ]
@@ -102,9 +102,9 @@ getPosition pos =
 getTagColour : Tag -> List Tag -> String
 getTagColour tag selected_tags =
     if List.member tag selected_tags then
-        "lm-bg-orange"
+        "tag-selected"
     else
-        "lm-bg-light-orange"
+        "lm-bg-light-orange lm-bg-orange-hover"
 
 
 create_tag : Int -> String -> Tag
