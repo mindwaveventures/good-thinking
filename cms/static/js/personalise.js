@@ -139,16 +139,27 @@ if (personaliseDiv) {
       });
     });
 
-    selectAll('.tip-next').forEach(function(el) {
-      el.addEventListener('click', function(e) {
-        app.ports.tipSwipe.send("left");
-      });
+    var nextButtons = selectAll('.tip-next');
+    var prevButtons = selectAll('.tip-previous');
+
+    nextButtons.forEach(function(el, i) {
+      if (i === nextButtons.length - 1) {
+        el.style.display = "none";
+      } else {
+        el.addEventListener('click', function(e) {
+          app.ports.tipSwipe.send("left");
+        });
+      }
     });
 
-    selectAll('.tip-previous').forEach(function(el) {
-      el.addEventListener('click', function(e) {
-        app.ports.tipSwipe.send("right");
-      });
+    prevButtons.forEach(function(el, i) {
+      if (i === 0 && prevButtons.length > 1) {
+        el.style.display = "none";
+      } else {
+        el.addEventListener('click', function(e) {
+          app.ports.tipSwipe.send("right");
+        });
+      }
     });
   }
 
