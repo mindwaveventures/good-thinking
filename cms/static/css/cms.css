@@ -536,8 +536,12 @@ lm-ls1 {
   width: 95%;
 }
 
-.footer-block:first-of-type {
+.footer-block {
   border-bottom: solid 1px #c2c2c2;
+}
+
+.footer-block:last-of-type {
+  border: none;
 }
 
 .left-40 {
