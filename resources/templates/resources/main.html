@@ -7,7 +7,7 @@
     {% include "resources/banner.html" with banner=page.banner %}
   {% endif %}
 
-  {% include "resources/components/hero-image.html" with page=page hero_image=hero_image %}
+  {% include "resources/components/hero-image.html" with page=page hero_image=hero_image landing_pages=landing_pages %}
 
   <div class="tc">
     {% include "resources/components/row.html" with render_template="resources/components/page-block.html" element_list=project_info_block length=2 width="w-40" class="mb2 pa3" %}
@@ -16,22 +16,8 @@
   {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages %}
 
   <section class="cubes">
-    <div id="topics" class="relative top--4 o-0"></div>
-    <div id="landing_page_navbar" class="dn dt--fixed dt-ns tc pv3 ph4 ph3-m ph3-l blurred_background_header bg-center w-100">
-      <div class="dib mv2-ns mv1 dtc-ns v-mid">
-        I am, or know someone who is, feeling:
-      </div>
-      {% for topic in landing_pages %}
-        <div class="dib mv2 mv1 dtc">
-          <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer v-mid">
-            <a class="ttu montserrat lm-black fw6 f6 link bb-hover bw2-hover lm-dark-turquoise-hover {% if page.url == topic.url %}bb bw2{% endif %}" href="/{{topic.slug}}">{{topic.title}}</a>
-          </div>
-        </div>
-      {% endfor %}
-    </div>
-
     <div class="pa5-ns">
-      <div class="pa2-ns pa3 tc shadow-2 bg-white mb2 pb4 pt4">
+      <div class="pa2-ns pa3 tc mb2 pb4 pt4">
         {% if landing_pages|length < 5 %}
           {% include "resources/components/row.html" with render_template="resources/components/topic-card.html" element_list=landing_pages length=2 width="w-40" class="mb4" %}
         {% else %}
@@ -39,34 +25,36 @@
         {% endif %}
       </div>
 
-      <div class="ph4-ns tc shadow-2 pv2 bg-white">
-        <form action="{% pageurl page %}" method="POST">
-          {% csrf_token %}
-          <section class="tc-ns tl-m w-100 pa1 ph4 ph3-m ph3-l pb4 pb5-l" id="suggestion_form">
-            <div class="w-70-ns center">
-              <p>
-                Are we missing something? Tell us how you're feeling so we know what content we need to add next:
-              </p>
-              {% for row in custom_form %}
+      <div class="pa2-ns pa3 tc mb2 pb4 pt4">
+        <div class="ph4-ns tc shadow-2 pv2 bg-white w-80-ns center">
+          <form action="{% pageurl page %}" method="POST">
+            {% csrf_token %}
+            <section class="tc-ns tl-m w-100 pa1 ph4 ph3-m ph3-l pb3" id="suggestion_form">
+              <div class="w-80-ns center">
+                <p>
+                  Are we missing something? Tell us how you're feeling so we know what content we need to add next:
+                </p>
+                {% for row in custom_form %}
                 {% if row.field_type == 'multiline' %}
-                  <div>
-                    {% if row.suggestion_submitted %}
-                      <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-green b--lm-green relative">
-                        Suggestions submitted successfully!
-                        <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
-                      </div>
-                    {% else %}
-                      <div class="dt dt--fixed">
-                        <label for="id_{{row.label}}" class="dn"></label>
-                        <textarea id="id_{{row.label}}" name="{{row.label}}" class="dtc h2 f5 w-95-ns w-80 pa1 nr b--lm-dark-turquoise"></textarea>
-                        <button type="submit" class="f5 h2 w-5-ns w-20 fr link dtc pa1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba b--lm-dark-turquoise">></button>
-                      </div>
-                    {% endif %}
+                <div>
+                  {% if row.suggestion_submitted %}
+                  <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-green b--lm-green relative">
+                    Suggestions submitted successfully!
+                    <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
                   </div>
+                  {% else %}
+                  <div class="dt dt--fixed">
+                    <label for="id_{{row.label}}" class="dn"></label>
+                    <textarea id="id_{{row.label}}" name="{{row.label}}" class="dtc h2 f5 w-95-ns w-80 pa1 nr b--lm-dark-turquoise"></textarea>
+                    <button type="submit" class="f5 h2 w-5-ns w-20 fr link dtc pa1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba b--lm-dark-turquoise"><i class="fa fa-caret-right" aria-hidden="true"></i></button>
+                  </div>
+                  {% endif %}
+                </div>
                 {% endif %}
-              {% endfor %}
-            </div>
-          </section>
+                {% endfor %}
+              </div>
+            </section>
+          </div>
       </div>
     </div>
   </section>
