@@ -278,6 +278,8 @@ class Home(AbstractForm):
         return custom_form_submission(self, request_dict)
 
     def serve(self, request, *args, **kwargs):
+        request.session['results_page'] = self.slug
+
         path_components = kwargs.get('path_components', [])
         return custom_serve(**locals())
 
