@@ -4,9 +4,9 @@ if (personaliseDiv) {
   var issue_tags = getTags('q1')
   var reason_tags = getTags('q2')
   var content_tags = getTags('q3')
-  var issue_label = document.getElementById('q1_label').innerText;
-  var reason_label = document.getElementById('q2_label').innerText;
-  var content_label = document.getElementById('q3_label').innerText;
+  var issue_label = document.getElementById('q1_label').innerHTML;
+  var reason_label = document.getElementById('q2_label').innerHTML;
+  var content_label = document.getElementById('q3_label').innerHTML;
 
   var selected_tags = selectedTags(getQuery('q1', 'q2', 'q3'));
 

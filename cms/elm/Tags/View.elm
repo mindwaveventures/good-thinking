@@ -37,9 +37,8 @@ render_filter_block model num filter_label tags classname =
                 (ChangePosition num)
             )
         ]
-        ([ h3 [ class "ma0 pl1" ] [ text ("Q" ++ (toString num) ++ " of 3") ]
-         , p [ class "w-70 mv3 pl1" ] [ text filter_label ]
-         ]
+        ([ h3 [ class "ma0 pl1" ] [ text ("Q" ++ (toString num) ++ " of 3") ] ]
+            ++ (multi_line filter_label)
             ++ [ div
                     [ class
                         ("pv2 pl1 overflow-scroll h4-ns"
@@ -166,3 +165,8 @@ next_button pos =
                 [ div [ class "dib montserrat fw6 w-50 w-auto-ns mr3" ] [ text "next question" ]
                 , div [ class "v-mid h2 br-100 w2 pa1 ml2 dib next_right" ] []
                 ]
+
+
+multi_line : String -> List (Html Msg)
+multi_line str =
+    List.map (\e -> p [] [ text e ]) (String.lines str)
