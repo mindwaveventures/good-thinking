@@ -1,11 +1,16 @@
 {% load wagtailcore_tags new_tab %}
 
 <div class="lm-bg-white pa3 w-100 f6 f5-l f5-m banner segoe fixed top-0 z-5 dt-ns dt--fixed-ns shadow-2" id="beta-banner">
-  {% if page.slug != "home"%}
     <div class="dtc-ns w-10-l w-15-m dn tl v-mid banner_buttons">
-      <a href="/" class="f6 f7-m link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise">Home</a>
+      <a href="/"
+        {% if page.slug != "home" %}
+          class="f6 f7-m link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise"
+        {% else %}
+          class="f5 link dib ph3 pv2 br1 pointer montserrat tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba b--lm-dark-turquoise"
+        {% endif %}
+      >Home</a>
     </div>
-  {% endif %}
+
   <div class="dtc-ns w-50-l w-30-m v-mid banner">
     {{banner|new_tab|richtext}}
   </div>
