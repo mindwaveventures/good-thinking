@@ -138,6 +138,18 @@ if (personaliseDiv) {
         app.ports.tipSwipe.send(swipedir);
       });
     });
+
+    selectAll('.tip-next').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        app.ports.tipSwipe.send("left");
+      });
+    });
+
+    selectAll('.tip-previous').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        app.ports.tipSwipe.send("right");
+      });
+    });
   }
 
   function getPage() {
