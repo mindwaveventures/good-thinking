@@ -1,6 +1,7 @@
 var personaliseDiv = document.getElementById('elm-personalise');
 
 if (personaliseDiv) {
+  var height = getHeight();
   var issue_tags = getTags('q1')
   var reason_tags = getTags('q2')
   var content_tags = getTags('q3')
@@ -20,7 +21,8 @@ if (personaliseDiv) {
     selected_tags: selected_tags,
     order: getOrder(),
     search: getQuery('q').q[0] || "",
-    page: getPage()
+    page: getPage(),
+    height: height + 10 // A little extra space needed so tags don't get cut off
   });
 
   function getTags(name) {
@@ -256,6 +258,12 @@ if (personaliseDiv) {
     }
 
     return reg.test(window.location.href) || singleIssueReg.test(window.location.href);
+  }
+
+  function getHeight() {
+    return Math.max.apply(null, selectAll('.filter-block .tag-container').map(function(el) {
+      return el.clientHeight;
+    }));
   }
 
   swipeListeners();
