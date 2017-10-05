@@ -14,27 +14,38 @@ view model tips classname =
         1 ->
             case List.head tips of
                 Just tip ->
-                    tip_view 0 tip ("w-60-ns center " ++ classname)
+                    tip_view model 0 tip ("w-60-ns center " ++ classname)
 
                 Nothing ->
                     div [] []
 
         2 ->
-            div [ class "overflow-hidden" ]
+            div
+                [ class "overflow-hidden" ]
                 [ div [ class (classname ++ " tag-container w-200-ns w-330 relative center " ++ (getPosition model.tip_position)) ]
-                    (List.indexedMap (\i el -> tip_view i el "dib w-30 mr-1p-ns mr-1p") tips)
+                    (List.indexedMap (\i el -> tip_view model i el "dib w-30 mr-1p-ns mr-1p") tips)
                 ]
 
         _ ->
             div [ class "overflow-hidden" ]
                 [ div [ class ("tag-container w-200-ns w-330 relative center " ++ (getPositionThree model.tip_position)) ]
-                    (List.indexedMap (\i el -> tip_view i el ("dib w-30 mr-1p-ns mr-1p " ++ classname)) tips)
+                    (List.indexedMap (\i el -> tip_view model i el ("dib w-30 mr-1p-ns mr-1p " ++ classname)) tips)
                 ]
 
 
-tip_view : Int -> String -> String -> Html Msg
-tip_view index page classname =
-    div [ onClick (ChangeTipPosition (index + 1)), property "innerHTML" (Json.Encode.string page), class classname ] []
+tip_view : Model -> Int -> String -> String -> Html Msg
+tip_view model index page classname =
+    div
+        [ onClick
+            (if (model.tag_position == (index + 1)) then
+                NoOp
+             else
+                (ChangePosition (index + 1))
+            )
+        , property "innerHTML" (Json.Encode.string page)
+        , class classname
+        ]
+        []
 
 
 getPosition : Int -> String

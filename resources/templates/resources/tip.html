@@ -1,8 +1,8 @@
 {% load wagtailcore_tags new_tab %}
 
 <div id="tip{{page.id}}" class="tip tip-card">
-  <div class="br1 tl center ba b--lm-turquoise lm-bg-light-turquoise mt4">
-    <div class="ph3 pv2 pv3-ns ph4-ns copy">
+  <div class="br1 tl center ba b--lm-turquoise lm-bg-light-turquoise mt4 relative">
+    <div class="ph3 pv2 pv3-ns ph4-ns copy mb4">
       <div class="f3 tc">
         <i class="fa fa-quote-left lm-turquoise" aria-hidden="true"></i>
         <i class="fa fa-quote-right lm-turquoise" aria-hidden="true"></i>
@@ -14,6 +14,19 @@
         <p>
           {{page.credit}}
         </p>
+      </div>
+    </div>
+
+    <div class="mt3 absolute bottom-1 w-100 ph4-ns ph1 left-0 dt dt--fixed">
+      <div class="w-50 dtc tl">
+        <button class="tl dib bn pointer pa0 bg-transparent tip-previous">
+          <div class="v-mid h2 br-100 w2 pa1 mr2 dib next_left"></div>
+        </button>
+      </div>
+      <div class="dtc tr">
+        <button class="tr dib bn pointer pa0 bg-transparent tip-next">
+          <div class="v-mid h2 br-100 w2 pa1 ml2 dib next_right"></div>
+        </button>
       </div>
     </div>
   </div>
