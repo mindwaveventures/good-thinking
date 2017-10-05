@@ -55,7 +55,7 @@
         {% elif logo %}
           <meta property="og:image" content="{{logo.url}}" />
         {% endif %}
-        <meta property="og:description" content="From helping you sleep better, to identifying opportunities to talk to like-minded people: whatever it is that you need, we will help you find it." />
+        <meta property="og:description" content="{{page.search_description}}" />
 
         {# Global stylesheets #}
         {% block extra_css %}
