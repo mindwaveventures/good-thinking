@@ -11,9 +11,10 @@ a {
   color: inherit;
   font-weight: 600;
   font-size: 1rem;
+  text-decoration: none;
 }
 
-h1, .resource-brand .rich-text h2 {
+h1, .resource-brand .rich-text h2, .static-page .rich-text h2 {
   font-family: 'Montserrat', sans-serif;
   letter-spacing: 0.5pt;
   font-weight: 600;
@@ -83,19 +84,23 @@ button, button a {
 
 .banner p a:hover {
   color: #de2183;
+  text-decoration: underline;
 }
 
-.resource .copy a:not(button a) {
+.copy a {
   color: #008099;
   font-size: 14px;
   text-decoration: none;
 }
 
-.resource .copy a:hover:not(button a) {
+.copy a:hover {
   color: #de2183;
+  text-decoration: underline;
 }
 
-.copy button a {
+.copy button a, .copy button a:hover {
+  color: inherit;
+  font-size: 1rem;
   word-break: normal;
 }
 

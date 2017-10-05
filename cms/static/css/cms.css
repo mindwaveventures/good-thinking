@@ -106,6 +106,10 @@ footer p a {
   line-height: 1.7;
 }
 
+.tag-selected, .tag-selected:hover {
+  background-color: #FF9e1b;
+}
+
 /* Landing Page - resource like buttons */
 
 .like, .like_no_hover {
@@ -532,8 +536,12 @@ lm-ls1 {
   width: 95%;
 }
 
-.footer-block:first-of-type {
+.footer-block {
   border-bottom: solid 1px #c2c2c2;
+}
+
+.footer-block:last-of-type {
+  border: none;
 }
 
 .left-40 {
