@@ -10,7 +10,7 @@ import urllib.request
 import os
 import json
 
-from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag
+from resources.models.tags import IssueTag, ReasonTag, ContentTag
 from resources.models.helpers import (
     create_tag_combiner, count_likes, filter_tags,
     get_tags, get_order, get_relevance, base_context
@@ -122,11 +122,6 @@ def get_data(request, **kwargs):
     if slug != 'home':
         topic_filter = slug
 
-    issue_tags = get_tags(IssueTag)
-    content_tags = get_tags(ContentTag)
-    reason_tags = get_tags(ReasonTag)
-    topic_tags = get_tags(TopicTag)
-
     selected_tags = list(chain(
         tag_filter,
         issue_filter,
@@ -201,19 +196,6 @@ def get_data(request, **kwargs):
         excluded_tags = (
             Home.objects.get(slug=topic_filter).specific.exclude_tags.all()
         )
-    else:
-        data['issue_tags'] = issue_tags.values()
-        data['content_tags'] = content_tags.values()
-        data['reason_tags'] = reason_tags.values()
-        excluded_tags = []
-
-    if (tag_filter):
-        resources = resources.filter(
-            Q(content_tags__name__in=tag_filter) |
-            Q(reason_tags__name__in=tag_filter) |
-            Q(issue_tags__name__in=tag_filter) |
-            Q(topic_tags__name__in=tag_filter)
-        ).distinct()
 
     tips = filter_resources(
         Tip.objects.all(),
@@ -253,7 +235,6 @@ def get_data(request, **kwargs):
     data['tips'] = tips
     data['assessments'] = assessments
     data['resource_count'] = resources.count() + tips.count()
-    data['topic_tags'] = topic_tags.values()
     data['selected_topic'] = topic_filter
     data['selected_tags'] = selected_tags
 
