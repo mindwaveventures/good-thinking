@@ -12,7 +12,7 @@ from django.apps import apps
 
 
 def get_tags(tag_type, **kwargs):
-    filtered_tags = kwargs.get('filtered_tags', tag_type.objects.all())
+    filtered_tags = kwargs.get('filtered_tags', tag_type.objects.values('id'))
     tag_ids = [tag.tag_id for tag in filtered_tags]
     tags = Tag.objects.in_bulk(tag_ids)
 

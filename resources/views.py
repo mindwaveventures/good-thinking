@@ -134,7 +134,10 @@ def get_data(request, **kwargs):
         + 'where resource_id = resources_resourcepage.page_ptr_id ' \
         + 'and like_value = %s'
 
-    resources = get_order(ResourcePage.objects.all().annotate(
+    resources = get_order(ResourcePage.objects.all().defer(
+        'background_color', 'brand_logo_id', 'brand_text',
+        'hero_image_id', 'text_color'
+    ).annotate(
         score=(count_likes(1) - count_likes(-1)),
         relevance=(get_relevance(selected_tags))
     ), resource_order).live()
@@ -196,6 +199,8 @@ def get_data(request, **kwargs):
         excluded_tags = (
             Home.objects.get(slug=topic_filter).specific.exclude_tags.all()
         )
+    else:
+        excluded_tags = []
 
     tips = filter_resources(
         Tip.objects.all(),
@@ -249,7 +254,7 @@ def add_near(request, el):
             el.specific.is_near = any(
                 filter(
                     lambda e: within_mile(e, user_lat, user_long),
-                    el.specific.latlong.all()
+                    el.specific.latlong.values('latitude', 'longitude')
                 )
             )
         except:
