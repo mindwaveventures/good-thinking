@@ -138,6 +138,29 @@ if (personaliseDiv) {
         app.ports.tipSwipe.send(swipedir);
       });
     });
+
+    var nextButtons = selectAll('.tip-next');
+    var prevButtons = selectAll('.tip-previous');
+
+    nextButtons.forEach(function(el, i) {
+      if (i === nextButtons.length - 1) {
+        el.style.display = "none";
+      } else {
+        el.addEventListener('click', function(e) {
+          app.ports.tipSwipe.send("left");
+        });
+      }
+    });
+
+    prevButtons.forEach(function(el, i) {
+      if (i === 0 && prevButtons.length > 1) {
+        el.style.display = "none";
+      } else {
+        el.addEventListener('click', function(e) {
+          app.ports.tipSwipe.send("right");
+        });
+      }
+    });
   }
 
   function getPage() {
