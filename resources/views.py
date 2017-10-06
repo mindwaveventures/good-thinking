@@ -28,6 +28,8 @@ from django.core.paginator import Paginator
 
 import requests
 
+e24_url = "http://apps.expert-24.com/WebBuilder/TraversalService/"
+
 
 def get_location(request):
     google_maps_key = os.environ.get('GOOGLE_MAPS_KEY')
@@ -380,10 +382,7 @@ def assessment_controller(self, request, **kwargs):
             prms[params.get(a)] = ""
 
     if not (params.get("member_id") and params.get("traversal_id")):
-        r = requests.get(
-            "http://apps.expert-24.com/WebBuilder/"
-            + "TraversalService/Member?callback=raw"
-        )
+        r = requests.get(f"{e24_url}/Member?callback=raw")
 
         response = r.json()
         member_id = response["Table"][0]["MemberID"]
@@ -416,7 +415,7 @@ def assessment_controller(self, request, **kwargs):
     else:
         direction = "Next"
 
-    url = f"http://apps.expert-24.com/WebBuilder/TraversalService/" \
+    url = f"{e24_url}/" \
         + f"{direction}/{traversal_id}/{member_id}/" \
         + f"{algo_id}/{node_id}?callback=raw"
 
@@ -447,7 +446,7 @@ def assessment_controller(self, request, **kwargs):
 
     if params.get("q_info") or params.get("a_info"):
         context["info"] = requests.get(
-            f"http://apps.expert-24.com/WebBuilder/TraversalService/Info/"
+            f"{e24_url}/Info/"
             + f"{traversal_id}/{member_id}?callback=raw&@NodeTypeID="
             + f"{node_type_id}&@AssetID={asset_id}"
         ).json()
@@ -466,7 +465,7 @@ def assessment_summary_controller(request, **kwargs):
     member_id = request.POST.get("member_id")
 
     context = requests.get(
-        f"http://apps.expert-24.com/WebBuilder/TraversalService/Summary/"
+        f"{e24_url}/Summary/"
         + f"{traversal_id}/{member_id}?callback=raw"
     ).json()
 
