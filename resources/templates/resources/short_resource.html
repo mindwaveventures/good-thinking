@@ -32,7 +32,7 @@
         {% endif %}
       </div>
       <div class="copy dib">
-        {{ page.body|truncatechars:200|continue_reading:page|new_tab|richtext }}
+        {{ page.body|truncatechars_html:200|continue_reading:page|new_tab|richtext }}
       </div>
     </div>
     <div class="pt3">
