@@ -23,7 +23,7 @@ render_filter_block : Model -> Int -> String -> List String -> String -> Html Ms
 render_filter_block model num filter_label tags classname =
     div
         [ class
-            ("tag-card br1 shadow-2 w-30 tl pa3 mb3 dib h5-5-ns h7 v-mid relative "
+            ("tag-card br1 shadow-2 w-30 tl pa3 mb3 dib v-mid relative "
                 ++ classname
                 ++ if not (is_active model num) then
                     " pointer"
@@ -41,12 +41,13 @@ render_filter_block model num filter_label tags classname =
             ++ (multi_line filter_label)
             ++ [ div
                     [ class
-                        ("pv2 pl1 overflow-scroll h4-ns"
-                            ++ if (List.length tags) > 10 then
+                        ("mb5 pv2 pl1 overflow-scroll overflow-hidden-ns h4-s-i"
+                            ++ if (List.length tags) > 8 then
                                 " mobile-scrollbars"
                                else
                                 ""
                         )
+                    , style [ ( "height", (toString model.height) ++ "px" ) ]
                     ]
                     ([] ++ (List.map (\t -> render_tag_list t model.selected_tags num) tags))
                ]
