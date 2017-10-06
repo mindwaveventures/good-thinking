@@ -4,10 +4,10 @@ function handleViewProsCons (e, el) {
 }
 
 function changeInnerHtml (el) {
-  if (el.innerHTML === "View pros and cons") {
-    el.innerHTML = "Hide pros and cons";
+  if (el.innerHTML === 'View pros and cons') {
+    el.innerHTML = 'Hide pros and cons';
   } else {
-    el.innerHTML = "View pros and cons";
+    el.innerHTML = 'View pros and cons';
   }
 }
 
@@ -19,4 +19,15 @@ function proConListeners() {
   });
 }
 
-proConListeners();
+function reverseVisibility () {
+  console.log(selectAll('.view_pcs').length);
+}
+
+function hasProsAndCons () {
+  console.log("called");
+  if (selectAll('.view_pcs') && isMobile()) {
+    // switch the display
+    console.log("hi");
+    reverseVisibility();
+  }
+}
