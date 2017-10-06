@@ -295,7 +295,7 @@ code {
 }
 
 .inner-shadow-active:active {
-  box-shadow: 0 2px 7px 0 #000000 inset;
+  box-shadow: 0 2px 7px 0 #949494 inset;
 }
 
 .feedback-form-section {
