@@ -158,5 +158,11 @@
   </script>
   </div>
 
+  {% if resources %}
+    {% for r in resources %}
+      {% include "resources/short_resource.html" with page=r %}
+    {% endfor %}
+  {% endif %}
+
   {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
 {% endblock %}

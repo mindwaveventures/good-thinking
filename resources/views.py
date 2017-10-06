@@ -369,6 +369,7 @@ def filter_resources(resources, **kwargs):
 
 
 def assessment_controller(self, request, **kwargs):
+    ResourcePage = apps.get_model('resources', 'resourcepage')
     params = request.POST
 
     answers = filter(lambda p: p[:2] == "Q_", params)
@@ -382,7 +383,7 @@ def assessment_controller(self, request, **kwargs):
             prms[params.get(a)] = ""
 
     if not (params.get("member_id") and params.get("traversal_id")):
-        r = requests.get(f"{e24_url}/Member?callback=raw")
+        r = requests.get(f"{e24_url}/Member?callback=raw&@usertype=300")
 
         response = r.json()
         member_id = response["Table"][0]["MemberID"]
@@ -430,6 +431,16 @@ def assessment_controller(self, request, **kwargs):
 
     context = r2.json()
 
+    try:
+        tags = context["Report"]["DispositionProperties"]["Tags"]
+        resources = ResourcePage.objects.filter(
+            hidden_tags__name__in=tags
+        ).filter(
+            topic_tags__name__in=self.topic_tags.names()
+        )
+    except:
+        resources = []
+
     context["member_id"] = member_id
     context["traversal_id"] = traversal_id
     context["first_question"] = (node_id == 0)
@@ -441,6 +452,7 @@ def assessment_controller(self, request, **kwargs):
         context['parent'] = None
         context['slug'] = None
 
+    context['resources'] = resources
     context['heading'] = self.heading
     context['body'] = self.body
 
