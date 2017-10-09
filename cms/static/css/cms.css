@@ -699,11 +699,19 @@ lm-ls1 {
   .mr-1p-l {
     margin-right: 1%;
   }
+
+  .mt-2-4-l {
+    margin-top: 2.4rem
+  }
 }
 
 @media screen and (max-width: 60em) and (min-width: 30em) {
   .w-15-m {
     width: 15%;
+  }
+
+  .mt-2-8-m {
+    margin-top: 2.8rem
   }
 }
 
