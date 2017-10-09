@@ -15,7 +15,7 @@ view model =
     div []
         [ Tags.view model
         , div [ class "pa1 ph3" ]
-            [ div [ class "w-60-ns center" ]
+            [ div [ class "w-60-l center" ]
                 [ div [ class "w-50-ns dib-ns tl" ]
                     [ div [ id "results", class "relative top--3 o-0" ] []
                     , h3 [ class "tl mt5 nunito" ]
