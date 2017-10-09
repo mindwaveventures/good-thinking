@@ -715,6 +715,20 @@ lm-ls1 {
   }
 }
 
+@media screen and (max-width: 65em) and (min-width: 60em) {
+  .h4-5-ml {
+    height: 13rem;
+  }
+
+  .bottom--1-6-ml {
+    bottom: -1.6rem
+  }
+
+  .mb3-ml {
+    margin-bottom: 1rem;
+  }
+}
+
 @media screen and (max-width:30em) {
   .h4-s-i {
     height: 10rem !important;
