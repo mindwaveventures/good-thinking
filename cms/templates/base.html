@@ -45,7 +45,7 @@
         <meta name="twitter:creator" content="@goodthinkinguk" />
 
         <!-- open graph data -->
-        <meta property="og:url" content="https://londonminds.co.uk{% if page.parent %}/{{page.parent}}{% endif %}/{{page.slug}}" />
+        <meta property="og:url" content="https://good-thinking.uk{% if page.parent %}/{{page.parent}}{% endif %}/{{page.slug}}" />
         <meta property="og:title" content="{{page.title}}" />
         {% load wagtailcore_tags wagtailimages_tags %}
         {% image page.hero_image width-500 as img %}
@@ -55,7 +55,7 @@
         {% elif logo %}
           <meta property="og:image" content="{{logo.url}}" />
         {% endif %}
-        <meta property="og:description" content="From helping you sleep better, to identifying opportunities to talk to like-minded people: whatever it is that you need, we will help you find it." />
+        <meta property="og:description" content="{{page.search_description}}" />
 
         {# Global stylesheets #}
         {% block extra_css %}
@@ -71,6 +71,15 @@
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
+      <!-- Google Translate -->
+      <div id="google_translate_element"></div>
+      <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT}, 'google_translate_element');
+        }
+      </script>
+      <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+      <!-- End Google Translate -->
       <!-- Google Tag Manager (noscript) -->
       <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF8GGT7"
       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
