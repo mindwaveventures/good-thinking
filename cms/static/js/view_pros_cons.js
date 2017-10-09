@@ -43,3 +43,5 @@ function mobileProsAndCons () {
     proConListeners();
   }
 }
+
+mobileProsAndCons();
