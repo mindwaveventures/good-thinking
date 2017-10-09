@@ -68,10 +68,10 @@ if (personaliseDiv) {
   app.ports.listeners.subscribe(function(res) {
     requestAnimationFrame(function() {
       likeListeners();
-      proConListeners();
       feedbackLoopListener();
       swipeListeners();
       analyticsListeners();
+      mobileProsAndCons();
     });
   });
 
