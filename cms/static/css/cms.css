@@ -540,8 +540,8 @@ lm-ls1 {
   border-bottom: solid 1px #c2c2c2;
 }
 
-.footer-block:last-of-type {
-  border: none;
+.footer-block:first-of-type {
+  border-top: solid 1px #c2c2c2;
 }
 
 .left-40 {
