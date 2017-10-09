@@ -3,10 +3,10 @@
 <div id="resource_{{page.id}}" class="resource mb4 mt4">
   <div class="br1 ba shadow-2 tl w-60-ns center">
     <div class="b--lm-grey bb ph3 pt2 pb0 pt3-ns ph4-ns">
-      <h2 class="mt0 mb1 resource_title pv1"><a class="link lm-dark-turquoise lm-pink-hover f3" href="/{{page.parent}}/{{page.slug}}/">{{ page.heading }}</a></h2>
-      <div class="fr asdf">
+      <h2 class="mt0 mb1 resource_title pv1 di"><a class="link lm-dark-turquoise lm-pink-hover f3" href="/{{page.parent}}/{{page.slug}}/">{{ page.heading }}</a></h2>
+      <div class="fr">
         {% for badge in page.badges.all %}
-        <div>
+        <div class="mv1">
           <div
           style="color:{{badge.badge_text_color}};background-color:{{badge.badge_color}}"
           class="pv2 ph3 bw1 ba br-pill b--lm-turquoise">
