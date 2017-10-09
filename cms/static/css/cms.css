@@ -628,24 +628,12 @@ lm-ls1 {
     margin-right: 1%;
   }
 
-  .r-50-ns {
-    right: 50%;
-  }
-
   .r-49-ns {
     right: 49%;
   }
 
-  .r-112-ns {
-    right: 112%;
-  }
-
   .r-111-ns {
     right: 111%;
-  }
-
-  .l-12-ns {
-    right: -12%;
   }
 
   .l-13-ns {
@@ -690,6 +678,26 @@ lm-ls1 {
 
   .bottom--1-2-l {
     bottom: -1.2rem;
+  }
+
+  .w-200-l {
+    width: 200%;
+  }
+
+  .l-12-l {
+    right: -12%;
+  }
+
+  .r-50-l {
+    right: 50%;
+  }
+
+  .r-112-l {
+    right: 112%;
+  }
+
+  .mr-1p-l {
+    margin-right: 1%;
   }
 }
 
