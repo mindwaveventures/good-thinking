@@ -3,8 +3,6 @@ from django.db.models import Sum, Case, When, Count, Q
 
 from taggit.models import Tag
 from itertools import chain
-import threading
-import queue
 
 from resources.models.tags import ContentTag, IssueTag, ReasonTag
 
@@ -88,49 +86,19 @@ def filter_tags(resources, topic):
     exclude_tags = Home.objects.get(slug=topic).specific.exclude_tags.all()
     topic_tag = Tag.objects.filter(name=topic)
 
-    contains_tag_filter = makefilter(topic)
+    exclude = chain(exclude_tags, topic_tag)
 
-    fil = list(map(lambda r: r.id, filter(contains_tag_filter, resources)))
-    q = queue.Queue()
-
-    threads = [
-        threading.Thread(
-            target=filter_resource_by_topic,
-            name=t,
-            args=(fil, t, q)
-        )
-        for t in [ContentTag, IssueTag, ReasonTag]
-    ]
-
-    # Using threads to make sure all db calls
-    # are completed before function returns
-
-    for th in threads:
-        th.start()
-
-    content_tags = q.get().exclude(
-        tag__in=list(chain(exclude_tags, topic_tag))
-    )
-    issue_tags = q.get().exclude(
-        tag__in=list(chain(exclude_tags, topic_tag))
-    )
-    reason_tags = q.get().exclude(
-        tag__in=list(chain(exclude_tags, topic_tag))
-    )
+    issue_tags = filter_resource_by_topic(resources, IssueTag, exclude)
+    reason_tags = filter_resource_by_topic(resources, ReasonTag, exclude)
+    content_tags = filter_resource_by_topic(resources, ContentTag, exclude)
 
     return issue_tags, reason_tags, content_tags
 
 
-def makefilter(t):
-    def contains_tag(r):
-        return any(
-            filter(lambda tag: tag.name == t, r.specific.topic_tags.all())
-        )
-    return contains_tag
-
-
-def filter_resource_by_topic(resource_ids, tag_type, result_queue):
-    result_queue.put(tag_type.objects.filter(content_object__in=resource_ids))
+def filter_resource_by_topic(resource_ids, tag_type, exclude):
+    return tag_type.objects.filter(content_object__in=resource_ids).exclude(
+        tag__in=exclude
+    )
 
 
 def valid_request(request_dict):

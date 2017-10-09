@@ -12,7 +12,7 @@ import json
 
 from resources.models.tags import IssueTag, ReasonTag, ContentTag
 from resources.models.helpers import (
-    create_tag_combiner, count_likes, filter_tags,
+    count_likes, filter_tags,
     get_tags, get_order, get_relevance, base_context
 )
 
@@ -171,6 +171,34 @@ def get_data(request, **kwargs):
             user_cookie=cookie
         )
 
+    tips = filter_resources(
+        Tip.objects.all(),
+        tag_filter=tag_filter,
+        issue_filter=issue_filter,
+        topic_filter=topic_filter,
+        query=query
+    )
+
+    assessments = filter_resources(
+        Assessment.objects.all(),
+        tag_filter=tag_filter,
+        issue_filter=issue_filter,
+        topic_filter=topic_filter,
+        query=query
+    )
+
+    resources = filter_resources(
+        resources,
+        tag_filter=tag_filter,
+        issue_filter=issue_filter,
+        topic_filter=topic_filter,
+        query=query
+    ).filter(~Q(page_ptr_id__in=list(
+        chain(tips, assessments)))
+    ).prefetch_related('badges')
+
+    paged_resources = get_paged_resources(request, resources)
+
     if topic_filter:
         (
             filtered_issue_tags,
@@ -196,43 +224,9 @@ def get_data(request, **kwargs):
                 filtered_tags=filtered_reason_tags
             ).values()
 
-        excluded_tags = (
-            Home.objects.get(slug=topic_filter).specific.exclude_tags.all()
-        )
-    else:
-        excluded_tags = []
-
-    tips = filter_resources(
-        Tip.objects.all(),
-        tag_filter=tag_filter,
-        issue_filter=issue_filter,
-        topic_filter=topic_filter,
-        query=query
-    )
-
-    assessments = filter_resources(
-        Assessment.objects.all(),
-        tag_filter=tag_filter,
-        issue_filter=issue_filter,
-        topic_filter=topic_filter,
-        query=query
-    )
-
-    resources = filter_resources(
-        resources,
-        tag_filter=tag_filter,
-        issue_filter=issue_filter,
-        topic_filter=topic_filter,
-        query=query
-    ).filter(~Q(page_ptr_id__in=list(chain(tips, assessments))))
-
-    paged_resources = get_paged_resources(request, resources)
-
-    combine_tags = create_tag_combiner(excluded_tags)
-
     filtered_resources = map(
         lambda el: add_near(request, el),
-        map(combine_tags, paged_resources)
+        paged_resources
     )
 
     data['landing_pages'] = Home.objects.filter(~Q(slug="home")).live()
@@ -251,10 +245,11 @@ def add_near(request, el):
         try:
             location = request.COOKIES['ldmw_location_latlong']
             [user_lat, user_long] = location.split(",")
+            latlong = el.specific.latlong.values('latitude', 'longitude')
             el.specific.is_near = any(
                 filter(
                     lambda e: within_mile(e, user_lat, user_long),
-                    el.specific.latlong.values('latitude', 'longitude')
+                    latlong
                 )
             )
         except:
