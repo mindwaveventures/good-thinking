@@ -16,10 +16,10 @@
   {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages %}
 
   <section class="cubes">
-    <div class="pa5-ns">
-      <div class="pa2-ns pa3 tc mb2 pb4 pt4">
+    <div class="ph5-ns pt5-ns">
+      <div class="pa2-ns ph3 tc mb2 pb3">
         {% if landing_pages|length < 5 %}
-          {% include "resources/components/row.html" with render_template="resources/components/topic-card.html" element_list=landing_pages length=2 width="w-40" class="mb4" %}
+          {% include "resources/components/row.html" with render_template="resources/components/topic-card.html" element_list=landing_pages length=2 width="w-40" class="mb4-l" %}
         {% else %}
           {% include "resources/components/row.html" with render_template="resources/components/topic-card.html" element_list=landing_pages length=3 width="w-30" class="mb4" %}
         {% endif %}
