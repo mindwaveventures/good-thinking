@@ -20,17 +20,6 @@
       </div>
       {% endif %}
       </div>
-      <div class="truncate">
-        {% if page.resource_url %}
-          <a target="_blank" class="f6 lm-dark-turquoise lm-pink-hover resource-link link-visited pv1" href="{{ page.resource_url }}">
-            {% if page.resource_url_text %}
-              {{ page.resource_url_text }}
-            {% else %}
-              {{ page.resource_url }}
-            {% endif %}
-          </a>
-        {% endif %}
-      </div>
       <div class="copy dib">
         {{ page.body|truncatechars_html:200|continue_reading:page|new_tab|richtext }}
       </div>
