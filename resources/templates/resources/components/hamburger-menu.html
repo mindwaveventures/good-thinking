@@ -17,9 +17,6 @@
 
 <div id="hamburger_content_id" class="db dn-ns absolute bg-white w-100 overflow-scroll z-999">
   <div class="pa2">
-    <div class="dib relative mv2-ns mv1 dtc-ns">
-      I am, or know someone who is, feeling:
-    </div>
     {% if back %}
       <div class="relative mv2-ns mv1 dtc-ns">
         <div class="b--lm-dark-blue lm-dark-blue ph3 pv2">
@@ -35,6 +32,9 @@
         <a class="ttu link" href="/">Home</a>
         {% endif %}
       </div>
+    </div>
+    <div class="dib relative mv2-ns mv1 dtc-ns">
+      I am, or know someone who is, feeling:
     </div>
     {% for topic in landing_pages %}
     <div class="relative mv2-ns mv1 dtc-ns">
