@@ -14,7 +14,7 @@ view : Model -> Html Msg
 view model =
     div []
         [ Tags.view model
-        , div [ class "pa1 ph3" ]
+        , div [ class "pa1 ph2" ]
             [ div [ class "w-60-l center" ]
                 [ div [ class "w-50-ns dib-ns tl" ]
                     [ div [ id "results", class "relative top--3 o-0" ] []
@@ -40,7 +40,7 @@ view model =
                     ]
                 ]
             ]
-        , div [ class "pa1 ph3 pb1 pb2-l" ] (get_resources model)
+        , div [ class "pa1 ph2 pb1 pb2-l" ] (get_resources model)
         , div [ class "tc ph4 ph3-m ph3-l" ]
             [ button
                 [ onClick (ShowMore True)
