@@ -113,21 +113,29 @@ footer p a {
 /* Landing Page - resource like buttons */
 
 .like, .like_no_hover {
-  background-image: url("../images/Thumbs_up_normal.svg");
+  background-image: url("../images/Thumbs_up_normal.png");
   background-repeat: no-repeat;
 }
 
-.like:hover, .liked {
-  background-image: url("../images/Thumbs_up_hover.svg");
+.like:hover {
+  background-image: url("../images/Thumbs_up_hover.png");
+}
+
+.liked {
+  background-image: url("../images/Thumbs_up_clicked.png");
 }
 
 .dislike, .dislike_no_hover {
-  background-image: url("../images/Thumbs_down_normal.svg");
+  background-image: url("../images/Thumbs_down_normal.png");
   background-repeat: no-repeat;
 }
 
 .dislike:hover, .disliked {
-  background-image: url("../images/Thumbs_down_hover.svg");
+  background-image: url("../images/Thumbs_down_hover.png");
+}
+
+.disliked {
+  background-image: url("../images/Thumbs_down_clicked.png");
 }
 
 .share {
