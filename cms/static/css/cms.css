@@ -715,6 +715,10 @@ lm-ls1 {
   .mt-2-4-l {
     margin-top: 2.4rem
   }
+
+  .w-8-l {
+    width: 8%;
+  }
 }
 
 @media screen and (max-width: 60em) and (min-width: 30em) {
@@ -738,6 +742,10 @@ lm-ls1 {
 
   .mb3-ml {
     margin-bottom: 1rem;
+  }
+
+  .w-10-ml {
+    width: 10%;
   }
 }
 
