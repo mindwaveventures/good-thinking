@@ -26,13 +26,13 @@
 
   <div class="mt6 mt5-ns mb5 assessment-text pa0-ns pa2">
     <div id="assessment-container" class="relative top--3 o-0"></div> <!-- anchor div to ensure screen goes below banner -->
-    <div class="w-60-ns center pb3">
+    <div class="w-60-l center pb3">
       <h3>{{heading}}</h3>
       <div class="copy">
         {{body|new_tab|richtext}}
       </div>
     </div>
-    <div class="br1 shadow-2 tl w-60-ns center ph4 pv2">
+    <div class="br1 shadow-2 tl w-60-l center ph4 pv2 overflow-x-scroll">
       <form method="post" action="/assessment-summary/" class="pt2 pb4">
         {% csrf_token %}
         <input type="hidden" name="member_id" value="{{member_id}}" />
@@ -157,6 +157,12 @@
     }
   </script>
   </div>
+
+  {% if resources %}
+    {% for r in resources %}
+      {% include "resources/short_resource.html" with page=r %}
+    {% endfor %}
+  {% endif %}
 
   {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
 {% endblock %}
