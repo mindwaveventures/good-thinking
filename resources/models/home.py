@@ -280,6 +280,8 @@ class Home(AbstractForm):
     def serve(self, request, *args, **kwargs):
         request.session['results_page'] = self.slug
 
+        self.__class__.objects.prefetch_related('tagged_items__tag')
+
         path_components = kwargs.get('path_components', [])
         return custom_serve(**locals())
 

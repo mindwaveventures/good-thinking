@@ -10,9 +10,9 @@ import urllib.request
 import os
 import json
 
-from resources.models.tags import TopicTag, IssueTag, ReasonTag, ContentTag
+from resources.models.tags import IssueTag, ReasonTag, ContentTag
 from resources.models.helpers import (
-    create_tag_combiner, count_likes, filter_tags,
+    count_likes, filter_tags,
     get_tags, get_order, get_relevance, base_context
 )
 
@@ -124,11 +124,6 @@ def get_data(request, **kwargs):
     if slug != 'home':
         topic_filter = slug
 
-    issue_tags = get_tags(IssueTag)
-    content_tags = get_tags(ContentTag)
-    reason_tags = get_tags(ReasonTag)
-    topic_tags = get_tags(TopicTag)
-
     selected_tags = list(chain(
         tag_filter,
         issue_filter,
@@ -141,7 +136,10 @@ def get_data(request, **kwargs):
         + 'where resource_id = resources_resourcepage.page_ptr_id ' \
         + 'and like_value = %s'
 
-    resources = get_order(ResourcePage.objects.all().annotate(
+    resources = get_order(ResourcePage.objects.all().defer(
+        'background_color', 'brand_logo_id', 'brand_text',
+        'hero_image_id', 'text_color'
+    ).annotate(
         score=(count_likes(1) - count_likes(-1)),
         relevance=(get_relevance(selected_tags))
     ), resource_order).live()
@@ -175,6 +173,34 @@ def get_data(request, **kwargs):
             user_cookie=cookie
         )
 
+    tips = filter_resources(
+        Tip.objects.all(),
+        tag_filter=tag_filter,
+        issue_filter=issue_filter,
+        topic_filter=topic_filter,
+        query=query
+    )
+
+    assessments = filter_resources(
+        Assessment.objects.all(),
+        tag_filter=tag_filter,
+        issue_filter=issue_filter,
+        topic_filter=topic_filter,
+        query=query
+    )
+
+    resources = filter_resources(
+        resources,
+        tag_filter=tag_filter,
+        issue_filter=issue_filter,
+        topic_filter=topic_filter,
+        query=query
+    ).filter(~Q(page_ptr_id__in=list(
+        chain(tips, assessments)))
+    ).prefetch_related('badges')
+
+    paged_resources = get_paged_resources(request, resources)
+
     if topic_filter:
         (
             filtered_issue_tags,
@@ -200,54 +226,9 @@ def get_data(request, **kwargs):
                 filtered_tags=filtered_reason_tags
             ).values()
 
-        excluded_tags = (
-            Home.objects.get(slug=topic_filter).specific.exclude_tags.all()
-        )
-    else:
-        data['issue_tags'] = issue_tags.values()
-        data['content_tags'] = content_tags.values()
-        data['reason_tags'] = reason_tags.values()
-        excluded_tags = []
-
-    if (tag_filter):
-        resources = resources.filter(
-            Q(content_tags__name__in=tag_filter) |
-            Q(reason_tags__name__in=tag_filter) |
-            Q(issue_tags__name__in=tag_filter) |
-            Q(topic_tags__name__in=tag_filter)
-        ).distinct()
-
-    tips = filter_resources(
-        Tip.objects.all(),
-        tag_filter=tag_filter,
-        issue_filter=issue_filter,
-        topic_filter=topic_filter,
-        query=query
-    )
-
-    assessments = filter_resources(
-        Assessment.objects.all(),
-        tag_filter=tag_filter,
-        issue_filter=issue_filter,
-        topic_filter=topic_filter,
-        query=query
-    )
-
-    resources = filter_resources(
-        resources,
-        tag_filter=tag_filter,
-        issue_filter=issue_filter,
-        topic_filter=topic_filter,
-        query=query
-    ).filter(~Q(page_ptr_id__in=list(chain(tips, assessments))))
-
-    paged_resources = get_paged_resources(request, resources)
-
-    combine_tags = create_tag_combiner(excluded_tags)
-
     filtered_resources = map(
         lambda el: add_near(request, el),
-        map(combine_tags, paged_resources)
+        paged_resources
     )
 
     data['landing_pages'] = Home.objects.filter(~Q(slug="home")).live()
@@ -255,7 +236,6 @@ def get_data(request, **kwargs):
     data['tips'] = tips
     data['assessments'] = assessments
     data['resource_count'] = resources.count() + tips.count()
-    data['topic_tags'] = topic_tags.values()
     data['selected_topic'] = topic_filter
     data['selected_tags'] = selected_tags
 
@@ -267,10 +247,11 @@ def add_near(request, el):
         try:
             location = request.COOKIES['ldmw_location_latlong']
             [user_lat, user_long] = location.split(",")
+            latlong = el.specific.latlong.values('latitude', 'longitude')
             el.specific.is_near = any(
                 filter(
                     lambda e: within_mile(e, user_lat, user_long),
-                    el.specific.latlong.all()
+                    latlong
                 )
             )
         except:

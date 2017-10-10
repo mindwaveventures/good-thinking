@@ -366,6 +366,7 @@ class ResourcePage(AbstractForm):
     ]
 
     def __init__(self, *args, **kwargs):
+        self.__class__.objects.prefetch_related('tagged_items__tag')
         super(ResourcePage, self).__init__(*args, **kwargs)
         try:
             self.parent = self.get_parent().slug
