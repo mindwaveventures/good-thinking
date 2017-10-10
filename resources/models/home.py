@@ -178,6 +178,10 @@ class Home(AbstractForm):
         blank=True,
         help_text="Description of page"
     )
+    sub_body = RichTextField(
+        blank=True,
+        help_text="Text for below the description of the page"
+    )
     filter_label_1 = TextField(
         blank=True,
         help_text="Label/Question for first set of filters"
@@ -265,6 +269,7 @@ class Home(AbstractForm):
         ImageChooserPanel('hero_image'),
         FieldPanel('header', classname="full"),
         FieldPanel('body', classname="full"),
+        FieldPanel('sub_body', classname="full"),
         FieldPanel('video_url', classname="full"),
         MultiFieldPanel([
             FieldPanel('filter_label_1', classname="full"),
