@@ -99,7 +99,7 @@ get_resources model =
         (\i el ->
             case model.show_more of
                 False ->
-                    if i < 2 then
+                    if i < 2 || (List.length model.tips == 0) then
                         Resources.view el ""
                     else if (rem (i + 1) 3) == 0 && (i < 3) then
                         div []
