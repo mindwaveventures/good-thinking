@@ -19,18 +19,18 @@
     <div class="pa5-l">
       <div class="pa2-ns pa3 tc mb2 pb4 pt4">
         {% if landing_pages|length < 5 %}
-          {% include "resources/components/row.html" with render_template="resources/components/topic-card.html" element_list=landing_pages length=2 width="w-40" class="mb4 mb2-ns mb3-ml" %}
+          {% include "resources/components/row.html" with render_template="resources/components/topic-card.html" element_list=landing_pages length=2 width="w-40" class="mb2 mb3-ml mb3-l" %}
         {% else %}
           {% include "resources/components/row.html" with render_template="resources/components/topic-card.html" element_list=landing_pages length=3 width="w-30" class="mb4" %}
         {% endif %}
       </div>
 
       <div class="pa2-ns pa3 tc mb2 pb4 pt4">
-        <div class="ph4-ns tc shadow-2 pv2 bg-white w-80-ns center">
+        <div class="ph4-ns tc shadow-2 pv2 bg-white w-60-l center">
           <form action="{% pageurl page %}" method="POST">
             {% csrf_token %}
             <section class="tc-ns tl-m w-100 pa1 ph4 ph3-m ph3-l pb3" id="suggestion_form">
-              <div class="w-80-ns center">
+              <div class="w-60-l center">
                 <p>
                   Are we missing something? Tell us how you're feeling so we know what content we need to add next:
                 </p>
