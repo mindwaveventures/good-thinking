@@ -26,11 +26,11 @@
     </div>
     <div class="pt3">
       {% if page.pros %}
-        <div class="tc db dn-ns">
+        <div class="tc dn">
           {% include "resources/secondary_button.html" with value="View pros and cons" background="light" class="view_pcs" id="view_pcs{{@page.id}}" %}
         </div>
       {% endif %}
-      <div class="w-100 dn dt-ns db-ns pros_cons bb b--lm-grey pb3 copy" id="pros_cons{{page.id}}">
+      <div class="w-100 dt pros_cons bb b--lm-grey pb3 copy" id="pros_cons{{page.id}}">
         <div class="ph4-ns ph3 w-50-ns dib-ns dtc-ns pros">
           {{page.pros|new_tab|richtext}}
         </div>
@@ -87,9 +87,11 @@
           {% endif %}
         </div>
         <div class="pv3 v-mid dib-ns dtc-ns ph4-ns ph3 copy">
-          <button class="f6 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba b--lm-dark-turquoise">
-            <a href="/{{page.parent}}/{{page.slug}}/">Get more info and read comments</a>
-          </button>
+          <a href="/{{page.parent}}/{{page.slug}}/">
+            <button class="f6 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba b--lm-dark-turquoise">
+              Get more info and read comments
+            </button>
+          </a>
         </div>
       </div>
     </div>

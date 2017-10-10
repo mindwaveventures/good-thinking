@@ -84,11 +84,11 @@
     </div>
     <div class="pt3">
       {% if page.pros %}
-      <div class="tc db dn-ns">
+      <div class="tc dn">
         {% include "resources/secondary_button.html" with value="View pros and cons" background="light" class="view_pcs" id="view_pcs{{page.id}}" %}
       </div>
       {% endif %}
-      <div class="w-100 dn dt-ns db-ns pros_cons bb b--lm-grey pb3 copy" id="pros_cons{{page.id}}">
+      <div class="w-100 dt pros_cons bb b--lm-grey pb3 copy" id="pros_cons{{page.id}}">
         <div class="ph4-ns ph3 w-50-ns dib-ns br-ns b--lm-grey dtc-ns pros pb3">
           {{page.pros|new_tab|richtext}}
         </div>
