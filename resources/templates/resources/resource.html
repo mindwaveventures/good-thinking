@@ -41,7 +41,7 @@
   </div>
 {% endif %}
 
-<div class="mt4-ns mt5 mh2-ns pa2 pa0-ns">
+<div class="mt4-ns mt5 mh2-ns ph2 pt2 pa0-ns">
   <div id="resource_{{page.id}}" class="resource">
     <div class="full-resource br1 ba bb-0 tl w-60-l center">
       <div class="bb b--lm-grey ph2 pt2 pb0 pt3-ns ph4-ns">
@@ -96,9 +96,9 @@
           {{page.cons|new_tab|richtext}}
         </div>
       </div>
-      <div class="ph2">
-        <div class="ph4">
-          <p class="nunito-bold mt4">Would you recommend this?</p>
+      <div class="dt">
+        <div class="pt3 pb4 ph4-ns ph3 w-50-ns dib-ns dtc-ns b1 v-top">
+          <h4 class="f5 mt0">Would you recommend this?</h4>
           <div class="dt dt--fixed">
             <div class="dib dtc">
               <div class="dib mb3 v-mid tl"><span>{% if number_of_likes %}{{number_of_likes}}{% else %}{{page.number_of_likes|default:0}}{% endif %}</span></div>
