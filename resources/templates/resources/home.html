@@ -81,7 +81,7 @@
             {% if page|get_model_name == "Tip"%}
               {% include "resources/tip.html" with page=post.specific %}
             {% else %}
-              {% include "resources/short_resource.html" with page=post.specific %}
+              {% include "resources/short_resource.html" with page=post.specific selected_tags=selected_tags %}
             {% endif %}
           {% endfor %}
         </div>

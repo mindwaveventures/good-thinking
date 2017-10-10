@@ -58,7 +58,7 @@ def get_json_data(request):
         map(
             lambda r: render_to_string(
                 'resources/short_resource.html',
-                {'page': r},
+                {'page': r, 'selected_tags': data['selected_tags']},
                 request=request
             ),
             data['resources']
@@ -197,7 +197,13 @@ def get_data(request, **kwargs):
         query=query
     ).filter(~Q(page_ptr_id__in=list(
         chain(tips, assessments)))
-    ).prefetch_related('badges')
+    ).prefetch_related(
+        'badges'
+    ).prefetch_related(
+        'tagged_content_items__tag'
+    ).prefetch_related(
+        'tagged_reason_items__tag'
+    ).prefetch_related('tagged_issue_items__tag')
 
     paged_resources = get_paged_resources(request, resources)
 
