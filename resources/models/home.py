@@ -447,7 +447,9 @@ def custom_serve(self, request, *args, **kwargs):
 
     path_components = kwargs.get('path_components', [])
 
-    list(map(lambda x: " ".join(x.split("-")), path_components))
+    path_components = list(
+        map(lambda x: " ".join(x.split("-")), path_components)
+    )
 
     context = self.get_context(request, path_components=path_components)
     context['form'] = form
