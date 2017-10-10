@@ -8,7 +8,7 @@
   {% endif %}
 
   <div class="mt6 mb5">
-    <div class="w-60-ns center pb3">
+    <div class="w-60-l center pb3">
       <form id="summary_form" method="post" action="{%if parent != 'home' %}/{{parent}}{% endif %}/{{slug}}/#assessment-container">
         {% csrf_token %}
         <input type="hidden" name="member_id" value="{{member_id}}" />
@@ -25,7 +25,7 @@
         </p>
       </div>
     </div>
-    <div class="br1 shadow-2 tl w-60-ns center ph4 pt2 pb4">
+    <div class="br1 shadow-2 tl w-60-l center ph4 pt2 pb4">
       {% for c in Categories %}
         <h3>
           {{c.DisplayText}}
