@@ -28,12 +28,17 @@ RUN apt-get update && \
 	python3-pip \
 	nginx \
 	supervisor \
+    nodejs \
+    npm \
 	sqlite3 && \
 	pip3 install -U pip setuptools && \
    rm -rf /var/lib/apt/lists/*
 
+RUN npm -g install yuglify
+RUN ln -s /usr/bin/nodejs /usr/bin/node
+
 # install uwsgi now because it takes a little while
-RUN pip3 install uwsgi
+# RUN pip3 install uwsgi
 
 # setup all the configfiles
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
@@ -43,11 +48,12 @@ COPY supervisor-app.conf /etc/supervisor/conf.d/
 # COPY requirements.txt and RUN pip install BEFORE adding the rest of your code, this will cause Docker's caching mechanism
 # to prevent re-installing (all your) dependencies when you made a change a line or two in your app.
 
-COPY requirements.txt /home/docker/code/app/
-RUN pip3 install -r /home/docker/code/app/requirements.txt
+COPY requirements.txt /home/docker/code/
+RUN pip3 install -r /home/docker/code/requirements.txt
 
 # add (the rest of) our code
 COPY . /home/docker/code/
+RUN chmod a+x /home/docker/code/wagtail.sh
 
 # install django, normally you would remove this step because your project would already
 # be installed in the code/app/ directory
