@@ -1,0 +1,17 @@
+config:
+  target: 'https://www.good-thinking.uk'
+  phases:
+    - duration: 30
+      arrivalCount: 15
+    - duration: 1
+      arrivalRate: 15
+    - duration: 30
+      arrivalCount: 15
+scenarios:
+  - flow:
+    - get:
+        url: "/"
+    - get:
+        url: "/anxious/"
+    - get:
+        url: "/resources/chill-panda/"
