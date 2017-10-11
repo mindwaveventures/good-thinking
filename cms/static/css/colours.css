@@ -108,8 +108,12 @@
   color: #767676;
 }
 
-.lm-pink-hover:hover {
-  color: #de2183;
+/* only use hover effect on devices with hover capability. See link for limitations */
+/* from https://stackoverflow.com/questions/23885255/how-to-remove-ignore-hover-css-style-on-touch-devices */
+@media (hover: hover){
+  .lm-pink-hover:hover {
+    color: #de2183;
+  }
 }
 
 /* Border Colours */

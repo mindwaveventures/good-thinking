@@ -70,13 +70,13 @@ if (personaliseDiv) {
   app.ports.listeners.subscribe(function(res) {
     requestAnimationFrame(function() {
       likeListeners();
-      proConListeners();
       feedbackLoopListener();
       swipeListeners();
       analyticsListeners();
       selectAll('.tip-card-contain').forEach(el => {
         el.style.height = tipHeight + "px"
       });
+      mobileProsAndCons();
     });
 
   });

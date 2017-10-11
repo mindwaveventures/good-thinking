@@ -11,6 +11,9 @@ import Json.Encode
 view : Model -> List String -> String -> Html Msg
 view model tips classname =
     case List.length tips of
+        0 ->
+            div [ class "dn" ] []
+
         1 ->
             case List.head tips of
                 Just tip ->
