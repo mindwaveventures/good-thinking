@@ -31,7 +31,12 @@
     <!-- Body Text -->
     <section class="pa1 ph4 ph3-m ph3-l mb3">
       <div class="w-60-l center copy">
-        {{ page.body|new_tab|richtext }}
+        <div class="see_more_body">
+          {{ page.body|new_tab|richtext }}
+        </div>
+        {% if page.sub_body %}
+          {{page.sub_body|new_tab|richtext}}
+        {% endif %}
       </div>
     </section>
 
