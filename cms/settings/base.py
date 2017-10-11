@@ -131,6 +131,7 @@ ALLOWED_HOSTS = [
     'localhost',
     'good-thinking.uk',
     'www.good-thinking.uk',
+    'aws.good-thinking.uk',
     '.elasticbeanstalk.com'
 ]
 
