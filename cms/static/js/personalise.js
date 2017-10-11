@@ -2,6 +2,7 @@ var personaliseDiv = document.getElementById('elm-personalise');
 
 if (personaliseDiv) {
   var tagHeight = getHeight(selectAll('.filter-block .tag-container'));
+  var cardHeight = getHeight(selectAll('.filter-block .card-text'));
   var tips = selectAll('.tip-card-contain');
   var tipHeight = getHeight(tips);
   var issue_tags = getTags('q1')
@@ -24,7 +25,8 @@ if (personaliseDiv) {
     order: getOrder(),
     search: getQuery('q').q[0] || "",
     page: getPage(),
-    tagHeight: tagHeight + 10 // A little extra space needed so tags don't get cut off
+    tagHeight: tagHeight + 10, // A little extra space needed so tags don't get cut off
+    cardHeight: cardHeight
   });
 
   function getTags(name) {
