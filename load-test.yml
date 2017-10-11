@@ -1,0 +1,15 @@
+config:
+  target: 'https://ldmw-staging.herokuapp.com'
+  phases:
+    - duration: 60
+      arrivalCount: 15
+  phases:
+    
+scenarios:
+  - flow:
+    - get:
+        url: "/"
+    - get:
+        url: "/trouble-sleeping/"
+    - get:
+        url: "/resources/sleepstation/"
