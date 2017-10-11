@@ -73,8 +73,9 @@
 }
 
 .stop-scrolling {
-  height: 100%;
+  height: 100vh;
   overflow: hidden;
+  position: relative;
 }
 
 .hide-filters {
@@ -451,18 +452,21 @@ lm-ls1 {
     height: 100%;
 }
 
-#landing_page_hamburger > div > #beta-banner {
+#landing_page_surger > div > #beta-banner {
   position: relative !important;
 }
 
 #hamburger_content_id {
-  top: -1000px;
+  left: -1000px;
+  top: 0px;
+  height: 100vh;
   transition: 0.4s;
   z-index: -1;
+  position: absolute;
 }
 
 .show_hamburger {
-  top: 0px !important;
+  left: 0px !important;
   z-index: 9999 !important;
 }
 

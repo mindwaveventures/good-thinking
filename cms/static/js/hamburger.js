@@ -1,5 +1,6 @@
 (function () {
   var hamburger = select('#hamburger_id');
+  var closeHamburger = select('#hamburger_close');
   var hamburger_content = select('#hamburger_content_id');
   var beta_banner = select('#beta-banner');
 
@@ -7,29 +8,21 @@
     resize();
     hamburger = select('#hamburger_id');
     hamburger_content = select('#hamburger_content_id');
-    var hamburgerIsOpen = hamburger.className.indexOf('is-active') > -1;
+    var hamburgerIsOpen = hamburger.className.indexOf('active') > -1;
 
     if (hamburgerIsOpen) {
       // hiding hamburger content
-      hamburger.classList.remove('is-active');
+      hamburger.classList.remove('active');
       hamburger_content.classList.remove('show_hamburger');
       select('body').classList.remove('stop-scrolling');
+      select('html').classList.add('stop-scrolling');
     } else {
       // showing hamburger content
-      hamburger.classList.add('is-active');
+      hamburger.classList.add('active');
       hamburger_content.classList.add('show_hamburger');
       select('body').classList.add('stop-scrolling');
+      select('html').classList.add('stop-scrolling');
     }
-  }
-
-  function sizeHamburgerContent() {
-    hamburger = select('#hamburger_id');
-    hamburger_content = select('#hamburger_content_id');
-    beta_banner = select('#beta-banner');
-    var topContentHeight = hamburger.clientHeight + ((beta_banner || {}).clientHeight || 0);
-
-    hamburger_content.style.height = (window.innerHeight + window.scrollY - topContentHeight) + "px";
-    hamburger_content.style.marginTop = topContentHeight + "px";
   }
 
   function positionHamburger() {
@@ -38,14 +31,17 @@
   }
 
   function resize  () {
-    if (select('#hamburger_id')) {
-      sizeHamburgerContent();
+    if (hamburger) {
       positionHamburger();
     }
   }
 
-  if (select('#hamburger_id')) {
+  if (hamburger) {
     hamburger.addEventListener('click', toggleHamburger);
+  }
+
+  if (closeHamburger) {
+    closeHamburger.addEventListener('click', toggleHamburger);
   }
 
   window.addEventListener('resize', resize);
