@@ -83,11 +83,12 @@
         <!-- Resources -->
         <div class="pa1 ph4 ph3-m ph3-l pb4 pb5-l">
           {% for post in resources %}
-            {% if page|get_model_name == "Tip"%}
+            {% include "resources/short_resource.html" with page=post.specific selected_tags=selected_tags %}
+          {% endfor %}
+          {% for post in tips %}
+            <div class="w-60-l center mt4">
               {% include "resources/tip.html" with page=post.specific %}
-            {% else %}
-              {% include "resources/short_resource.html" with page=post.specific selected_tags=selected_tags %}
-            {% endif %}
+            </div>
           {% endfor %}
         </div>
       </div>

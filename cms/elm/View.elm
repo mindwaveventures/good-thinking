@@ -117,7 +117,7 @@ get_resources model =
                 True ->
                     if (rem (i + 1) 3) == 0 then
                         div []
-                            ([ Tips.view model (List.take 3 (List.drop (i - 3) model.tips)) "" ]
+                            ([ Tips.view model (List.take 3 (List.drop (i - 2) model.tips)) "" ]
                                 ++ [ Resources.view el "" ]
                             )
                     else
