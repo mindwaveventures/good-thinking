@@ -178,6 +178,10 @@ class Home(AbstractForm):
         blank=True,
         help_text="Description of page"
     )
+    sub_body = RichTextField(
+        blank=True,
+        help_text="Text for below the description of the page"
+    )
     filter_label_1 = TextField(
         blank=True,
         help_text="Label/Question for first set of filters"
@@ -265,6 +269,7 @@ class Home(AbstractForm):
         ImageChooserPanel('hero_image'),
         FieldPanel('header', classname="full"),
         FieldPanel('body', classname="full"),
+        FieldPanel('sub_body', classname="full"),
         FieldPanel('video_url', classname="full"),
         MultiFieldPanel([
             FieldPanel('filter_label_1', classname="full"),
@@ -279,6 +284,8 @@ class Home(AbstractForm):
 
     def serve(self, request, *args, **kwargs):
         request.session['results_page'] = self.slug
+
+        self.__class__.objects.prefetch_related('tagged_items__tag')
 
         path_components = kwargs.get('path_components', [])
         return custom_serve(**locals())
@@ -445,7 +452,9 @@ def custom_serve(self, request, *args, **kwargs):
 
     path_components = kwargs.get('path_components', [])
 
-    list(map(lambda x: " ".join(x.split("-")), path_components))
+    path_components = list(
+        map(lambda x: " ".join(x.split("-")), path_components)
+    )
 
     context = self.get_context(request, path_components=path_components)
     context['form'] = form

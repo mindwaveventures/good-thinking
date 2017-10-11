@@ -10,10 +10,10 @@ import Html.Events exposing (onInput, onClick, onCheck)
 view : Model -> Html Msg
 view model =
     div [ class "overflow-hidden ph2 mt2" ]
-        [ div [ class "tl w-60-ns center" ] [ h3 [] [ text "Personalise your results:" ] ]
-        , div [ class ("tag-container w-200-ns w-330 relative center " ++ (getPosition model.tag_position)) ]
-            [ render_filter_block model 1 model.issue_label model.issue_tags ("mr-1p-ns mr-5 " ++ (get_active model 1))
-            , render_filter_block model 2 model.reason_label model.reason_tags ("mr-1p-ns mr-5 " ++ (get_active model 2))
+        [ div [ class "tl w-60-l center" ] [ h3 [] [ text "Personalise your results:" ] ]
+        , div [ class ("tag-container w-250-m w-200-l w-330 relative center " ++ (getPosition model.tag_position)) ]
+            [ render_filter_block model 1 model.issue_label model.issue_tags ("mr-1p-l mr-5 " ++ (get_active model 1))
+            , render_filter_block model 2 model.reason_label model.reason_tags ("mr-1p-l mr-5 " ++ (get_active model 2))
             , render_filter_block model 3 model.content_label model.content_tags (get_active model 3)
             ]
         ]
@@ -51,7 +51,7 @@ render_filter_block model num filter_label tags classname =
                     ]
                     ([] ++ (List.map (\t -> render_tag_list t model.selected_tags num) tags))
                ]
-            ++ [ div [ class "mt3 absolute bottom-1 w-100 ph4-ns ph1 left-0" ]
+            ++ [ div [ class "mt3 absolute bottom-1 w-100 left-0" ]
                     [ div [ class "w-50 dib tl" ]
                         [ previous_button num ]
                     , div [ class "w-50 dib tr" ]
@@ -87,16 +87,16 @@ getPosition : Int -> String
 getPosition pos =
     case pos of
         1 ->
-            "l-12-ns r-0"
+            "l-12-l r-0"
 
         2 ->
-            "r-50-ns r-115"
+            "r-50-l r-115"
 
         3 ->
-            "r-112-ns r-230"
+            "r-112-l r-230"
 
         _ ->
-            "l-12-ns"
+            "l-12-l"
 
 
 getTagColour : Tag -> List Tag -> String
@@ -144,7 +144,7 @@ previous_button pos =
 
         _ ->
             button
-                [ class "tl dib bn bg-white pointer pa0"
+                [ class "tl dib bn bg-white pointer pl3 pr0 pv0"
                 , onClick (ResultsLoadingAlert pos (pos - 1))
                 ]
                 [ div [ class "v-mid h2 br-100 w2 pa1 mr2 dib next_left" ] []
@@ -156,11 +156,11 @@ next_button : Int -> Html Msg
 next_button pos =
     case pos of
         3 ->
-            button [ class "f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover b--lm-dark-turquoise ba" ] [ a [ class "link", href "#results" ] [ text "Search" ] ]
+            button [ class "f5 link dib mr3 ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover b--lm-dark-turquoise ba" ] [ a [ class "link", href "#results" ] [ text "Search" ] ]
 
         _ ->
             button
-                [ class "tr dib bn bg-white pointer pa0"
+                [ class "tr dib bn bg-white pointer pr3 pl0 pv0"
                 , onClick (ResultsLoadingAlert pos (pos + 1))
                 ]
                 [ div [ class "dib montserrat fw6 w-50 w-auto-ns mr3" ] [ text "next question" ]

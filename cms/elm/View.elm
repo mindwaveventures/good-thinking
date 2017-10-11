@@ -14,8 +14,8 @@ view : Model -> Html Msg
 view model =
     div []
         [ Tags.view model
-        , div [ class "pa1 ph3" ]
-            [ div [ class "w-60-ns center" ]
+        , div [ class "pa1 ph2" ]
+            [ div [ class "w-60-l center" ]
                 [ div [ class "w-50-ns dib-ns tl" ]
                     [ div [ id "results", class "relative top--3 o-0" ] []
                     , h3 [ class "tl mt5 nunito" ]
@@ -40,7 +40,7 @@ view model =
                     ]
                 ]
             ]
-        , div [ class "pa1 ph3 pb1 pb2-l" ] (get_resources model)
+        , div [ class "pa1 ph2 pb1 pb2-l" ] (get_resources model)
         , div [ class "tc ph4 ph3-m ph3-l" ]
             [ button
                 [ onClick (ShowMore True)
@@ -99,7 +99,7 @@ get_resources model =
         (\i el ->
             case model.show_more of
                 False ->
-                    if i < 2 then
+                    if i < 2 || (List.length model.tips == 0) then
                         Resources.view el ""
                     else if (rem (i + 1) 3) == 0 && (i < 3) then
                         div []

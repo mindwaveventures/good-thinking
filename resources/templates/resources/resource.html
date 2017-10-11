@@ -36,22 +36,22 @@
 {% endif %}
 
 {% if back %}
-  <div class="w-60-ns center mt2 dn db-ns">
+  <div class="w-60-l center mt2 dn db-ns ph2">
     <a href="/{{back}}"><button class="f6 f7-m link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise"><i class="fa fa-caret-left" aria-hidden="true"></i> Back to Results</button></a>
   </div>
 {% endif %}
 
-<div class="mt4-ns mt5 pa2 pa0-ns">
+<div class="mt4-ns mt5 mh2-ns ph2 pt2 pa0-ns">
   <div id="resource_{{page.id}}" class="resource">
-    <div class="full-resource br1 ba bb-0 tl w-60-ns center">
+    <div class="full-resource br1 ba bb-0 tl w-60-l center">
       <div class="bb b--lm-grey ph2 pt2 pb0 pt3-ns ph4-ns">
-        <h2 class="mt0 mb1 ml2 pv2">{{ page.heading }}</h2>
+        <h2 class="mt0 mb1 ml2 pv2 di">{{ page.heading }}</h2>
         <div class="fr">
           {% for badge in badges %}
-          <div>
+          <div class="mv1">
             <div
             style="color:{{badge.badge_text_color}};background-color:{{badge.badge_color}}"
-            class="segoe-bold pa2">
+            class="pv2 ph3 bw1 ba br-pill b--lm-turquoise">
             {{badge.badge_text}}
           </div>
         </div>
@@ -82,13 +82,13 @@
         {{ page.body|new_tab|richtext }}
       </div>
     </div>
-    <div class="pb4-ns mh2 mh0-ns">
+    <div class="pt3">
       {% if page.pros %}
-      <div class="tc db dn-ns">
+      <div class="tc dn">
         {% include "resources/secondary_button.html" with value="View pros and cons" background="light" class="view_pcs" id="view_pcs{{page.id}}" %}
       </div>
       {% endif %}
-      <div class="w-100 dn dt-ns db-ns pros_cons bb b--lm-grey copy" id="pros_cons{{page.id}}">
+      <div class="w-100 dt pros_cons bb b--lm-grey pb3 copy" id="pros_cons{{page.id}}">
         <div class="ph4-ns ph3 w-50-ns dib-ns br-ns b--lm-grey dtc-ns pros pb3">
           {{page.pros|new_tab|richtext}}
         </div>
@@ -96,9 +96,9 @@
           {{page.cons|new_tab|richtext}}
         </div>
       </div>
-      <div class="ph2">
-        <div class="ph4">
-          <p class="nunito-bold mt4">Would you recommend this?</p>
+      <div class="dt">
+        <div class="pt3 pb4 ph4-ns ph3 w-50-ns dib-ns dtc-ns b1 v-top">
+          <h4 class="f5 mt0">Would you recommend this?</h4>
           <div class="dt dt--fixed">
             <div class="dib dtc">
               <div class="dib mb3 v-mid tl"><span>{% if number_of_likes %}{{number_of_likes}}{% else %}{{page.number_of_likes|default:0}}{% endif %}</span></div>
@@ -149,8 +149,8 @@
 </div>
 </div>
 {% if not no_disqus %}
-<div class="ph2 ba w-60-ns center disqus">
-  <div class="pa2 ph4">
+<div class="ph2 w-60-l center disqus">
+  <div class="ba pa2 ph4">
     {% include "resources/disqus.html" with page=page %}
   </div>
 </div>
