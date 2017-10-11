@@ -3,8 +3,6 @@ config:
   phases:
     - duration: 60
       arrivalCount: 15
-  phases:
-    
 scenarios:
   - flow:
     - get:
