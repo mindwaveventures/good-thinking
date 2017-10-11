@@ -466,6 +466,10 @@ lm-ls1 {
   z-index: 9999 !important;
 }
 
+.assessment-text .rich-text {
+  white-space: pre-wrap;
+}
+
 .w-200 {
   width: 200%;
 }
