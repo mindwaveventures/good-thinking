@@ -75,7 +75,7 @@ if (personaliseDiv) {
       feedbackLoopListener();
       swipeListeners();
       analyticsListeners();
-      selectAll('.tip-card-contain').forEach(el => {
+      selectAll('.tip-card-contain').forEach(function(el) {
         el.style.height = tipHeight + "px"
       });
       mobileProsAndCons();
