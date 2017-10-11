@@ -1,12 +1,10 @@
 config:
   target: 'https://www.good-thinking.uk'
   phases:
-    - duration: 30
-      arrivalCount: 15
     - duration: 1
-      arrivalRate: 15
+      arrivalRate: 8
     - duration: 30
-      arrivalCount: 15
+      arrivalCount: 30
 scenarios:
   - flow:
     - get:
@@ -15,3 +13,25 @@ scenarios:
         url: "/anxious/"
     - get:
         url: "/resources/chill-panda/"
+  - flow:
+    - get:
+        url: "/"
+    - get:
+        url: "/sleep-deprived/"
+    - get:
+        url: /resources/sleepytime/
+    - get:
+        url: "/sleep-deprived/"
+    - get:
+        url: "/resources/great-british-sleep-survey/"
+    - get:
+        url: "/feedback/"
+  - flow:
+    - get:
+        url: "/self-assessment/"
+    - get:
+        url: "/self-assessment/#assessment-container"
+    - get:
+        url: "/assessment-summary/"
+    - get:
+        url: "/crisis/"
