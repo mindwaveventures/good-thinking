@@ -1,21 +1,24 @@
 var bodyText = select('.see_more_body .rich-text');
-var bodyChildren = bodyText.children;
 
-var display = getHTMLToShow(bodyChildren);
-var seeMore = document.createElement('a');
+if (bodyText) {
+  var bodyChildren = bodyText.children;
 
-seeMore.className = "pointer"
-seeMore.innerText = "See more"
+  var display = getHTMLToShow(bodyChildren);
+  var seeMore = document.createElement('a');
 
-bodyText.innerHTML = "";
+  seeMore.className = "pointer"
+  seeMore.innerText = "See more"
 
-displayBody(display.showElements);
-bodyText.appendChild(seeMore);
+  bodyText.innerHTML = "";
 
-seeMore.addEventListener('click', function(e) {
-  seeMore.style.display = "none";
-  displayBody(display.hideElements)
-});
+  displayBody(display.showElements);
+  bodyText.appendChild(seeMore);
+
+  seeMore.addEventListener('click', function(e) {
+    seeMore.style.display = "none";
+    displayBody(display.hideElements)
+  });
+}
 
 function getHTMLToShow(elements) {
   var showElements = [];
