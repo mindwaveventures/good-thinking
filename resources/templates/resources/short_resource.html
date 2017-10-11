@@ -1,6 +1,16 @@
-{% load wagtailcore_tags continuereading new_tab %}
+{% load wagtailcore_tags continuereading new_tab missing_tags %}
 
 <div id="resource_{{page.id}}" class="resource mb4 mt4">
+  {% with missing=selected_tags|missing_tags:page %}
+    {% if missing %}
+      <div class="w-60-l center tl mb1">
+        <span>Missing:</span>
+        {% for tag in missing %}
+        <span class="lm-bg-light-orange b--lm-orange ba br2 ph2 pv1 lh-tag dib mb1 mr1 strike">{{tag}}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
   <div class="br1 ba shadow-2 tl w-60-l center">
     <div class="b--lm-grey bb ph3 pt2 pb0 pt3-ns ph4-ns">
       <h2 class="mt0 mb1 resource_title pv1 di"><a class="link lm-dark-turquoise lm-pink-hover f3" href="/{{page.parent}}/{{page.slug}}/">{{ page.heading }}</a></h2>
