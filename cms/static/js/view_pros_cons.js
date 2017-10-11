@@ -33,6 +33,7 @@ function reverseListVisibility (el) {
 
 // checks if pros and cons are on the page that's being view, and if it's mobile
 function mobileProsAndCons () {
+  console.log('MOBILE PROS AND CONS');
   if (selectAll('.pros_cons').length > 0 && isMobile()) {
     selectAll('.pros_cons').forEach(function (el) {
       reverseListVisibility(el);
