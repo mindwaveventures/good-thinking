@@ -60,6 +60,11 @@
   display: none;
 }
 
+/* removes default IOS styling */
+.no-defaults {
+  background-clip: padding-box;
+}
+
 .filter-check:not(:checked)~.filter-sidebar,
 .filter-check:checked~.filter-sidebar {
   -webkit-transition-duration: 0.5s;
