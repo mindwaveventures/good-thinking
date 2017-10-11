@@ -343,6 +343,14 @@ code {
   border-bottom: solid 1px #c2c2c2;
 }
 
+.br1-no-left {
+  border-radius: 0 0.125rem 0.125rem 0;
+}
+
+.br1-no-right {
+  border-radius: 0.125rem 0 0 0.125rem;
+}
+
 lm-ls1 {
   letter-spacing: 0.1rem;
 }
