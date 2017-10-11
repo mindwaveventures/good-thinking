@@ -31,7 +31,8 @@ init flags =
                 flags.page
                 0
                 0
-                flags.height
+                flags.tagHeight
+                flags.cardHeight
             )
     in
         update (GetInitialData (create_query model)) model

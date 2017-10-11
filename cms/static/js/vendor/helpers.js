@@ -4,6 +4,14 @@ function isMobileDevice() {
   return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
 };
 
+function isMobile () {
+  if(window.innerWidth <= 950 && window.innerHeight <= 750) {
+   return true;
+  } else {
+   return false;
+  }
+}
+
 // Helper function to toggle multiple classes on an element
 function toggleClasses(element, classes) {
   classes.forEach(function(c) {

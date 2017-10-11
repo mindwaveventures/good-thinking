@@ -28,6 +28,8 @@ from django.core.paginator import Paginator
 
 import requests
 
+e24_url = "http://apps.expert-24.com/WebBuilder/TraversalService/"
+
 
 def get_location(request):
     google_maps_key = os.environ.get('GOOGLE_MAPS_KEY')
@@ -56,7 +58,7 @@ def get_json_data(request):
         map(
             lambda r: render_to_string(
                 'resources/short_resource.html',
-                {'page': r},
+                {'page': r, 'selected_tags': data['selected_tags']},
                 request=request
             ),
             data['resources']
@@ -195,7 +197,13 @@ def get_data(request, **kwargs):
         query=query
     ).filter(~Q(page_ptr_id__in=list(
         chain(tips, assessments)))
-    ).prefetch_related('badges')
+    ).prefetch_related(
+        'badges'
+    ).prefetch_related(
+        'tagged_content_items__tag'
+    ).prefetch_related(
+        'tagged_reason_items__tag'
+    ).prefetch_related('tagged_issue_items__tag')
 
     paged_resources = get_paged_resources(request, resources)
 
@@ -348,6 +356,7 @@ def filter_resources(resources, **kwargs):
 
 
 def assessment_controller(self, request, **kwargs):
+    ResourcePage = apps.get_model('resources', 'resourcepage')
     params = request.POST
 
     answers = filter(lambda p: p[:2] == "Q_", params)
@@ -361,10 +370,7 @@ def assessment_controller(self, request, **kwargs):
             prms[params.get(a)] = ""
 
     if not (params.get("member_id") and params.get("traversal_id")):
-        r = requests.get(
-            "http://apps.expert-24.com/WebBuilder/"
-            + "TraversalService/Member?callback=raw"
-        )
+        r = requests.get(f"{e24_url}/Member?callback=raw&@usertype=300")
 
         response = r.json()
         member_id = response["Table"][0]["MemberID"]
@@ -397,7 +403,7 @@ def assessment_controller(self, request, **kwargs):
     else:
         direction = "Next"
 
-    url = f"http://apps.expert-24.com/WebBuilder/TraversalService/" \
+    url = f"{e24_url}/" \
         + f"{direction}/{traversal_id}/{member_id}/" \
         + f"{algo_id}/{node_id}?callback=raw"
 
@@ -412,6 +418,16 @@ def assessment_controller(self, request, **kwargs):
 
     context = r2.json()
 
+    try:
+        tags = context["Report"]["DispositionProperties"]["Tags"]
+        resources = ResourcePage.objects.filter(
+            hidden_tags__name__in=tags
+        ).filter(
+            topic_tags__name__in=self.topic_tags.names()
+        )
+    except:
+        resources = []
+
     context["member_id"] = member_id
     context["traversal_id"] = traversal_id
     context["first_question"] = (node_id == 0)
@@ -423,12 +439,13 @@ def assessment_controller(self, request, **kwargs):
         context['parent'] = None
         context['slug'] = None
 
+    context['resources'] = resources
     context['heading'] = self.heading
     context['body'] = self.body
 
     if params.get("q_info") or params.get("a_info"):
         context["info"] = requests.get(
-            f"http://apps.expert-24.com/WebBuilder/TraversalService/Info/"
+            f"{e24_url}/Info/"
             + f"{traversal_id}/{member_id}?callback=raw&@NodeTypeID="
             + f"{node_type_id}&@AssetID={asset_id}"
         ).json()
@@ -447,7 +464,7 @@ def assessment_summary_controller(request, **kwargs):
     member_id = request.POST.get("member_id")
 
     context = requests.get(
-        f"http://apps.expert-24.com/WebBuilder/TraversalService/Summary/"
+        f"{e24_url}/Summary/"
         + f"{traversal_id}/{member_id}?callback=raw"
     ).json()
 

@@ -1,6 +1,14 @@
-<div class="br1 shadow-2 tl w-60-ns center pa3 mb3 filter-block">
-  <h3 class="ma0">Q{{num}} of 3</h3>
-  <p class="w-70 mv3" id="{{name}}_label">{{filter_label}}</p>
+{% load multiline %}
+
+<div class="br1 shadow-2 tl w-60-l center pa3 mb3 filter-block">
+  <div class="card-text">
+    <h3 class="ma0">Q{{num}} of 3</h3>
+    <div id="{{name}}_label">
+      {% for l in filter_label|multiline %}
+        <p class="mv3">{{l}}</p>
+      {% endfor %}
+    </div>
+  </div>
   <div class="tag-container">
     {% for tag in tags %}
     <div class="dib">
