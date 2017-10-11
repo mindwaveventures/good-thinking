@@ -1,7 +1,11 @@
 config:
   target: 'https://ldmw-staging.herokuapp.com'
   phases:
-    - duration: 60
+    - duration: 30
+      arrivalCount: 15
+    - duration: 1
+      arrivalRate: 15
+    - duration: 30
       arrivalCount: 15
 scenarios:
   - flow:
