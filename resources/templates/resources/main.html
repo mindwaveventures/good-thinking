@@ -26,7 +26,7 @@
       </div>
 
       <div class="pa2-ns ph3 pb3 tc mb2">
-        <div class="ph4-ns tc shadow-2-ns pv2 bg-white w-80-l center">
+        <div class="ph4-ns tc shadow-2 pv2 bg-white w-80-l center">
           <form action="{% pageurl page %}" method="POST">
             {% csrf_token %}
             <section class="tc-ns tl-m w-100 pa1 ph4 ph3-m ph3-l pb3" id="suggestion_form">
@@ -45,8 +45,8 @@
                   {% else %}
                   <div class="dt dt--fixed">
                     <label for="id_{{row.label}}" class="dn"></label>
-                    <textarea id="id_{{row.label}}" name="{{row.label}}" class="dtc h2 f5 w-95-ns w-80 pa1 nr br1 b--lm-dark-turquoise"></textarea>
-                    <button type="submit" class="f5 h2 w-5-ns w-20 fr link dtc pa1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover br1 ba b--lm-dark-turquoise"><i class="fa fa-caret-right" aria-hidden="true"></i></button>
+                    <textarea id="id_{{row.label}}" name="{{row.label}}" class="dtc h2 f5 w-95-ns w-80 pa1 nr br1-no-right b--lm-dark-turquoise"></textarea>
+                    <button type="submit" class="f5 h2 w-5-ns w-20 fr link dtc pa1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover br1-no-left ba b--lm-dark-turquoise"><i class="fa fa-caret-right" aria-hidden="true"></i></button>
                   </div>
                   {% endif %}
                 </div>
