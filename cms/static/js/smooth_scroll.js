@@ -1,13 +1,22 @@
 var arrow = select('#browse-arrow');
+var searchButton = select('#pyr-search');
 
-arrow.addEventListener('click', function (e) {
+function scrollToElement (e, elementId) {
   e.preventDefault();
-  var topics = select('#topics');
-  var targetPos = topics.offsetTop - topics.offsetHeight;
+  var element = select(elementId);
+  var targetPos = element.offsetTop - element.offsetHeight;
 
   window.scrollTo({
     top: targetPos,
     left: 0,
     behavior: 'smooth'
   });
+}
+
+arrow.addEventListener('click', function (e) {
+  scrollToElement(e, '#topics');
+});
+
+searchButton.addEventListener('click', function (e) {
+  scrollToElement(e, '#results');
 });
