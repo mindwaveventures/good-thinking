@@ -3,13 +3,13 @@
 <div id="resource_{{page.id}}" class="resource mb4 mt4">
   <div class="br1 ba shadow-2 tl w-60-l center">
     <div class="b--lm-grey bb ph3 pt2 pb0 pt3-ns ph4-ns">
-      <h2 class="mt0 mb1 resource_title pv1"><a class="link lm-dark-turquoise lm-pink-hover f3" href="/{{page.parent}}/{{page.slug}}/">{{ page.heading }}</a></h2>
-      <div class="fr asdf">
+      <h2 class="mt0 mb1 resource_title pv1 di"><a class="link lm-dark-turquoise lm-pink-hover f3" href="/{{page.parent}}/{{page.slug}}/">{{ page.heading }}</a></h2>
+      <div class="fr">
         {% for badge in page.badges.all %}
-        <div>
+        <div class="mv1">
           <div
           style="color:{{badge.badge_text_color}};background-color:{{badge.badge_color}}"
-          class="segoe-bold pa2">
+          class="pv2 ph3 bw1 ba br-pill b--lm-turquoise">
           {{badge.badge_text}}
         </div>
       </div>
@@ -19,17 +19,6 @@
         <div class="pv2 ph3 bw1 ba br-pill lm-bg-light-turquoise b--lm-turquoise">Less than 1 mile away</div>
       </div>
       {% endif %}
-      </div>
-      <div class="truncate">
-        {% if page.resource_url %}
-          <a target="_blank" class="f6 lm-dark-turquoise lm-pink-hover resource-link link-visited pv1" href="{{ page.resource_url }}">
-            {% if page.resource_url_text %}
-              {{ page.resource_url_text }}
-            {% else %}
-              {{ page.resource_url }}
-            {% endif %}
-          </a>
-        {% endif %}
       </div>
       <div class="copy dib">
         {{ page.body|truncatechars_html:200|continue_reading:page|new_tab|richtext }}

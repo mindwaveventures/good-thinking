@@ -113,21 +113,29 @@ footer p a {
 /* Landing Page - resource like buttons */
 
 .like, .like_no_hover {
-  background-image: url("../images/Thumbs_up_normal.svg");
+  background-image: url("../images/Thumbs_up_normal.png");
   background-repeat: no-repeat;
 }
 
-.like:hover, .liked {
-  background-image: url("../images/Thumbs_up_hover.svg");
+.like:hover {
+  background-image: url("../images/Thumbs_up_hover.png");
+}
+
+.liked {
+  background-image: url("../images/Thumbs_up_clicked.png");
 }
 
 .dislike, .dislike_no_hover {
-  background-image: url("../images/Thumbs_down_normal.svg");
+  background-image: url("../images/Thumbs_down_normal.png");
   background-repeat: no-repeat;
 }
 
 .dislike:hover, .disliked {
-  background-image: url("../images/Thumbs_down_hover.svg");
+  background-image: url("../images/Thumbs_down_hover.png");
+}
+
+.disliked {
+  background-image: url("../images/Thumbs_down_clicked.png");
 }
 
 .share {
@@ -540,8 +548,12 @@ lm-ls1 {
   border-bottom: solid 1px #c2c2c2;
 }
 
-.footer-block:last-of-type {
-  border: none;
+.footer-block:first-of-type {
+  border-top: solid 1px #c2c2c2;
+}
+
+.question-table:last-child {
+  border-bottom: 0;
 }
 
 .left-40 {
@@ -703,6 +715,10 @@ lm-ls1 {
   .mt-2-4-l {
     margin-top: 2.4rem
   }
+
+  .w-8-l {
+    width: 8%;
+  }
 }
 
 @media screen and (max-width: 60em) and (min-width: 30em) {
@@ -726,6 +742,10 @@ lm-ls1 {
 
   .mb3-ml {
     margin-bottom: 1rem;
+  }
+
+  .w-10-ml {
+    width: 10%;
   }
 }
 
