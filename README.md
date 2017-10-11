@@ -45,6 +45,19 @@ The project should now be running at: `http://localhost:8000/admin`
 
 #### Load testing
 
+[Artillery](https://artillery.io/docs/) is used for load testing. You can
+install artillery with the command `npm install -g artillery`, and continue
+following through the
+[getting started guide](https://artillery.io/docs/getting-started/).
+
+We have 2 files for testing the staging and production sites.
+You can load test the staging site by making any changes you'd like to
+`staging-load-test.yml` and running the command `artillery run staging-load-test.yml`.
+
+Similarly, you can load test the production site by editing `prod-load-test.yml`
+as necessary, and running `artillery run prod-load-test.yml`.
+
+
 #### Wireframes
 
 You can see our last updated set of wireframes here:
