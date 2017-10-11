@@ -49,7 +49,6 @@ COPY supervisor-app.conf /etc/supervisor/conf.d/
 # to prevent re-installing (all your) dependencies when you made a change a line or two in your app.
 
 COPY requirements.txt /home/docker/code/
-WORKDIR /home/docker/code/
 RUN pip3 install -r /home/docker/code/requirements.txt
 
 # add (the rest of) our code
@@ -60,6 +59,10 @@ RUN chmod a+x /home/docker/code/wagtail.sh
 # be installed in the code/app/ directory
 # RUN django-admin.py startproject website /home/docker/code/app/
 # RUN python /home/docker/code/manage.py collectstatic -c --no-input --settings cms.settings.production
+
+WORKDIR /home/docker/code/
+RUN npm install && \
+    npm run install:elm
 
 EXPOSE 80
 CMD ["supervisord", "-n"]
