@@ -5,6 +5,7 @@ import State exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onClick, onCheck)
+import Json.Encode
 
 
 view : Model -> Html Msg
@@ -37,8 +38,12 @@ render_filter_block model num filter_label tags classname =
                 (ChangePosition num)
             )
         ]
-        ([ h3 [ class "ma0 pl1" ] [ text ("Q" ++ (toString num) ++ " of 3") ] ]
-            ++ (multi_line filter_label)
+        ([ div [ class "card-text", style [ ( "height", (toString model.cardHeight) ++ "px" ) ] ]
+            ([ h3 [ class "ma0 pl1" ] [ text ("Q" ++ (toString num) ++ " of 3") ]
+             , div [ property "innerHTML" (Json.Encode.string filter_label) ] []
+             ]
+            )
+         ]
             ++ [ div
                     [ class
                         ("mb5 pv2 pl1 overflow-scroll overflow-hidden-ns h4-s-i"

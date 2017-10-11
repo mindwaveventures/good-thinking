@@ -15,6 +15,7 @@ type alias Flags =
     , search : String
     , page : String
     , tagHeight : Int
+    , cardHeight : Int
     }
 
 
@@ -38,6 +39,7 @@ type alias Model =
     , resource_count : Int
     , results_updated : Int
     , tagHeight : Int
+    , cardHeight : Int
     }
 
 
