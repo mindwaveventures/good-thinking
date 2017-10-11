@@ -47,7 +47,7 @@ render_filter_block model num filter_label tags classname =
                                else
                                 ""
                         )
-                    , style [ ( "height", (toString model.height) ++ "px" ) ]
+                    , style [ ( "height", (toString model.tagHeight) ++ "px" ) ]
                     ]
                     ([] ++ (List.map (\t -> render_tag_list t model.selected_tags num) tags))
                ]
