@@ -80,9 +80,9 @@
           {% for a in q.Answers %}
           <div>
             {% if a.ControlType == "text" %}
-            <input type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlID}}" value="{{a.ControlValue}}" />
+            <input class="e24answers" type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlID}}" value="{{a.ControlValue}}" />
             {% else %}
-            <input type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlName}}" value="{{a.ControlValue}}" {% if a.isChecked %}checked{% endif %} />
+            <input class="e24answers" type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlName}}" value="{{a.ControlValue}}" {% if a.isChecked %}checked{% endif %} />
             {% endif %}
             <label for="{{a.ControlID}}">
               {{a.DisplayText}}

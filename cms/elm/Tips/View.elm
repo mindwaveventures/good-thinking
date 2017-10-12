@@ -26,13 +26,13 @@ view model tips classname =
             div
                 [ class "overflow-hidden" ]
                 [ div [ class (classname ++ " tag-container w-200-ns w-330 relative center " ++ (getPosition model.tip_position)) ]
-                    (List.indexedMap (\i el -> tip_view model i el "dib w-30 mr-1p-ns mr-1p") tips)
+                    (List.indexedMap (\i el -> tip_view model i el "dib w-30 mr-1p-ns mr-1p v-top") tips)
                 ]
 
         _ ->
             div [ class "overflow-hidden" ]
                 [ div [ class ("tag-container w-200-ns w-330 relative center " ++ (getPositionThree model.tip_position)) ]
-                    (List.indexedMap (\i el -> tip_view model i el ("dib w-30 mr-1p-ns mr-1p " ++ classname)) tips)
+                    (List.indexedMap (\i el -> tip_view model i el ("dib w-30 mr-1p-ns mr-1p v-top" ++ classname)) tips)
                 ]
 
 

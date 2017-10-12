@@ -5,6 +5,7 @@ import State exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onClick, onCheck)
+import Json.Encode
 
 
 view : Model -> Html Msg
@@ -13,7 +14,7 @@ view model =
         [ div [ class "tl w-60-l center" ] [ h3 [] [ text "Personalise your results:" ] ]
         , div [ class ("tag-container w-250-m w-200-l w-330 relative center " ++ (getPosition model.tag_position)) ]
             [ render_filter_block model 1 model.issue_label model.issue_tags ("mr-1p-l mr-5 " ++ (get_active model 1))
-            , render_filter_block model 2 model.reason_label model.reason_tags ("mr-1p-l mr-5 " ++ (get_active model 2))
+            , render_filter_block model 2 model.reason_label (List.sortWith order_tag_map model.reason_tags) ("mr-1p-l mr-5 " ++ (get_active model 2))
             , render_filter_block model 3 model.content_label model.content_tags (get_active model 3)
             ]
         ]
@@ -37,8 +38,12 @@ render_filter_block model num filter_label tags classname =
                 (ChangePosition num)
             )
         ]
-        ([ h3 [ class "ma0 pl1" ] [ text ("Q" ++ (toString num) ++ " of 3") ] ]
-            ++ (multi_line filter_label)
+        ([ div [ class "card-text", style [ ( "height", (toString model.cardHeight) ++ "px" ) ] ]
+            ([ h3 [ class "ma0 pl1" ] [ text ("Q" ++ (toString num) ++ " of 3") ]
+             , div [ property "innerHTML" (Json.Encode.string filter_label) ] []
+             ]
+            )
+         ]
             ++ [ div
                     [ class
                         ("mb5 pv2 pl1 overflow-scroll overflow-hidden-ns h4-s-i"
@@ -47,7 +52,7 @@ render_filter_block model num filter_label tags classname =
                                else
                                 ""
                         )
-                    , style [ ( "height", (toString model.height) ++ "px" ) ]
+                    , style [ ( "height", (toString model.tagHeight) ++ "px" ) ]
                     ]
                     ([] ++ (List.map (\t -> render_tag_list t model.selected_tags num) tags))
                ]
@@ -171,3 +176,45 @@ next_button pos =
 multi_line : String -> List (Html Msg)
 multi_line str =
     List.map (\e -> p [] [ text e ]) (String.lines str)
+
+
+order_tag_map taga tagb =
+    case taga of
+        "rarely" ->
+            LT
+
+        "sometimes" ->
+            case tagb of
+                "rarely" ->
+                    GT
+
+                _ ->
+                    LT
+
+        "often" ->
+            case tagb of
+                "rarely" ->
+                    GT
+
+                "sometimes" ->
+                    GT
+
+                _ ->
+                    LT
+
+        "all the time" ->
+            case tagb of
+                "rarely" ->
+                    GT
+
+                "sometimes" ->
+                    GT
+
+                "often" ->
+                    GT
+
+                _ ->
+                    LT
+
+        _ ->
+            GT

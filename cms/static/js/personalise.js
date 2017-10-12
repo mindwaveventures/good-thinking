@@ -1,7 +1,10 @@
 var personaliseDiv = document.getElementById('elm-personalise');
 
 if (personaliseDiv) {
-  var height = getHeight();
+  var tagHeight = getHeight(selectAll('.filter-block .tag-container'));
+  var cardHeight = getHeight(selectAll('.filter-block .card-text'));
+  var tips = selectAll('.tip-card-contain');
+  var tipHeight = getHeight(tips);
   var issue_tags = getTags('q1')
   var reason_tags = getTags('q2')
   var content_tags = getTags('q3')
@@ -22,7 +25,8 @@ if (personaliseDiv) {
     order: getOrder(),
     search: getQuery('q').q[0] || "",
     page: getPage(),
-    height: height + 10 // A little extra space needed so tags don't get cut off
+    tagHeight: tagHeight + 10, // A little extra space needed so tags don't get cut off
+    cardHeight: cardHeight
   });
 
   function getTags(name) {
@@ -71,8 +75,12 @@ if (personaliseDiv) {
       feedbackLoopListener();
       swipeListeners();
       analyticsListeners();
+      selectAll('.tip-card-contain').forEach(function(el) {
+        el.style.height = tipHeight + "px"
+      });
       mobileProsAndCons();
     });
+
   });
 
   app.ports.selectTag.subscribe(function(tag) {
@@ -156,7 +164,7 @@ if (personaliseDiv) {
     var prevButtons = selectAll('.tip-previous');
 
     nextButtons.forEach(function(el, i) {
-      if (i === nextButtons.length - 1) {
+      if (i === nextButtons.length - 1 || (i % 2 === 0 && i !== 0)) {
         el.style.display = "none";
       } else {
         el.addEventListener('click', function(e) {
@@ -166,7 +174,7 @@ if (personaliseDiv) {
     });
 
     prevButtons.forEach(function(el, i) {
-      if (i === 0 && prevButtons.length > 1) {
+      if (i % 3 === 0) {
         el.style.display = "none";
       } else {
         el.addEventListener('click', function(e) {
@@ -271,8 +279,8 @@ if (personaliseDiv) {
     return reg.test(window.location.href) || singleIssueReg.test(window.location.href);
   }
 
-  function getHeight() {
-    return Math.max.apply(null, selectAll('.filter-block .tag-container').map(function(el) {
+  function getHeight(elems) {
+    return Math.max.apply(null, elems.map(function(el) {
       return el.clientHeight;
     }));
   }
