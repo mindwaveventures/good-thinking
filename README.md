@@ -1,6 +1,13 @@
 # cms
 
-Content Management System for LDMW
+Content Management System for [Good Thinking](https://good-thinking.uk)
+
+### Urls
+The site is found at https://good-thinking.uk
+The wagtail cms for the site is at https://good-thinking.uk/admin
+
+The staging site is https://ldmw-staging.herokuapp.com
+The staging cms is https://ldmw-staging.herokuapp.com/admin
 
 ### Setup
 
@@ -13,7 +20,7 @@ This project uses:
 Clone the repository:
 
 ```bash
-git clone https://github.com/ldmw/cms.git && cd cms
+git clone https://github.com/mindwaveventures/cms.git && cd cms
 ```
 
 Ensure you have the following environment variables in your `$PATH`
@@ -41,7 +48,8 @@ dj runserver # start the django server
 elm make ./cms/elm/Main.elm --output=./cms/static/js/elm.js # compile elm files
 ```
 
-The project should now be running at: `http://localhost:8000/admin`
+The project should now be running at: `http://localhost:8000`
+The wagtail dashboard can be found at `http://localhost:8000/admin`
 
 #### Load testing
 
@@ -65,34 +73,13 @@ You can see our last updated set of wireframes here:
 + [Homepage mobile](https://user-images.githubusercontent.com/26304634/29663601-cb58c338-88c3-11e7-8ab8-ac5ba7d00ac9.png)
 + [Subpage](https://user-images.githubusercontent.com/26304634/29663627-f0c51cac-88c3-11e7-9af6-5456a585470f.png)
 
-#### Dumpdata
+#### Data
 
-You can add the current dumpdata from the project by switching to the `dumpdata` branch and running:
-
-```bash
-psql -c "drop database cms"
-psql -c "create database cms" # now have clean db
-dj migrate
-dj loaddata dumpdata.json
-```
-
-If you get the following error when running `loaddata`:
+You can get the current data from the database by running:
 
 ```bash
-DETAIL:  Key (group_id, collection_id, permission_id)=(1, 1, 5) already exists.
-```
-
-You should run the following command:
-
-```bash
-psql -d cms -c "delete from wagtailcore_groupcollectionpermission where collection_id=1"
-dj loaddata dumpdata.json
-```
-
-You can re-dump the dumpdata with the command:
-
-```bash
-dj dumpdata --natural-foreign --natural-primary > dumpdata.json
+  heroku pg:backups:download -a ldmw
+  pg_restore --verbose --clean --no-acl --no-owner -d cms latest.dump
 ```
 
 To set up the needed remotes for the project you should run the following:
@@ -116,9 +103,7 @@ heroku https://git.heroku.com/ldmw.git
 origin https://github.com/ldmw/cms.git
 ```
 
-### Using the CMS
-
-The CMS can be accessed at https://ldmw-cms.herokuapp.com/admin/
+## Using the CMS
 
 #### Editing the Homepage
 
@@ -149,10 +134,6 @@ The three types of tag are `Main Tags` (Categories/Sleep issues such as 'insomni
 
 These tags will be added to the site if they did not already exist. When you have done this, click publish and the resource will be added to the site.
 
-### Deployment
-
-The cms is set to automatically push from the master branch to the cms staging area (https://ldmw-cms-staging.herokuapp.com/admin/). When we're happy this is working, we will push manually to the production site.
-
 ### Add Pages
 
 Static Pages consisting of just a heading paragraph/s and body paragraph/s can be added using the `static page` page type on wagtail.
@@ -164,3 +145,17 @@ These pages will be available at the site on `/{page-title}`. For example, the c
 You can link to these pages from elsewhere by using an internal link, and selecting the page you want to link to.
 
 <img width="852" alt="screen shot 2017-05-10 at 15 18 12" src="https://cloud.githubusercontent.com/assets/8939909/25903364/138bbe9a-3594-11e7-9b9f-a0f23de93d52.png">
+
+### Topic Pages
+
+The resources are displayed on individual topic pages. In order to make them display, you have to tag them with a topic tag that corresponds to the slug of the topic page. For example, a resource tagged with `anxious` would display on the `anxious` page (https://www.good-thinking.uk/anxious/).
+
+### Assessments
+
+The Expert 24 assessments work in the same way as other resources. You add a new page of type `assessment` to the resources page, then tag it with the topic you would like it to appear under.
+
+Resources can be added to the results of these assessments by adding a hidden tag to the resource that corresponds to a tag on the disposition of the assessment results. Only resources that match the topic of the assessment will display.
+
+### Deployment
+
+The cms is set to automatically push from the master branch to the staging area (https://ldmw-staging.herokuapp.com/). When we're happy this is working, we push manually to the production site.
