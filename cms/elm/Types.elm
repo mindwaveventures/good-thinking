@@ -70,6 +70,7 @@ type Msg
     | Swipe String
     | TipSwipe String
     | ShowMore Bool
+    | ClickScroll
     | LazyLoad String (Result Http.Error Results)
     | LazyRemainder String (Result Http.Error Results)
     | ResultsLoadingAlert Int Int

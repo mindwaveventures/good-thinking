@@ -12,6 +12,8 @@ function scrollToElement (e, elementId) {
   });
 }
 
-arrow.addEventListener('click', function (e) {
-  scrollToElement(e, '#topics');
-});
+if (arrow) {
+  arrow.addEventListener('click', function (e) {
+    scrollToElement(e, '#topics');
+  });
+}

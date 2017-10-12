@@ -106,6 +106,17 @@ if (personaliseDiv) {
     localStorage.setItem('ldmw_resource_order', order);
   });
 
+  app.ports.clickScroll.subscribe(function() {
+    var results = select('#results');
+    var targetPos = results.offsetTop - results.offsetHeight;
+
+    window.scrollTo({
+      top: targetPos,
+      left: 0,
+      behavior: 'smooth'
+    });
+  });
+
   function swipe(el, callback){
     var swipedir;
     var startX;
