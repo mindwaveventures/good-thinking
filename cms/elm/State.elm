@@ -118,7 +118,7 @@ update msg model =
                     update NoOp model
 
         ClickScroll ->
-            update NoOp model
+            ( model, Ports.clickScroll () )
 
         ShowMore show ->
             ( { model | show_more = show }, Cmd.none )

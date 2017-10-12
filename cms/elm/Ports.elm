@@ -21,4 +21,4 @@ port swipe : (String -> msg) -> Sub msg
 port tipSwipe : (String -> msg) -> Sub msg
 
 
-port clickScroll : () -> Sub msg
+port clickScroll : () -> Cmd msg
