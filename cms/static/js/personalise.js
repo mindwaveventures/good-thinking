@@ -169,13 +169,6 @@ if (personaliseDiv) {
     });
   }
 
-  function clickListeners () {
-    var pyrSearch = select('#pyr-search');
-    pyrSearch.addEventListener('click', function (e) {
-      app.ports.clickScroll.send(scrollToElement(e, '#results'));
-    });
-  }
-
   function getPage() {
     var page = window.location.href.split('/')[3];
     if (!page || page.indexOf('?') > -1) {
