@@ -70,6 +70,7 @@ if (personaliseDiv) {
       likeListeners();
       feedbackLoopListener();
       swipeListeners();
+      clickListeners();
       analyticsListeners();
       mobileProsAndCons();
     });
@@ -162,6 +163,13 @@ if (personaliseDiv) {
           app.ports.tipSwipe.send("right");
         });
       }
+    });
+  }
+
+  function clickListeners () {
+    var pyrSearch = select('#pyr-search');
+    pyrSearch.addEventListener('click', function (e) {
+      app.ports.clickScroll.send(scrollToElement(e, '#results'));
     });
   }
 
@@ -267,4 +275,5 @@ if (personaliseDiv) {
   }
 
   swipeListeners();
+  clickListeners()
 }
