@@ -117,6 +117,9 @@ update msg model =
                 _ ->
                     update NoOp model
 
+        ClickScroll ->
+            update NoOp model
+
         ShowMore show ->
             ( { model | show_more = show }, Cmd.none )
 
