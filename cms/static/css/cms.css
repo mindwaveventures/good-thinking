@@ -757,6 +757,25 @@ lm-ls1 {
   }
 }
 
+@media screen and (min-width: 47em) {
+  .dn-sm {
+    display: none;
+  }
+
+  .dt-sm {
+    display: table;
+  }
+
+  .dt--fixed-sm {
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  .dtc-sm {
+    display: table-cell;
+  }
+}
+
 @media screen and (max-width:30em) {
   .h4-s-i {
     height: 10rem !important;
