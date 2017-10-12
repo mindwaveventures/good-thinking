@@ -78,7 +78,7 @@
           {% include "resources/assessment/question-table.html" with table=q %}
           {% endif %}
           {% for a in q.Answers %}
-          <div>
+          <div class="pv1">
             {% if a.ControlType == "text" %}
             <input class="e24answers" type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlID}}" value="{{a.ControlValue}}" />
             {% else %}
