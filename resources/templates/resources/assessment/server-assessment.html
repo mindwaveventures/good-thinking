@@ -159,6 +159,13 @@
   </div>
 
   {% if resources %}
+    {% if resource_text %}
+      <div class="w-60-l center copy">
+        <div class="w-70">
+          {{resource_text|new_tab|richtext}}
+        </div>
+      </div>
+    {% endif %}
     {% for r in resources %}
       {% include "resources/short_resource.html" with page=r %}
     {% endfor %}
