@@ -15,7 +15,7 @@
       hamburger.classList.remove('active');
       hamburger_content.classList.remove('show_hamburger');
       select('body').classList.remove('stop-scrolling');
-      select('html').classList.add('stop-scrolling');
+      select('html').classList.remove('stop-scrolling');
     } else {
       // showing hamburger content
       hamburger.classList.add('active');
