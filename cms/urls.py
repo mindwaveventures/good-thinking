@@ -16,11 +16,15 @@ from resources.views import (
     assessment_controller, assessment_summary_controller
 )
 
+from wagtail.contrib.wagtailsitemaps.views import sitemap
+
+
 urlpatterns = [
     url(r'^django-admin/', include(admin.site.urls)),
 
     url(r'^admin/', include(wagtailadmin_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
+    url('^sitemap\.xml$', sitemap),
 
     url(r'^search/$', search_views.search, name='search'),
 
