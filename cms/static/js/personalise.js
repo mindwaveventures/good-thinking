@@ -99,7 +99,14 @@ if (personaliseDiv) {
   });
 
   app.ports.clickScroll.subscribe(function() {
-    console.log('SCROLL NOW');
+    var results = select('#results');
+    var targetPos = results.offsetTop - results.offsetHeight;
+
+    window.scrollTo({
+      top: targetPos,
+      left: 0,
+      behavior: 'smooth'
+    });
   });
 
   function swipe(el, callback){
@@ -271,5 +278,4 @@ if (personaliseDiv) {
   }
 
   swipeListeners();
-  clickListeners()
 }
