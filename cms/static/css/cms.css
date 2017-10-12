@@ -419,7 +419,7 @@ lm-ls1 {
   }
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 736px) {
   div.banner_buttons {
     display: none;
   }
@@ -768,6 +768,31 @@ lm-ls1 {
   .w-10-ml {
     width: 10%;
   }
+}
+
+@media screen and (min-width: 47em) {
+  .dn-sm {
+    display: none;
+  }
+
+  .dt-sm {
+    display: table;
+  }
+
+  .dt--fixed-sm {
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  .dtc-sm {
+    display: table-cell;
+  }
+}
+
+@media screen and (max-width: 47em) and (min-width: 30em) {
+    .mt5-sm {
+      margin-top: 4rem;
+    }
 }
 
 @media screen and (max-width:30em) {
