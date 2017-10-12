@@ -12,9 +12,9 @@
       </div>
     {% endif %}
     {% for a in q.Answers %}
-        <div>
-          <input class="dib" type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlName}}" value="{{a.ControlValue}}" {% if a.isChecked %}checked{% endif %} />
-          <label for="{{a.ControlID}}">{{a.DisplayText}}</label>
+        <div class="pv1 dt">
+          <input class="dtc mr1" type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlName}}" value="{{a.ControlValue}}" {% if a.isChecked %}checked{% endif %} />
+          <label class="dtc" for="{{a.ControlID}}">{{a.DisplayText}}</label>
         </div>
     {% endfor %}
   {% endfor %}
