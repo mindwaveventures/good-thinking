@@ -1,5 +1,4 @@
 var arrow = select('#browse-arrow');
-var searchButton = select('#pyr-search');
 
 function scrollToElement (e, elementId) {
   e.preventDefault();
@@ -15,8 +14,4 @@ function scrollToElement (e, elementId) {
 
 arrow.addEventListener('click', function (e) {
   scrollToElement(e, '#topics');
-});
-
-searchButton.addEventListener('click', function (e) {
-  scrollToElement(e, '#results');
 });
