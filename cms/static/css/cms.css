@@ -60,6 +60,11 @@
   display: none;
 }
 
+/* removes default IOS styling */
+.no-defaults {
+  background-clip: padding-box;
+}
+
 .filter-check:not(:checked)~.filter-sidebar,
 .filter-check:checked~.filter-sidebar {
   -webkit-transition-duration: 0.5s;
@@ -342,6 +347,14 @@ code {
 .full-resource {
   border-radius: 0.125rem 0.125rem 0 0;
   border-bottom: solid 1px #c2c2c2;
+}
+
+.br1-no-left {
+  border-radius: 0 0.125rem 0.125rem 0;
+}
+
+.br1-no-right {
+  border-radius: 0.125rem 0 0 0.125rem;
 }
 
 lm-ls1 {

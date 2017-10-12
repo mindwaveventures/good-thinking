@@ -1,31 +1,21 @@
 {% load wagtailcore_tags new_tab %}
 
 {% with table.Questions|first as first_question %}
-  <table class="collapse">
-    <thead>
-      <tr>
-        <th></th>
-        {% for a in first_question.Answers %}
-          <th class="tc">
-            {{a.DisplayText}}
-          </th>
-        {% endfor %}
-      </tr>
-    </thead>
 
-    <tbody>
-      {% for q in table.Questions %}
-        <tr class="bb b--lm-grey question-table {% if q.Error %}bg--lm-light-red{% endif %}" {% if q.Error %}alt="please choose an answer for this question"{% endif %}>
-          <td {% if q.Error %}class="ba b--lm-dark-red bw1 br1"{% endif %}>
-            {{q.DisplayText|new_tab|richtext}}
-          </td>
-          {% for a in q.Answers %}
-            <td class="tc {% if q.Error %}ba b--lm-dark-red bw1 br1{% endif %}">
-              <input type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlName}}" value="{{a.ControlValue}}" {% if a.isChecked %}checked{% endif %} />
-            </td>
-          {% endfor %}
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  {% for q in table.Questions %}
+    <h3>
+      {{q.DisplayText|new_tab|richtext}}
+    </h3>
+    {% if q.Error %}
+      <div class="bg--lm-light-red ba b--lm-dark-red bw1 br1 dib">
+        {{q.Error}}
+      </div>
+    {% endif %}
+    {% for a in q.Answers %}
+        <div>
+          <input class="dib" type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlName}}" value="{{a.ControlValue}}" {% if a.isChecked %}checked{% endif %} />
+          <label>{{a.DisplayText}}</label>
+        </div>
+    {% endfor %}
+  {% endfor %}
 {% endwith %}

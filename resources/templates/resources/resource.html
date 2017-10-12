@@ -75,7 +75,7 @@
       </div>
       <div class="mt1 mh2 dn db-ns">
         {% for tag in tags %}
-        <span class="b--lm-orange lm-bg-light-orange ba br2 ph2 pv1 lh-tag dib mb1 montserrat">{{tag}}</span>
+        <span class="b--lm-orange lm-bg-light-orange ba br2 lh-tag dib mb1 {% if page.hero_image or page.brand_logo or page.brand_text %}f6 ph1 {% else %}ph2 pv1 {% endif %}">{{tag}}</span>
         {% endfor %}
       </div>
       <div class="mh2 copy">
