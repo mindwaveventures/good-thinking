@@ -406,7 +406,7 @@ lm-ls1 {
   }
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 736px) {
   div.banner_buttons {
     display: none;
   }
