@@ -157,7 +157,7 @@ next_button pos =
     case pos of
         3 ->
             a
-                [ class "link", id "pyr-search", href "#results" ]
+                [ class "link", href "#results" ]
                 [ button [ class "f5 link dib mr3 ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover b--lm-dark-turquoise ba" ]
                     [ text "Search" ]
                 ]
