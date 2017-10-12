@@ -1,5 +1,5 @@
 <!-- ensuring hamburger takes up the correct space -->
-<section class="db dn-ns bg-white o-0">
+<section class="db dn-sm bg-white o-0">
   <button class="hamburger hamburger--slider relative" type="button">
     <span class="hamburger-box">
       <span class="hamburger-inner"></span>
@@ -7,7 +7,7 @@
   </button>
 </section>
 
-<section id="landing_page_hamburger" class="db dn-ns absolute bg-white w-100 z-4">
+<section id="landing_page_hamburger" class="db dn-sm absolute bg-white w-100 z-4">
   <button id="hamburger_id" class="hamburger hamburger--slider relative" type="button">
     <span class="hamburger-box">
       <span class="hamburger-inner"></span>
@@ -15,9 +15,9 @@
   </button>
 </section>
 
-<div id="hamburger_content_id" class="db dn-ns absolute bg-white w-100 overflow-scroll z-999">
+<div id="hamburger_content_id" class="db dn-sm absolute bg-white w-100 overflow-scroll z-999">
 
-  <section class="db dn-ns absolute bg-white w-100 z-4">
+  <section class="db dn-sm absolute bg-white w-100 z-4">
     <button id="hamburger_close" class="hamburger hamburger--slider relative is-active" type="button">
       <span class="hamburger-box">
         <span class="hamburger-inner"></span>
@@ -25,7 +25,7 @@
     </button>
   </section>
 
-  <div class="pa2 mt3">
+  <div class="pa2 mt3 mt5-sm">
     {% if back %}
       <div class="relative mv2-ns mv1 dtc-ns">
         <div class="b--lm-dark-blue lm-dark-blue ph3 pv2">
@@ -33,7 +33,7 @@
         </div>
       </div>
     {% endif %}
-    <div class="relative mv2-ns mv1 dtc-ns">
+    <div class="relative mv2-ns mv1 dtc-sm">
       <div class="b--lm-dark-blue lm-dark-blue ph3 pv2">
         {% if page.slug == "home" %}
         <a class="ttu link bb bw2" href="/">Home</a>
@@ -42,11 +42,11 @@
         {% endif %}
       </div>
     </div>
-    <div class="dib relative mv2-ns mv1 dtc-ns">
+    <div class="dib relative mv2-ns mv1 dtc-sm">
       I am, or know someone who is, feeling:
     </div>
     {% for topic in landing_pages %}
-    <div class="relative mv2-ns mv1 dtc-ns">
+    <div class="relative mv2-ns mv1 dtc-sm">
       <div class="b--lm-dark-blue lm-dark-blue ph3 pv2">
         {% if page.url == topic.url %}
         <a class="ttu link bb bw2" href="/{{topic.slug}}">{{topic.slug}}</a>
