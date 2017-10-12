@@ -776,6 +776,12 @@ lm-ls1 {
   }
 }
 
+@media screen and (max-width: 47em) and (min-width: 30em) {
+    .mt5-sm {
+      margin-top: 4rem;
+    }
+}
+
 @media screen and (max-width:30em) {
   .h4-s-i {
     height: 10rem !important;
