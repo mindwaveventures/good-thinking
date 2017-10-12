@@ -25,7 +25,7 @@
     </button>
   </section>
 
-  <div class="pa2 mt3 mt5-sm">
+  <div class="pa2 mt5">
     {% if back %}
       <div class="relative mv2-ns mv1 dtc-ns">
         <div class="b--lm-dark-blue lm-dark-blue ph3 pv2">
@@ -41,9 +41,25 @@
         <a class="ttu link" href="/">Home</a>
         {% endif %}
       </div>
+      <div class="b--lm-dark-blue lm-dark-blue ph3 pv2">
+        {% if slug == "self-assessment" %}
+        <a class="ttu link bb bw2" href="/self-assessment">Take self-assessment</a>
+        {% else %}
+        <a class="ttu link" href="/self-assessment">Take self-assessment</a>
+        {% endif %}
+      </div>
+      <div class="b--lm-dark-blue lm-dark-blue ph3 pv2">
+        {% if page.slug == "crisis" %}
+        <a class="ttu link bb bw2" href="/crisis">Get urgent support</a>
+        {% else %}
+        <a class="ttu link" href="/crisis">Get urgent support</a>
+        {% endif %}
+      </div>
     </div>
     <div class="dib relative mv2-ns mv1 dtc-sm">
-      I am, or know someone who is, feeling:
+      <div class="ph3 pv2">
+        I am, or know someone who is, feeling:
+      </div>
     </div>
     {% for topic in landing_pages %}
     <div class="relative mv2-ns mv1 dtc-sm">
