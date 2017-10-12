@@ -14,7 +14,7 @@
     {% for a in q.Answers %}
         <div>
           <input class="dib" type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlName}}" value="{{a.ControlValue}}" {% if a.isChecked %}checked{% endif %} />
-          <label>{{a.DisplayText}}</label>
+          <label for="{{a.ControlID}}">{{a.DisplayText}}</label>
         </div>
     {% endfor %}
   {% endfor %}
