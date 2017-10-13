@@ -787,6 +787,24 @@ lm-ls1 {
   .dtc-sm {
     display: table-cell;
   }
+
+  .fn-sm {
+    float: none;
+  }
+
+  .pl3-sm {
+    padding-left: 1rem;
+  }
+
+  .w-30-sm {
+    width: 30%;
+  }
+}
+
+@media screen and (max-width: 47em) and  (min-width: 30em){
+  .w-70-sm {
+    width: 70%;
+  }
 }
 
 @media screen and (max-width:30em) {
