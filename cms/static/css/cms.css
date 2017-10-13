@@ -795,13 +795,15 @@ lm-ls1 {
   .pl3-sm {
     padding-left: 1rem;
   }
+}
 
-  .w-30-sm {
+@media screen and (max-width: 60em) and (min-width: 47em) {
+  .w-30-mm {
     width: 30%;
   }
 }
 
-@media screen and (max-width: 47em) and  (min-width: 30em){
+@media screen and (max-width: 47em) and (min-width: 30em){
   .w-70-sm {
     width: 70%;
   }
