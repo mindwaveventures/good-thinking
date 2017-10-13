@@ -24,9 +24,9 @@
     {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages %}
   {% endif %}
 
-  <div class="mt6 mt5-ns mb5 assessment-text pa0-ns pa2">
+  <div class="mv5 assessment-text pa0-ns pa2">
     <div id="assessment-container" class="relative top--3 o-0"></div> <!-- anchor div to ensure screen goes below banner -->
-    <div class="w-60-l center pb3">
+    <div class="w-60-l center ph4-m pb3">
       <h3>{{heading}}</h3>
       <div class="copy">
         {{body|new_tab|richtext}}
@@ -80,7 +80,7 @@
           {% for a in q.Answers %}
           <div class="pv1 dt">
             {% if a.ControlType == "text" %}
-            <input class="e24answers" type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlID}}" value="{{a.ControlValue}}" />
+            <input class="e24answers dtc mr2" type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlID}}" value="{{a.ControlValue}}" />
             {% else %}
             <input class="e24answers dtc mr1" type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlName}}" value="{{a.ControlValue}}" {% if a.isChecked %}checked{% endif %} />
             {% endif %}
