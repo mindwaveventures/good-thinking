@@ -788,9 +788,3 @@ lm-ls1 {
     display: table-cell;
   }
 }
-
-@media screen and (max-width:30em) {
-  .h4-s-i {
-    height: 10rem !important;
-  }
-}
