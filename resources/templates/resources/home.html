@@ -54,7 +54,7 @@
           <% else %> -->
             <div class="pa1 pt4 pt3-m pt3-l mt4">
               <div class="w-60-l center">
-                <h3 class="tl">Personalise Your Results:</h3>
+                <h3 class="tl">To personalise your results, answer three quick questions below:</h3>
               </div>
               <form action="/{% if not page.slug == 'home' %}{{page.slug}}{% endif %}#results" method="get" id="filter-form">
                 {% include "resources/filter-blocks.html" with filter_label=page.filter_label_1 tags=issue_tags num=1 name="q1" %}
