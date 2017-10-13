@@ -28,6 +28,10 @@
   background-color: #FFFFFF;
 }
 
+.hamburger-white, .hamburger-white:before, .hamburger-white:after {
+  background-color: #FFFFFF !important;
+}
+
 .lm-bg-white-hover:hover {
   background-color: #FFFFFF;
 }
