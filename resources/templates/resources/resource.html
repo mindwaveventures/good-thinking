@@ -126,7 +126,7 @@
           <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
         </div>
         {% else %}
-        <form class="like-form resource-feedback ph4">
+        <form class="like-form resource-feedback ph3">
           {% csrf_token %}
           <input type="hidden" name="id" value="{{page.id}}" />
           <p>
