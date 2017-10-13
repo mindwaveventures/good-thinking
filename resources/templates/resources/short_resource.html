@@ -4,7 +4,7 @@
   {% with missing=selected_tags|missing_tags:page %}
     {% if missing %}
       <div class="w-60-l center tl mb1">
-        <span>Missing:</span>
+        <span>Matches all tags except:</span>
         {% for tag in missing %}
         <span class="lm-bg-light-orange b--lm-orange ba br2 ph2 pv1 lh-tag dib mb1 mr1 strike">{{tag}}</span>
         {% endfor %}
