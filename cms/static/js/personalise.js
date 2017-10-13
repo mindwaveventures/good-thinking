@@ -75,7 +75,7 @@ if (personaliseDiv) {
       feedbackLoopListener();
       swipeListeners();
       analyticsListeners();
-      selectAll('.tip-card-contain').forEach(el => {
+      selectAll('.tip-card-contain').forEach(function(el) {
         el.style.height = tipHeight + "px"
       });
       mobileProsAndCons();
@@ -104,6 +104,17 @@ if (personaliseDiv) {
 
   app.ports.changeOrder.subscribe(function(order) {
     localStorage.setItem('ldmw_resource_order', order);
+  });
+
+  app.ports.clickScroll.subscribe(function() {
+    var results = select('#results');
+    var targetPos = results.offsetTop - results.offsetHeight;
+
+    window.scrollTo({
+      top: targetPos,
+      left: 0,
+      behavior: 'smooth'
+    });
   });
 
   function swipe(el, callback){

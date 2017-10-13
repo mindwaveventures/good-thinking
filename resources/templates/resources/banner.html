@@ -1,12 +1,12 @@
 {% load wagtailcore_tags new_tab %}
 
-<div class="lm-bg-white pa3 w-100 f6 f5-l f5-m banner segoe fixed top-0 z-5 dt-ns dt--fixed-ns shadow-2" id="beta-banner">
-    <div class="dtc-ns w-10-ml w-8-l w-15-m dn tl v-mid banner_buttons">
+<div class="lm-bg-white pa3 w-100 f6 f5-l f5-m banner segoe fixed top-0 z-5 dt-sm dt--fixed-sm shadow-2" id="beta-banner">
+    <div class="dtc-sm w-10-ml w-8-l w-15-m dn tl v-mid banner_buttons">
       <a href="/"
         {% if page.slug != "home" %}
           class="f6 f7-m link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise"
         {% else %}
-          class="f5 link dib ph3 pv2 br1 pointer montserrat tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba b--lm-dark-turquoise"
+          class="f5 link dib ph3 pv2 br1 pointer montserrat tracked inner-shadow-active lm-inactive lm-bg-white ba b--lm-inactive"
         {% endif %}
       >Home</a>
     </div>
@@ -14,8 +14,20 @@
   <div class="dtc-ns w-40-l w-30-m v-mid banner">
     {{banner|new_tab|richtext}}
   </div>
-  <div class="dtc-ns dn tr v-mid banner_buttons">
-    <a href="/self-assessment" class="f6 f7-m link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise" id="assessment">Take self-assessment</a>
-    <a href="/crisis" class="f6 f7-m link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise crisis-link">Get urgent support</a>
+  <div class="dtc-sm dn tr v-mid banner_buttons">
+    <a href="/self-assessment"
+    {% if slug != "self-assessment" %}
+      class="f6 f7-m link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise"
+    {% else %}
+      class="f5 link dib ph3 pv2 br1 pointer montserrat tracked inner-shadow-active lm-inactive lm-bg-white ba b--lm-inactive"
+    {% endif %}
+    id="assessment">Take self-assessment</a>
+    <a href="/crisis"
+    {% if page.slug != "crisis" %}
+      class="f6 f7-m link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise crisis-link"
+    {% else %}
+      class="f5 link dib ph3 pv2 br1 pointer montserrat tracked inner-shadow-active lm-inactive lm-bg-white ba b--lm-inactive"
+    {% endif %}
+    >Get urgent support</a>
   </div>
 </div>

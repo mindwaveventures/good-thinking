@@ -459,10 +459,18 @@ class Assessment(ResourcePage):
         help_text='The ID of the assessment algorithm'
     )
 
+    resource_text = RichTextField(
+        blank=True,
+        help_text=(
+            "An intro to the resources attached to the assessment results"
+        )
+    )
+
     content_panels = Page.content_panels + [
         FieldPanel('heading', classname="full"),
         FieldPanel('body', classname="full"),
-        FieldPanel('algorithm_id', classname="full")
+        FieldPanel('algorithm_id', classname="full"),
+        FieldPanel('resource_text', classname="full")
     ]
 
     promote_panels = Page.promote_panels + [

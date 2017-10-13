@@ -60,6 +60,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.redirects',
+    'django.contrib.sitemaps',
     'django_nose',
 ]
 
@@ -83,11 +86,15 @@ MIDDLEWARE = [
 
     'wagtail.wagtailcore.middleware.SiteMiddleware',
     'wagtail.wagtailredirects.middleware.RedirectMiddleware',
+    'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
+    'cms.middleware.RedirectFromLMMiddleware'
 ]
 
 ROOT_URLCONF = 'cms.urls'
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+
+SITE_ID = 1
 
 TEMPLATES = [
     {
@@ -189,7 +196,7 @@ WAGTAIL_SITE_NAME = "cms"
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
-BASE_URL = 'http://example.com'
+BASE_URL = 'http://www.good-thinking.uk'
 
 AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']

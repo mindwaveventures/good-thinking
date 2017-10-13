@@ -59,7 +59,7 @@
                   {% endfor %}
                 {% endif %}
                 <label for="id_{{row.label}}" class="dn"></label>
-                <textarea id="id_{{row.label}}" name="{{row.label}}" class="h4 f5 w-100 pa3 nr b--lm-grey" {{required}}>{{row.submitted_val}}</textarea>
+                <textarea id="id_{{row.label}}" name="{{row.label}}" class="h4 f5 w-100 pa3 nr b--lm-grey no-defaults" {{required}}>{{row.submitted_val}}</textarea>
                 <div class="around_form_input">
                   {{row.after_input|new_tab|richtext}}
                 </div>

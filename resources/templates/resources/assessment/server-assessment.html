@@ -78,13 +78,13 @@
           {% include "resources/assessment/question-table.html" with table=q %}
           {% endif %}
           {% for a in q.Answers %}
-          <div>
+          <div class="pv1 dt">
             {% if a.ControlType == "text" %}
             <input class="e24answers" type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlID}}" value="{{a.ControlValue}}" />
             {% else %}
-            <input class="e24answers" type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlName}}" value="{{a.ControlValue}}" {% if a.isChecked %}checked{% endif %} />
+            <input class="e24answers dtc mr1" type="{{a.ControlType}}" id="{{a.ControlID}}" name="{{a.ControlName}}" value="{{a.ControlValue}}" {% if a.isChecked %}checked{% endif %} />
             {% endif %}
-            <label for="{{a.ControlID}}">
+            <label for="{{a.ControlID}}" class="dtc">
               {{a.DisplayText}}
             </label>
             {% if a.hasInfo %}
@@ -159,6 +159,13 @@
   </div>
 
   {% if resources %}
+    {% if resource_text %}
+      <div class="w-60-l center copy">
+        <div class="w-70">
+          {{resource_text|new_tab|richtext}}
+        </div>
+      </div>
+    {% endif %}
     {% for r in resources %}
       {% include "resources/short_resource.html" with page=r %}
     {% endfor %}

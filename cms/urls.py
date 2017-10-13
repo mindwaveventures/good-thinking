@@ -16,11 +16,17 @@ from resources.views import (
     assessment_controller, assessment_summary_controller
 )
 
+from django.views.generic import TemplateView
+
+from wagtail.contrib.wagtailsitemaps.views import sitemap
+
+
 urlpatterns = [
     url(r'^django-admin/', include(admin.site.urls)),
 
     url(r'^admin/', include(wagtailadmin_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
+    url('^sitemap\.xml$', sitemap),
 
     url(r'^search/$', search_views.search, name='search'),
 
@@ -28,7 +34,15 @@ urlpatterns = [
 
     url(r'^get_json_data/', get_json_data),
 
+
     url(r'^location/', get_location),
+
+    url(
+        r'^robots\.txt',
+        TemplateView.as_view(template_name='robots.txt'),
+        name="cms"
+    ),
+
 
     url('server-assessment/', assessment_controller),
     url('assessment-summary/', assessment_summary_controller),

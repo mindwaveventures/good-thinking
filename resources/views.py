@@ -439,6 +439,7 @@ def assessment_controller(self, request, **kwargs):
         context['parent'] = None
         context['slug'] = None
 
+    context['resource_text'] = self.resource_text
     context['resources'] = resources
     context['heading'] = self.heading
     context['body'] = self.body
