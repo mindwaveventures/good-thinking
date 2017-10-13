@@ -11,8 +11,8 @@ class RedirectFromLMMiddleware(object):
             host = request.META['HTTP_HOST']
         except:
             host = ''
-        print(host)
-        if host == 'localhost:8000':
-            return redirect(settings.BASE_URL)
+
+        if host == 'londonminds.co.uk':
+            return redirect(settings.BASE_URL, permanent=True)
         else:
             return self.get_response(request)
