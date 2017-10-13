@@ -3,9 +3,6 @@ function feedbackLoopListener() {
     el.addEventListener('click', function (e) {
       var resource_id = get_resource_id(e.target);
       add_visited(resource_id);
-      if (!isMobileDevice()) {
-        window.location.reload();
-      }
     });
   });
 
@@ -25,22 +22,22 @@ function add_visited(resource_id) {
     return;
   }
   if (document.cookie.indexOf('ldmw_visited_resources') === -1) {
-    document.cookie = 'ldmw_visited_resources=' + resource_id;
+    document.cookie = 'ldmw_visited_resources=' + resource_id + ';path=/';
   } else {
     var visited_resources = get_visited_resources();
     if (visited_resources.indexOf(resource_id) === -1) {
-      document.cookie = 'ldmw_visited_resources=' + visited_resources.join() + ',' + resource_id;
+      document.cookie = 'ldmw_visited_resources=' + visited_resources.join() + ',' + resource_id + ';path=/';
     }
   }
 }
 
 function add_to_feedback_left_resources(resource_id) {
   if (document.cookie.indexOf('ldmw_feedback_left_resources') === -1) {
-    document.cookie = 'ldmw_feedback_left_resources=' + resource_id;
+    document.cookie = 'ldmw_feedback_left_resources=' + resource_id + ';path=/';
   } else {
     var feedback_left_resources = get_feedback_left_resources();
     if (feedback_left_resources.indexOf(resource_id) === -1) {
-      document.cookie = 'ldmw_feedback_left_resources=' + feedback_left_resources.join() + ',' + resource_id;
+      document.cookie = 'ldmw_feedback_left_resources=' + feedback_left_resources.join() + ',' + resource_id + ';path=/';
     }
   }
 }
@@ -81,7 +78,7 @@ function remove_visited(id) {
     return el && el !== id;
   });
   if (visited_resources.length > 0) {
-    document.cookie = 'ldmw_visited_resources=' + visited_resources.join();
+    document.cookie = 'ldmw_visited_resources=' + visited_resources.join() + ';path=/';
   } else {
     delete_cookie('ldmw_visited_resources');
   }
@@ -99,5 +96,7 @@ function delete_visited(id) {
 }
 
 var delete_cookie = function(name) {
-  document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
 };
+
+feedbackLoopListener();
