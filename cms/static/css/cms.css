@@ -222,6 +222,10 @@ code {
   width: 0.5rem;
 }
 
+.mw-80 {
+  max-width: 35em;
+}
+
 .h18 {
   height: 1.8rem;
 }
