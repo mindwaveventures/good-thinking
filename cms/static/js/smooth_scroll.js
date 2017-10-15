@@ -5,7 +5,7 @@ function scrollToElement (e, elementId) {
   var element = select(elementId);
   var targetPos = element.offsetTop - element.offsetHeight;
 
-  window.scrollTo({
+  window.scroll({
     top: targetPos,
     left: 0,
     behavior: 'smooth'

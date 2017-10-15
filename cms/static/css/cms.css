@@ -222,6 +222,10 @@ code {
   width: 0.5rem;
 }
 
+.mw-80 {
+  max-width: 35em;
+}
+
 .h18 {
   height: 1.8rem;
 }
@@ -787,10 +791,39 @@ lm-ls1 {
   .dtc-sm {
     display: table-cell;
   }
+
+  .fn-sm {
+    float: none;
+  }
+
+  .pl3-sm {
+    padding-left: 1rem;
+  }
+
+  .pt6-sm {
+    padding-top: 8rem;
+  }
 }
 
-@media screen and (max-width:30em) {
-  .h4-s-i {
-    height: 10rem !important;
+@media screen and (max-width: 60em) and (min-width: 47em) {
+  .w-30-mm {
+    width: 30%;
+  }
+}
+
+@media screen and (max-width: 47em) and (min-width: 30em){
+  .w-70-sm {
+    width: 70%;
+  }
+
+  .pv-1-4-sm {
+    padding-bottom: 1.4rem;
+    padding-top: 1.4rem;
+  }
+}
+
+@media screen and (max-width: 47em) {
+  .dn-ss {
+    display: none;
   }
 }

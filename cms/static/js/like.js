@@ -34,6 +34,7 @@ if (isNotIE8()) {
         }
 
         feedbackLoopListener();
+        mobileProsAndCons();
 
         addAnalytics(select("button[name='like']", resource), {event: "Like", variable: "liked", location: "resource"});
         addAnalytics(select("button[name='dislike']", resource), {event: "Dislike", variable: "disliked", location: "resource"});
