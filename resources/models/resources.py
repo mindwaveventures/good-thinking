@@ -114,6 +114,47 @@ class ResourcePageBadges(Orderable, Badges):
     page = ParentalKey('ResourcePage', related_name='badges')
 
 
+class Buttons(models.Model):
+    BUTTON_TYPES = (
+      ('Primary', 'Primary'),
+      ('Secondary', 'Secondary')
+    )
+    button_type = CharField(
+      choices=BUTTON_TYPES,
+      default='Primary',
+      max_length=16,
+      help_text='Type of Button - Primary/Secondary'
+    )
+    button_text = TextField()
+    button_link = URLField()
+
+    ALIGNMENT_CHOICES = (
+      ('tl', 'left'),
+      ('tc', 'center'),
+      ('tr', 'right')
+    )
+    alignment = CharField(
+      choices=ALIGNMENT_CHOICES,
+      max_length=10,
+      default='left',
+      help_text='Alignment of the button'
+    )
+
+    panels = [
+        FieldPanel('button_type'),
+        FieldPanel('button_text'),
+        FieldPanel('button_link'),
+        FieldPanel('alignment')
+    ]
+
+    class Meta:
+        abstract = True
+
+
+class ResourcePageButtons(Orderable, Buttons):
+    page = ParentalKey('ResourcePage', related_name='buttons')
+
+
 class LatLong(Orderable):
     latitude = LatitudeField(max_length=10)
     longitude = LongitudeField(max_length=10)
@@ -179,9 +220,19 @@ class ResourcePage(AbstractForm):
 
             resource = get_resource(id, cookie)
 
+            if request_dict['feedback'] == '':
+                error = True
+            else:
+                error = False
+
+            csrf = request.POST.get('csrfmiddlewaretoken')
+
             resource_result = render_to_string(
                 'resources/resource.html',
-                {'page': resource, 'like_feedback_submitted': True}
+                {
+                    'page': resource, 'like_feedback_submitted': True,
+                    'error': error, 'csrf_token': csrf
+                }
             )
 
             visited_result = render_to_string(
@@ -352,6 +403,7 @@ class ResourcePage(AbstractForm):
             FieldPanel('resource_url_text', classname="col6"),
         ], classname="full"),
         FieldPanel('body', classname="full"),
+        InlinePanel('buttons', label="Buttons"),
         FieldPanel('pros', classname="full"),
         FieldPanel('cons', classname="full")
     ]
@@ -426,6 +478,8 @@ class ResourcePage(AbstractForm):
             .filter(resource_id=self.id, like_value=-1)\
             .count()
         context['badges'] = ResourcePageBadges.objects\
+            .filter(page_id=self.page_ptr_id)
+        context['buttons'] = ResourcePageButtons.objects\
             .filter(page_id=self.page_ptr_id)
 
         return base_context(context)

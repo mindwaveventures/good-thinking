@@ -25,7 +25,7 @@ if (personaliseDiv) {
     order: getOrder(),
     search: getQuery('q').q[0] || "",
     page: getPage(),
-    tagHeight: tagHeight + 10, // A little extra space needed so tags don't get cut off
+    tagHeight: tagHeight + 25, // A little extra space needed so tags don't get cut off
     cardHeight: cardHeight
   });
 

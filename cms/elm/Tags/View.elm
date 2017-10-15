@@ -45,13 +45,7 @@ render_filter_block model num filter_label tags classname =
             )
          ]
             ++ [ div
-                    [ class
-                        ("mb5 pv2 pl1 overflow-scroll overflow-hidden-ns h4-s-i"
-                            ++ if (List.length tags) > 8 then
-                                " mobile-scrollbars"
-                               else
-                                ""
-                        )
+                    [ class "mb5 pv2 pl1"
                     , style [ ( "height", (toString model.tagHeight) ++ "px" ) ]
                     ]
                     ([] ++ (List.map (\t -> render_tag_list t model.selected_tags num) tags))

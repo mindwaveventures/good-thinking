@@ -8,7 +8,7 @@
   {% include "resources/banner.html" %}
   {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages %}
   <section class="pt5-plus ph4 ph5-m ph6-l tc">
-    <div class="{{ page.text_alignment }} copy static-page">
+    <div class="{{ page.text_alignment }} copy static-page mw-80 center">
       {% for block in page.body %}
         {% include_block block %}
       {% endfor %}

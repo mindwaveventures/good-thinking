@@ -222,6 +222,10 @@ code {
   width: 0.5rem;
 }
 
+.mw-80 {
+  max-width: 35em;
+}
+
 .h18 {
   height: 1.8rem;
 }
@@ -821,11 +825,5 @@ lm-ls1 {
 @media screen and (max-width: 47em) {
   .dn-ss {
     display: none;
-  }
-}
-
-@media screen and (max-width:30em) {
-  .h4-s-i {
-    height: 10rem !important;
   }
 }
