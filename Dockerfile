@@ -1,4 +1,5 @@
 # Copyright 2013 Thatcher Peskens
+# Copyright 2017 Mindwave Ventures Ltd
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,14 +29,15 @@ RUN apt-get update && \
     npm -g install yuglify && \
     rm -rf /var/lib/apt/lists/* && \
     ln -s /usr/bin/nodejs /usr/bin/node && \
-    pip3 install uwsgi && \
-    echo "daemon off;" >> /etc/nginx/nginx.conf
+    pip3 install uwsgi
+#    echo "daemon off;" >> /etc/nginx/nginx.conf
 
 # setup all the configfiles
 
 # COPY requirements.txt and RUN pip install BEFORE adding the rest of your code, this will cause Docker's caching mechanism
 # to prevent re-installing (all your) dependencies when you made a change a line or two in your app.
 
+COPY nginx.conf /etc/nginx/
 COPY nginx-app.conf /etc/nginx/sites-available/default
 COPY supervisor-app.conf /etc/supervisor/conf.d/
 COPY requirements.txt /home/docker/code/
