@@ -24,7 +24,7 @@
         </form>
       </div>
       <div class="dib-ns dtc-ns">
-        {% if like_feedback_submitted %}
+        {% if like_feedback_submitted and not error %}
         <div class="alert ma0 mb1 mr1 mt2 pa2 ba bw1-ns bg--lm-green b--lm-green relative">
           Suggestions submitted successfully!
           <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
@@ -39,6 +39,12 @@
           <input type="hidden" name="liked" value="{{v.liked_value}}" />
           <input type="hidden" name="resource_name" value="{{v.heading}}" />
           {% include "resources/primary-button.html" with value="Submit" class="mv3" %}
+
+          {% if error %}
+            <div class="bg--lm-light-red ba b--lm-dark-red bw1 br1 dib pa1">
+              Please enter your feedback before submitting
+            </div>
+          {% endif %}
         </form>
         {% endif %}
       </div>

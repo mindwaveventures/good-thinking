@@ -394,9 +394,12 @@ def custom_serve(self, request, *args, **kwargs):
 
         id = request_dict['id']
 
-        if request_dict['short_resource'] == "true":
-            template = 'resources/short_resource.html'
-        else:
+        try:
+            if request_dict['short_resource'] == "true":
+                template = 'resources/short_resource.html'
+            else:
+                template = 'resources/resource.html'
+        except:
             template = 'resources/resource.html'
 
         self.process_form_submission(request_dict)
@@ -408,21 +411,35 @@ def custom_serve(self, request, *args, **kwargs):
 
         resource = get_resource(id, cookie)
 
+        if request_dict['feedback'] == '':
+            error = True
+        else:
+            error = False
+
+        csrf = request.POST.get('csrfmiddlewaretoken')
+
         resource_result = render_to_string(
             template,
-            {'page': resource, 'like_feedback_submitted': True}
+            {
+                'page': resource, 'like_feedback_submitted': True,
+                'error': error, 'csrf_token': csrf
+            }
         )
 
         visited_result = render_to_string(
             'resources/single_visited.html',
-            {'v': resource, 'like_feedback_submitted': True}
+            {
+                'v': resource, 'like_feedback_submitted': True,
+                'error': error, 'csrf_token': csrf
+            }
         )
 
         return JsonResponse({
             'result': resource_result,
             'visited_result': visited_result,
             'id': id,
-            'feedback': True
+            'feedback': True,
+            'error': error
         })
 
     if request.method == 'POST':

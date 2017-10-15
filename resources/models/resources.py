@@ -220,9 +220,19 @@ class ResourcePage(AbstractForm):
 
             resource = get_resource(id, cookie)
 
+            if request_dict['feedback'] == '':
+                error = True
+            else:
+                error = False
+
+            csrf = request.POST.get('csrfmiddlewaretoken')
+
             resource_result = render_to_string(
                 'resources/resource.html',
-                {'page': resource, 'like_feedback_submitted': True}
+                {
+                    'page': resource, 'like_feedback_submitted': True,
+                    'error': error, 'csrf_token': csrf
+                }
             )
 
             visited_result = render_to_string(

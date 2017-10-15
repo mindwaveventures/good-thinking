@@ -70,7 +70,7 @@
             </div>
           </div>
           {% if page.liked_value == 1 or page.liked_value == -1 %}
-          {% if like_feedback_submitted %}
+          {% if like_feedback_submitted and not error %}
           <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-green b--lm-green relative">
             Suggestions submitted successfully!
             <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
@@ -87,6 +87,12 @@
               <textarea id="id_{{page.id}}" name="feedback" class="dtc h2 f5 w-90 pa1 nr b--lm-dark-turquoise"></textarea>
               <button type="submit" class="f5 h2 w-10 fr link dtc pa1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba b--lm-dark-turquoise"><i class="fa fa-caret-right" aria-hidden="true"></i></button>
             </div>
+
+            {% if error %}
+              <div class="bg--lm-light-red ba b--lm-dark-red bw1 br1 dib pa1">
+                Please enter your feedback before submitting
+              </div>
+            {% endif %}
 
             <input type="hidden" name="resource_title" value="{{page.title}}" />
             <input type="hidden" name="liked" value="{{page.liked_value}}" />
