@@ -80,6 +80,21 @@
       </div>
       <div class="mh2 copy">
         {{ page.body|new_tab|richtext }}
+          {% for button in buttons %}
+            <div class="{{button.alignment}}">
+              <a href="{{button.button_link}}">
+                <button
+                  {% if button.button_type == "Primary" %}
+                  class="mb2 f6 link dib ph3 pv2 br1 pointer tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba b--lm-dark-turquoise"
+                  {% else %}
+                  class="f6 f7-m link dib ph3 pv2 br1 pointer tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise"
+                  {% endif %}
+                  >
+                  {{button.button_text}}
+                </button>
+              </a>
+            </div>
+          {% endfor %}
       </div>
     </div>
     <div class="pt3">
