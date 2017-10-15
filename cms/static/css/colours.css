@@ -20,7 +20,7 @@
   background-color: rgba(255, 158, 27, 0.7);
 }
 
-.lm-bg-dark-blue {
+.lm-bg-dark-blue, .lm-bg-dark-blue-hover {
   background-color: #242E50;
 }
 
