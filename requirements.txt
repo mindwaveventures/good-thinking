@@ -35,6 +35,7 @@ elasticsearch==1.2.0
 flake8==3.4.1
 futures==3.1.1
 gpxpy==1.1.2
+gunicorn==19.7.1
 html5lib==0.999999999
 identify==1.0.3
 idna==2.5
