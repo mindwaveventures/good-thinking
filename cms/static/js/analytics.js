@@ -1,5 +1,7 @@
 function analyticsListeners() {
   var searchTags = select("#search-tags");
+  var startAssessment = select('#start-assessment');
+  var nextQuestion = select('#next-question');
 
   selectAll(".share").forEach(function(el) {
     addAnalytics(el, {event: "Share", variable: "shared"});
@@ -39,6 +41,17 @@ function analyticsListeners() {
 
   if (searchTags) {
     addAnalytics(searchTags, {event: "personaliseResults", variable: "personaliseAction", value: "search"});
+  }
+
+  if (startAssessment) {
+    sessionStorage.setItem('assessmentQ', 1);
+    addAnalytics(startAssessment, {event: "selfAssessment", variable: "assessmentProgress", value: "start"});
+  }
+
+  if (nextQuestion) {
+    var question = sessionStorage.getItem('assessmentQ');
+    sessionStorage.setItem('assessmentQ', parseInt(question, 10) + 1);
+    addAnalytics(nextQuestion, {event: "selfAssessment", variable: "assessmentProgress", value: "step " + question});
   }
 }
 
