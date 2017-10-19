@@ -227,3 +227,9 @@ WAGTAILSEARCH_BACKENDS = {
         'BACKEND': 'wagtail.contrib.postgres_search.backend',
     },
 }
+
+REDIRECT_FROM = [
+    'londonminds.co.uk',
+    'www.londonminds.co.uk',
+    'good-thinking.uk'
+]
