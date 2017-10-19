@@ -12,7 +12,7 @@ class RedirectFromLMMiddleware(object):
         except:
             host = ''
 
-        if host == 'www.londonminds.co.uk':
-            return redirect(settings.BASE_URL, permanent=True)
+        if host in settings.REDIRECT_FROM:
+            return redirect(settings.BASE_URL + request.path, permanent=True)
         else:
             return self.get_response(request)
