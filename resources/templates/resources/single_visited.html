@@ -30,7 +30,7 @@
           <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
         </div>
         {% else %}
-        <form class="like-form dib v-mid w-100 loop-feedback">
+        <form class="like-form dib v-mid w-100 loop-feedback" data-url="{{v.heading}}">
           {% csrf_token %}
           <input type="hidden" name="id" value="{{v.id}}" />
           <label for="id_{{v.id}}" class="dn"></label>

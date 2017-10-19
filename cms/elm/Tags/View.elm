@@ -143,7 +143,7 @@ previous_button pos =
 
         _ ->
             button
-                [ class "tl dib bn bg-white pointer pl3 pr0 pv0"
+                [ class "tl dib bn bg-white pointer pl3 pr0 pv0 previous-question-tags"
                 , onClick (ResultsLoadingAlert pos (pos - 1))
                 ]
                 [ div [ class "v-mid h2 br-100 w2 pa1 mr2 dib next_left" ] []
@@ -155,11 +155,11 @@ next_button : Int -> Html Msg
 next_button pos =
     case pos of
         3 ->
-            button [ onClick ClickScroll, class "f5 link dib mr3 ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover b--lm-dark-turquoise ba" ] [ a [ class "link", href "#results" ] [ text "Search" ] ]
+            button [ onClick ClickScroll, class "f5 link dib mr3 ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover b--lm-dark-turquoise ba search-tags" ] [ a [ class "link", href "#results" ] [ text "Search" ] ]
 
         _ ->
             button
-                [ class "tr dib bn bg-white pointer pr3 pl0 pv0"
+                [ class "tr dib bn bg-white pointer pr3 pl0 pv0 next-question-tags"
                 , onClick (ResultsLoadingAlert pos (pos + 1))
                 ]
                 [ div [ class "dib montserrat fw6 w-50 w-auto-ns mr3" ] [ text "next question" ]

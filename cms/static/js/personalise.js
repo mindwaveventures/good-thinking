@@ -96,6 +96,7 @@ if (personaliseDiv) {
       }
     }
 
+    tagAnalytics(tag);
     updateUrl(tag);
 
     localStorage.setItem('selected_tags_' + getPage(), JSON.stringify(selectedTags));

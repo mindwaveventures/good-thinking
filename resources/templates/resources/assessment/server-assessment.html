@@ -101,6 +101,9 @@
         {% endfor %}
 
         {% if Conclusions %}
+        <script type="text/javascript">
+          dataLayer.push({'event': 'selfAssessment', 'assessmentProgress': 'complete'});
+        </script>
         <div class="fw6 f3 mb2"
         {% if Report.MessageLevel == 1 %}style="color: red;"
         {% elif Report.MessageLevel == 3 %}style="color: green;"
@@ -135,9 +138,9 @@
         {% if not Conclusions %}
         <div class="tr dtc">
           {% if first_question %}
-            <button class="f6 f5-ns tr b--none bg-white fw6 lm-pink-hover lm-dark-turquoise pointer ph0" type="submit" name="next" value="Next">start assessment</button>
+            <button id="start-assessment" class="f6 f5-ns tr b--none bg-white fw6 lm-pink-hover lm-dark-turquoise pointer ph0" type="submit" name="next" value="Next">start assessment</button>
           {% else %}
-            <button class="f6 f5-ns tr b--none bg-white fw6 lm-pink-hover lm-dark-turquoise pointer ph0" type="submit" name="next" value="Next">next question</button>
+            <button id="next-question" data-node-id="{{NodeID}}" class="f6 f5-ns tr b--none bg-white fw6 lm-pink-hover lm-dark-turquoise pointer ph0" type="submit" name="next" value="Next">next question</button>
           {% endif %}
         </div>
         {% endif %}
