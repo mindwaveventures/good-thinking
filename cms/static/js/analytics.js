@@ -1,4 +1,6 @@
 function analyticsListeners() {
+  var searchTags = select("#search-tags");
+
   selectAll(".share").forEach(function(el) {
     addAnalytics(el, {event: "Share", variable: "shared"});
   });
@@ -26,6 +28,22 @@ function analyticsListeners() {
   selectAll(".loop-feedback").forEach(function(el) {
     addAnalytics(el, {event: "ResourceFeedback", variable: "reviewed", action: "submit", location: "feedback loop"});
   });
+
+  selectAll(".previous-question-tags").forEach(function(el) {
+    addAnalytics(el, {event: "personaliseResults", variable: "personaliseAction", value: "previous question"});
+  });
+
+  selectAll(".next-question-tags").forEach(function(el) {
+    addAnalytics(el, {event: "personaliseResults", variable: "personaliseAction", value: "next question"});
+  });
+
+  if (searchTags) {
+    addAnalytics(searchTags, {event: "personaliseResults", variable: "personaliseAction", value: "search"});
+  }
+}
+
+function tagAnalytics(tag) {
+  dataLayer.push({event: "personaliseResults", personaliseAction: "selected " + tag.name})
 }
 
 // Adds event listener that pushes to the data layer on click
@@ -43,14 +61,15 @@ function addAnalytics(el, opts) {
     el.addEventListener(opts.action || "click", function(e) {
       var variableData = {};
 
-      variableData[opts.variable] = e.target.getAttribute("data-url");
+      variableData[opts.variable] = opts.value || e.target.getAttribute("data-url");
 
       if (opts.location) {
         variableData['location'] = opts.location;
       }
 
+      variableData['event'] = opts.event;
+
       dataLayer.push(variableData);
-      dataLayer.push({"event": opts.event});
     });
   }
 }
