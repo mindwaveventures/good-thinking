@@ -137,7 +137,9 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
     'good-thinking.uk',
-    'www.good-thinking.uk'
+    'www.good-thinking.uk',
+    'aws.good-thinking.uk',
+    '.elasticbeanstalk.com'
 ]
 
 # Setting up project to use bcrypt hashing
