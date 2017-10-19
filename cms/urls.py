@@ -34,12 +34,13 @@ urlpatterns = [
 
     url(r'^get_json_data/', get_json_data),
 
-
     url(r'^location/', get_location),
 
     url(
         r'^robots\.txt',
-        TemplateView.as_view(template_name='robots.txt'),
+        TemplateView.as_view(
+            template_name='robots.txt', content_type='text/plain'
+        ),
         name="cms"
     ),
 
