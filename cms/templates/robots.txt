@@ -1,2 +1,5 @@
 User-agent: *
-Allow: /
+Disallow: /get_json_data/*
+Disallow: /location/*
+Disallow: /server-assessment/*
+Disallow: /assessment-summary/*
