@@ -3,3 +3,7 @@ li.rgb_color_field input {
   width: 100px!important;
   padding: 0px!important;
 }
+
+.hallohtml .ui-button-text i:before {
+  content:'</>';
+}
