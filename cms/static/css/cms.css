@@ -822,6 +822,12 @@ lm-ls1 {
   }
 }
 
+@media screen and (max-width: 30em) {
+  .mt5-s {
+    margin-top: 4rem;
+  }
+}
+
 @media screen and (max-width: 47em) {
   .dn-ss {
     display: none;

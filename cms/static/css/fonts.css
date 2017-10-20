@@ -161,3 +161,9 @@ button, button a {
     font-size: 14px;
   }
 }
+
+@media screen and (max-width:20em) {
+  h1 {
+    font-size: 30px;
+  }
+}
