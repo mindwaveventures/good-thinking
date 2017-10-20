@@ -826,6 +826,10 @@ lm-ls1 {
   .mt5-s {
     margin-top: 4rem;
   }
+  .pv-1-25-s {
+    padding-bottom: 1.25rem;
+    padding-top: 1.25rem;
+  }
 }
 
 @media screen and (max-width: 47em) {

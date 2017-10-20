@@ -6,7 +6,7 @@
   <div class="pt5 ph4 ph5-m pt6-sm ph6-l pt6-l tc lm-white lh-copy">
     <div class="pb3 w-90-ns f1-ns lh-title center">
       <div class="mb4">
-        <h1 class="mt5-s">
+        <h1 class="{%if page.slug == 'home' %}mt5-s{% endif %}">
           {{ page.header }}
         </h1>
         {% if page.slug == 'home' %}
