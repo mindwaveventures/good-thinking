@@ -17,7 +17,7 @@
         {% for topic in landing_pages %}
           <div class="dib relative mv2 mv1 dtc">
             <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer v-mid">
-              <a class="ttu montserrat fw6 lm-black f6 link bb-hover bw2-hover lm-dark-turquoise-hover {% if page.url == topic.url %}bb bw2{% endif %}" href="/{{topic.slug}}">{{topic.title}}</a>
+              <a class="ttu montserrat fw6 lm-black f6 link bb-hover bw2-hover lm-dark-turquoise-hover {% if page.url == topic.url %}bb bw2{% endif %}" href="/{{topic.slug}}/">{{topic.title}}</a>
             </div>
           </div>
         {% endfor %}
@@ -56,7 +56,7 @@
               <div class="w-60-l center">
                 <h3 class="tl">To personalise your results, answer three quick questions below:</h3>
               </div>
-              <form action="/{% if not page.slug == 'home' %}{{page.slug}}{% endif %}#results" method="get" id="filter-form">
+              <form action="/{% if not page.slug == 'home' %}{{page.slug}}/{% endif %}#results" method="get" id="filter-form">
                 {% include "resources/filter-blocks.html" with filter_label=page.filter_label_1 tags=issue_tags num=1 name="q1" %}
                 {% include "resources/filter-blocks.html" with filter_label=page.filter_label_2 tags=reason_tags num=2 name="q2" %}
                 {% include "resources/filter-blocks.html" with filter_label=page.filter_label_3 tags=content_tags num=3 name="q3" %}

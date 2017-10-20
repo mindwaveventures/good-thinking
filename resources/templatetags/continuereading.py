@@ -12,7 +12,7 @@ def continue_reading(text, obj):
         r'(<\/[^>]+>)$',
         ' <a class="lm-dark-turquoise lm-pink-hover '
         + f'link" href="/{obj.parent}'
-        + f'/{obj.slug}">continue reading</a>\\1',
+        + f'/{obj.slug}/">continue reading</a>\\1',
         text
     )
 

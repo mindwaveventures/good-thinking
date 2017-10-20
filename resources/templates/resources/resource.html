@@ -12,7 +12,7 @@
     {% for topic in landing_pages %}
       <div class="dib mv2 mv1 dtc">
         <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer v-mid">
-          <a class="ttu montserrat fw6 f6 link bb-hover lm-black bw2-hover lm-dark-turquoise-hover {% if page.url == topic.url %}bb bw2{% endif %}" href="/{{topic.slug}}">{{topic.title}}</a>
+          <a class="ttu montserrat fw6 f6 link bb-hover lm-black bw2-hover lm-dark-turquoise-hover {% if page.url == topic.url %}bb bw2{% endif %}" href="/{{topic.slug}}/">{{topic.title}}</a>
         </div>
       </div>
     {% endfor %}
@@ -37,7 +37,7 @@
 
 {% if back %}
   <div class="w-60-l center mt2 dn db-ns ph2">
-    <a href="/{{back}}"><button class="f6 f7-m link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise"><i class="fa fa-caret-left" aria-hidden="true"></i> Back to Results</button></a>
+    <a href="/{{back}}/"><button class="f6 f7-m link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise"><i class="fa fa-caret-left" aria-hidden="true"></i> Back to Results</button></a>
   </div>
 {% endif %}
 
