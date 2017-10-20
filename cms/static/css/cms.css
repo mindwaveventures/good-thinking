@@ -19,6 +19,12 @@
   background-color: rgba(250, 183, 129, 0.7);
 }
 
+.error-main-form textarea {
+  border-color: #FF1160;
+  border-width: 1.5px;
+  background-color: #FFC6D1;
+}
+
 .checked-fill:focus~label {
   outline: auto 5px -webkit-focus-ring-color;
 }

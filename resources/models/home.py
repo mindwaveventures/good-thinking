@@ -387,60 +387,60 @@ class Main(AbstractForm):
 
 
 def custom_serve(self, request, *args, **kwargs):
+    response = {}
+
     try:
         request_dict = parse_qs(request.body.decode('utf-8'))
     except:
         request_dict = request.POST.dict()
 
-        id = request_dict['id']
-
-        try:
-            if request_dict['short_resource'] == "true":
-                template = 'resources/short_resource.html'
-            else:
-                template = 'resources/resource.html'
-        except:
-            template = 'resources/resource.html'
-
-        self.process_form_submission(request_dict)
-
-        try:
-            cookie = request.COOKIES['ldmw_session']
-        except:
-            cookie = uid.hex
-
-        resource = get_resource(id, cookie)
-
-        if request_dict['feedback'] == '':
+        if (
+            request_dict.get('feedback') == ''
+            or request_dict.get('suggestion') == ''
+        ):
             error = True
         else:
             error = False
 
-        csrf = request.POST.get('csrfmiddlewaretoken')
+        response['error'] = error
 
-        resource_result = render_to_string(
-            template,
-            {
-                'page': resource, 'like_feedback_submitted': True,
-                'error': error, 'csrf_token': csrf
-            }
-        )
+        if request_dict.get('id'):
+            id = request_dict['id']
+            response['id'] = id
 
-        visited_result = render_to_string(
-            'resources/single_visited.html',
-            {
-                'v': resource, 'like_feedback_submitted': True,
-                'error': error, 'csrf_token': csrf
-            }
-        )
+            try:
+                cookie = request.COOKIES['ldmw_session']
+            except:
+                cookie = uid.hex
 
-        return JsonResponse({
-            'result': resource_result,
-            'visited_result': visited_result,
-            'id': id,
-            'feedback': True,
-            'error': error
-        })
+            resource = get_resource(id, cookie)
+
+            if request_dict.get('short_resource') == "true":
+                template = 'resources/short_resource.html'
+            else:
+                template = 'resources/resource.html'
+
+            csrf = request.POST.get('csrfmiddlewaretoken')
+
+            response['result'] = render_to_string(
+                template,
+                {
+                    'page': resource, 'like_feedback_submitted': True,
+                    'error': error, 'csrf_token': csrf
+                }
+            )
+
+            response['visited_result'] = render_to_string(
+                'resources/single_visited.html',
+                {
+                    'v': resource, 'like_feedback_submitted': True,
+                    'error': error, 'csrf_token': csrf
+                }
+            )
+
+        self.process_form_submission(request_dict)
+
+        return JsonResponse(response)
 
     if request.method == 'POST':
         form = self.get_form(request.POST, page=self, user=request.user)
@@ -504,7 +504,7 @@ def custom_form_submission(self, request_dict):
         except:
             email = ''
         try:
-            suggestion = request_dict['suggestion'][0]
+            suggestion = request_dict['suggestion']
         except:
             suggestion = ''
 
