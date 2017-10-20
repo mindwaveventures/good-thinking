@@ -75,6 +75,7 @@ Unidecode==0.4.20
 urllib3==1.21.1
 uWSGI==2.0.15
 virtualenv==15.1.0
+waitress==1.1.0
 wagtail==1.10.1
 wcwidth==0.1.7
 webencodings==0.5.1
