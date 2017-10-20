@@ -242,6 +242,11 @@ code {
   padding-top: 10rem;
 }
 
+.word-wrap {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
 @media screen and (min-width: 30em) {
   .h7-ns {
     height: 21.2rem;
@@ -704,6 +709,12 @@ lm-ls1 {
   }
 }
 
+@media screen and (max-width: 80em) and (min-width: 30em) {
+  .mt-2-8-ns-xl {
+    margin-top: 2.8rem;
+  }
+}
+
 @media screen and (min-width:60em) {
   .bottom--1-2-l {
     bottom: -1.2rem;
@@ -737,10 +748,6 @@ lm-ls1 {
     margin-right: 1%;
   }
 
-  .mt-2-4-l {
-    margin-top: 2.4rem
-  }
-
   .w-8-l {
     width: 8%;
   }
@@ -749,10 +756,6 @@ lm-ls1 {
 @media screen and (max-width: 60em) and (min-width: 30em) {
   .w-15-m {
     width: 15%;
-  }
-
-  .mt-2-8-m {
-    margin-top: 2.8rem
   }
 }
 
