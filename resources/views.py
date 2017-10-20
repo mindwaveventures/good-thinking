@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.conf import settings
 
 from itertools import chain
 
@@ -28,7 +29,7 @@ from django.core.paginator import Paginator
 
 import requests
 
-e24_url = "http://apps.expert-24.com/WebBuilder/TraversalService/"
+e24_url = settings.E24_URL
 
 
 def get_location(request):
