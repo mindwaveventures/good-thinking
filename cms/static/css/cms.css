@@ -618,6 +618,10 @@ lm-ls1 {
   right: 204%;
 }
 
+.no-js {
+  margin-top: 0 !important;
+}
+
 @media screen and (max-width:480px) {
   div.mobile-scrollbars::-webkit-scrollbar {
     width: 8px;
@@ -709,7 +713,7 @@ lm-ls1 {
   }
 }
 
-@media screen and (max-width: 80em) and (min-width: 30em) {
+@media screen and (max-width: 90em) and (min-width: 30em) {
   .mt-2-8-ns-xl {
     margin-top: 2.8rem;
   }
