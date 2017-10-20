@@ -810,6 +810,11 @@ lm-ls1 {
   .pt6-sm {
     padding-top: 8rem;
   }
+
+  .mh2-sm {
+    margin-left: .5rem;
+    margin-right: .5rem;
+  }
 }
 
 @media screen and (max-width: 60em) and (min-width: 47em) {
