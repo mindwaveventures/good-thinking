@@ -222,8 +222,12 @@ code {
   width: 0.5rem;
 }
 
-.mw-80 {
+.mw-35 {
   max-width: 35em;
+}
+
+.mw-23 {
+  max-width: 23rem;
 }
 
 .h18 {
@@ -771,6 +775,14 @@ lm-ls1 {
   .w-10-ml {
     width: 10%;
   }
+
+  .w-50-ml {
+    width: 50%;
+  }
+
+  .w-100-ml {
+    width: 100%;
+  }
 }
 
 @media screen and (min-width: 47em) {
@@ -829,6 +841,7 @@ lm-ls1 {
   .w-30-mm {
     width: 30%;
   }
+
 }
 
 @media screen and (max-width: 47em) and (min-width: 30em){
@@ -839,6 +852,14 @@ lm-ls1 {
   .pv-1-4-sm {
     padding-bottom: 1.4rem;
     padding-top: 1.4rem;
+  }
+
+  .w-100-sm {
+    width: 100%;
+  }
+
+  .w-50-sm {
+    width: 50%;
   }
 }
 
@@ -856,4 +877,6 @@ lm-ls1 {
   .dn-ss {
     display: none;
   }
+
+
 }
