@@ -358,14 +358,6 @@ code {
   border-bottom: solid 1px #c2c2c2;
 }
 
-.br1-no-left {
-  border-radius: 0 0.125rem 0.125rem 0;
-}
-
-.br1-no-right {
-  border-radius: 0.125rem 0 0 0.125rem;
-}
-
 lm-ls1 {
   letter-spacing: 0.1rem;
 }
@@ -814,6 +806,22 @@ lm-ls1 {
   .mh2-sm {
     margin-left: .5rem;
     margin-right: .5rem;
+  }
+
+  .w-20-sm {
+    width: 20%;
+  }
+
+  .w-80-sm {
+    width: 80%;
+  }
+
+  .br1-no-left-sm {
+    border-radius: 0 0.125rem 0.125rem 0 !important;
+  }
+
+  .br1-no-right-sm {
+    border-radius: 0.125rem 0 0 0.125rem !important;
   }
 }
 
