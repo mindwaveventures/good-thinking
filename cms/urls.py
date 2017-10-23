@@ -16,7 +16,7 @@ from resources.views import (
     assessment_controller, assessment_summary_controller
 )
 
-from django.views.generic import TemplateView
+from cms.views import robots_handler
 
 from wagtail.contrib.wagtailsitemaps.views import sitemap
 
@@ -38,10 +38,7 @@ urlpatterns = [
 
     url(
         r'^robots\.txt',
-        TemplateView.as_view(
-            template_name='robots.txt', content_type='text/plain'
-        ),
-        name="cms"
+        robots_handler
     ),
 
 
