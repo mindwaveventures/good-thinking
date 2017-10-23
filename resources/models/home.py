@@ -288,6 +288,10 @@ class Home(AbstractForm):
         self.__class__.objects.prefetch_related('tagged_items__tag')
 
         path_components = kwargs.get('path_components', [])
+
+        if kwargs.get('path_components'):
+            self.seo_title += f' - {path_components[0]}'
+
         return custom_serve(**locals())
 
     def get_sitemap_urls(self):
