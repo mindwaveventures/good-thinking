@@ -109,6 +109,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cms.context_processors.add_variable_to_context',
             ],
         },
     },
@@ -202,6 +203,12 @@ AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+E24_URL = os.environ['E24_URL']
+
+try:
+    GTM_TOKEN = os.environ['GTM_TOKEN']
+except:
+    GTM_TOKEN = None
 
 PIPELINE = {
     'PIPELINE_ENABLED': True,
