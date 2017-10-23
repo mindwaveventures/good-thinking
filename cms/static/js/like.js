@@ -1,6 +1,6 @@
 if (isNotIE8()) {
   function likeListeners() {
-    selectAll([".like-form", ".dislike-form", ".resource-feedback"]).forEach(function(el) {
+    selectAll([".like-form", ".dislike-form", ".resource-feedback", ".main-form"]).forEach(function(el) {
       el.addEventListener("submit", formListener);
     });
 
@@ -31,6 +31,22 @@ if (isNotIE8()) {
 
         if (response.feedback) {
           remove_visited(response.id);
+        }
+
+        if (response.error && !resource && !visited_resource && !response.feedback) {
+          e.target.classList.add('error-main-form');
+        } else if (!resource && !visited_resource && !response.feedback) {
+          var success = document.createElement('div');
+          var tick = document.createElement('i');
+          e.target.classList.remove('error-main-form')
+
+          success.className = "alert ma0 mb1 mr1 pa3 ba bw1-ns bg--lm-green b--lm-green relative w-80 center";
+          success.innerText = "Suggestion submitted successfully!";
+
+          tick.className = "bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon";
+
+          success.appendChild(tick);
+          e.target.appendChild(success);
         }
 
         feedbackLoopListener();
