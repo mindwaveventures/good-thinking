@@ -34,7 +34,7 @@
           {% csrf_token %}
           <input type="hidden" name="id" value="{{v.id}}" />
           <label for="id_{{v.id}}" class="dn"></label>
-          <input type="text" id="id_{{v.id}}" placeholder="Why have you chosen this rating?" name="feedback" class="b--black br1 h2 w-70 pa2" />
+          <input type="text" id="id_{{v.id}}" placeholder="Tell us why" name="feedback" class="b--black br1 h2 w-100 w-70-ns pa2" />
           <input type="hidden" name="resource_title" value="{{v.title}}" />
           <input type="hidden" name="liked" value="{{v.liked_value}}" />
           <input type="hidden" name="resource_name" value="{{v.heading}}" />

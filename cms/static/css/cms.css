@@ -228,8 +228,12 @@ code {
   width: 0.5rem;
 }
 
-.mw-80 {
+.mw-35 {
   max-width: 35em;
+}
+
+.mw-23 {
+  max-width: 23rem;
 }
 
 .h18 {
@@ -246,6 +250,11 @@ code {
 
 .pt10 {
   padding-top: 10rem;
+}
+
+.word-wrap {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 @media screen and (min-width: 30em) {
@@ -357,14 +366,6 @@ code {
 .full-resource {
   border-radius: 0.125rem 0.125rem 0 0;
   border-bottom: solid 1px #c2c2c2;
-}
-
-.br1-no-left {
-  border-radius: 0 0.125rem 0.125rem 0;
-}
-
-.br1-no-right {
-  border-radius: 0.125rem 0 0 0.125rem;
 }
 
 lm-ls1 {
@@ -619,6 +620,10 @@ lm-ls1 {
   right: 204%;
 }
 
+.no-js {
+  margin-top: 0 !important;
+}
+
 @media screen and (max-width:480px) {
   div.mobile-scrollbars::-webkit-scrollbar {
     width: 8px;
@@ -710,6 +715,12 @@ lm-ls1 {
   }
 }
 
+@media screen and (max-width: 90em) and (min-width: 30em) {
+  .mt-2-8-ns-xl {
+    margin-top: 2.8rem;
+  }
+}
+
 @media screen and (min-width:60em) {
   .bottom--1-2-l {
     bottom: -1.2rem;
@@ -743,10 +754,6 @@ lm-ls1 {
     margin-right: 1%;
   }
 
-  .mt-2-4-l {
-    margin-top: 2.4rem
-  }
-
   .w-8-l {
     width: 8%;
   }
@@ -755,10 +762,6 @@ lm-ls1 {
 @media screen and (max-width: 60em) and (min-width: 30em) {
   .w-15-m {
     width: 15%;
-  }
-
-  .mt-2-8-m {
-    margin-top: 2.8rem
   }
 }
 
@@ -777,6 +780,14 @@ lm-ls1 {
 
   .w-10-ml {
     width: 10%;
+  }
+
+  .w-50-ml {
+    width: 50%;
+  }
+
+  .w-100-ml {
+    width: 100%;
   }
 }
 
@@ -809,12 +820,34 @@ lm-ls1 {
   .pt6-sm {
     padding-top: 8rem;
   }
+
+  .mh2-sm {
+    margin-left: .5rem;
+    margin-right: .5rem;
+  }
+
+  .w-20-sm {
+    width: 20%;
+  }
+
+  .w-80-sm {
+    width: 80%;
+  }
+
+  .br1-no-left-sm {
+    border-radius: 0 0.125rem 0.125rem 0 !important;
+  }
+
+  .br1-no-right-sm {
+    border-radius: 0.125rem 0 0 0.125rem !important;
+  }
 }
 
 @media screen and (max-width: 60em) and (min-width: 47em) {
   .w-30-mm {
     width: 30%;
   }
+
 }
 
 @media screen and (max-width: 47em) and (min-width: 30em){
@@ -826,10 +859,30 @@ lm-ls1 {
     padding-bottom: 1.4rem;
     padding-top: 1.4rem;
   }
+
+  .w-100-sm {
+    width: 100%;
+  }
+
+  .w-50-sm {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 30em) {
+  .mt5-s {
+    margin-top: 4rem;
+  }
+  .pv-1-25-s {
+    padding-bottom: 1.25rem;
+    padding-top: 1.25rem;
+  }
 }
 
 @media screen and (max-width: 47em) {
   .dn-ss {
     display: none;
   }
+
+
 }
