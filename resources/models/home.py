@@ -182,6 +182,10 @@ class Home(AbstractForm):
         blank=True,
         help_text="Text for below the description of the page"
     )
+    pyr_text = RichTextField(
+        blank=True,
+        help_text="PYR explanation"
+    )
     filter_label_1 = TextField(
         blank=True,
         help_text="Label/Question for first set of filters"
@@ -238,7 +242,7 @@ class Home(AbstractForm):
         Tags you do not want to show in the filters for this home page
         """
     )
-    description = RichTextField(blank=True, max_length=200, help_text="""
+    description = RichTextField(blank=True, max_length=206, help_text="""
         A short description of the page that will show on the homepage
     """)
     link_text = TextField(
@@ -270,6 +274,7 @@ class Home(AbstractForm):
         FieldPanel('header', classname="full"),
         FieldPanel('body', classname="full"),
         FieldPanel('sub_body', classname="full"),
+        FieldPanel('pyr_text', classname="full"),
         FieldPanel('video_url', classname="full"),
         MultiFieldPanel([
             FieldPanel('filter_label_1', classname="full"),
