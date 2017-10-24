@@ -115,21 +115,21 @@
         <div class="pt3 pb4 ph4-ns ph3 w-50-ns dib-ns dtc-ns b1 v-top">
           <h4 class="f5 mt0">Would you recommend this?</h4>
           <div class="dt dt--fixed">
-            <div class="dib dtc">
-              <div class="dib mb3 v-mid tl"><span>{% if number_of_likes %}{{number_of_likes}}{% else %}{{page.number_of_likes|default:0}}{% endif %}</span></div>
-              <form action="/like/" method="post" class="dib pointer like-form">
+            <div class="flex items-center">
+              <div class="tl mr2"><span>{% if number_of_likes %}{{number_of_likes}}{% else %}{{page.number_of_likes|default:0}}{% endif %}</span></div>
+              <form action="/like/" method="post" class="pointer like-form tl">
                 <button type="submit" class="{% if liked_value == 1 or page.liked_value == 1 %}liked{% endif %} like resource-like w2 h2 bn bg-white fl p0 bg-left pointer" data-url="{{page.resource_url}}"><span class="fixed o-0">Recommend</span></button>
                 <input type="hidden" name="id" value="{{page.id}}"/>
                 <input type="hidden" name="like" value="1"/>
                 {% csrf_token %}
               </form>
-              <form action="/like/" method="post" class="dib pointer dislike-form">
+              <form action="/like/" method="post" class="pointer dislike-form">
                 <button name="dislike" type="submit" class="{% if liked_value == -1 or page.liked_value == -1 %}disliked{% endif %} dislike resource-dislike w2 h2 bn bg-white p0 bg-right pointer" data-url="{{page.resource_url}}"><span class="fixed o-0">Don't Recommend</span></button>
                 <input type="hidden" name="id" value="{{page.id}}"/>
                 <input type="hidden" name="like" value="-1"/>
                 {% csrf_token %}
               </form>
-              <div class="dib mb3 v-mid tl"><span>{% if number_of_dislikes %}{{number_of_dislikes}}{% else %}{{page.number_of_dislikes|default:0}}{% endif %}</span></div>
+              <div class="tl ml2"><span>{% if number_of_dislikes %}{{number_of_dislikes}}{% else %}{{page.number_of_dislikes|default:0}}{% endif %}</span></div>
             </div>
           </div>
         </div>
