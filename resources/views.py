@@ -344,9 +344,9 @@ def filter_resources(resources, **kwargs):
         ).distinct()
 
     if (issue_filter):
-        resources = resources\
-            .filter(issue_tags__name__in=issue_filter)\
-            .distinct()
+        resources = resources.filter(
+            issue_tags__name__iregex=r'(' + '|'.join(issue_filter) + ')'
+        ).distinct()
 
     if (topic_filter):
         resources = resources\

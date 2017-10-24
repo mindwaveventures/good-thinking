@@ -100,7 +100,7 @@ getPosition pos =
 
 getTagColour : Tag -> List Tag -> String
 getTagColour tag selected_tags =
-    if List.member tag selected_tags then
+    if List.member (String.toLower tag.name) (List.map (\t -> String.toLower t.name) selected_tags) then
         "tag-selected"
     else
         "lm-bg-light-orange lm-bg-orange-hover"
