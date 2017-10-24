@@ -159,10 +159,18 @@ update msg model =
 
 update_selected : Model -> Tag -> List Tag
 update_selected model tag =
-    if List.member tag model.selected_tags then
-        List.filter (\t -> t /= tag) model.selected_tags
+    if some (\t -> String.toLower t.name == String.toLower tag.name) model.selected_tags then
+        List.filter (\t -> String.toLower t.name /= String.toLower tag.name) model.selected_tags
     else
         tag :: model.selected_tags
+
+
+some : (a -> Bool) -> List a -> Bool
+some func list =
+    if List.length (List.filter func list) > 0 then
+        True
+    else
+        False
 
 
 create_query : Model -> String

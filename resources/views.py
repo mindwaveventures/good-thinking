@@ -5,7 +5,7 @@ from itertools import chain
 
 from gpxpy.geo import haversine_distance
 
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, Http404
 
 import urllib.request
 import os
@@ -208,6 +208,9 @@ def get_data(request, **kwargs):
 
     paged_resources = get_paged_resources(request, resources)
 
+    if resources.count() == 0 and kwargs.get('path_components'):
+        raise Http404()
+
     if topic_filter:
         (
             filtered_issue_tags,
@@ -341,9 +344,9 @@ def filter_resources(resources, **kwargs):
         ).distinct()
 
     if (issue_filter):
-        resources = resources\
-            .filter(issue_tags__name__in=issue_filter)\
-            .distinct()
+        resources = resources.filter(
+            issue_tags__name__iregex=r'(' + '|'.join(issue_filter) + ')'
+        ).distinct()
 
     if (topic_filter):
         resources = resources\
