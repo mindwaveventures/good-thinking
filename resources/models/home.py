@@ -238,7 +238,7 @@ class Home(AbstractForm):
         Tags you do not want to show in the filters for this home page
         """
     )
-    description = RichTextField(blank=True, max_length=200, help_text="""
+    description = RichTextField(blank=True, max_length=206, help_text="""
         A short description of the page that will show on the homepage
     """)
     link_text = TextField(
