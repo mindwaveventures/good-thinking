@@ -47,15 +47,18 @@
     {% endif %}
 
     <section class="tc-ns">
+      <div class="overflow-hidden ph2 mt2">
+        <div class="tl w-60-l center">
+          <h3>Personalise your results:</h3>
+          {{ page.pyr_text|new_tab|richtext }}
+        </div>
+      </div>
       <div id="elm-personalise" data-slug="{{page.slug}}">
         <section class="results">
           <!-- <%= if is_ie8? @conn do %>
             <%= render "ie8_filters.html", content: @content, conn: @conn, tags: @tags%>
           <% else %> -->
-            <div class="pa1 pt4 pt3-m pt3-l mt4">
-              <div class="w-60-l center">
-                <h3 class="tl">To personalise your results, answer three quick questions below:</h3>
-              </div>
+            <div class="ph2 mt3">
               <form action="/{% if not page.slug == 'home' %}{{page.slug}}/{% endif %}#results" method="get" id="filter-form">
                 {% include "resources/filter-blocks.html" with filter_label=page.filter_label_1 tags=issue_tags num=1 name="q1" %}
                 {% include "resources/filter-blocks.html" with filter_label=page.filter_label_2 tags=reason_tags num=2 name="q2" %}
