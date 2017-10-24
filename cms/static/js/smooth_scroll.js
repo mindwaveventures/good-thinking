@@ -1,19 +1,20 @@
-var arrow = select('#browse-arrow');
-
-function scrollToElement (e, elementId) {
-  e.preventDefault();
-  var element = select(elementId);
-  var targetPos = element.offsetTop - element.offsetHeight;
-
-  window.scroll({
-    top: targetPos,
-    left: 0,
-    behavior: 'smooth'
+$('#browse-arrow')
+  .click(function(e) {
+    var target = $(this.hash);
+    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+    if (target.length) {
+      e.preventDefault();
+      $('html, body').animate({
+        scrollTop: target.offset().top
+      }, function() {
+        var $target = $(target);
+        $target.focus();
+        if ($target.is(":focus")) {
+          return false;
+        } else {
+          $target.attr('tabindex','-1');
+          $target.focus();
+        };
+      });
+    }
   });
-}
-
-if (arrow) {
-  arrow.addEventListener('click', function (e) {
-    scrollToElement(e, '#topics');
-  });
-}
