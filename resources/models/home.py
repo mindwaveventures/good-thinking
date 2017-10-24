@@ -25,14 +25,14 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from urllib.parse import parse_qs
 
-from resources.models.tags import ExcludeTag
-from resources.models.resources import ResourceIndexPage
+from resources.models.tags import ExcludeTag, IssueTag
+from resources.models.resources import ResourceIndexPage, ResourcePage
 from resources.models.helpers import (
-    generate_custom_form, valid_request,
-    handle_request, get_resource, base_context
+    generate_custom_form, valid_request, get_tags,
+    handle_request, get_resource, base_context, filter_tags
 )
 
-from resources.views import get_data
+from resources.views import get_data, filter_resources
 from wagtail.wagtailcore.models import Orderable
 
 uid = uuid.uuid4()
@@ -289,6 +289,35 @@ class Home(AbstractForm):
 
         path_components = kwargs.get('path_components', [])
         return custom_serve(**locals())
+
+    def get_sitemap_urls(self):
+        sitemap = [
+            {
+                'location': self.full_url,
+                'lastmod': self.latest_revision_created_at
+            }
+        ]
+        resources = filter_resources(
+            ResourcePage.objects.all(), topic_filter=self.slug
+        )
+        (
+            filtered_issue_tags,
+            _filtered_reason_tags,
+            _filtered_content_tags,
+        ) = filter_tags(resources, self.slug)
+
+        issue_tags = get_tags(
+            IssueTag,
+            filtered_tags=filtered_issue_tags
+        ).values()
+
+        for t in issue_tags:
+            sitemap.append({
+                'location': self.full_url + f'{t.name.replace(" ", "-")}/',
+                'lastmod': self.latest_revision_created_at
+            })
+
+        return sitemap
 
 
 class Main(AbstractForm):
