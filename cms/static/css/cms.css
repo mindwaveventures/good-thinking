@@ -126,28 +126,34 @@ footer p a {
 
 .like, .like_no_hover {
   background-image: url("../images/Thumbs_up_normal.png");
+  background-image: url("../images/up_unselected.svg");
   background-repeat: no-repeat;
 }
 
 .like:hover {
   background-image: url("../images/Thumbs_up_hover.png");
+  background-image: url("../images/up_hover.svg");
 }
 
 .liked {
   background-image: url("../images/Thumbs_up_clicked.png");
+  background-image: url("../images/up_selected.svg");
 }
 
 .dislike, .dislike_no_hover {
   background-image: url("../images/Thumbs_down_normal.png");
+  background-image: url("../images/down_unselected.svg");
   background-repeat: no-repeat;
 }
 
 .dislike:hover, .disliked {
   background-image: url("../images/Thumbs_down_hover.png");
+  background-image: url("../images/down_hover.svg");
 }
 
 .disliked {
   background-image: url("../images/Thumbs_down_clicked.png");
+  background-image: url("../images/down_selected.svg");
 }
 
 .share {
