@@ -140,7 +140,9 @@ ALLOWED_HOSTS = [
     'good-thinking.uk',
     'www.good-thinking.uk',
     'aws.good-thinking.uk',
-    '.elasticbeanstalk.com'
+    '.elasticbeanstalk.com',
+    'good-thinking.co.uk',
+    'www.good-thinking.co.uk'
 ]
 
 # Setting up project to use bcrypt hashing
@@ -240,5 +242,7 @@ WAGTAILSEARCH_BACKENDS = {
 REDIRECT_FROM = [
     'londonminds.co.uk',
     'www.londonminds.co.uk',
-    'good-thinking.uk'
+    'good-thinking.uk',
+    'good-thinking.co.uk',
+    'www.good-thinking.co.uk'
 ]
