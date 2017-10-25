@@ -7,11 +7,11 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script>
+        dataLayer = [];
+      </script>
       {% if GTM_TOKEN %}
         <!-- Google Tag Manager -->
-          <script>
-            dataLayer = [];
-          </script>
           <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
           j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -93,7 +93,7 @@
 
         <div id="cookie_accept_bar" class="lm-bg-light-grey tc pv3 dn bottom-0 fixed z-5 w-100 copy">
           <p>Before browsing our site, please accept our <a class="link lm-pink-hover lm-dark-turquoise" href="/cookie-policy">cookies policy</a></p>
-          <button class="f5 dib ph3 pv2 br1 pointer montserrat tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover mv3 b--lm-dark-turquoise ba word-normal">Accept and close</button>
+          <button class="f5 link dib ph3 pv2 br1 pointer montserrat tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover mv3 b--lm-dark-turquoise ba word-normal">Accept and close</button>
         </div>
     </body>
 </html>
