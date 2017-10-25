@@ -14,7 +14,7 @@ import json
 from resources.models.tags import IssueTag, ReasonTag, ContentTag
 from resources.models.helpers import (
     count_likes, filter_tags,
-    get_tags, get_order, get_relevance, base_context
+    get_tags, base_context
 )
 
 from django.core import serializers
@@ -137,13 +137,12 @@ def get_data(request, **kwargs):
         + 'where resource_id = resources_resourcepage.page_ptr_id ' \
         + 'and like_value = %s'
 
-    resources = get_order(ResourcePage.objects.all().defer(
+    resources = ResourcePage.objects.all().defer(
         'background_color', 'brand_logo_id', 'brand_text',
         'hero_image_id', 'text_color'
     ).annotate(
-        score=(count_likes(1) - count_likes(-1)),
-        relevance=(get_relevance(selected_tags))
-    ), resource_order).live()
+        score=(count_likes(1) - count_likes(-1))
+    ).live()
 
     resources = resources.extra(
         select={'number_of_likes': num_likes},
@@ -206,7 +205,25 @@ def get_data(request, **kwargs):
         'tagged_reason_items__tag'
     ).prefetch_related('tagged_issue_items__tag')
 
-    paged_resources = get_paged_resources(request, resources)
+    if resource_order == 'recommended':
+        sorted_resources = sorted(
+            resources, key=lambda resource: (
+                resource.number_of_likes - resource.number_of_dislikes
+            ), reverse=True
+        )
+    else:
+        relevant_resources = map(
+            lambda el: get_relevance(el, selected_tags),
+            resources
+        )
+
+        sorted_resources = sorted(
+            relevant_resources, key=lambda resource: (
+                resource.relevance
+            ), reverse=True
+        )
+
+    paged_resources = get_paged_resources(request, sorted_resources)
 
     if resources.count() == 0 and kwargs.get('path_components'):
         raise Http404()
@@ -250,6 +267,28 @@ def get_data(request, **kwargs):
     data['selected_tags'] = selected_tags
 
     return data
+
+
+def get_relevance(resource, selected_tags):
+    matching_content_tags = get_common_count(
+        resource.content_tags.values_list('name', flat=True), selected_tags
+    )
+    matching_reason_tags = get_common_count(
+        resource.reason_tags.values_list('name', flat=True), selected_tags
+    )
+    matching_issue_tags = get_common_count(
+        resource.issue_tags.values_list('name', flat=True), selected_tags
+    )
+
+    resource.relevance = (
+        matching_content_tags + matching_reason_tags + matching_issue_tags
+    )
+
+    return resource
+
+
+def get_common_count(a, b):
+    return len(set(a) - (set(a) - set(b)))
 
 
 def add_near(request, el):
