@@ -105,6 +105,7 @@ if (personaliseDiv) {
 
   app.ports.changeOrder.subscribe(function(order) {
     localStorage.setItem('ldmw_resource_order', order);
+    app.ports.updateTags.send(selectedTags(getQuery('q1', 'q2', 'q3')));
   });
 
   app.ports.clickScroll.subscribe(function() {
