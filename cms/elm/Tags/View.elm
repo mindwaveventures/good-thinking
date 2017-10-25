@@ -1,7 +1,6 @@
 module Tags.View exposing (..)
 
 import Types exposing (..)
-import State exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onClick, onCheck)
@@ -171,6 +170,7 @@ multi_line str =
     List.map (\e -> p [] [ text e ]) (String.lines str)
 
 
+order_tag_map : String -> String -> Order
 order_tag_map taga tagb =
     case taga of
         "rarely" ->
