@@ -117,7 +117,7 @@
           <div class="dt dt--fixed">
             <div class="flex items-center">
               <div class="tl mr2"><span>{% if number_of_likes %}{{number_of_likes}}{% else %}{{page.number_of_likes|default:0}}{% endif %}</span></div>
-              <form action="/like/" method="post" class="pointer like-form tl">
+              <form action="/like/" method="post" class="pointer like-form tl mr2">
                 <button type="submit" class="{% if liked_value == 1 or page.liked_value == 1 %}liked{% endif %} like resource-like w2 h2 bn bg-white fl p0 bg-left pointer" data-url="{{page.resource_url}}"><span class="fixed o-0">Recommend</span></button>
                 <input type="hidden" name="id" value="{{page.id}}"/>
                 <input type="hidden" name="like" value="1"/>
