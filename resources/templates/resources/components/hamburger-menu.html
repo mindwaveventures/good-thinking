@@ -35,7 +35,7 @@
     {% endif %}
     <div class="relative mv2-ns mv1 dtc-sm">
       <div class="b--lm-dark-blue lm-dark-blue ph3 pv2">
-        {% if page.slug == "home" %}
+        {% if slug == "home" %}
         <a class="ttu link bb bw2" href="/">Home</a>
         {% else %}
         <a class="ttu link" href="/">Home</a>
@@ -49,7 +49,7 @@
         {% endif %}
       </div>
       <div class="b--lm-dark-turquoise lm-dark-turquoise ph3 pv2">
-        {% if page.slug == "crisis" %}
+        {% if slug == "crisis" %}
         <a class="ttu link bb bw2" href="/crisis/">Get urgent support</a>
         {% else %}
         <a class="ttu link" href="/crisis/">Get urgent support</a>
@@ -64,7 +64,7 @@
     {% for topic in landing_pages %}
     <div class="relative mv2-ns mv1 dtc-sm">
       <div class="b--lm-dark-blue lm-dark-blue ph3 pv2">
-        {% if page.url == topic.url %}
+        {% if url == topic.url %}
         <a class="ttu link bb bw2" href="/{{topic.slug}}/">{{topic.slug}}</a>
         {% else %}
         <a class="ttu link" href="/{{topic.slug}}/">{{topic.slug}}</a>

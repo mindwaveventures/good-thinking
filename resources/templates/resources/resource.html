@@ -79,6 +79,7 @@
         {% endfor %}
       </div>
       <div class="mh2 copy">
+        {{ page.tagline|new_tab|richtext }}
         {{ page.body|new_tab|richtext }}
           {% for button in buttons %}
             <div class="{{button.alignment}}">

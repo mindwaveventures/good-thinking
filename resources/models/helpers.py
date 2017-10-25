@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Sum, Case, When, Count, Q
+from django.db.models import Case, When, Count, Q
 
 from taggit.models import Tag
 from itertools import chain
@@ -163,27 +163,6 @@ def generate_custom_form(form_fields, request_dict, messages_):
     return custom_form
 
 
-def get_order(resources, order):
-    if order == 'recommended':
-        return resources.order_by('-score')
-    else:
-        return resources.order_by('-relevance')
-
-
-def get_relevance(selected_tags):
-    if not selected_tags:
-        selected_tags = [""]
-
-    return Sum(
-        Case(
-            When(content_tags__name__in=selected_tags, then=1),
-            When(reason_tags__name__in=selected_tags, then=1),
-            default=0,
-            output_field=models.IntegerField()
-        )
-    )
-
-
 def base_context(context):
     Main = apps.get_model('resources', 'main')
     HomeFooterLinks = apps.get_model('resources', 'homefooterlinks')
@@ -191,12 +170,14 @@ def base_context(context):
     Home = apps.get_model('resources', 'home')
 
     banner = Main.objects.get(slug="home").banner
-    footer_links = HomeFooterLinks.objects.all()
-    footer_blocks = HomeFooterBlocks.objects.all()
+    footer_links = HomeFooterLinks.objects.all().select_related('footer_image')
+    footer_blocks = HomeFooterBlocks.objects.all().select_related('link_page')
 
     context['banner'] = banner
     context['footer_links'] = footer_links
     context['footer_blocks'] = footer_blocks
-    context['landing_pages'] = Home.objects.filter(~Q(slug="home")).live()
+    context['landing_pages'] = list(
+        Home.objects.filter(~Q(slug="home")).live().values()
+    )
 
     return context

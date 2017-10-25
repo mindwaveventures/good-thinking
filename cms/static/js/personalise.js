@@ -105,17 +105,12 @@ if (personaliseDiv) {
 
   app.ports.changeOrder.subscribe(function(order) {
     localStorage.setItem('ldmw_resource_order', order);
+    app.ports.updateTags.send(selectedTags(getQuery('q1', 'q2', 'q3')));
   });
 
   app.ports.clickScroll.subscribe(function() {
-    var results = select('#results');
-    var targetPos = results.offsetTop - results.offsetHeight;
-
-    window.scrollTo({
-      top: targetPos,
-      left: 0,
-      behavior: 'smooth'
-    });
+    var target = $('#results')
+    scrollToTarget(target);
   });
 
   function swipe(el, callback){
