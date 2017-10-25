@@ -27,10 +27,6 @@ function analyticsListeners() {
     addAnalytics(el, {event: "ResourceFeedback", variable: "reviewed", action: "submit", location: "resource"});
   });
 
-  selectAll(".loop-feedback").forEach(function(el) {
-    addAnalytics(el, {event: "ResourceFeedback", variable: "reviewed", action: "submit", location: "feedback loop"});
-  });
-
   selectAll(".previous-question-tags").forEach(function(el) {
     addAnalytics(el, {event: "personaliseResults", variable: "personaliseAction", value: "previous question"});
   });
@@ -57,6 +53,12 @@ function analyticsListeners() {
 
 function tagAnalytics(tag) {
   dataLayer.push({event: "personaliseResults", personaliseAction: "selected " + tag.name})
+}
+
+function feedbackLoopAnalytics() {
+  selectAll(".loop-feedback").forEach(function(el) {
+    addAnalytics(el, {event: "ResourceFeedback", variable: "reviewed", action: "submit", location: "feedback loop"});
+  });
 }
 
 // Adds event listener that pushes to the data layer on click
@@ -87,4 +89,5 @@ function addAnalytics(el, opts) {
   }
 }
 
+feedbackLoopAnalytics();
 analyticsListeners();
