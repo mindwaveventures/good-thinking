@@ -38,7 +38,7 @@
         <meta name="twitter:creator" content="@goodthinkinguk" />
 
         <!-- open graph data -->
-        <meta property="og:url" content="https://good-thinking.uk{% if page.parent %}/{{page.parent}}{% endif %}/{% if page.slug %}{{page.slug}}/{% endif %}" />
+        <meta property="og:url" content="https://www.good-thinking.uk{% if page.parent %}/{{page.parent}}{% endif %}/{% if page.slug and page.slug != 'home' %}{{page.slug}}/{% endif %}{% if slug %}{{ slug }}{% endif %}" />
         <meta property="og:title" content="{{page.title}}" />
         {% load wagtailcore_tags wagtailimages_tags %}
         {% image page.hero_image width-500 as img %}
