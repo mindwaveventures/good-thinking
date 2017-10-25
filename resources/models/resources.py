@@ -270,9 +270,13 @@ class ResourcePage(AbstractForm):
         blank=True,
         help_text="The text for the url link"
     )
+    tagline = RichTextField(
+        blank=True,
+        help_text="Bold text that displays on the resource list"
+    )
     body = RichTextField(
         blank=True,
-        help_text="A description of the resource"
+        help_text="A more detailed description of the resource"
     )
     pros = RichTextField(
         blank=True,
@@ -402,6 +406,7 @@ class ResourcePage(AbstractForm):
             FieldPanel('resource_url', classname="col6"),
             FieldPanel('resource_url_text', classname="col6"),
         ], classname="full"),
+        FieldPanel('tagline', classname="full"),
         FieldPanel('body', classname="full"),
         InlinePanel('buttons', label="Buttons"),
         FieldPanel('pros', classname="full"),
