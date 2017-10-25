@@ -191,12 +191,14 @@ def base_context(context):
     Home = apps.get_model('resources', 'home')
 
     banner = Main.objects.get(slug="home").banner
-    footer_links = HomeFooterLinks.objects.all()
-    footer_blocks = HomeFooterBlocks.objects.all()
+    footer_links = HomeFooterLinks.objects.all().select_related('footer_image')
+    footer_blocks = HomeFooterBlocks.objects.all().select_related('link_page')
 
     context['banner'] = banner
     context['footer_links'] = footer_links
     context['footer_blocks'] = footer_blocks
-    context['landing_pages'] = Home.objects.filter(~Q(slug="home")).live()
+    context['landing_pages'] = list(
+        Home.objects.filter(~Q(slug="home")).live().values()
+    )
 
     return context
