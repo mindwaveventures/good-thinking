@@ -10,7 +10,7 @@ import Json.Encode
 
 view : Model -> Html Msg
 view model =
-    div [ class "ph2 mt2" ]
+    div [ class "overflow-hidden ph2 mt2" ]
         [ div [ class ("tag-container w-250-m w-200-l w-330 relative center " ++ (getPosition model.tag_position)) ]
             [ render_filter_block model 1 model.issue_label model.issue_tags ("mr-1p-l mr-5 " ++ (get_active model 1))
             , render_filter_block model 2 model.reason_label (List.sortWith order_tag_map model.reason_tags) ("mr-1p-l mr-5 " ++ (get_active model 2))
