@@ -29,7 +29,7 @@
     {% if back %}
       <div class="relative mv2-ns mv1 dtc-ns">
         <div class="b--lm-dark-blue lm-dark-blue ph3 pv2">
-            <a class="ttu link" href="/{{back}}"><i class="fa fa-caret-left" aria-hidden="true"></i> Back to Results</a>
+            <a class="ttu link" href="/{{back}}/"><i class="fa fa-caret-left" aria-hidden="true"></i> Back to Results</a>
         </div>
       </div>
     {% endif %}
@@ -43,16 +43,16 @@
       </div>
       <div class="b--lm-dark-turquoise lm-dark-turquoise ph3 pv2">
         {% if slug == "self-assessment" %}
-        <a class="ttu link bb bw2" href="/self-assessment">Take self-assessment</a>
+        <a class="ttu link bb bw2" href="/self-assessment/">Take self-assessment</a>
         {% else %}
-        <a class="ttu link" href="/self-assessment">Take self-assessment</a>
+        <a class="ttu link" href="/self-assessment/">Take self-assessment</a>
         {% endif %}
       </div>
       <div class="b--lm-dark-turquoise lm-dark-turquoise ph3 pv2">
         {% if page.slug == "crisis" %}
-        <a class="ttu link bb bw2" href="/crisis">Get urgent support</a>
+        <a class="ttu link bb bw2" href="/crisis/">Get urgent support</a>
         {% else %}
-        <a class="ttu link" href="/crisis">Get urgent support</a>
+        <a class="ttu link" href="/crisis/">Get urgent support</a>
         {% endif %}
       </div>
     </div>
