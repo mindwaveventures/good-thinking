@@ -165,3 +165,10 @@
 .b--lm-inactive {
   border-color: #C0C0C0;
 }
+
+.banner-gradient {
+  background: -webkit-linear-gradient(left, #D6D7DE, #F7D5E8, #FFECD4);
+  background: -o-linear-gradient(left, #D6D7DE, #F7D5E8, #FFECD4);
+  background: -moz-linear-gradient(left, #D6D7DE, #F7D5E8, #FFECD4);
+  background: linear-gradient(left, #D6D7DE, #F7D5E8, #FFECD4);
+}
