@@ -415,7 +415,7 @@ class Main(AbstractForm):
                 context['hero_image'] = self.hero_image
         else:
             context['hero_image'] = self.hero_image
-        return get_data(request, data=context, slug=self.slug)
+        return context
 
     def process_form_submission(self, request_dict):
         return custom_form_submission(self, request_dict)
