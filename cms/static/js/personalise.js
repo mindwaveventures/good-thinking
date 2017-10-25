@@ -108,14 +108,8 @@ if (personaliseDiv) {
   });
 
   app.ports.clickScroll.subscribe(function() {
-    var results = select('#results');
-    var targetPos = results.offsetTop - results.offsetHeight;
-
-    window.scrollTo({
-      top: targetPos,
-      left: 0,
-      behavior: 'smooth'
-    });
+    var target = $('#results')
+    scrollToTarget(target);
   });
 
   function swipe(el, callback){

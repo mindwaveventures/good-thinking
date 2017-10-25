@@ -1,11 +1,11 @@
 module Tags.View exposing (..)
 
 import Types exposing (..)
-import State exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onInput, onClick, onCheck)
+import Html.Events exposing (onInput, onClick, onCheck, onWithOptions)
 import Json.Encode
+import Json.Decode as Json
 
 
 view : Model -> Html Msg
@@ -150,11 +150,16 @@ previous_button pos =
                 ]
 
 
+onClickPreventDefault : msg -> Attribute msg
+onClickPreventDefault message =
+    onWithOptions "click" { preventDefault = True, stopPropagation = True } (Json.succeed message)
+
+
 next_button : Int -> Html Msg
 next_button pos =
     case pos of
         3 ->
-            button [ onClick ClickScroll, class "f5 link dib mr3 ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover b--lm-dark-turquoise ba" ] [ a [ class "link", id "search-tags", href "#results" ] [ text "Search" ] ]
+            button [ onClickPreventDefault ClickScroll, class "f5 link dib mr3 ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover b--lm-dark-turquoise ba" ] [ a [ class "link", id "search-tags", href "#results" ] [ text "Search" ] ]
 
         _ ->
             button
@@ -171,6 +176,7 @@ multi_line str =
     List.map (\e -> p [] [ text e ]) (String.lines str)
 
 
+order_tag_map : String -> String -> Order
 order_tag_map taga tagb =
     case taga of
         "rarely" ->
