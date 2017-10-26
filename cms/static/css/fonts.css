@@ -185,4 +185,8 @@ button, button a {
   .static-page .mw-35 {
     max-width: 40em;
   }
+  .ph6-xl {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
 }
