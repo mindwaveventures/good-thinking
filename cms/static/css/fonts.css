@@ -168,25 +168,21 @@ button, button a {
   }
 }
 
-@media screen and (min-width:1680px) {
-  p, a, span, h3, h4, input, label, span, li, button {
-    font-size: 22px !important;
-    line-height: 30px;
+@media screen and (min-width: 1680px) {
+  .static-page h1 {
+    font-size: 45px;
   }
-
-  .mw-35 {
-    max-width: 50em;
+  .static-page h2 {
+    font-size: 30px;
   }
-
-  h1 {
-    font-size: 50px;
+  .static-page h3 {
+    font-size: 26px;
   }
-
-  h2 {
-    font-size: 34px;
+  .static-page p, .static-page a {
+    font-size: 18px;
+    line-height: 28px;
   }
-
-  .topic-box {
-    height: 20rem;
+  .static-page .mw-35 {
+    max-width: 40em;
   }
 }
