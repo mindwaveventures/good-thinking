@@ -734,6 +734,19 @@ lm-ls1 {
   }
 }
 
+@media screen and (max-width: 90em) and (min-width: 60em) {
+  .w-82-l-xl {
+    width: 82%;
+  }
+}
+
+@media screen and (min-width: 90em) {
+  .w-81-xl {
+    width: 81%;
+  }
+}
+
+
 @media screen and (min-width:60em) {
   .ph2-5-l {
     padding-left: 2.5rem;
@@ -864,6 +877,11 @@ lm-ls1 {
 @media screen and (max-width: 60em) and (min-width: 47em) {
   .w-30-mm {
     width: 30%;
+  }
+
+  .mh2-mm {
+    margin-left: .5rem;
+    margin-right: .5rem;
   }
 
 }
