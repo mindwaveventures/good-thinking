@@ -660,6 +660,10 @@ lm-ls1 {
   height: 30rem;
 }
 
+.bw1p {
+  border-width: 1px;
+}
+
 @media screen and (min-width:30em) {
   .w-200-ns {
     width: 200%;
