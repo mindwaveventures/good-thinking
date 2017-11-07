@@ -7,15 +7,15 @@
     {% include "resources/banner.html" with banner=banner %}
   {% endif %}
 
+  {% include "resources/components/hamburger-menu.html" with url=page.url slug=page.slug landing_pages=landing_pages %}
+
   {% include "resources/components/hero-image.html" with page=page url=page.url hero_image=hero_image landing_pages=landing_pages %}
 
   <div class="tc">
     {% include "resources/components/row.html" with render_template="resources/components/page-block.html" element_list=project_info_block length=2 width="w-40" class="mb2 pa3" %}
   </div>
 
-  {% include "resources/components/hamburger-menu.html" with url=page.url slug=page.slug landing_pages=landing_pages %}
-
-  <section class="cubes">
+  <section class="cubes pt5 pt0-l">
     <div class="pa5-l">
       <div class="ph2-ns ph3 tc mb2">
         {% if landing_pages|length < 5 %}
