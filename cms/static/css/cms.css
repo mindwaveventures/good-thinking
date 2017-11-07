@@ -920,3 +920,56 @@ lm-ls1 {
     display: none;
   }
 }
+
+/* Classes for adding to wagtail rich-text*/
+
+.primary-button, .secondary-button {
+  background-color:transparent;
+  -webkit-text-decoration-skip:objects;
+  box-sizing:border-box;
+  border-style:solid;
+  border-width:1px;
+  border-radius:.125rem;
+  display:inline-block;
+  letter-spacing:.1em;
+  text-decoration:none;
+  padding-top:.5rem;
+  padding-bottom:.5rem;
+  padding-left:1rem;
+  padding-right:1rem;
+  font-size:.875rem;
+  cursor:pointer;
+}
+
+.secondary-button {
+  background-color:#FFFFFF;
+  color:#008099;
+  border-color:#008099;
+}
+
+.secondary-button:hover, .copy .secondary-button:hover, .copy .secondary-button a:hover {
+  background-color:#008099;
+  color:#FFFFFF;
+  text-decoration:none;
+}
+
+.primary-button {
+  background-color:#008099;
+  color:#FFFFFF;
+  border-color:#008099;
+}
+
+.primary-button:hover, .copy .primary-button:hover, .copy .primary-button a:hover {
+  background-color:#FFFFFF;
+  color:#008099;
+  text-decoration:none;
+}
+
+.primary-button:active, .secondary-button:active {
+  box-shadow:0 2px 7px 0 #949494 inset;
+}
+
+.primary-button, .primary-button:hover, .primary-button:active, .primary-button:focus, .primary-button:link, .primary-button:visited,
+.secondary-button, .secondary-button:hover, .secondary-button:active, .secondary-button:focus, .secondary-button:link, .secondary-button:visited {
+  transition:color .15s ease-in;
+}

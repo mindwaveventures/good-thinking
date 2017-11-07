@@ -27,6 +27,8 @@ def enable_source():
 @hooks.register('construct_whitelister_element_rules')
 def whitelister_element_rules():
     return {
-        'a': attribute_rule({'href': check_url, 'id': True, 'class': True}),
-        'button': attribute_rule({'id': True, 'class': True})
+        'a': attribute_rule({
+            'href': check_url, 'id': True, 'class': True, 'style': True
+        }),
+        'button': attribute_rule({'id': True, 'class': True, 'style': True})
     }
