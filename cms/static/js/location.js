@@ -30,7 +30,7 @@ function handleGeolocationMessage () {
     select('#geolocation_message_id').style.zIndex = '-1';
     document.cookie = 'ldmw_shown_location_message=1;path=/'; /* only lasts for browser session */
   }
-  window.setTimeout(removeGeolocation_message, 5000);
+  window.setTimeout(removeGeolocation_message, 1500);
 }
 
 if (navigator.geolocation) {
