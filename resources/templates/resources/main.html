@@ -4,7 +4,7 @@
 
 {% block content %}
   {% if page.banner %}
-    {% include "resources/banner.html" with banner=page.banner %}
+    {% include "resources/banner.html" with banner=banner %}
   {% endif %}
 
   {% include "resources/components/hero-image.html" with page=page url=page.url hero_image=hero_image landing_pages=landing_pages %}

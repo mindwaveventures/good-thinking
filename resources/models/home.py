@@ -334,6 +334,28 @@ class Main(AbstractForm):
         blank=True,
         help_text="Banner at the top of every page"
     )
+    banner_button_1_text = TextField(
+        blank=True,
+        help_text="Text for first button"
+    )
+    banner_button_1_link = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    banner_button_2_text = TextField(
+        blank=True,
+        help_text="Text for second button"
+    )
+    banner_button_2_link = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
     header = TextField(
         blank=True,
         help_text="Hero title"
@@ -381,7 +403,13 @@ class Main(AbstractForm):
     )
 
     content_panels = AbstractForm.content_panels + [
-        FieldPanel('banner', classname="full"),
+        MultiFieldPanel([
+            FieldPanel('banner', classname="full"),
+            FieldPanel('banner_button_1_text', classname="full"),
+            FieldPanel('banner_button_1_link', classname="full"),
+            FieldPanel('banner_button_2_text', classname="full"),
+            FieldPanel('banner_button_2_link', classname="full"),
+        ], heading="Banner"),
         ImageChooserPanel('hero_image'),
         InlinePanel('location_images', label="Location Images"),
         FieldPanel('header', classname="full"),

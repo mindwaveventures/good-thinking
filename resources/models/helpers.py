@@ -169,7 +169,14 @@ def base_context(context):
     HomeFooterBlocks = apps.get_model('resources', 'homefooterblocks')
     Home = apps.get_model('resources', 'home')
 
-    banner = Main.objects.get(slug="home").banner
+    home_page = Main.objects.get(slug="home")
+    banner = {}
+    banner['text'] = home_page.banner
+    banner['button_1_text'] = home_page.banner_button_1_text
+    banner['button_1_link'] = home_page.banner_button_1_link
+    banner['button_2_text'] = home_page.banner_button_2_text
+    banner['button_2_link'] = home_page.banner_button_2_link
+
     footer_links = HomeFooterLinks.objects.all().select_related('footer_image')
     footer_blocks = HomeFooterBlocks.objects.all().select_related('link_page')
 
