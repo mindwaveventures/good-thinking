@@ -1,5 +1,4 @@
 function analyticsListeners() {
-  var searchTags = select("#search-tags");
   var startAssessment = select('#start-assessment');
   var nextQuestion = select('#next-question');
 
@@ -27,18 +26,6 @@ function analyticsListeners() {
     addAnalytics(el, {event: "ResourceFeedback", variable: "reviewed", action: "submit", location: "resource"});
   });
 
-  selectAll(".previous-question-tags").forEach(function(el) {
-    addAnalytics(el, {event: "personaliseResults", variable: "personaliseAction", value: "previous question"});
-  });
-
-  selectAll(".next-question-tags").forEach(function(el) {
-    addAnalytics(el, {event: "personaliseResults", variable: "personaliseAction", value: "next question"});
-  });
-
-  if (searchTags) {
-    addAnalytics(searchTags, {event: "personaliseResults", variable: "personaliseAction", value: "search"});
-  }
-
   if (startAssessment) {
     sessionStorage.setItem('assessmentQ', 1);
     addAnalytics(startAssessment, {event: "selfAssessment", variable: "assessmentProgress", value: "start"});
@@ -60,6 +47,28 @@ function feedbackLoopAnalytics() {
     addAnalytics(el, {event: "ResourceFeedback", variable: "reviewed", action: "submit", location: "feedback loop"});
   });
 }
+
+var personaliseAnalytics = (function() {
+  var executed = false;
+  return function() {
+    if (!executed) {
+      executed = true;
+      var searchTags = select("#search-tags");
+
+      selectAll(".previous-question-tags").forEach(function(el) {
+        addAnalytics(el, {event: "personaliseResults", variable: "personaliseAction", value: "previous question"});
+      });
+
+      selectAll(".next-question-tags").forEach(function(el) {
+        addAnalytics(el, {event: "personaliseResults", variable: "personaliseAction", value: "next question"});
+      });
+
+      if (searchTags) {
+        addAnalytics(searchTags, {event: "personaliseResults", variable: "personaliseAction", value: "search"});
+      }
+    }
+  }
+})();
 
 // Adds event listener that pushes to the data layer on click
 // Expects target to have a data attribute containing the url

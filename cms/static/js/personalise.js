@@ -78,6 +78,7 @@ if (personaliseDiv) {
       feedbackLoopListener();
       swipeListeners();
       analyticsListeners();
+      personaliseAnalytics();
       selectAll('.tip-card-contain').forEach(function(el) {
         el.style.height = tipHeight + "px"
       });
