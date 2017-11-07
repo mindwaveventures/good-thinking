@@ -37,7 +37,7 @@
                 {% for choice in row.choices %}
                   <div class="mv1 h18">
                     <input id="id_{{row.label}}_{{forloop.counter0}}" name="{{row.label}}" type="radio" value="{{choice.val}}" {{row.reqired}} class="absolute o-0 lm-feedback-radio" {{choice.checked}}></input>
-                    <label for="id_{{row.label}}_{{forloop.counter0}}" class="lm-feedback-label word-wrap f6 v-top">{{choice.val}}</label>
+                    <label for="id_{{row.label}}_{{forloop.counter0}}" class="lm-feedback-label nowrap f6 v-top">{{choice.val}}</label>
                   </div>
                 {% endfor %}
               </div>
