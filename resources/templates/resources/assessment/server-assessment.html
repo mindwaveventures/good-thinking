@@ -131,18 +131,18 @@
       <input type="hidden" name="node_id" value="{{NodeID}}" />
       <div class="pv3 w-100 dt">
         <div class="w-50 tl dtc">
-          {% if not first_question %}
+          {% if not first_question and not suppressBack %}
             <button class="f6 f5-ns tl b--none bg-white fw6 lm-pink-hover lm-dark-turquoise pointer ph0" type="submit" name="previous" value="Previous">previous question</button>
           {% endif %}
         </div>
-        {% if not Conclusions %}
-        <div class="tr dtc">
-          {% if first_question %}
-            <button id="start-assessment" class="f6 f5-ns tr b--none bg-white fw6 lm-pink-hover lm-dark-turquoise pointer ph0" type="submit" name="next" value="Next">start assessment</button>
-          {% else %}
-            <button id="next-question" data-node-id="{{NodeID}}" class="f6 f5-ns tr b--none bg-white fw6 lm-pink-hover lm-dark-turquoise pointer ph0" type="submit" name="next" value="Next">next question</button>
-          {% endif %}
-        </div>
+        {% if not Conclusions and not suppressNext %}
+          <div class="tr dtc">
+            {% if first_question %}
+              <button id="start-assessment" class="f6 f5-ns tr b--none bg-white fw6 lm-pink-hover lm-dark-turquoise pointer ph0" type="submit" name="next" value="Next">start assessment</button>
+            {% else %}
+              <button id="next-question" data-node-id="{{NodeID}}" class="f6 f5-ns tr b--none bg-white fw6 lm-pink-hover lm-dark-turquoise pointer ph0" type="submit" name="next" value="Next">next question</button>
+            {% endif %}
+          </div>
         {% endif %}
       </div>
     </form>
