@@ -3,9 +3,9 @@
 {% with table.Questions|first as first_question %}
 
   {% for q in table.Questions %}
-    <h3>
+    <div class="mv3">
       {{q.DisplayText|new_tab|richtext}}
-    </h3>
+    </div>
     {% if q.Error %}
       <div class="bg--lm-light-red ba b--lm-dark-red bw1 br1 dib">
         {{q.Error}}
