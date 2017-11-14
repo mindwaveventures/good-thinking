@@ -732,7 +732,25 @@ lm-ls1 {
   }
 }
 
-@media screen and (max-width: 90em) and (min-width: 30em) {
+@media screen and (min-width: 138em) {
+  .mw-11 {
+    max-width: 11em;
+  }
+}
+
+@media screen and (max-width: 135em) and (min-width: 112em) {
+  .mt-xxl {
+    margin-top: 3.8rem;
+  }
+}
+
+@media screen and (max-width: 112em) and (min-width: 93em) {
+  .mt-xl {
+    margin-top: 3.2rem;
+  }
+}
+
+@media screen and (max-width: 93em) and (min-width: 30em) {
   .mt-2-8-ns-xl {
     margin-top: 2.8rem;
   }
@@ -788,9 +806,17 @@ lm-ls1 {
   .mr-1p-l {
     margin-right: 1%;
   }
+}
 
+@media screen and (min-width: 78em) {
   .w-8-l {
     width: 8%;
+  }
+}
+
+@media screen and (max-width: 78em) and (min-width: 30em) {
+  .w-10-ml {
+    width: 10%;
   }
 }
 
@@ -811,10 +837,6 @@ lm-ls1 {
 
   .mb3-ml {
     margin-bottom: 1rem;
-  }
-
-  .w-10-ml {
-    width: 10%;
   }
 
   .w-50-ml {
