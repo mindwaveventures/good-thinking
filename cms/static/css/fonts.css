@@ -54,7 +54,7 @@ h5 {
   line-height: 20px;
 }
 
-p, li {
+p, li :not(span ul li) {
   font-family: 'Montserrat', sans-serif;
   letter-spacing: 0.5pt;
   font-weight: 600;
@@ -138,6 +138,11 @@ button, button a {
 .feedback-section p {
   margin-top: 0.3rem;
   margin-bottom: 0.3rem;
+}
+
+.e24subtext {
+  font-size: 12px !important;
+  font-style: italic;
 }
 
 @media screen and (max-width:30em) {
