@@ -41,20 +41,28 @@
         <a class="ttu link" href="/">Home</a>
         {% endif %}
       </div>
-      <div class="b--lm-dark-turquoise lm-dark-turquoise ph3 pv2">
-        {% if slug == "self-assessment" %}
-        <a class="ttu link bb bw2" href="/self-assessment/">Take self-assessment</a>
-        {% else %}
-        <a class="ttu link" href="/self-assessment/">Take self-assessment</a>
-        {% endif %}
-      </div>
-      <div class="b--lm-dark-turquoise lm-dark-turquoise ph3 pv2">
-        {% if slug == "crisis" %}
-        <a class="ttu link bb bw2" href="/crisis/">Get urgent support</a>
-        {% else %}
-        <a class="ttu link" href="/crisis/">Get urgent support</a>
-        {% endif %}
-      </div>
+      {% if banner.button_1_text %}
+        <div class="b--lm-dark-turquoise lm-dark-turquoise ph3 pv2">
+          <a href="/{{banner.button_1_link.slug}}/"
+          {% if slug == banner.button_1_link.slug %}
+            class="ttu link bb bw2"
+            {% else %}
+          class="ttu link"
+          {% endif %}
+          >{{banner.button_1_text}}</a>
+        </div>
+      {% endif %}
+      {% if banner.button_2_text %}
+        <div class="b--lm-dark-turquoise lm-dark-turquoise ph3 pv2">
+          <a href="/{{banner.button_2_link.slug}}/"
+          {% if page.slug == banner.button_2_link.slug %}
+            class="ttu link bb bw2"
+          {% else %}
+            class="ttu link"
+          {% endif %}
+          >{{banner.button_2_text}}</a>
+        </div>
+      {% endif %}
     </div>
     <div class="dib relative mv2-ns mv1 dtc-sm">
       <div class="ph3 pv2">
@@ -64,7 +72,7 @@
     {% for topic in landing_pages %}
     <div class="relative mv2-ns mv1 dtc-sm">
       <div class="b--lm-dark-blue lm-dark-blue ph3 pv2">
-        {% if url == topic.url %}
+        {% if page.slug == topic.slug %}
         <a class="ttu link bb bw2" href="/{{topic.slug}}/">{{topic.slug}}</a>
         {% else %}
         <a class="ttu link" href="/{{topic.slug}}/">{{topic.slug}}</a>
