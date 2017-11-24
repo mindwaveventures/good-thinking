@@ -589,6 +589,10 @@ lm-ls1 {
   width: 95%;
 }
 
+.w-45 {
+  width: 45%;
+}
+
 .footer-block {
   border-bottom: solid 1px #c2c2c2;
 }
@@ -755,6 +759,10 @@ lm-ls1 {
   .ph2-5-l {
     padding-left: 2.5rem;
     padding-right: 2.5rem;
+  }
+
+  .w-45-l {
+    width: 45%;
   }
 
   .bottom--1-2-l {

@@ -3,7 +3,47 @@
 {% block body_class %}template-404{% endblock %}
 
 {% block content %}
-    <h1>Page not found</h1>
+  {% if banner %}
+    {% include "resources/banner.html" with banner=banner %}
+  {% endif %}
 
-    <h2>Sorry, this page could not be found.</h2>
+  {% if landing_pages %}
+    <section id="landing_page_navbar" class="absolute dn-ss dt--fixed dt-ns tc pv3 ph4 ph3-m ph3-l blurred_background_header cover bg-center w-100 mt-2-8-ns-xl mt5 {% if not page.hero_image %}banner-gradient{% endif %}">
+      <div class="dib relative mv2-ns mv1 dtc-ns v-mid">
+        I am, or know someone who is, feeling:
+      </div>
+      {% for topic in landing_pages %}
+        <div class="dib relative mv2 mv1 dtc">
+          <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer v-mid">
+            <a class="ttu montserrat fw6 lm-black f6 link bb-hover bw2-hover lm-dark-turquoise-hover {% if page.slug == topic.slug %}bb bw2{% endif %}" href="/{{topic.slug}}/">{{topic.title}}</a>
+          </div>
+        </div>
+      {% endfor %}
+    </section>
+
+    {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages %}
+  {% endif %}
+
+  <div class="w-45-l w-70 center mt6-l mt5">
+    <img srcset="/staticfiles/images/404.png 4367w,
+                 /staticfiles/images/404-mobile.png 2317w"
+         sizes="(min-width:60em) 4367px,
+                (max-width:60em) 2317px
+                100%"
+         src="/staticfiles/images/404.png"
+         alt="404 not found">
+  </div>
+
+  <div class="w-50-l w-90 center tc">
+    <h3 class="mb1 f5-l f6">Error 404</h3>
+
+    <h3 class="mb4-l mb3 f4-l f6">Uh oh, that page doesn't seem to exist.<br /> But you're looking for support in the right place!</h3>
+
+    <div class="dt dt--fixed">
+      <a class="dtc fw4 underline lm-pink-hover" href="/">Homepage</a>
+      <a class="dtc fw4 underline lm-pink-hover" href="/urgent-support/">Get urgent support</a>
+      <a class="dtc fw4 underline lm-pink-hover" href="/contact-us/">Contact us</a>
+    </div>
+  </div>
+
 {% endblock %}

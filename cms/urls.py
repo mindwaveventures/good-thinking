@@ -21,6 +21,8 @@ from cms.views import robots_handler
 from wagtail.contrib.wagtailsitemaps.views import sitemap
 
 
+handler404 = 'cms.views.not_found_handler'
+
 urlpatterns = [
     url(r'^django-admin/', include(admin.site.urls)),
 
