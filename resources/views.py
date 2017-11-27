@@ -487,6 +487,13 @@ def assessment_controller(self, request, **kwargs):
     context['heading'] = self.heading
     context['body'] = self.body
 
+    if (self.seo_title):
+        context['page_title'] = (
+            self.seo_title + " | " + self.get_site().site_name
+        )
+    else:
+        context['page_title'] = self.get_site().site_name
+
     if params.get("q_info") or params.get("a_info"):
         context["info"] = requests.get(
             f"{e24_url}/Info/"
