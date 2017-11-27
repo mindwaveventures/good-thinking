@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Good Thinking</title>
+    <style media="screen">
+      body {
+        font-family: 'Montserrat', sans-serif;
+        color: #04091a;
+        background-color: #4ea1af;
+        margin: 0;
+      }
+
+      a {
+        color: inherit;
+        font-weight: 400;
+        font-size: 1rem;
+        text-decoration: underline;
+      }
+
+      a:hover {
+        color: #de2183;
+      }
+
+      h2 {
+        font-family: 'Montserrat', sans-serif;
+        letter-spacing: 0.5pt;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 24px;
+      }
+
+      p {
+        font-family: 'Montserrat', sans-serif;
+        letter-spacing: 0.5pt;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+      }
+
+      p.i {
+        font-weight: 300;
+        font-style: italic;
+      }
+
+      .montserrat {
+        font-family: "Montserrat";
+        letter-spacing: 0.5pt;
+      }
+
+      .site-down-image {
+        height: 51vh;
+        background-size: 100%;
+        background-image: url('./site-down.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        width: 50%;
+        margin: 2rem auto;
+      }
+
+      .center {
+        text-align: center;
+        margin: auto;
+      }
+
+      .links {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+      }
+
+      .links > a {
+        display: table-cell;
+      }
+
+      @media screen and (max-width:800px) {
+        body {
+          background-color: white;
+        }
+
+        .site-down-image {
+          height: 60vh;
+          background-size: contain;
+          background-image: url('./site-down-mobile.png');
+          width: 100%;
+          margin-top: 0;
+        }
+
+        h2 {
+          font-size: 24px;
+          padding: 0 1em;
+        }
+
+        p {
+          font-size: 18px;
+          padding: 0 0.5em;
+        }
+
+        p.i {
+          font-size: 14px;
+        }
+
+        a {
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="site-down-image"></div>
+
+    <div class="center">
+      <h2>Even websites can feel down from time to time.</h2>
+
+      <p>Thanks for your patience while we get Good Thinking up and running again.</p>
+
+      <div class="links">
+        <a href="mailto:info@good-thinking.uk">Contact us</a>
+      </div>
+
+      <p class="i">If you are in need of urgent support please call 999 or visit the Samaritans.</p>
+    </div>
+  </body>
+</html>
