@@ -17,7 +17,7 @@ selectAll('.finish-assessment').forEach(function(elm) {
     if(!!button_destination) {
       // we have a destination URL - go there
       e.preventDefault();
-      window.location(button_destination);
+      window.location = button_destination;
     }
   });
 })
