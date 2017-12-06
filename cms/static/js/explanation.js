@@ -1,7 +1,7 @@
 var qInfoButton = select('#toggle-q-info');
 var qInfo = select('#q-info');
 
-function addInfoListener (element) {
+function addInfoListener (element, qInfo) {
   element.addEventListener('click', function (e) {
     var node_type_id;
 
@@ -27,11 +27,11 @@ function addInfoListener (element) {
 }
 
 if (!!qInfoButton && !!qInfo) {
-  addInfoListener(qInfoButton);
+  addInfoListener(qInfoButton, qInfo);
 }
 
 if (!!qInfo) {
   selectAll(".toggle-a-info").forEach(function(aInfoButton) {
-    addInfoListener(aInfoButton);
+    addInfoListener(aInfoButton, qInfo);
   });
 }
