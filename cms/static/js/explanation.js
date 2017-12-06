@@ -3,20 +3,24 @@ var qInfo = select('#q-info');
 
 function addInfoListener (element, qInfo) {
   element.addEventListener('click', function (e) {
-    var node_type_id;
+    var qInfo_asset_id = qInfo.getAttribute('data-asset-id');
+    var qInfo_node_type_id = qInfo.getAttribute('data-node-type-id');
 
-    if (!!e.name) {
-      switch (e.name) {
+    var iButton = e.target;
+    var iButton_node_type_id;
+
+    if (!!iButton.name) {
+      switch (iButton.name) {
         case 'a_info':
-          node_type_id = '64';
+          iButton_node_type_id = '64';
           break;
         case 'q_info':
-          node_type_id = '32';
+          iButton_node_type_id = '32';
           break;
       }
     }
 
-    if (!!qInfo && qInfo.getAttribute('data-asset-id') == e.value && qInfo.getAttribute('data-node-type-id') == node_type_id) {
+    if (!!qInfo && qInfo_asset_id == iButton.value && qInfo_node_type_id == iButton_node_type_id) {
       // qInfo panel is showing, and it is for node type (question/answer) and for the same asset, so go ahead and hide it
       e.preventDefault();
       qInfo.classList.toggle("dn")
