@@ -144,6 +144,11 @@
             {% endif %}
           </div>
         {% endif %}
+        {% if Conclusions %}
+          <div class="tr dtc">
+            <button data-node-id="{{NodeID}}" class="f6 f5-ns tr b--none bg-white fw6 lm-pink-hover lm-dark-turquoise pointer ph0 finish-assessment" type="submit" name="next" value="Finish" data-destination="{{finish_destination}}">homepage</button>
+          </div>
+        {% endif %}
       </div>
     </form>
   </div>

@@ -489,6 +489,7 @@ def assessment_controller(self, request, **kwargs):
     context['resources'] = resources
     context['heading'] = self.heading
     context['body'] = self.body
+    context['finish_destination'] = "/"
 
     if (self.seo_title):
         context['page_title'] = (
