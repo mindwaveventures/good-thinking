@@ -425,6 +425,9 @@ def assessment_controller(self, request, **kwargs):
     algo_id = self.algorithm_id
     node_id = 0
 
+    node_type_id = None
+    asset_id = None
+
     if params.get("node_id"):
         node_id = params.get("node_id")
 
