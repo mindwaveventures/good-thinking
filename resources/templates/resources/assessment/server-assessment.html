@@ -99,7 +99,6 @@
           {% endfor %}
         </div>
         {% endfor %}
-<div class="conclusions">{{ Conclusions }}</div>
         {% if Conclusions %}
         <script type="text/javascript">
           dataLayer.push({'event': 'selfAssessment', 'assessmentProgress': 'complete'});
@@ -144,7 +143,6 @@
             {% endif %}
           </div>
         {% endif %}
-<div class="conclusions">{{ Conclusions }}</div>
         {% if Conclusions %}
           <div class="tr dtc">
             <button data-node-id="{{NodeID}}" class="f6 f5-ns tr b--none bg-white fw6 lm-pink-hover lm-dark-turquoise pointer ph0 finish-assessment" type="submit" name="next" value="Finish" data-destination="{{finish_destination}}">homepage</button>
