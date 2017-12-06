@@ -475,6 +475,9 @@ def assessment_controller(self, request, **kwargs):
     context["traversal_id"] = traversal_id
     context["first_question"] = (node_id == 0)
 
+    context["node_type_id"] = node_type_id
+    context["asset_id"] = asset_id
+
     try:
         context['parent'] = self.get_parent().slug
         context['slug'] = self.slug
