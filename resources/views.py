@@ -425,6 +425,9 @@ def assessment_controller(self, request, **kwargs):
     algo_id = self.algorithm_id
     node_id = 0
 
+    node_type_id = None
+    asset_id = None
+
     if params.get("node_id"):
         node_id = params.get("node_id")
 
@@ -474,6 +477,9 @@ def assessment_controller(self, request, **kwargs):
     context["member_id"] = member_id
     context["traversal_id"] = traversal_id
     context["first_question"] = (node_id == 0)
+
+    context["node_type_id"] = node_type_id
+    context["asset_id"] = asset_id
 
     try:
         context['parent'] = self.get_parent().slug

@@ -46,7 +46,7 @@
 
       {% if info %}
         {% with info.Table|first as info_text %}
-        <div class="lm-bg-dark-turquoise ba pa2 white" id="q-info">
+        <div class="lm-bg-dark-turquoise ba pa2 white" id="q-info" data-asset-id="{{asset_id}}" data-node-type-id="{{node_type_id}}">
           {{info_text.Explanation|new_tab|richtext}}
         </div>
         {% endwith %}
@@ -88,7 +88,7 @@
               {{a.DisplayText}}
             </label>
             {% if a.hasInfo %}
-            <button class="lm-bg-dark-turquoise lm-pink-hover pointer b--none white br1 pv0 ph1" name="a_info" value="{{a.AnswerID}}" id="toggle-a-info">i</button>
+            <button class="lm-bg-dark-turquoise lm-pink-hover pointer b--none white br1 pv0 ph1 toggle-a-info" name="a_info" value="{{a.AnswerID}}">i</button>
             {% endif %}
             {% if a.Error %}
             <div class="bg--lm-light-red ba b--lm-dark-red bw1 br1 db pa1">
