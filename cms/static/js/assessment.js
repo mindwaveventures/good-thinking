@@ -8,3 +8,16 @@ selectAll('.e24answers').forEach(function(e24) {
     });
   });
 })
+
+selectAll('.finish-assessment').forEach(function(elm) {
+  elm.addEventListener('click', function(e) {
+    var button = e.target;
+    var button_destination = button.getAttribute('data-destination');
+
+    if(!!button_destination) {
+      // we have a destination URL - go there
+      e.preventDefault();
+      window.location = button_destination;
+    }
+  });
+})
