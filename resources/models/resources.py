@@ -489,6 +489,9 @@ class ResourcePage(AbstractForm):
 
         return base_context(context)
 
+    def get_form_fields(self):
+        return iter([])
+
     class Meta:
         verbose_name = "Resource"
 
