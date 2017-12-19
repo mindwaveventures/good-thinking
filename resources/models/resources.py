@@ -10,6 +10,8 @@ from wagtail.wagtailsearch import index
 from wagtail.wagtailcore.models import Orderable
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
+from wagtail.contrib.modeladmin.options import ModelAdmin
+
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from django.db.models.fields import (
@@ -551,3 +553,8 @@ class Assessment(ResourcePage):
 
     def serve(self, request, *args, **kwargs):
         return assessment_controller(self, request, **kwargs)
+
+
+class ResourceAdmin(ModelAdmin):
+    model = Resource
+    list_display = ('title', 'likes', 'dislikes',)
