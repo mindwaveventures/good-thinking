@@ -556,5 +556,5 @@ class Assessment(ResourcePage):
 
 
 class ResourceAdmin(ModelAdmin):
-    model = Resource
+    model = ResourcePage
     list_display = ('title', 'likes', 'dislikes',)
