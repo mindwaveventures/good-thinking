@@ -97,3 +97,9 @@ elm-stuff
 cms/static/js/elm.js
 
 node_modules
+
+# Vagrant
+.vagrant
+
+# Environment settings
+good-thinking-env-variables.sh
