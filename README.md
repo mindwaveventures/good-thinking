@@ -61,18 +61,18 @@ The wagtail dashboard can be found at `http://localhost:8000/admin`
 
 ### [Vagrant](#vagrant)
 
-A `Vagrantfile` has been created in order to aid local development (ie minimising potential issues with a developer's own machine setup).  The Vagrant set up is:
+A `Vagrantfile` has been created in order to aid local development (ie minimising potential issues with a developer's own machine setup and provide a consistent, reproducible development, and then production, environment).  Vagrant configuration is:
 
-+ Ubuntu 16.04 (64 bit)
-+ Private IP address of 192.168.33.20
-+ Serves the web app on port 8001 (bound to the private IP address above) which is mapped to local port 8001 (ie developer's machine).
++ Ubuntu 16.04 (64 bit), see [app.vagrantup.com/ubuntu/boxes/xenial64](https://app.vagrantup.com/ubuntu/boxes/xenial64)
++ Private IP address of `192.168.33.20`
++ Serves the web app on port `8001` (bound to the private IP address above) which is mapped to local port `8001` (ie developer's machine).
 + All prerequisites are installed (see top of the `Vagrantfile`)
 + A new Postgres database is created with
-	+ username:  postgres
-	+ password: postgres
-	+ database name:  goodthinking
+	+ username:  `postgres`
+	+ password: `postgres`
+	+ database name:  `goodthinking`
 
-To save repeated/manual work, customise IP address and port, and (particularly) environment variables **before** provisioning the VM (ie before the first start).
+To save repeated/manual work, *customise* IP address and port, and (particularly) environment variables **before** provisioning the VM (ie before the first start).
 
 #### IP address and port
 
@@ -131,6 +131,19 @@ for f in elm-package.json good-thinking-env-variables.sh good-thinking.sh manage
 ```
 
 These changes will only be actioned when a VM is *first* provisioned (which happens when it's first brought up).  Hence newly added root folders and files must be **manually** symbolically linked in order to make them available both locally (developer's machine) and to the VM (guest Vagrant machine).
+
+#### Starting Wagtail site
+
+The Wagtail site itself *is not* started during VM provision.  It can be started by `SSH`ing on to the VM (user `ubuntu`) and running:
+
+```bash
+~/.good-thinking.sh
+```
+
+This must be manually re-run if the Vagrant VM is `halt`ed and restarted.
+
+The site will now be available from the developer's local machine at [http://192.168.33.20:8001](http://192.168.33.20:8001) subject to possible IP address and port number changes (as detailed above).
+
 
 ### Load testing
 
