@@ -569,4 +569,5 @@ class ResourceAdmin(ModelAdmin):
     model = ResourcePage
     list_display = ('title', 'likes', 'dislikes',)
 
+
 modeladmin_register(ResourceAdmin)
