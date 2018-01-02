@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'wagtail.wagtailadmin',
     'wagtail.wagtailcore',
     'wagtail.contrib.postgres_search',
+    'wagtail.contrib.modeladmin',
 
     'modelcluster',
     'taggit',

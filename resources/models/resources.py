@@ -10,6 +10,8 @@ from wagtail.wagtailsearch import index
 from wagtail.wagtailcore.models import Orderable
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
+from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
+
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from django.db.models.fields import (
@@ -492,6 +494,16 @@ class ResourcePage(AbstractForm):
     def get_form_fields(self):
         return iter([])
 
+    def likes(self):
+        return Likes.objects\
+            .filter(resource_id=self.id, like_value=1)\
+            .count()
+
+    def dislikes(self):
+        return Likes.objects\
+            .filter(resource_id=self.id, like_value=-1)\
+            .count()
+
     class Meta:
         verbose_name = "Resource"
 
@@ -551,3 +563,11 @@ class Assessment(ResourcePage):
 
     def serve(self, request, *args, **kwargs):
         return assessment_controller(self, request, **kwargs)
+
+
+class ResourceAdmin(ModelAdmin):
+    model = ResourcePage
+    list_display = ('title', 'likes', 'dislikes',)
+
+
+modeladmin_register(ResourceAdmin)
