@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/mindwaveventures/good-thinking.png?branch=master)](https://travis-ci.org/mindwaveventures/good-thinking)
+[![Dependency Status](https://david-dm.org/mindwaveventures/good-thinking.svg)](https://david-dm.org/mindwaveventures/good-thinking)
+[![Dev Dependency Status](https://david-dm.org/mindwaveventures/good-thinking/dev-status.svg)](https://david-dm.org/mindwaveventures/good-thinking?type=dev)
+
 # Good Thinking
 
 Content Management System for [Good Thinking](https://www.good-thinking.uk), a [Wagtail](https://wagtail.io/) CMS site (which itself is built on the [Django](https://www.djangoproject.com/) Python web framework).
