@@ -45,6 +45,8 @@ export MAINTENANCE_PAGE_URL="https://s3.amazonaws.com/londonminds/site-down.html
 export SECRET_KEY="<value>"
 ```
 
+**Note:** if deploying on Heroku, `DATABASE_URL` will be auto-populated during the app provisioning process.  Do not change the value added by Heroku.  These credentials may change at any point, see [https://devcenter.heroku.com/articles/heroku-postgresql-credentials#using-the-default-credential](https://devcenter.heroku.com/articles/heroku-postgresql-credentials#using-the-default-credential)
+
 The google maps API key can easily be obtained by clicking the `get a key` button at [developers.google.com/maps/documentation/javascript/get-api-key](https://developers.google.com/maps/documentation/javascript/get-api-key)
 
 (Ensure postgres is running with: `postgres -D /usr/local/var/postgres/`)
