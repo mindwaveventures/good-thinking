@@ -2,7 +2,21 @@
 
 <!-- Hero Image Block -->
 {% image page.hero_image width-1000 as hero_image %}
-<section class="cover bg-center" style="background-image:url('{{ hero_image.url }}')">
+<section class="home-slider">
+    <div class="gt-header-img" style="background-image:url('{{ hero_image.url }}')"></div>
+    <div class="gt-slider-content">
+        <div class="row gt-header-content">
+            <div>
+                <h1 class="gt-header">{{ page.header }}</h1>
+            </div>
+            <div>
+                {{page.body|richtext}}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <section class="cover bg-center" style="background-image:url('{{ hero_image.url }}')">
   <div class="pt5 ph4 ph5-m pt6-sm ph6-l pt6-l tc lm-white lh-copy">
     <div class="pb3 w-90-ns f1-ns lh-title center">
       <div class="mb4">
@@ -36,4 +50,4 @@
       {% endfor %}
     </div>
   {% endif %}
-</section>
+</section> -->
