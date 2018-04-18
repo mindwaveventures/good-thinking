@@ -1,0 +1,30 @@
+.gt-footer-result-img {
+  float:left;
+  padding-right:12px;
+}
+
+.gt-footer-result-para {
+  font-family:'Nunito Sans';
+  font-size:14px;
+  font-weight:bold;
+  font-style:normal;
+  font-stretch:normal;
+  /*line-height:1.5;*/
+  letter-spacing:1.2px;
+  text-align:center;
+  color:#1a304b;
+  float:left;
+}
+
+.gt-header-result-div {
+  width:160px;
+  margin-top:10px;
+  height:30px;
+}
+
+.gt-header-result {
+  background-color:white;
+  padding:5px;
+  padding-left:10px;
+}
+
