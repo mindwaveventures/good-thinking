@@ -2,6 +2,8 @@
 
 {% load wagtailcore_tags wagtailimages_tags static spacing %}
 
+{% block body_class %}gt-body{% endblock %}
+
 {% block content %}
   {% if page.banner %}
     {% include "resources/banner.html" with banner=banner %}
