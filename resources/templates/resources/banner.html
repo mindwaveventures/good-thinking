@@ -1,6 +1,6 @@
-{% load wagtailcore_tags new_tab %}
-{% load static %}
+{% load wagtailcore_tags wagtailimages_tags static spacing modelname new_tab %} {% load static %}
 
+{% comment %}
 <div class="lm-bg-white pa3 pv-1-4-sm pv-1-25-s w-100 f6 f5-l f5-m banner segoe fixed top-0 z-5 dt dt--fixed shadow-2" id="beta-banner">
   <div class="dtc w-33 w-10-ml w-8-l w-15-m tl v-mid">
     <a href="/"><img src="{% static "images/good_thinking_logo.svg" %}" /></a>
@@ -32,3 +32,45 @@
     </div>
   {% endif %}
 </div>
+{% endcomment %}
+
+<section>
+  <div class="gt-logo"><a href="#" class="gt-logo-link"><img src="{% static "images/good-thinking-logo.png" %}" class="gt-logo-des">
+      <img class="hidden-lg gt-logo-tab" src="{% static "images/good-thinking-logo-tablet.png" %}"></a>
+      {% if banner.button_1_text or banner.button_2_text %}
+    <ul class="nav nav-tabs hidden-xs hidden-md hidden-lg gt-nav-right nav-underline">
+      {% if banner.button_1_text %}
+      <li><a href="/{{banner.button_1_link.slug}}/" class="gt-logo-link-right">{{banner.button_1_text}}</a></li>
+      {% endif %} {% if banner.button_2_text %}
+      <li><a href="/{{banner.button_2_link.slug}}/" class="gt-logo-link-right">{{banner.button_2_text}}</a></li>
+      {% endif %}
+    </ul>
+    {% endif %}
+    <div class="gt-nav-link">
+      {{banner.text|new_tab|richtext}}
+    </div>
+  </div>
+  {% include "resources/nav_bar_mobile.html" with banner=banner %}
+  <nav class="navbar navbar-default hidden-xs gt-nav">
+    <div class="container-fluid gt-menu">
+      <div class="navbar-header"><a class="navbar-brand hidden-xs" href="#">I am, or I know someone who is feeling:</a>
+        <button class="navbar-toggle collapsed hidden-xs" data-toggle="collapse" data-target="#navcol-1">
+                <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span>
+                <span class="icon-bar"></span><span class="icon-bar"></span>
+            </button>
+      </div>
+      <div class="collapse navbar-collapse" id="navcol-1">
+        {% include "resources/nav_bar_desktop.html" with banner=banner %}
+         {% if banner.button_1_text or banner.button_2_text %}
+        <ul class="nav navbar-nav hidden-sm gt-nav-right nav-underline">
+          {% if banner.button_1_text %}
+          <li role="presentation"><a href="/{{banner.button_1_link.slug}}/">{{banner.button_1_text}}</a></li>
+          {% endif %} {% if banner.button_2_text %}
+          <li role="presentation"><a href="/{{banner.button_2_link.slug}}/">{{banner.button_2_text}}</a></li>
+          {% endif %}
+        </ul>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+</section>
