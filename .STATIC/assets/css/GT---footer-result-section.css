@@ -1,0 +1,34 @@
+.gt-footer-result-img {
+  float:left;
+}
+
+.gt-footer-result-para {
+  font-size:14px;
+  font-weight:bold;
+  font-style:normal;
+  font-family:'Nunito Sans', sans-serif;
+  font-stretch:normal;
+  /*line-height:1.5;*/
+  letter-spacing:1.2px;
+  text-align:center;
+  color:#1a304b;
+  margin-bottom:0px !important;
+}
+
+.gt-footer {
+  margin:0 auto;
+  padding:30px;
+  text-align:center;
+  background-color:#1d6f6e;
+  padding:20px;
+  position:relative;
+  z-index:5;
+}
+
+.gt-footer-result {
+  width:160px;
+  margin:auto;
+  height:20px;
+  margin-top:10px;
+}
+
