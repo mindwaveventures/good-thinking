@@ -6,6 +6,7 @@
   </div>
 {% endif %}
 
+{% comment %}
 {% if footer_links %}
   <footer class="tc pa3 f6 f5-ns tracked">
     <div class="ph2 ph5-plus-ns lm-white footer tj">
@@ -18,3 +19,25 @@
     </div>
   </footer>
 {% endif %}
+{% endcomment %}
+
+
+
+<footer>
+{% if footer_links_one %}
+    <div class="gt-footer">
+      {% for footer in footer_links_one %}
+        <div class="gt-link-footer"><a href="{{footer.link_page}}" class="gt-footer-link">{{footer.link_text}}<br></a></div>
+    {% endfor %}
+    </div>
+{% endif %}
+
+{% if footer_links_two %}
+    <div class="gt-brand-container">
+      {% for footer in footer_links_two %}
+        {% image footer.footer_image fill-120x70 as footer_image %}
+        <div class="gt-brand"><a href="{{footer.footer_link}}"><img src="{{footer_image.url}}"></div></a>
+      {% endfor %}
+    </div>
+{% endif %}
+</footer>
