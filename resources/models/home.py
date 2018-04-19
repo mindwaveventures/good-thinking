@@ -25,6 +25,8 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from urllib.parse import parse_qs
 
+from colorful.fields import RGBColorField
+
 from resources.models.tags import ExcludeTag, IssueTag
 from resources.models.resources import ResourceIndexPage, ResourcePage
 from resources.models.helpers import (
@@ -268,6 +270,10 @@ class Home(AbstractForm):
         blank=True,
         help_text="Text to display for the link to this page"
     )
+    link_color = RGBColorField(
+        default='#f3a140', null=True, blank=True,
+        help_text="The link's background colour to use on homepage"
+    )
     mobile_title = TextField(
         blank=True,
         help_text="Title to show on mobile"
@@ -287,6 +293,7 @@ class Home(AbstractForm):
         MultiFieldPanel([
             FieldPanel('description'),
             FieldPanel('link_text'),
+            FieldPanel('link_color'),
             FieldPanel('mobile_title')
         ], heading="Link Block"),
         ImageChooserPanel('hero_image'),
