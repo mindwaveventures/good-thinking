@@ -79,7 +79,7 @@
     <div class="col-md-6 col-md-offset-3">
       {% with highlights as pages %}
           {% for page in pages %}
-          {% if page.title == 'SAM' or page.title == 'Be Mindful' %}
+          {% if forloop.counter < 3 %}
           {% include "resources/short_resource.html" with page=page selected_tags=selected_tags %}
            {% endif %}
           {% endfor %}
