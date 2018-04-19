@@ -169,7 +169,7 @@ def base_context(context):
     HomeFooterLinks = apps.get_model('resources', 'homefooterlinks')
     HomeFooterBlocks = apps.get_model('resources', 'homefooterblocks')
     Home = apps.get_model('resources', 'home')
-
+    ResourcePage = apps.get_model('resources', 'resourcepage')
     home_page = Main.objects.get(slug="home")
     banner = {}
     banner['text'] = home_page.banner
@@ -182,6 +182,7 @@ def base_context(context):
     footer_links = HomeFooterLinks.objects.all().select_related('footer_image')
     footer_blocks = HomeFooterBlocks.objects.all().select_related('link_page')
 
+    context['highlights'] = ResourcePage.objects.all()
     context['banner'] = banner
     context['site_map'] = site_map
     context['footer_links'] = footer_links

@@ -264,6 +264,10 @@ class ResourcePage(AbstractForm):
         blank=True,
         help_text="The title of the resource being linked to"
     )
+    logo_background_color = RGBColorField(
+        default='#ffffff', null=True, blank=True,
+        help_text="The background colour of brand_logo"
+    )
     resource_url = URLField(
         blank=True,
         help_text="The url of the resource to link to"
@@ -404,6 +408,7 @@ class ResourcePage(AbstractForm):
         InlinePanel('badges', label="Badge"),
         InlinePanel('latlong', label="Latitude and Longitude"),
         FieldPanel('heading', classname="full"),
+        FieldPanel('logo_background_color', classname="full"),
         FieldRowPanel([
             FieldPanel('resource_url', classname="col6"),
             FieldPanel('resource_url_text', classname="col6"),

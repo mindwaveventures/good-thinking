@@ -1,5 +1,7 @@
-{% load wagtailcore_tags continuereading new_tab missing_tags %}
+{% load wagtailcore_tags wagtailimages_tags continuereading new_tab missing_tags %}
+{% load static %}
 
+{% comment "Old template-third block" %}
 <div id="resource_{{page.id}}" class="resource mb4 mt4">
   {% with missing=selected_tags|missing_tags:page %}
     {% if missing %}
@@ -118,3 +120,31 @@
     </div>
   </div>
 </div>
+{% endcomment %}
+
+
+{% image page.brand_logo width-500 as brand_logo %}
+      <div class="panel panel-default gt-highlights gt-home">
+          <div class="panel-heading" style="background-color: {{page.logo_background_color}}">
+              <div><img src="{{brand_logo.url}}" alt="{{page.heading}}"></div>
+          </div>
+          <div class="panel-body gt-highlights-body">
+              <div>
+                  <h1 class="gt-topic-header">{{ page.heading }}</h1>
+                  <p class="gt-highlights-para gt-para-center">{{ page.tagline | richtext }}</p>
+                  <div class="gt-body-header"></div>
+                  <div class="row gt-panel-body-content">
+                      <div class="col-md-6 col-sm-6 text-left">{{page.pros|new_tab|richtext}}</div>
+                      <div class="col-md-6 col-sm-6 hidden-xs text-left gt-hide-block">{{page.cons|new_tab|richtext}}</div>
+                      <div class="col-md-12 hidden-sm">
+                          <div><a class="btn btn-default hidden-md hidden-lg collapse-btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-1" role="button" href="#collapse-1">Considerations +<br></a>
+                              <div class="collapse" id="collapse-1">
+                                  <p class="gt-highlights-para">Lorem ipsum dolor sit amet<br>Consectetur adipiscing elit<br>Praesent porttitor urna vulputate dictum <br>In hac habitasse platea dictumst<br>Lorem ipsum dolor sit amet</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="panel-footer gt-highlight-footer"><button class="btn btn-default gt-highlights-btn" type="button">Tell me more</button></div>
+      </div>
