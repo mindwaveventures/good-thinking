@@ -92,7 +92,7 @@ class MainLocationImages(Orderable, LocationImages):
     page = ParentalKey('Main', related_name='location_images')
 
 
-class FooterLinkOne(models.Model):
+class SiteMap(models.Model):
     link_page = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
@@ -110,7 +110,7 @@ class FooterLinkOne(models.Model):
     class Meta:
         abstract = True
 
-class FooterLinkTwo(models.Model):
+class FooterLink(models.Model):
     footer_image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -151,11 +151,11 @@ class FooterBlock(models.Model):
         abstract = True
 
 
-class HomeFooterLinksOne(Orderable, FooterLinkOne):
-    page = ParentalKey('Main', related_name='footer_links_one')
+class HomeSiteMap(Orderable, SiteMap):
+    page = ParentalKey('Main', related_name='site_map')
 
-class HomeFooterLinksTwo(Orderable, FooterLinkTwo):
-    page = ParentalKey('Main', related_name='footer_links_two')
+class HomeFooterLinks(Orderable, FooterLink):
+    page = ParentalKey('Main', related_name='footer_links')
 
 class HomeFooterBlocks(Orderable, FooterBlock):
     page = ParentalKey('Main', related_name='footer_blocks')
@@ -442,8 +442,8 @@ class Main(AbstractForm):
         FieldPanel('lookingfor', classname="full"),
         InlinePanel('form_fields', label="Form fields"),
         InlinePanel('footer_blocks', label="Footer Blocks"),
-        InlinePanel('footer_links_one', label="Footer one"),
-        InlinePanel('footer_links_two', label="Footer two"),
+        InlinePanel('site_map', label="SiteMap"),
+        InlinePanel('footer_links', label="Footer"),
     ]
 
     def get_context(self, request, **kwargs):
