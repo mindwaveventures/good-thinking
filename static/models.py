@@ -1,13 +1,13 @@
 from __future__ import unicode_literals
 
 from django.db.models.fields import CharField
-
+from django.db import models
 from wagtail.wagtailcore import blocks
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.fields import StreamField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.wagtailimages.blocks import ImageChooserBlock
-
+from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from resources.models.helpers import base_context
 
 
@@ -17,6 +17,14 @@ class StaticPage(Page):
 
         return base_context(context)
 
+    cover_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    
     body = StreamField([
         ('heading', blocks.RichTextBlock()),
         ('paragraph', blocks.RichTextBlock(template="static/display.html")),
@@ -38,5 +46,6 @@ class StaticPage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel('text_alignment'),
+        ImageChooserPanel('cover_image'),
         StreamFieldPanel('body'),
     ]
