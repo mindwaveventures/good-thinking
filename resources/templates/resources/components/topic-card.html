@@ -5,7 +5,7 @@
     <div class="panel-heading gt-heading-panel" style="background-color: {{page.link_color}};">
       <div class="row">
         <div class="col-md-12">
-          <p class="gt-topic-heading-para">I am, or know someone who is feeling&nbsp;</p><span class="gt-topic-header">{{page.title}}<br></span></div>
+          <p class="gt-topic-heading-para {% if page.link_color != '#f3a140' %} gt-white-text {% endif %}">I am, or know someone who is feeling&nbsp;</p><span class="{% if page.link_color == '#f3a140' %} gt-topic-header {% else  %} gt-topic-panel-text {% endif %} ">{{page.title}}<br></span></div>
         </div>
       </div>
       <div class="panel-body gt-para-topics"><span>{{page.description|richtext}}</span></div>
