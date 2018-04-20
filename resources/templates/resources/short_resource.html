@@ -49,6 +49,7 @@
         </div>
       </div>
       <div class="dt">
+        {% comment "thumbs up and thumbs down"%}
         <div class="pt3 pb4 ph4-ns ph3 w-50-ns dib-ns dtc-ns br-ns bb bb-0-ns mb2 mb0-ns b1 v-top b--lm-grey">
           <h4 class="f5 mt0">Would you recommend this?</h4>
           <div class="dt dt--fixed">
@@ -102,7 +103,8 @@
           {% endif %}
           {% endif %}
         </div>
-        <div class="pv3 v-mid dib-ns dtc-ns ph4-ns ph3 copy tc">
+        {% endcomment %}
+        <div class="pv3 v-mid dib-ns dtc-ns w-50-ns ph4-ns ph3 copy tc">
           <a href="/{{page.parent}}/{{page.slug}}/">
             <button class="f6 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba b--lm-dark-turquoise">
               Get more info and read comments

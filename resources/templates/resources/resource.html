@@ -113,6 +113,7 @@
         </div>
       </div>
       <div class="dt">
+        {% comment "thumbs up and thumbs down" %}
         <div class="pt3 pb4 ph4-ns ph3 w-50-ns dib-ns dtc-ns b1 v-top">
           <h4 class="f5 mt0">Would you recommend this?</h4>
           <div class="dt dt--fixed">
@@ -134,6 +135,7 @@
             </div>
           </div>
         </div>
+        {% endcomment %}
         <div class="alert share-alert db fr pa1 ba bw1-ns bg--lm-light-red b--dark-red black"></div>
         {% if liked_value == 1 or liked_value == -1 or page.liked_value == 1 or page.liked_value == -1 %}
         {% if like_feedback_submitted and not error %}
