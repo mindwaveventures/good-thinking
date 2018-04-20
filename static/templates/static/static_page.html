@@ -56,7 +56,11 @@
 
   {% image page.cover_image width-1000 as cover_image %}
   <section class="home-slider">
+    {% if cover_image %}
       <div class="gt-header-img article" style="background-image:url('{{ cover_image.url }}')"></div>
+    {% else %}
+      <div class="gt-header-img article" style="background-image:url({%static 'images/gt-articals-cover-img.jpg'%})"></div>
+    {% endif %}
       <div class="gt-slider-content">
           <div class="row gt-header-content">
               <div>
