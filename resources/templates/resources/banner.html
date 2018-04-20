@@ -47,8 +47,10 @@
     </ul>
     {% endif %}
     <div class="gt-nav-link">
-      {{banner.text|new_tab|richtext}}
-    </div>
+      <div class="gt-nav rich-text">
+        {{banner.text|new_tab|richtext}}
+      </div>
+  </div>
   </div>
   {% include "resources/nav_bar_mobile.html" with banner=banner %}
   <nav class="navbar navbar-default hidden-xs gt-nav">
