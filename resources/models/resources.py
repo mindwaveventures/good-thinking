@@ -265,7 +265,7 @@ class ResourcePage(AbstractForm):
         help_text="The title of the resource being linked to"
     )
     logo_background_color = RGBColorField(
-        default='#ffffff', null=True, blank=True,
+        default='#16b28f', null=True, blank=True,
         help_text="The background colour of brand_logo"
     )
     resource_url = URLField(
