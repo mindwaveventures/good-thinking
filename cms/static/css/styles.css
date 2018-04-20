@@ -4000,3 +4000,21 @@ em {
   height:auto;
 }
 
+.responsive-object {
+  width:50%;
+  float:right;
+  padding-left:20px;
+  height:auto;
+}
+
+.responsive-object {
+    position: relative;
+    padding-bottom: 0 !important;
+}
+.responsive-object iframe,
+.responsive-object object {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}

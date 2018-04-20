@@ -1,9 +1,9 @@
 {% load wagtailcore_tags wagtailimages_tags new_tab %}
-
+{% load static %}
 {% if banner %}
   {% include "resources/banner.html" with banner=banner %}
 {% endif %}
-
+{% comment %}
 {% if landing_pages %}
   <section id="landing_page_navbar" class="dn-ss dt--fixed dt-ns tc pv3 ph4 ph3-m ph3-l blurred_background_header cover bg-center w-100 {% if banner %}mt5{%endif%} {% if not page.hero_image %}banner-gradient{% endif %}">
     <div class="dib relative mv2-ns mv1 dtc-ns v-mid">
@@ -178,5 +178,68 @@
   </div>
 </div>
 {% endif %}
+{% endcomment %}
 
+
+
+  {% image page.hero_image width-1000 as hero_image %}
+  {% image page.brand_logo width-500 as brand_logo %}
+<section class="gt-header-result">
+    <div class="gt-header-result-div">
+      <a href="#">
+      <img src="{% static 'images/gt-back.png' %}" class="gt-footer-result-img">
+      <p class="gt-footer-result-para">Back to results</p></a></div>
+</section>
+<section class="partner-slider">
+    <div class="gt-slider-content-partner" style="background-image:url('{{ hero_image.url }}');">
+        <div><img src="{{ brand_logo.url }}"></div>
+        <!-- <div>
+            <h1 class="text-info partner-header">Free mindfulness training for London</h1>
+        </div> -->
+        <div class="bg-section-txt">
+        {{ page.brand_text|new_tab|richtext }}
+        </div>
+        <div><button class="btn btn-default gt-highlights-btn gt-no-border" type="button">Get started</button></div>
+    </div>
+</section>
+<section class="gt-home-topic-highlights partner-body">
+    <div class="row">
+        <div class="col-md-12 bg-section">
+            <div class="panel panel-default gt-highlights-partner">
+                <div class="panel-heading gt-white partner-panel-heading">
+                    <h4>{{ page.title }}</h4>
+                </div>
+                <div class="panel-body gt-partner-body">
+                    <div class="gt-partner rich-text">
+                        <div class="gt-partner-text rich-text">
+                          {{ page.tagline|new_tab|richtext }}
+                          {{ page.body|new_tab|richtext }}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 text-left">
+                                <div class="gt-partner-div rich-text">
+                                  {{page.pros|new_tab|richtext}}
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 text-left">
+                                <div class="gt-partner-div rich-text">
+                                  {{page.cons|new_tab|richtext}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer>
+    <div class="gt-footer-results"><button class="btn btn-default gt-highlights-btn gt-no-border" type="button">Get started</button>
+        <div class="gt-footer-result">
+            <a href="#" class="gt-back">
+                <p class="gt-footer-result-para">Back to results</p>
+            </a>
+        </div>
+    </div>
+</footer>
 {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
