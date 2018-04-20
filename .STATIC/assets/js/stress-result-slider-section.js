@@ -8,6 +8,7 @@ $( document ).ready(function() {
   var swiper = new Swiper('.swiper5', {
     slidesPerView: 4,
     spaceBetween: 10,
+      allowSlidePrev:1,
     pagination: {
       el: '.swiper-pagination5',
       clickable: true,
@@ -18,15 +19,15 @@ $( document ).ready(function() {
           spaceBetween: 10,
         },
         1000: {
-          slidesPerView: 1.1,
+          slidesPerView: 1,
           spaceBetween: 5,
         },
         800: {
-          slidesPerView: 1.1,
+          slidesPerView: 1,
           spaceBetween: 5,
         },
         320: {
-          slidesPerView: 1.1,
+          slidesPerView: 1,
           spaceBetween: 5,
         }
       }
