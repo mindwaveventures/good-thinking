@@ -93,6 +93,27 @@ class LocationImages(models.Model):
 class MainLocationImages(Orderable, LocationImages):
     page = ParentalKey('Main', related_name='location_images')
 
+class Collections(models.Model):
+    heading = TextField(blank=True,)
+    description = RichTextField(blank=True,)
+    link_page = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    link_text = TextField(blank=True,)
+
+    panels = [
+        FieldPanel('heading', classname="title"),
+        FieldPanel('description', classname="full"),
+        PageChooserPanel('link_page'),
+        FieldPanel('link_text'),
+    ]
+
+    class Meta:
+        abstract = True
 
 class SiteMap(models.Model):
     link_page = models.ForeignKey(
@@ -166,14 +187,14 @@ class HomeFooterBlocks(Orderable, FooterBlock):
 class ProjectInfoBlock(Orderable, FooterBlock):
     page = ParentalKey('Main', related_name='project_info_block')
 
-
 class FormField(AbstractFormField):
     page = ParentalKey('Home', related_name='form_fields')
-
 
 class MainFormField(AbstractFormField):
     page = ParentalKey('Main', related_name='form_fields')
 
+class HomeCollections(Orderable, Collections):
+    page = ParentalKey('Home', related_name='collections')
 
 class Home(AbstractForm):
     def route(self, request, path_components):
@@ -257,6 +278,14 @@ class Home(AbstractForm):
         blank=True,
         help_text="URL of an introductiary youtube video"
     )
+    collections_title = TextField(
+        blank=True,
+        help_text="Title of collections"
+    )
+    collections_tagline = TextField(
+        blank=True,
+        help_text="Tagline of collections"
+    )
     exclude_tags = ClusterTaggableManager(
         through=ExcludeTag, blank=True, verbose_name="Exclude Tags",
         help_text="""
@@ -286,7 +315,6 @@ class Home(AbstractForm):
             request, data=context, slug=self.slug,
             path_components=kwargs.get('path_components', [])
         )
-
         return context
 
     content_panels = AbstractForm.content_panels + [
@@ -302,6 +330,9 @@ class Home(AbstractForm):
         FieldPanel('sub_body', classname="full"),
         FieldPanel('pyr_text', classname="full"),
         FieldPanel('video_url', classname="full"),
+        FieldPanel('collections_title', classname="full"),
+        FieldPanel('collections_tagline', classname="full"),
+        InlinePanel('collections', label="collections"),
         MultiFieldPanel([
             FieldPanel('filter_label_1', classname="full"),
             FieldPanel('filter_label_2', classname="full"),
@@ -585,7 +616,7 @@ def custom_serve(self, request, *args, **kwargs):
     return render(
         request,
         self.get_template(request),
-        base_context(context)
+        base_context(context,self)
     )
 
 

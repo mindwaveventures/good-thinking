@@ -163,12 +163,14 @@ def generate_custom_form(form_fields, request_dict, messages_):
     return custom_form
 
 
-def base_context(context):
+def base_context(context,self):
     Main = apps.get_model('resources', 'main')
     HomeSiteMap = apps.get_model('resources', 'homesitemap')
     HomeFooterLinks = apps.get_model('resources', 'homefooterlinks')
     HomeFooterBlocks = apps.get_model('resources', 'homefooterblocks')
     Home = apps.get_model('resources', 'home')
+    HomeCollections = apps.get_model('resources', 'homecollections')
+
     ResourcePage = apps.get_model('resources', 'resourcepage')
     home_page = Main.objects.get(slug="home")
     banner = {}
@@ -181,8 +183,11 @@ def base_context(context):
     site_map = HomeSiteMap.objects.all().select_related('link_page')
     footer_links = HomeFooterLinks.objects.all().select_related('footer_image')
     footer_blocks = HomeFooterBlocks.objects.all().select_related('link_page')
+    collections = HomeCollections.objects.filter(page_id=self.page_ptr_id)
+    highlights = ResourcePage.objects.all()
 
-    context['highlights'] = ResourcePage.objects.all()
+    context['collections'] = collections
+    context['highlights'] = highlights
     context['banner'] = banner
     context['site_map'] = site_map
     context['footer_links'] = footer_links

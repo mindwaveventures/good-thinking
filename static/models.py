@@ -15,7 +15,7 @@ class StaticPage(Page):
     def get_context(self, request):
         context = super(StaticPage, self).get_context(request)
 
-        return base_context(context)
+        return base_context(context,self)
 
     cover_image = models.ForeignKey(
         'wagtailimages.Image',
@@ -24,7 +24,7 @@ class StaticPage(Page):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    
+
     body = StreamField([
         ('heading', blocks.RichTextBlock()),
         ('paragraph', blocks.RichTextBlock(template="static/display.html")),

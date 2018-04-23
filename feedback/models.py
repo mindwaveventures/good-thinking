@@ -163,5 +163,5 @@ class FeedbackPage(AbstractForm):
         return render(
             request,
             self.get_template(request),
-            base_context(context)
+            base_context(context,self)
         )

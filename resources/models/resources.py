@@ -494,7 +494,7 @@ class ResourcePage(AbstractForm):
         context['buttons'] = ResourcePageButtons.objects\
             .filter(page_id=self.page_ptr_id)
 
-        return base_context(context)
+        return base_context(context,self)
 
     def get_form_fields(self):
         return iter([])
@@ -564,7 +564,7 @@ class Assessment(ResourcePage):
     def get_context(self, request):
         context = super(Assessment, self).get_context(request)
 
-        return base_context(context)
+        return base_context(context,self)
 
     def serve(self, request, *args, **kwargs):
         return assessment_controller(self, request, **kwargs)

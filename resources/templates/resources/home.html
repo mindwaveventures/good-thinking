@@ -2,13 +2,17 @@
 
 {% load wagtailcore_tags wagtailimages_tags static modelname new_tab %}
 
-{% block body_class %}template-homepage{% endblock %}
+{% load static %}
+
+{% block body_class %}gt-body{% endblock %}
 
 {% block content %}
     {% if banner %}
       {% include "resources/banner.html" with banner=banner %}
     {% endif %}
+    {% include "resources/components/hero-image.html" with page=page %}
 
+    {% comment "Old template" %}
     {% if landing_pages %}
       <section id="landing_page_navbar" class="absolute dn-ss dt--fixed dt-ns tc pv3 ph4 ph3-m ph3-l blurred_background_header cover bg-center w-100 mt-2-8-ns-xl mt5 {% if not page.hero_image %}banner-gradient{% endif %}">
         <div class="dib relative mv2-ns mv1 dtc-ns v-mid">
@@ -26,7 +30,6 @@
       {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages %}
     {% endif %}
 
-    {% include "resources/components/hero-image.html" with page=page %}
 
     <!-- Body Text -->
     <section class="pa1 ph4 ph3-m ph3-l mb3">
@@ -100,6 +103,82 @@
         {% include "resources/primary-button.html" with value="See More" class="dn-important" id="see_more"%}
       </div>
     </section>
+    {% endcomment %}
 
+    <section class="gt-stress-q1-body">
+        <section class="gt-home-topic stress-q-topic">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="gt-section-header">{{page.body}}</h1>
+                    <p class="gt-para">{{page.sub_body}}</p>
+                </div>
+            </div>
+            <div class="row bt-topics-slider">
+                <div class="swiper-container swiper1">
+                    <div class="swiper-wrapper">
+                      {% include "resources/filter-blocks.html" with filter_label=page.filter_label_1 tags=issue_tags num=1 name="q1" %}
+                      {% include "resources/filter-blocks.html" with filter_label=page.filter_label_2 tags=reason_tags num=2 name="q2" %}
+                      {% include "resources/filter-blocks.html" with filter_label=page.filter_label_3 tags=content_tags num=3 name="q3" %}
+                    </div>
+                    <div class="swiper-pagination swiper-pagination1"></div>
+                </div>
+            </div>
+        </section>
+        <section class="hidden-xs hidden-sm gt-section-browse">
+            <div class="row">
+                <div class="gt-highlights-panel">
+                    <h3 class="gt-section-header">{{page.collections_title}}</h3>
+                    <p class="gt-para">{{page.collections_tagline}}</p>
+                </div>
+            </div>
+            <div class="gt-browse-container">
+                <div class="gt-section-browse-block">
+                    <div class="row">
+                      {% for collection in collections %}
+                        <div class="col-md-6">
+                            <div class="panel panel-default gt-browse-panel">
+                                <div class="panel-heading bg-panel-section-header">
+                                    <h3 class="panel-title">{{collection.heading}}</h3>
+                                </div>
+                                <div class="panel-body gt-browse-panel-body">
+                                    <p>{{collection.description | richtext}}</p>
+                                </div>
+                                <div class="panel-footer gt-title-footer"><button class="btn btn-default gt-topic-btn browse-btn" type="button"><strong>{{collection.link_text}}</strong></button></div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="hidden-md hidden-lg">
+            <div class="row">
+                <div class="gt-highlights-panel">
+                    <h3 class="gt-section-header">{{page.collections_title}}</h3>
+                    <p class="gt-para">{{page.collections_tagline}}</p>
+                </div>
+            </div>
+            <div class="row bt-topics-slider">
+                <div class="swiper-container swiper2 browser-width">
+                    <div class="swiper-wrapper">
+                      {% for collection in collections %}
+                        <div class="swiper-slide bottom-slide">
+                            <div class="panel panel-default gt-browse-panel">
+                                <div class="panel-heading bg-panel-section-header">
+                                    <h3 class="panel-title">{{collection.heading}}</h3>
+                                </div>
+                                <div class="panel-body gt-browse-panel-body">
+                                    <p>{{collection.description | richtext}}</p>
+                                </div>
+                                <div class="panel-footer gt-title-footer"><button class="btn btn-default gt-topic-btn browse-btn" type="button"><strong>{{collection.link_text}}</strong></button></div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="swiper-pagination swiper-pagination2"></div>
+                </div>
+            </div>
+        </section>
+    </section>
     {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
 {% endblock %}
