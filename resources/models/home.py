@@ -93,6 +93,22 @@ class LocationImages(models.Model):
 class MainLocationImages(Orderable, LocationImages):
     page = ParentalKey('Main', related_name='location_images')
 
+class HighLights(models.Model):
+    highlights_link = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    panels = [
+        FieldPanel('highlights_link', classname="full"),
+    ]
+
+    class Meta:
+        abstract = True
+
 class Collections(models.Model):
     heading = TextField(blank=True,)
     description = RichTextField(blank=True,)
@@ -183,6 +199,8 @@ class HomeFooterLinks(Orderable, FooterLink):
 class HomeFooterBlocks(Orderable, FooterBlock):
     page = ParentalKey('Main', related_name='footer_blocks')
 
+class HomeHighLightsOfMonth(Orderable, HighLights):
+    page = ParentalKey('Main', related_name='high_lights')
 
 class ProjectInfoBlock(Orderable, FooterBlock):
     page = ParentalKey('Main', related_name='project_info_block')
@@ -479,6 +497,7 @@ class Main(AbstractForm):
         ]),
         FieldPanel('lookingfor', classname="full"),
         InlinePanel('form_fields', label="Form fields"),
+        InlinePanel('high_lights', label="High Lights"),
         InlinePanel('footer_blocks', label="Footer Blocks"),
         InlinePanel('site_map', label="SiteMap"),
         InlinePanel('footer_links', label="Footer"),
