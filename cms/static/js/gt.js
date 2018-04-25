@@ -1,16 +1,17 @@
 
 $(document).ready(function(){
-  var obj = {query1:[],query2:[],query3:[]};
   $('#MyButton').click(function(){
+  var obj = {q1:[],q2:[],q3:[]};
   $("input:checkbox[name=1]:checked").each(function(){
-    obj.query1.push($(this).val());
+    obj.q1.push($(this).val());
   });
   $("input:checkbox[name=2]:checked").each(function(){
-    obj.query2.push($(this).val());
+    obj.q2.push($(this).val());
   });
   $("input:checkbox[name=3]:checked").each(function(){
-    obj.query3.push($(this).val());
+    obj.q3.push($(this).val());
   });
-    console.log(obj);
+    var data=JSON.stringify(obj);
+    window.location= '/results?' + data;
   });
 });

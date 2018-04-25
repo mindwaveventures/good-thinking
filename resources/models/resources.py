@@ -531,6 +531,37 @@ class Tip(ResourcePage):
         FieldPanel('priority'),
     ]
 
+class Results(ResourcePage):
+    cover_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text="""
+            Max file size: 10MB. Choose from: GIF, JPEG, PNG
+            (but pick PNG if you have the choice)
+        """
+    )
+    image_text = TextField(blank=True)
+    body_title = TextField(blank=True)
+    body_tagline = TextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        ImageChooserPanel('cover_image'),
+        FieldPanel('image_text', classname="full"),
+        FieldPanel('body_title', classname="full"),
+        FieldPanel('body_tagline', classname="full")
+    ]
+
+    promote_panels = Page.promote_panels + [
+        FieldPanel('topic_tags'),
+        FieldPanel('issue_tags'),
+        FieldPanel('reason_tags'),
+        FieldPanel('content_tags'),
+        FieldPanel('hidden_tags'),
+        FieldPanel('priority'),
+    ]
 
 class Assessment(ResourcePage):
     algorithm_id = IntegerField(

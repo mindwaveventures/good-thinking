@@ -186,6 +186,7 @@ def base_context(context,self):
     collections = HomeCollections.objects.filter(page_id=self.page_ptr_id)
     highlights = HomeHighLightsOfMonth.objects.all().select_related('highlights_link')
 
+    context['results'] = ResourcePage.objects.all()
     context['collections'] = collections
     context['highlights'] = highlights
     context['banner'] = banner
