@@ -4345,3 +4345,6 @@ input[type=checkbox]:checked + label {
 .col-lg-6.gt-stress-col-1 {
   width:100% !important;
 }
+.responsive-object{
+  padding-bottom: 0px !important;
+}

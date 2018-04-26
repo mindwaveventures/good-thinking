@@ -180,12 +180,25 @@ width-500 as brand_logo %}
           <h4>{{ page.title }}</h4>
         </div>
         <div class="panel-body gt-partner-body">
+
+          <div class="gt-partner-tagline-rich-text">
+              {{ page.tagline|new_tab|richtext }}
+          </div>
           <div class="row gt-partner rich-text">
             {% for block in page.body %}
+                  {% if block.block_type == 'heading'%}
+            <div class="gt-partner-heading rich-text">
+                {% include_block block %}
+            </div>
+            {% else %}
+            {% if block.block_type == 'paragraph'%}
+      <div class="gt-partner-heading rich-text">
+          {% include_block block %}
+      </div>
+            {% else %}
             {% if block.block_type == 'column_left' or 'rich_text'%}
             <div class="col-md-6 gt-partner-text rich-text">
               <div class="gt-lt">
-                <p class="hidden-md hidden-lg">{{ page.tagline|new_tab|richtext }}<br></p>
                 {% include_block block %}
               </div>
             </div>
@@ -195,6 +208,8 @@ width-500 as brand_logo %}
               <div class="gt-rt">{% include_block block %}
               </div>
             </div>
+            {% endif %}
+            {% endif %}
             {% endif %}
             {% endif %}
             {% endfor %}

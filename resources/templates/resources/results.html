@@ -34,15 +34,12 @@
                 <p class="hidden-md hidden-lg swipe-text">Swipe left and right to find topics<br></p>
             </div>
         </div>
+
         <div class="gt-highlights-stress-row">
-
-
             <div class="row">
-                <div class="col-lg-6">
-                  {% for post in resources %}
-                    {% include "resources/short_resource.html" with page=post.specific selected_tags=selected_tags %}
-                  {% endfor %}
-                </div>
+              {% for post in results %}
+                {% include "resources/short_resource.html" with page=post.specific selected_tags=selected_tags diff_class='gt-stress-col-2' num=forloop.counter%}
+              {% endfor %}
                 <div class="col-lg-6 gt-stress-col-2">
                     <div class="panel panel-default gt-highlights-stress gt-hide-panel">
                         <div class="panel-heading gt-highlights-stress">
@@ -64,9 +61,6 @@
                 </div>
             </div>
         </div>
-
-
-
 
         <section class="gt-home-topic gt-slider-hide">
             <div class="row bt-topics-slider">
@@ -151,3 +145,4 @@
         </div>
     </section>
 {% endblock %}
+{% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}

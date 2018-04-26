@@ -70,18 +70,18 @@
 {% endcomment %}
 
 <section class="gt-home-topic-highlights-2" style="background-image: url({% static "images/gt-highlight-month-bg-patterns.png"%})">
-  <div class="row">
-    <div class="col-md-12 gt-highlights-panel">
-      <h1 class="gt-section-header">Highlights of the month</h1>
+    <div class="row">
+        <div class="col-md-12 gt-highlights-panel">
+            <h1 class="gt-section-header">Highlights of the month</h1>
+        </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="gt-highlights-home-row">
+        <div class="row gt-highlights-home-container">
           {% for post in highlights %}
-          {% include "resources/short_resource.html" with page=post.highlights_link.specific selected_tags=selected_tags %}
+          {% include "resources/short_resource.html" with page=post.highlights_link.specific selected_tags=selected_tags diff_class='gt-stress-col-1' %}
           {% endfor %}
+        </div>
     </div>
-  </div>
 </section>
 
 {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %} {% endblock %}
