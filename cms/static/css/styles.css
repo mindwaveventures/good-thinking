@@ -4295,3 +4295,19 @@ input[type=checkbox]:checked + label {
   padding-left:15px;
   padding-right:15px;
 }
+
+@media (max-width: 991px) {
+  .row.gt-highlights-home-container {
+    width:100%!important;
+    margin:0 auto;
+  }
+}
+
+.row.gt-highlights-home-container {
+  width:50%;
+  margin:0 auto;
+}
+
+.col-md-12.gt-collapse-col {
+  padding-left:25px;
+}
