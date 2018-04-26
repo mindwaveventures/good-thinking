@@ -18,11 +18,11 @@
   </div>
   <p class="hidden-md hidden-lg">Swipe left and right to find topics<br></p>
   <div class="row bt-topics-slider">
-    <div class="swiper-container">
+    <div class="gt-browser-topic-swiper">
       <div class="swiper-wrapper">
         {% for list in landing_pages %} {% include "resources/components/topic-card.html" with width=width page=list slug=page.slug%} {% endfor %}
       </div>
-      <div class="swiper-pagination"></div>
+      <div class="gt-swiper-pagination-browser-topic"></div>
     </div>
   </div>
 </section>

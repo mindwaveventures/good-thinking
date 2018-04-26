@@ -36,8 +36,6 @@ urlpatterns = [
 
     url(r'^get_json_data/', get_json_data),
 
-    url(r'^results/$', get_json_data, name='results'),
-
     url(r'^location/', get_location),
 
     url(

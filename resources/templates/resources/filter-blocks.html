@@ -1,12 +1,10 @@
-{% load multiline %}
-{% load static %}
-{% comment "old template"%}
+{% load multiline %} {% load static %} {% comment "old template"%}
 <div class="br1 shadow-2 tl w-60-l center pa3 mb3 filter-block">
   <div class="card-text">
     <h3 class="ma0">Q{{num}} of 3</h3>
     <div id="{{name}}_label">
       {% for l in filter_label|multiline %}
-        <p class="mv3">{{l}}</p>
+      <p class="mv3">{{l}}</p>
       {% endfor %}
     </div>
   </div>
@@ -22,26 +20,37 @@
 {% endcomment %}
 
 <div class="swiper-slide top-slide">
-    <div class="panel panel-default gt-quest-header">
-        <div class="panel-heading gt-panel-title">
-            <div class="gt-arrow-block gt-arrow-lt"><img src='{% static "images/gt-stress-arrow-left.png" %}'></div>
-            <div class="gt-arrow-block gt-arrow-rt"><img src='{% static "images/Stress---Q1---desktop_03.png" %}'></div>
-            <span class="gt-topic-header gt-q1">Q{{num}} OF 3<br></span></div>
-        <div class="panel-body quest-panel-body">
-          {% for l in filter_label|multiline %}
-            <p>{{l}}</p>
-          {% endfor %}
-            <div class="panel-footer quest-footer">
+  <div class="panel panel-default gt-quest-header">
+    <div class="panel-heading gt-panel-title">
+      <div class="gt-arrow-block gt-arrow-lt"><img src='{% static "images/gt-stress-arrow-left.png" %}'></div>
+      <div class="gt-arrow-block gt-arrow-rt"><img src='{% static "images/Stress---Q1---desktop_03.png" %}'></div>
+      <span class="gt-topic-header gt-q1">Q{{num}} OF 3<br></span></div>
+    <div class="panel-body quest-panel-body">
+      {% for l in filter_label|multiline %}
+      <p>{{l}}</p>
+      {% endfor %}
+      <!-- <div class="panel-footer quest-footer">
                 {% for tag in tags %}
                 <input name="{{num}}" {% if tag.name in selected_tags %}checked{% endif %} value="{{tag}}" id="{{num}}" type="checkbox" class="q1Checkbox"></checkbox>
                 <label for="{{tag}}">{{tag}}</label>
                 {% endfor %}
-              </div>
-        </div>
-        <div class="panel-footer gt-title-footer">
-          {% if num == 3 %}
-          <button class="btn btn-default gt-topic-btn q1-btn" type="button" id="MyButton">Get your results</button>
+              </div> -->
+      <div class="panel-footer quest-footer checkboxes">
+        {% for tag in tags %}
+        <input name="{{num}}" class="hidden q1Checkbox" type="checkbox" value="{{tag}}" id="{{tag}}"><label for="{{tag}}">{{tag}}</label>
+         {% endfor %}
+      </div>
+        {% if num != 3%}
+      <div
+          class="panel-footer gt-title-footer gt-btn-hide"><button class="btn btn-default gt-topic-btn q1-btn" type="button">Get your results</button></div>
           {% endif %}
-        </div>
     </div>
+    {% if num == 3%}
+    <div class="panel-footer gt-title-footer gt-btn gt--stress-q-footer">
+      <button class="btn btn-default gt-topic-btn q1-btn" id="MyButton" type="button">Get your results</button>
+    </div>
+    {% else %}
+    <div class="panel-footer gt-title-footer gt-btn gt--stress-q-footer"></div>
+    {% endif %}
+  </div>
 </div>

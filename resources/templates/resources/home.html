@@ -107,14 +107,14 @@
 
     <section class="gt-stress-q1-body">
         <section class="gt-home-topic stress-q-topic">
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-md-12">
                     <h1 class="gt-section-header">{{page.body}}</h1>
                     <p class="gt-para">{{page.sub_body}}</p>
                 </div>
-            </div>
+            </div> -->
             <div class="row bt-topics-slider">
-                <div class="swiper-container swiper1">
+                <div class="gt-swiper-stress-q">
                     <div class="swiper-wrapper">
                       {% include "resources/filter-blocks.html" with filter_label=page.filter_label_1 tags=issue_tags num=1 name="q1" %}
                       {% include "resources/filter-blocks.html" with filter_label=page.filter_label_2 tags=reason_tags num=2 name="q2" %}
@@ -143,7 +143,9 @@
                                 <div class="panel-body gt-browse-panel-body">
                                     <p>{{collection.description | richtext}}</p>
                                 </div>
-                                <div class="panel-footer gt-title-footer"><button class="btn btn-default gt-topic-btn browse-btn" type="button"><strong>{{collection.link_text}}</strong></button></div>
+                                <div class="panel-footer gt-title-footer">
+                                      <a class="btn btn-default gt-topic-btn browse-btn" role="button" href="#"><strong>{{collection.link_text}}</strong></a>
+                                </div>
                             </div>
                         </div>
                         {% endfor %}
@@ -159,7 +161,7 @@
                 </div>
             </div>
             <div class="row bt-topics-slider">
-                <div class="swiper-container swiper2 browser-width">
+                <div class="gt-swiper-stress-browser">
                     <div class="swiper-wrapper">
                       {% for collection in collections %}
                         <div class="swiper-slide bottom-slide">
@@ -170,12 +172,14 @@
                                 <div class="panel-body gt-browse-panel-body">
                                     <p>{{collection.description | richtext}}</p>
                                 </div>
-                                <div class="panel-footer gt-title-footer"><button class="btn btn-default gt-topic-btn browse-btn" type="button"><strong>{{collection.link_text}}</strong></button></div>
+                                <div class="panel-footer gt-title-footer">
+                                  <a class="btn btn-default gt-topic-btn browse-btn" role="button" href="#"><strong>{{collection.link_text}}</strong></a>
+                                </div>
                             </div>
                         </div>
                         {% endfor %}
                     </div>
-                    <div class="swiper-pagination swiper-pagination2"></div>
+                    <div class="gt-swiper-pagination-stress-browser"></div>
                 </div>
             </div>
         </section>
