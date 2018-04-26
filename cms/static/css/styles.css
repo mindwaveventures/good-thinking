@@ -4311,3 +4311,6 @@ input[type=checkbox]:checked + label {
 .col-md-12.gt-collapse-col {
   padding-left:25px;
 }
+.responsive-object {
+  padding-bottom: 0 !important;
+}
