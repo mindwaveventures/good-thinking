@@ -421,7 +421,7 @@ class ResourcePage(AbstractForm):
             FieldPanel('resource_url_text', classname="col6"),
         ], classname="full"),
         FieldPanel('tagline', classname="full"),
-        FieldPanel('body', classname="full"),
+        StreamFieldPanel('body'),
         InlinePanel('buttons', label="Buttons"),
         FieldPanel('pros', classname="full"),
         FieldPanel('cons', classname="full")

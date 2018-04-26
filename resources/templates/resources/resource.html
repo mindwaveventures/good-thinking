@@ -186,16 +186,17 @@ width-500 as brand_logo %}
             <div class="col-md-6 gt-partner-text rich-text">
               <div class="gt-lt">
                 <p class="hidden-md hidden-lg">{{ page.tagline|new_tab|richtext }}<br></p>
-                <p class="hidden-xs hidden-sm">{{ page.tagline|new_tab|richtext }}<br></p>
                 {% include_block block %}
               </div>
             </div>
+            {% else %}
             {% if block.block_type == 'column_right' %}
             <div class="col-md-6 gt-partner-text rich-text">
               <div class="gt-rt">{% include_block block %}
               </div>
             </div>
-            {% endif %} {% endif %}
+            {% endif %}
+            {% endif %}
             {% endfor %}
           </div>
           <div class="gt-partner rich-text">
