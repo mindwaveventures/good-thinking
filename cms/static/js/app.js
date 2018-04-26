@@ -5,12 +5,12 @@ $(".nav a").on("click", function(){
 
 
 $( document ).ready(function() {
- var swiper = new Swiper('.swiper-container', {
+ var gtbrowsertopicswiper = new Swiper('.gt-browser-topic-swiper', {
     slidesPerView: 4,
     spaceBetween: 10,
       clickable: true,
     pagination: {
-      el: '.swiper-pagination',
+      el: '.gt-swiper-pagination-browser-topic',
       clickable: true,
     },
       breakpoints: {
@@ -19,27 +19,31 @@ $( document ).ready(function() {
           spaceBetween: 10,
         },
         990: {
-          slidesPerView: 2,
+          slidesPerView: 2.6,
           spaceBetween: 10,
         },
         800: {
-          slidesPerView: 1,
+          slidesPerView: 1.21,
           spaceBetween: 5,
         },
         320: {
-          slidesPerView: 1,
+          slidesPerView: 1.1,
           spaceBetween: 5,
         }
       }
   });
       
-    var swiper = new Swiper('.swiper1', {
+    var gtswiperstressq = new Swiper('.gt-swiper-stress-q', {
     slidesPerView: 1.4,
     spaceBetween: 10,
     centeredSlides: true,
     pagination: {
-      el: '.swiper-pagination1',
+      el: '.gt-stress-q-swiper-pagination',
       clickable: true,
+    },
+        navigation: {
+      nextEl: '.gt-left-block',
+      prevEl: '.gt-right-block',
     },
       breakpoints: {
         1024: {
@@ -59,15 +63,16 @@ $( document ).ready(function() {
           spaceBetween: 5,
         }
       }
+        
   });
     
     
-     var swiper2 = new Swiper('.swiper2', {
+     var gtswiperstressbrowser = new Swiper('.gt-swiper-stress-browser', {
     slidesPerView: 1.2,
     spaceBetween: 10,
     centeredSlides: true,
     pagination: {
-      el: '.swiper-pagination2',
+      el: '.gt-swiper-pagination-stress-browser',
       clickable: true,
     },
       breakpoints: {
@@ -92,13 +97,17 @@ $( document ).ready(function() {
       }
   });
     
-     var swiper = new Swiper('.swiper5', {
+     var gtstressresultswiper = new Swiper('.gt-stress-result-swiper', {
     slidesPerView: 4,
     spaceBetween: 10,
       allowSlidePrev:1,
     pagination: {
-      el: '.swiper-pagination5',
+      el: '.gt-swiper-pagination-stress-result',
       clickable: true,
+    },
+           navigation: {
+      nextEl: '.gt-arrow-block',
+      prevEl: '',
     },
       breakpoints: {
         1024: {
@@ -106,16 +115,16 @@ $( document ).ready(function() {
           spaceBetween: 10,
         },
         1000: {
-          slidesPerView: 1,
-          spaceBetween: 5,
+          slidesPerView: 1.1,
+          spaceBetween: 10,
         },
         800: {
-          slidesPerView: 1,
-          spaceBetween: 5,
+          slidesPerView: 1.1,
+          spaceBetween: 10,
         },
         320: {
-          slidesPerView: 1,
-          spaceBetween: 5,
+          slidesPerView: 1.1,
+          spaceBetween: 10,
         }
       }
   });
