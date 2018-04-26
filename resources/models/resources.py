@@ -11,7 +11,10 @@ from wagtail.wagtailcore.models import Orderable
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
-
+from wagtail.wagtailcore import blocks
+from wagtail.wagtailcore.fields import StreamField
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel
+from wagtail.wagtailimages.blocks import ImageChooserBlock
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from django.db.models.fields import (
@@ -280,10 +283,14 @@ class ResourcePage(AbstractForm):
         blank=True,
         help_text="Bold text that displays on the resource list"
     )
-    body = RichTextField(
-        blank=True,
-        help_text="A more detailed description of the resource"
-    )
+    body = StreamField([
+        ('rich_text', blocks.RichTextBlock()),
+        ('heading', blocks.RichTextBlock()),
+        ('paragraph', blocks.RichTextBlock()),
+        ('column_left', blocks.RichTextBlock()),
+        ('column_right', blocks.RichTextBlock()),
+        ('image', ImageChooserBlock()),
+    ])
     pros = RichTextField(
         blank=True,
         help_text="A list of pros for the resource"
