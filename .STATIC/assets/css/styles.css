@@ -3762,14 +3762,12 @@ em {
 
 .gt-partner-text rich-text .gt-lt {
   float:left;
-  width:50%;
   padding:0px 30px;
   text-align:left;
 }
 
 .gt-video.responsive-object {
   float:right;
-  width:50%;
   padding-left:20px;
   height:auto;
 }
@@ -3780,13 +3778,11 @@ em {
   line-height:1.5;
   letter-spacing:0.8px;
   text-align:left;
-  width:50%;
   padding-right:20px;
 }
 
 .gt-partner-text.rich-text.gt-lt {
   text-align:left;
-  width:50%;
   padding:0px 30px;
   float:left;
 }
@@ -3794,7 +3790,6 @@ em {
 @media (max-width: 991px) {
   .gt-partner-text.rich-text.gt-lt {
     text-align:left;
-    width:50%;
     padding:0px 10px;
     float:left;
   }
@@ -3817,7 +3812,6 @@ em {
   text-align:left;
   padding-right:20px;
   font-size:18px;
-  width:50%;
 }
 
 .gt-partner-text.rich-text {
@@ -3954,11 +3948,27 @@ em {
   font-size:18px;
 }
 
+.gt-partner-div.rich-text p {
+  font-size:18px;
+}
+
+@media (max-width: 991px) {
+  .gt-partner-div.rich-text p {
+    font-size:16px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .gt-partner-div.rich-text p {
+    font-size:14px !important;
+  }
+}
+
 .responsive-object {
-  width:50%;
   float:right;
-  padding-left:20px;
   height:auto;
+  margin-bottom:30px;
+  margin-top:20px;
 }
 
 @media (max-width: 991px) {
@@ -3971,9 +3981,13 @@ em {
   }
 }
 
+@media (max-width: 767px) {
+  .responsive-object {
+  }
+}
+
 .gt-partner-text.rich-text h3 {
   font-weight:bold;
-  width:50%;
   display:inline-block;
   padding-right:20px;
   font-size:18px;
@@ -4266,5 +4280,19 @@ input[type=checkbox]:checked + label {
 
 .checkboxes label:hover {
   background-color:#f3a140;
+}
+
+.gt-lt {
+  text-align:left;
+  float:left;
+  padding-left:15px;
+  padding-right:15px;
+}
+
+.gt-rt {
+  text-align:left;
+  float:right;
+  padding-left:15px;
+  padding-right:15px;
 }
 
