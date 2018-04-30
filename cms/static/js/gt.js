@@ -1,17 +1,19 @@
 
-$(document).ready(function(){
-  $('#MyButton').click(function(){
-    console.log("checkbox");
-  var obj = {q1:[],q2:[],q3:[]};
+function GetResults(slug) {
+  var array = [];
+  var url = "";
   $("input:checkbox[name=1]:checked").each(function(){
-    obj.q1.push($(this).val());
+    array.push({query:'q1',value:$(this).val()});
   });
   $("input:checkbox[name=2]:checked").each(function(){
-    obj.q2.push($(this).val());
+    array.push({query:'q2',value:$(this).val()});
   });
   $("input:checkbox[name=3]:checked").each(function(){
-    obj.q3.push($(this).val());
+    array.push({query:'q3',value:$(this).val()});
   });
-  console.log(obj);
+  array.forEach(function(e){
+     url += e.query+ "=" + e.value + "&";
   });
-});
+  url = url.trim("&");
+  window.location.href='/results/?'+url+'slug='+slug;
+ }

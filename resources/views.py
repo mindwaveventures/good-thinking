@@ -112,11 +112,12 @@ def get_data(request, **kwargs):
     Home = apps.get_model('resources', 'home')
 
     tag_filter = request.GET.getlist('tag')
-    issue_filter = kwargs.get('path_components', request.GET.getlist('q1'))
+    # issue_filter = kwargs.get('path_components', request.GET.getlist('q1'))
+    issue_filter = request.GET.getlist('q1')
     content_filter = request.GET.getlist('q3')
     reason_filter = request.GET.getlist('q2')
     topic_filter = request.GET.getlist('topic')
-
+    print("testing...................",issue_filter,content_filter,reason_filter)
     if request.GET.get('order'):
         resource_order = request.GET.get('order')
     else:

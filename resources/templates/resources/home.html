@@ -116,9 +116,9 @@
             <div class="row bt-topics-slider">
                 <div class="gt-swiper-stress-q">
                     <div class="swiper-wrapper">
-                      {% include "resources/filter-blocks.html" with filter_label=page.filter_label_1 tags=issue_tags num=1 name="q1" %}
-                      {% include "resources/filter-blocks.html" with filter_label=page.filter_label_2 tags=reason_tags num=2 name="q2" %}
-                      {% include "resources/filter-blocks.html" with filter_label=page.filter_label_3 tags=content_tags num=3 name="q3" %}
+                      {% include "resources/filter-blocks.html" with filter_label=page.filter_label_1 tags=issue_tags num=1 name="q1" page=page %}
+                      {% include "resources/filter-blocks.html" with filter_label=page.filter_label_2 tags=reason_tags num=2 name="q2" page=page %}
+                      {% include "resources/filter-blocks.html" with filter_label=page.filter_label_3 tags=content_tags num=3 name="q3" page=page %}
                     </div>
                     <div class="swiper-pagination swiper-pagination1"></div>
                 </div>

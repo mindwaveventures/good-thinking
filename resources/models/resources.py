@@ -29,9 +29,9 @@ from django.template.response import TemplateResponse
 from django.template.loader import render_to_string
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import JsonResponse
-
+from resources.views import get_data, filter_resources
 from colorful.fields import RGBColorField
-
+from urllib.parse import parse_qs
 from resources.models.tags import (
     TopicTag, IssueTag, ReasonTag,
     ContentTag, HiddenTag
@@ -569,6 +569,19 @@ class Results(ResourcePage):
         FieldPanel('hidden_tags'),
         FieldPanel('priority'),
     ]
+
+    def get_context(self, request, **kwargs):
+        try:
+            query = request.GET.urlencode()
+            slug = parse_qs(query)['slug'][0]
+        except:
+            slug = ''
+        context = super(Results, self).get_context(request)
+        context = get_data(
+            request, data=context, slug=slug,
+            path_components=kwargs.get('path_components', [])
+        )
+        return base_context(context,self)
 
 class Assessment(ResourcePage):
     algorithm_id = IntegerField(

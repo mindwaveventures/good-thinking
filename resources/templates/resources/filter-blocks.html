@@ -29,25 +29,18 @@
       {% for l in filter_label|multiline %}
       <p>{{l}}</p>
       {% endfor %}
-      <!-- <div class="panel-footer quest-footer">
-                {% for tag in tags %}
-                <input name="{{num}}" {% if tag.name in selected_tags %}checked{% endif %} value="{{tag}}" id="{{num}}" type="checkbox" class="q1Checkbox"></checkbox>
-                <label for="{{tag}}">{{tag}}</label>
-                {% endfor %}
-              </div> -->
       <div class="panel-footer quest-footer checkboxes">
         {% for tag in tags %}
         <input name="{{num}}" class="hidden q1Checkbox" type="checkbox" value="{{tag}}" id="{{tag}}"><label for="{{tag}}">{{tag}}</label>
          {% endfor %}
       </div>
         {% if num != 3%}
-      <div
-          class="panel-footer gt-title-footer gt-btn-hide"><button class="btn btn-default gt-topic-btn q1-btn" type="button">Get your results</button></div>
+      <div class="panel-footer gt-title-footer gt-btn-hide"><button class="btn btn-default gt-topic-btn q1-btn" id="MyButton" type="button" >Get your results</button></div>
           {% endif %}
     </div>
     {% if num == 3%}
     <div class="panel-footer gt-title-footer gt-btn gt--stress-q-footer">
-      <button class="btn btn-default gt-topic-btn q1-btn" id="MyButton" type="button">Get your results</button>
+      <button class="btn btn-default gt-topic-btn q1-btn" type="button" onclick="GetResults('{{page.slug}}');">Get your results</button>
     </div>
     {% else %}
     <div class="panel-footer gt-title-footer gt-btn gt--stress-q-footer"></div>
