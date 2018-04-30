@@ -21,7 +21,7 @@
 
 <div class="swiper-slide top-slide">
   <div class="panel panel-default gt-quest-header">
-    <div class="panel-heading gt-panel-title">
+    <div class="panel-heading gt-panel-title" style="background-color: {{page.link_color}}">
       <div class="gt-arrow-block gt-arrow-lt"><img src='{% static "images/gt-stress-arrow-left.png" %}'></div>
       <div class="gt-arrow-block gt-arrow-rt"><img src='{% static "images/Stress---Q1---desktop_03.png" %}'></div>
       <span class="gt-topic-header gt-q1">Q{{num}} OF 3<br></span></div>
@@ -35,7 +35,7 @@
          {% endfor %}
       </div>
         {% if num != 3%}
-      <div class="panel-footer gt-title-footer gt-btn-hide"><button class="btn btn-default gt-topic-btn q1-btn" id="MyButton" type="button" >Get your results</button></div>
+      <div class="panel-footer gt-title-footer gt-btn-hide"><button class="btn btn-default gt-topic-btn q1-btn" type="button" onclick="GetResults('{{page.slug}}');">Get your results</button></div>
           {% endif %}
     </div>
     {% if num == 3%}

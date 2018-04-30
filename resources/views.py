@@ -117,7 +117,6 @@ def get_data(request, **kwargs):
     content_filter = request.GET.getlist('q3')
     reason_filter = request.GET.getlist('q2')
     topic_filter = request.GET.getlist('topic')
-    print("testing...................",issue_filter,content_filter,reason_filter)
     if request.GET.get('order'):
         resource_order = request.GET.get('order')
     else:
@@ -266,7 +265,8 @@ def get_data(request, **kwargs):
     data['resource_count'] = resources.count() + tips.count()
     data['selected_topic'] = topic_filter
     data['selected_tags'] = selected_tags
-
+    data['current_page'] = slug
+    
     return data
 
 

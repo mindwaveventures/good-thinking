@@ -151,7 +151,8 @@ width-500 as brand_logo %}
     {% include "resources/disqus.html" with page=page %}
   </div>
 </div>
-{% endif %} {% endcomment %} {% image page.hero_image width-1000 as hero_image %} {% image page.brand_logo width-500 as brand_logo %}
+{% endif %} {% endcomment %}
+{% image page.hero_image width-1000 as hero_image %} {% image page.brand_logo width-500 as brand_logo %}
 <section class="gt-header-result">
   <div class="gt-header-result-div">
     <a href="#">
@@ -166,8 +167,10 @@ width-500 as brand_logo %}
       {{ page.brand_text|new_tab|richtext }}
     </div>
     <div>
-      {% for button in buttons %} {% if button.button_type == "Primary" %}
-      <a href="{{button.button_link}}"> <button class="btn btn-default gt-highlights-btn gt-no-border" type="button">{{button.button_text}}</button></a> {% endif %} {% endfor %}
+      {% for button in buttons %} {% if button.button_type == "Primary" and hero_image%}
+      <a href="{{button.button_link}}"> <button class="btn btn-default gt-highlights-btn gt-no-border" type="button">{{button.button_text}}</button></a>
+      {% endif %}
+       {% endfor %}
     </div>
   </div>
 </section>
@@ -240,7 +243,7 @@ width-500 as brand_logo %}
     {% for button in buttons %} {% if button.button_type == "Primary" %}
     <a href="{{button.button_link}}"><button class="btn btn-default gt-highlights-btn gt-no-border" type="button">{{button.button_text}}</button></a> {% endif %} {% endfor %}
     <div class="gt-footer-result">
-      <a href="#" class="gt-back">
+      <a href="#" class="gt-back" style="background-image: url('{%static "images/gt-back.png"%}');">
         <p class="gt-footer-result-para">Back to results</p>
       </a>
     </div>
