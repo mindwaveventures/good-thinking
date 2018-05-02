@@ -3546,11 +3546,7 @@ em {
   text-align:left;
 }
 
-.gt-video.responsive-object {
-  float:right;
-  padding-left:20px;
-  height:auto;
-}
+
 
 .gt-partner-text.rich-text h2 {
   font-size:18px;
@@ -3669,13 +3665,6 @@ em {
   }
 }
 
-@media (max-width: 991px) {
-  .gt-video.responsive-object {
-    width:100%;
-    padding-left:0px;
-  }
-}
-
 .gt-header-result-div a {
   color:#242e50;
 }
@@ -3739,27 +3728,6 @@ em {
 @media (max-width: 767px) {
   .gt-partner-div.rich-text p {
     font-size:14px !important;
-  }
-}
-
-.responsive-object {
-  float:right;
-  height:auto;
-  margin-bottom:30px;
-}
-
-@media (max-width: 991px) {
-  .responsive-object {
-    width:100%;
-    float:right;
-    padding-left:0px;
-    height:auto;
-    margin-bottom:30px;
-  }
-}
-
-@media (max-width: 767px) {
-  .responsive-object {
   }
 }
 
@@ -4066,6 +4034,7 @@ input[type=checkbox]:checked + label {
   float:left;
   padding-left:15px;
   padding-right:15px;
+  width: 100%;
 }
 
 .gt-rt {
@@ -4236,6 +4205,10 @@ input[type=checkbox]:checked + label {
 
 .responsive-object{
  padding-bottom: 0px !important;
+}
+
+.responsive-object iframe {
+    width: 100%;
 }
 
 .menu_active{
