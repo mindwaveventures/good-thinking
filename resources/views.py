@@ -112,11 +112,11 @@ def get_data(request, **kwargs):
     Home = apps.get_model('resources', 'home')
 
     tag_filter = request.GET.getlist('tag')
-    issue_filter = kwargs.get('path_components', request.GET.getlist('q1'))
+    # issue_filter = kwargs.get('path_components', request.GET.getlist('q1'))
+    issue_filter = request.GET.getlist('q1')
     content_filter = request.GET.getlist('q3')
     reason_filter = request.GET.getlist('q2')
     topic_filter = request.GET.getlist('topic')
-
     if request.GET.get('order'):
         resource_order = request.GET.get('order')
     else:
@@ -265,7 +265,8 @@ def get_data(request, **kwargs):
     data['resource_count'] = resources.count() + tips.count()
     data['selected_topic'] = topic_filter
     data['selected_tags'] = selected_tags
-
+    data['current_page'] = slug
+    
     return data
 
 

@@ -1,5 +1,7 @@
-{% load wagtailcore_tags continuereading new_tab missing_tags %}
+{% load wagtailcore_tags wagtailimages_tags continuereading new_tab missing_tags %}
+{% load static %}
 
+{% comment "Old template-third block" %}
 <div id="resource_{{page.id}}" class="resource mb4 mt4">
   {% with missing=selected_tags|missing_tags:page %}
     {% if missing %}
@@ -118,3 +120,48 @@
     </div>
   </div>
 </div>
+{% endcomment %}
+
+{% image page.brand_logo width-500 as brand_logo %}
+
+      <div class="col-lg-6 {{diff_class}}">
+          <div class="panel panel-default gt-highlights gt-panel-height">
+              <div class="panel-heading" style="background-color: {{page.logo_background_color}}">
+                {% if diff_class != 'gt-stress-col-1' %}
+                  <div class="gt-number-block">
+                      <h4 class="gt-number" style="font-family:Montserrat, sans-serif;color:rgb(255,255,255);">#{{num}}</h4>
+                  </div>
+                  <div class="gt-arrow-block"><img src="{% static "images/strees-arrow_06.png" %}"></div>
+                  {%endif%}
+                  <div><img src="{{brand_logo.url}}" alt="{{page.heading}}"></div>
+              </div>
+              <div class="panel-body gt-highlights-body">
+                  <div class="gt-highlights-para rich-text">
+                      <h1 class="gt-topic-header">{{ page.heading }}</h1>
+                      <p>{{ page.tagline | richtext }}</p>
+                      <div class="gt-body-header"></div>
+                      <div class="row gt-panel-body-content rich-text">
+                          <div class="col-md-6 text-left">{{page.pros|new_tab|richtext}}</div>
+                          <div class="col-md-6 text-left">{{page.cons|new_tab|richtext}}</div>
+                      </div>
+                  </div>
+              </div>
+              <div class="panel-footer gt-highlight-footer"><button class="btn btn-default gt-highlights-btn" type="button">Tell me more</button>
+                {% if diff_class != 'gt-stress-col-1' %}
+                  <div class="gt-highlights-btn-text-block">
+                      <a href="#" class="gt-highlights-close">
+                          <div class="gt-close-cta"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+width="18px" height="18px" viewBox="0 0 18 18" enable-background="new 0 0 18 18" xml:space="preserve">
+<path   d="M9,0C4.029,0,0,4.029,0,9s4.029,9,9,9s9-4.029,9-9S13.971,0,9,0z M12.66,11.246
+c0.391,0.391,0.391,1.023,0,1.414c-0.195,0.195-0.451,0.293-0.707,0.293s-0.512-0.098-0.707-0.293L9,10.414L6.754,12.66
+c-0.195,0.195-0.451,0.293-0.707,0.293S5.535,12.855,5.34,12.66c-0.391-0.391-0.391-1.023,0-1.414L7.586,9L5.34,6.754
+c-0.391-0.391-0.391-1.023,0-1.414s1.023-0.391,1.414,0L9,7.586l2.246-2.246c0.391-0.391,1.023-0.391,1.414,0s0.391,1.023,0,1.414
+L10.414,9L12.66,11.246z"/>
+</svg></div>
+                          <h1 class="gt-highlights-btn-text">No thanks, I’ve tried this before<br></h1>
+                      </a>
+                  </div>
+                  {%endif%}
+              </div>
+          </div>
+      </div>

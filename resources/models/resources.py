@@ -11,7 +11,10 @@ from wagtail.wagtailcore.models import Orderable
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
-
+from wagtail.wagtailcore import blocks
+from wagtail.wagtailcore.fields import StreamField
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel
+from wagtail.wagtailimages.blocks import ImageChooserBlock
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from django.db.models.fields import (
@@ -26,9 +29,9 @@ from django.template.response import TemplateResponse
 from django.template.loader import render_to_string
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import JsonResponse
-
+from resources.views import get_data, filter_resources
 from colorful.fields import RGBColorField
-
+from urllib.parse import parse_qs
 from resources.models.tags import (
     TopicTag, IssueTag, ReasonTag,
     ContentTag, HiddenTag
@@ -264,6 +267,10 @@ class ResourcePage(AbstractForm):
         blank=True,
         help_text="The title of the resource being linked to"
     )
+    logo_background_color = RGBColorField(
+        default='#16b28f', null=True, blank=True,
+        help_text="The background colour of brand_logo"
+    )
     resource_url = URLField(
         blank=True,
         help_text="The url of the resource to link to"
@@ -276,10 +283,14 @@ class ResourcePage(AbstractForm):
         blank=True,
         help_text="Bold text that displays on the resource list"
     )
-    body = RichTextField(
-        blank=True,
-        help_text="A more detailed description of the resource"
-    )
+    body = StreamField([
+        ('rich_text', blocks.RichTextBlock()),
+        ('heading', blocks.RichTextBlock()),
+        ('paragraph', blocks.RichTextBlock()),
+        ('column_left', blocks.RichTextBlock()),
+        ('column_right', blocks.RichTextBlock()),
+        ('image', ImageChooserBlock()),
+    ])
     pros = RichTextField(
         blank=True,
         help_text="A list of pros for the resource"
@@ -404,12 +415,13 @@ class ResourcePage(AbstractForm):
         InlinePanel('badges', label="Badge"),
         InlinePanel('latlong', label="Latitude and Longitude"),
         FieldPanel('heading', classname="full"),
+        FieldPanel('logo_background_color', classname="full"),
         FieldRowPanel([
             FieldPanel('resource_url', classname="col6"),
             FieldPanel('resource_url_text', classname="col6"),
         ], classname="full"),
         FieldPanel('tagline', classname="full"),
-        FieldPanel('body', classname="full"),
+        StreamFieldPanel('body'),
         InlinePanel('buttons', label="Buttons"),
         FieldPanel('pros', classname="full"),
         FieldPanel('cons', classname="full")
@@ -489,7 +501,7 @@ class ResourcePage(AbstractForm):
         context['buttons'] = ResourcePageButtons.objects\
             .filter(page_id=self.page_ptr_id)
 
-        return base_context(context)
+        return base_context(context,self)
 
     def get_form_fields(self):
         return iter([])
@@ -526,6 +538,50 @@ class Tip(ResourcePage):
         FieldPanel('priority'),
     ]
 
+class Results(ResourcePage):
+    cover_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text="""
+            Max file size: 10MB. Choose from: GIF, JPEG, PNG
+            (but pick PNG if you have the choice)
+        """
+    )
+    image_text = TextField(blank=True)
+    body_title = TextField(blank=True)
+    body_tagline = TextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        ImageChooserPanel('cover_image'),
+        FieldPanel('image_text', classname="full"),
+        FieldPanel('body_title', classname="full"),
+        FieldPanel('body_tagline', classname="full")
+    ]
+
+    promote_panels = Page.promote_panels + [
+        FieldPanel('topic_tags'),
+        FieldPanel('issue_tags'),
+        FieldPanel('reason_tags'),
+        FieldPanel('content_tags'),
+        FieldPanel('hidden_tags'),
+        FieldPanel('priority'),
+    ]
+
+    def get_context(self, request, **kwargs):
+        try:
+            query = request.GET.urlencode()
+            slug = parse_qs(query)['slug'][0]
+        except:
+            slug = ''
+        context = super(Results, self).get_context(request)
+        context = get_data(
+            request, data=context, slug=slug,
+            path_components=kwargs.get('path_components', [])
+        )
+        return base_context(context,self)
 
 class Assessment(ResourcePage):
     algorithm_id = IntegerField(
@@ -559,7 +615,7 @@ class Assessment(ResourcePage):
     def get_context(self, request):
         context = super(Assessment, self).get_context(request)
 
-        return base_context(context)
+        return base_context(context,self)
 
     def serve(self, request, *args, **kwargs):
         return assessment_controller(self, request, **kwargs)

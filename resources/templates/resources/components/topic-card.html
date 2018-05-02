@@ -1,5 +1,21 @@
 {% load wagtailcore_tags new_tab %}
 
+  <div class="swiper-slide">
+      <div class="panel panel-default gt-topic">
+          <div class="panel-heading gt-heading-panel {% if page.title != 'Anxious' %} gt-blue {% endif %}" style="background-color: {{page.link_color}};">
+              <div class="row">
+                  <div class="col-md-12">
+                      <p class="gt-topic-heading-para">I am, or know someone who is feeling&nbsp;</p><span class="gt-topic-header">{{page.title}}<br></span></div>
+              </div>
+          </div>
+          <div class="panel-body gt-para-topics rich-text">
+            {{page.description|richtext}}
+          </div>
+          <div class="panel-footer gt-title-footer"><a href="/{{page.slug}}/"><button class="btn btn-default gt-topic-btn" type="button">{{page.link_text}}<br></button></a></div>
+      </div>
+  </div>
+
+{% comment "Old template" %}
 <div class="dib-l v-top {{width}}-l shadow-2 br1 ph3-l pa3 mb2 mh2-sm h4-5-ns h4-5-ml relative">
   <h3 class="montserrat ma1 ma2-l{% if el.mobile_title %} dn dib-ns{% endif %}">
     {{el.title}}
@@ -14,3 +30,4 @@
   </div>
   <a href="{{el.slug}}/"><button class="absolute-l w-90-l w-100 bottom--1-6-ml bottom--1-2-l r-5-l f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba b--lm-dark-turquoise">{{el.link_text}}</button></a>
 </div>
+{% endcomment %}

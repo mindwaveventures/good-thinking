@@ -163,12 +163,15 @@ def generate_custom_form(form_fields, request_dict, messages_):
     return custom_form
 
 
-def base_context(context):
+def base_context(context,self):
     Main = apps.get_model('resources', 'main')
+    HomeSiteMap = apps.get_model('resources', 'homesitemap')
     HomeFooterLinks = apps.get_model('resources', 'homefooterlinks')
     HomeFooterBlocks = apps.get_model('resources', 'homefooterblocks')
     Home = apps.get_model('resources', 'home')
-
+    HomeCollections = apps.get_model('resources', 'homecollections')
+    HomeHighLightsOfMonth = apps.get_model('resources', 'homehighlightsofmonth')
+    ResourcePage = apps.get_model('resources', 'resourcepage')
     home_page = Main.objects.get(slug="home")
     banner = {}
     banner['text'] = home_page.banner
@@ -177,10 +180,17 @@ def base_context(context):
     banner['button_2_text'] = home_page.banner_button_2_text
     banner['button_2_link'] = home_page.banner_button_2_link
 
+    site_map = HomeSiteMap.objects.all().select_related('link_page')
     footer_links = HomeFooterLinks.objects.all().select_related('footer_image')
     footer_blocks = HomeFooterBlocks.objects.all().select_related('link_page')
+    collections = HomeCollections.objects.filter(page_id=self.page_ptr_id)
+    highlights = HomeHighLightsOfMonth.objects.all().select_related('highlights_link')
 
+    context['results'] = ResourcePage.objects.all()
+    context['collections'] = collections
+    context['highlights'] = highlights
     context['banner'] = banner
+    context['site_map'] = site_map
     context['footer_links'] = footer_links
     context['footer_blocks'] = footer_blocks
     context['landing_pages'] = list(

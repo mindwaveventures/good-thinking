@@ -1,5 +1,6 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
+{% comment %}
 {% if footer_blocks %}
   <div class="pv3 ph2 tc mb2 pb4">
     {% include "resources/components/row.html" with render_template="resources/components/page-block.html" page=page element_list=footer_blocks length=2 width="w-40" class="footer-block mb2" %}
@@ -18,3 +19,25 @@
     </div>
   </footer>
 {% endif %}
+{% endcomment %}
+
+
+
+<footer>
+{% if site_map %}
+    <div class="gt-footer">
+      {% for footer in site_map %}
+        <div class="gt-link-footer"><a href="{{footer.link_page}}" class="gt-footer-link">{{footer.link_text}}<br></a></div>
+    {% endfor %}
+    </div>
+{% endif %}
+
+{% if footer_links %}
+    <div class="gt-brand-container">
+      {% for footer in footer_links %}
+        {% image footer.footer_image fill-120x70 as footer_image %}
+        <div class="gt-brand"><a href="{{footer.footer_link}}"><img src="{{footer_image.url}}"></div></a>
+      {% endfor %}
+    </div>
+{% endif %}
+</footer>

@@ -25,6 +25,8 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from urllib.parse import parse_qs
 
+from colorful.fields import RGBColorField
+
 from resources.models.tags import ExcludeTag, IssueTag
 from resources.models.resources import ResourceIndexPage, ResourcePage
 from resources.models.helpers import (
@@ -91,6 +93,61 @@ class LocationImages(models.Model):
 class MainLocationImages(Orderable, LocationImages):
     page = ParentalKey('Main', related_name='location_images')
 
+class HighLights(models.Model):
+    highlights_link = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    panels = [
+        FieldPanel('highlights_link', classname="full"),
+    ]
+
+    class Meta:
+        abstract = True
+
+class Collections(models.Model):
+    heading = TextField(blank=True,)
+    description = RichTextField(blank=True,)
+    link_page = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    link_text = TextField(blank=True,)
+
+    panels = [
+        FieldPanel('heading', classname="title"),
+        FieldPanel('description', classname="full"),
+        PageChooserPanel('link_page'),
+        FieldPanel('link_text'),
+    ]
+
+    class Meta:
+        abstract = True
+
+class SiteMap(models.Model):
+    link_page = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    link_text = TextField(blank=True,)
+
+    panels = [
+        PageChooserPanel('link_page'),
+        FieldPanel('link_text'),
+    ]
+
+    class Meta:
+        abstract = True
 
 class FooterLink(models.Model):
     footer_image = models.ForeignKey(
@@ -109,7 +166,6 @@ class FooterLink(models.Model):
 
     class Meta:
         abstract = True
-
 
 class FooterBlock(models.Model):
     title = TextField(blank=True,)
@@ -134,25 +190,29 @@ class FooterBlock(models.Model):
         abstract = True
 
 
+class HomeSiteMap(Orderable, SiteMap):
+    page = ParentalKey('Main', related_name='site_map')
+
 class HomeFooterLinks(Orderable, FooterLink):
     page = ParentalKey('Main', related_name='footer_links')
-
 
 class HomeFooterBlocks(Orderable, FooterBlock):
     page = ParentalKey('Main', related_name='footer_blocks')
 
+class HomeHighLightsOfMonth(Orderable, HighLights):
+    page = ParentalKey('Main', related_name='high_lights')
 
 class ProjectInfoBlock(Orderable, FooterBlock):
     page = ParentalKey('Main', related_name='project_info_block')
 
-
 class FormField(AbstractFormField):
     page = ParentalKey('Home', related_name='form_fields')
-
 
 class MainFormField(AbstractFormField):
     page = ParentalKey('Main', related_name='form_fields')
 
+class HomeCollections(Orderable, Collections):
+    page = ParentalKey('Home', related_name='collections')
 
 class Home(AbstractForm):
     def route(self, request, path_components):
@@ -236,6 +296,14 @@ class Home(AbstractForm):
         blank=True,
         help_text="URL of an introductiary youtube video"
     )
+    collections_title = TextField(
+        blank=True,
+        help_text="Title of collections"
+    )
+    collections_tagline = TextField(
+        blank=True,
+        help_text="Tagline of collections"
+    )
     exclude_tags = ClusterTaggableManager(
         through=ExcludeTag, blank=True, verbose_name="Exclude Tags",
         help_text="""
@@ -249,6 +317,10 @@ class Home(AbstractForm):
         blank=True,
         help_text="Text to display for the link to this page"
     )
+    link_color = RGBColorField(
+        default='#f3a140', null=True, blank=True,
+        help_text="The link's background colour to use on homepage"
+    )
     mobile_title = TextField(
         blank=True,
         help_text="Title to show on mobile"
@@ -261,13 +333,13 @@ class Home(AbstractForm):
             request, data=context, slug=self.slug,
             path_components=kwargs.get('path_components', [])
         )
-
         return context
 
     content_panels = AbstractForm.content_panels + [
         MultiFieldPanel([
             FieldPanel('description'),
             FieldPanel('link_text'),
+            FieldPanel('link_color'),
             FieldPanel('mobile_title')
         ], heading="Link Block"),
         ImageChooserPanel('hero_image'),
@@ -276,6 +348,9 @@ class Home(AbstractForm):
         FieldPanel('sub_body', classname="full"),
         FieldPanel('pyr_text', classname="full"),
         FieldPanel('video_url', classname="full"),
+        FieldPanel('collections_title', classname="full"),
+        FieldPanel('collections_tagline', classname="full"),
+        InlinePanel('collections', label="collections"),
         MultiFieldPanel([
             FieldPanel('filter_label_1', classname="full"),
             FieldPanel('filter_label_2', classname="full"),
@@ -422,7 +497,9 @@ class Main(AbstractForm):
         ]),
         FieldPanel('lookingfor', classname="full"),
         InlinePanel('form_fields', label="Form fields"),
+        InlinePanel('high_lights', label="High Lights"),
         InlinePanel('footer_blocks', label="Footer Blocks"),
+        InlinePanel('site_map', label="SiteMap"),
         InlinePanel('footer_links', label="Footer"),
     ]
 
@@ -558,7 +635,7 @@ def custom_serve(self, request, *args, **kwargs):
     return render(
         request,
         self.get_template(request),
-        base_context(context)
+        base_context(context,self)
     )
 
 

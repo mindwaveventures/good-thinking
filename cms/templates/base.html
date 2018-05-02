@@ -62,6 +62,8 @@
           <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
           <!-- Taken from https://jonsuh.com/hamburgers/ -->
           <link href="https://cdnjs.cloudflare.com/ajax/libs/hamburgers/0.9.1/hamburgers.min.css" rel="stylesheet">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css">
           <link rel="shortcut icon" href="/staticfiles/images/favicon.ico">
           <link rel="icon" type="image/png" sizes="196x196" href="/staticfiles/images/android-chrome-192x192.png">
           <link rel="icon" type="image/png" sizes="32x32" href="/staticfiles/images/favicon-32x32.png">
@@ -73,8 +75,6 @@
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
-      <!-- Google Translate -->
-      <div id="google_translate_element"></div>
       <script type="text/javascript">
         function googleTranslateElementInit() {
           new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT}, 'google_translate_element');
@@ -103,5 +103,6 @@
           <p>Before browsing our site, please accept our <a class="link lm-pink-hover lm-dark-turquoise" href="/cookie-policy/">cookies policy</a></p>
           <button class="f5 link dib ph3 pv2 br1 pointer montserrat tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover mv3 b--lm-dark-turquoise ba word-normal">Accept and close</button>
         </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </body>
 </html>

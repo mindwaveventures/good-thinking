@@ -1,0 +1,16 @@
+{% load wagtailcore_tags wagtailimages_tags static modelname new_tab %} {% load static %}
+{% if landing_pages %}
+<ul class="nav navbar-nav nav-underline">
+    {% for topic in landing_pages %}
+            <li role="presentation"><a class="{% if topic.title|lower == page.slug|lower  %}menu_active{% endif %}" href="/{{topic.slug}}/">{{topic.title}}</a></li>
+  {% endfor %}
+            <li class="dropdown hidden-lg"><a class="dropdown-toggle hidden-xs hidden-sm hidden-md" data-toggle="dropdown" aria-expanded="false" href="#">Dropdown
+               <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li role="presentation"><a href="#">First Item</a></li>
+                    <li role="presentation"><a href="#">Second Item</a></li>
+                    <li role="presentation"><a href="#">Third Item</a></li>
+                </ul>
+            </li>
+        </ul>
+  {% endif %}
