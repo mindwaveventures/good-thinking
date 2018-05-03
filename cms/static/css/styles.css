@@ -4212,7 +4212,5 @@ input[type=checkbox]:checked + label {
 }
 
 .menu_active{
-color: #242e50 !important;
-background-color: transparent !important;
-border-bottom: 2px solid #242e50 !important;
+border-bottom: 2px solid #16b28f !important;
 }
