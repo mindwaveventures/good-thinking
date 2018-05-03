@@ -42,8 +42,8 @@ $( document ).ready(function() {
       clickable: true,
     },
         navigation: {
-      nextEl: '.gt-left-block',
-      prevEl: '.gt-right-block',
+      nextEl: '.gt-arrow-rt',
+      prevEl: '.gt-arrow-lt',
     },
       breakpoints: {
         1024: {
