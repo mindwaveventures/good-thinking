@@ -131,7 +131,7 @@
                   <div class="gt-number-block">
                       <h4 class="gt-number" style="font-family:Montserrat, sans-serif;color:rgb(255,255,255);">#{{num}}</h4>
                   </div>
-                  <div class="gt-arrow-block"><img src="{% static "images/strees-arrow_06.png" %}"></div>
+                  <div class="gt-arrow-block"></div>
                   {%endif%}
                   <div><img src="{{brand_logo.url}}" alt="{{page.heading}}"></div>
               </div>
@@ -146,7 +146,7 @@
                       </div>
                   </div>
               </div>
-              <div class="panel-footer gt-highlight-footer"><button class="btn btn-default gt-highlights-btn" type="button">Tell me more</button>
+              <div class="panel-footer gt-highlight-footer"><a href="/{{page.parent}}/{{page.slug}}/"><button class="btn btn-default gt-highlights-btn" type="button">Tell me more</button></a>
                 {% if diff_class != 'gt-stress-col-1' %}
                   <div class="gt-highlights-btn-text-block">
                       <a href="#" class="gt-highlights-close">
