@@ -1,6 +1,6 @@
 from django.db.models import Q
 from django.conf import settings
-
+import itertools
 from itertools import chain
 
 from gpxpy.geo import haversine_distance
@@ -118,6 +118,8 @@ def get_data(request, **kwargs):
     content_filter = request.GET.getlist('q3')
     reason_filter = request.GET.getlist('q2')
     topic_filter = request.GET.getlist('topic')
+    page_filter = request.GET.getlist('page')
+
     if request.GET.get('order'):
         resource_order = request.GET.get('order')
     else:
@@ -195,6 +197,8 @@ def get_data(request, **kwargs):
         topic_filter=topic_filter,
     )
 
+    top_resources =  resources.filter(Q(slug__in=page_filter))
+
     resources = filter_resources(
         resources,
         tag_filter=tag_filter,
@@ -266,12 +270,14 @@ def get_data(request, **kwargs):
 
     data['landing_pages'] = Home.objects.filter(~Q(slug="home")).live()
     data['resources'] = filtered_resources
+    data['resources'], data['mobile_resources'] = itertools.tee(filtered_resources, 2)
     data['tips'] = tips
     data['assessments'] = assessments
     data['resource_count'] = resources.count() + tips.count()
     data['selected_topic'] = topic_filter
     data['selected_tags'] = selected_tags
     data['top_collections'] = top_collections
+    data['top_resources'] = top_resources
 
     return data
 

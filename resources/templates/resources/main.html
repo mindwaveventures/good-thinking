@@ -77,7 +77,6 @@
     </div>
     <div class="gt-highlights-home-row">
         <div class="row gt-highlights-home-container">
-          {{highlights}}
           {% for post in highlights %}
           {% include "resources/short_resource.html" with page=post.highlights_link.specific diff_class='gt-stress-col-1' %}
           {% endfor %}

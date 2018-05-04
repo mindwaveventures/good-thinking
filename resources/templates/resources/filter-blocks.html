@@ -40,12 +40,12 @@
          {% endfor %}
       </div>
         {% if num != 3%}
-      <div class="panel-footer gt-title-footer gt-btn-hide"><button class="btn btn-default gt-topic-btn q1-btn" type="button" onclick="GetResults('{{page.slug}}');">Get your results</button></div>
+      <div class="panel-footer gt-title-footer gt-btn-hide"><button class="btn btn-default gt-topic-btn q1-btn" type="button" onclick="GetQueryResults('{{page.slug}}');">Get your results</button></div>
           {% endif %}
     </div>
     {% if num == 3%}
     <div class="panel-footer gt-title-footer gt-btn gt--stress-q-footer">
-      <button class="btn btn-default gt-topic-btn q1-btn" type="button" onclick="GetResults('{{page.slug}}');">Get your results</button>
+      <button class="btn btn-default gt-topic-btn q1-btn" type="button" onclick="GetQueryResults('{{page.slug}}');">Get your results</button>
     </div>
     {% else %}
     <div class="panel-footer gt-title-footer gt-btn gt--stress-q-footer"></div>

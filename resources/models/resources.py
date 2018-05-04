@@ -599,7 +599,6 @@ class SelectResources(models.Model):
     class Meta:
         abstract = True
 
-
 class ResourcePageSelectResources(Orderable, SelectResources):
     page = ParentalKey('TopResources', related_name='selectresources')
 
@@ -648,7 +647,7 @@ class Assessment(ResourcePage):
 
     content_panels = Page.content_panels + [
         FieldPanel('heading', classname="full"),
-        FieldPanel('body', classname="full"),
+        StreamFieldPanel('body'),
         FieldPanel('algorithm_id', classname="full"),
         FieldPanel('resource_text', classname="full")
     ]

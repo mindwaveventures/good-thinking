@@ -169,7 +169,6 @@ def base_context(context,self):
     HomeFooterLinks = apps.get_model('resources', 'homefooterlinks')
     HomeFooterBlocks = apps.get_model('resources', 'homefooterblocks')
     Home = apps.get_model('resources', 'home')
-    HomeCollections = apps.get_model('resources', 'homecollections')
     HomeHighLightsOfMonth = apps.get_model('resources', 'homehighlightsofmonth')
     ResourcePageSelectResources = apps.get_model('resources', 'resourcepageselectresources')
     ResourcePage = apps.get_model('resources', 'resourcepage')
@@ -184,12 +183,8 @@ def base_context(context,self):
     site_map = HomeSiteMap.objects.all().select_related('link_page')
     footer_links = HomeFooterLinks.objects.all().select_related('footer_image')
     footer_blocks = HomeFooterBlocks.objects.all().select_related('link_page')
-    collections = HomeCollections.objects.filter(page_id=self.page_ptr_id)
     highlights = HomeHighLightsOfMonth.objects.all().select_related('highlights_link')
-    selected_resources = ResourcePageSelectResources.objects.all().select_related('collection_resource')
 
-    context['selected_resources'] = selected_resources
-    context['collections'] = collections
     context['highlights'] = highlights
     context['banner'] = banner
     context['site_map'] = site_map

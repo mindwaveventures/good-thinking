@@ -144,10 +144,10 @@
                                     <p>{{collection.description | richtext}}</p>
                                 </div>
                                 <div class="panel-footer gt-title-footer">
-                                  <button class="btn btn-default gt-topic-btn browse-btn" role="button" href="#" onclick="GetResources('{{collection.selectresources}}');"><strong>{{collection.button_text}}</strong></button>
+                                  <button class="btn btn-default gt-topic-btn browse-btn" role="button" href="#" onclick="GetCollectionResults();"><strong>{{collection.button_text}}</strong></button>
                                 </div>
-                                {% for one in selected_resources %}
-                                <!-- {{one.collection_resource.id}} -->
+                                {% for one in collection.selectresources.all %}
+                                <input class="hidden get_resources" value="{{one.collection_resource.slug}}">
                                {% endfor %}
                             </div>
                         </div>
@@ -176,7 +176,7 @@
                                     <p>{{collection.description | richtext}}</p>
                                 </div>
                                 <div class="panel-footer gt-title-footer">
-                                  <button class="btn btn-default gt-topic-btn browse-btn" role="button" href="#" onclick="GetResources('{{collection.selectresources}}');"><strong>{{collection.button_text}}</strong></button>
+                                  <button class="btn btn-default gt-topic-btn browse-btn" role="button" href="#" onclick="GetCollectionResults();"><strong>{{collection.button_text}}</strong></button>
                                 </div>
                             </div>
                         </div>
