@@ -180,7 +180,12 @@ width-500 as brand_logo %}
     <div class="col-md-12 bg-section">
       <div class="panel panel-default gt-highlights-partner">
         <div class="panel-heading gt-white partner-panel-heading">
+          {% if hero_image %}
           <h4>{{ page.title }}</h4>
+          {% endif %}
+          {% if not hero_image %}
+          <img src="{{ brand_logo.url }}" alt="{{page.title}}">
+          {% endif %}
         </div>
         <div class="panel-body gt-partner-body">
 
