@@ -2,7 +2,7 @@
 {% if landing_pages %}
 <ul class="nav navbar-nav nav-underline">
     {% for topic in landing_pages %}
-            <li role="presentation"><a class="{% if topic.title|lower == page.slug|lower  %}menu_active{% endif %}" href="/{{topic.slug}}/">{{topic.title}}</a></li>
+            <li role="presentation"><a class="{% if topic.slug|lower == page.slug|lower  %}menu_active{% endif %}" href="/{{topic.slug}}/">{{topic.title}}</a></li>
   {% endfor %}
             <li class="dropdown hidden-lg"><a class="dropdown-toggle hidden-xs hidden-sm hidden-md" data-toggle="dropdown" aria-expanded="false" href="#">Dropdown
                <span class="caret"></span></a>
