@@ -105,6 +105,7 @@ def get_data(request, **kwargs):
     ResourcePage = apps.get_model('resources', 'resourcepage')
     Tip = apps.get_model('resources', 'tip')
     Assessment = apps.get_model('resources', 'assessment')
+    TopResources = apps.get_model('resources', 'TopResources')
 
     data = kwargs.get('data', {})
     slug = kwargs.get('slug')
@@ -189,6 +190,11 @@ def get_data(request, **kwargs):
         query=query
     )
 
+    top_collections = filter_resources(
+        TopResources.objects.all(),
+        topic_filter=topic_filter,
+    )
+
     resources = filter_resources(
         resources,
         tag_filter=tag_filter,
@@ -265,8 +271,8 @@ def get_data(request, **kwargs):
     data['resource_count'] = resources.count() + tips.count()
     data['selected_topic'] = topic_filter
     data['selected_tags'] = selected_tags
-    data['current_page'] = slug
-    
+    data['top_collections'] = top_collections
+
     return data
 
 
