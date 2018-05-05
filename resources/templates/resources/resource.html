@@ -184,8 +184,7 @@ width-500 as brand_logo %}
         <div class="panel-heading gt-white partner-panel-heading">
           {% if hero_image %}
           <h4>{{ page.title }}</h4>
-          {% endif %}
-          {% if not hero_image %}
+          {% else %}
           <img src="{{ brand_logo.url }}" alt="{{page.title}}">
           {% endif %}
         </div>
@@ -250,7 +249,7 @@ width-500 as brand_logo %}
     {% for button in buttons %} {% if button.button_type == "Primary" %}
     <a href="{{button.button_link}}"><button class="btn btn-default gt-highlights-btn gt-no-border" type="button">{{button.button_text}}</button></a> {% endif %} {% endfor %}
     <div class="gt-footer-result">
-      <a href="#" class="gt-back" style="background-image: url('{%static "images/gt-back.png"%}');">
+      <a href="#" class="gt-back" >
         <p class="gt-footer-result-para">Back to results</p>
       </a>
     </div>
