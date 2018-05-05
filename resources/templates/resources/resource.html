@@ -160,6 +160,7 @@ width-500 as brand_logo %}
       <p class="gt-footer-result-para">Back to results</p></a></div>
 </section>
 
+{% if hero_image %}
 <section class="partner-slider">
   <div class="gt-slider-content-partner" style="background-image:url('{{ hero_image.url }}');">
     <div><img src="{{ brand_logo.url }}"></div>
@@ -167,20 +168,26 @@ width-500 as brand_logo %}
       {{ page.brand_text|new_tab|richtext }}
     </div>
     <div>
-      {% for button in buttons %} {% if button.button_type == "Primary" and hero_image%}
+      {% for button in buttons %} {% if button.button_type == "Primary"%}
       <a href="{{button.button_link}}"> <button class="btn btn-default gt-highlights-btn gt-no-border" type="button">{{button.button_text}}</button></a>
       {% endif %}
        {% endfor %}
     </div>
   </div>
 </section>
+{% endif %}
 
 <section class="gt-home-topic-highlights partner-body">
   <div class="row">
     <div class="col-md-12 bg-section">
       <div class="panel panel-default gt-highlights-partner">
         <div class="panel-heading gt-white partner-panel-heading">
+          {% if hero_image %}
           <h4>{{ page.title }}</h4>
+          {% endif %}
+          {% if not hero_image %}
+          <img src="{{ brand_logo.url }}" alt="{{page.title}}">
+          {% endif %}
         </div>
         <div class="panel-body gt-partner-body">
 
