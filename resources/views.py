@@ -266,7 +266,7 @@ def get_data(request, **kwargs):
     data['selected_topic'] = topic_filter
     data['selected_tags'] = selected_tags
     data['current_page'] = slug
-    
+
     return data
 
 
@@ -495,6 +495,14 @@ def assessment_controller(self, request, **kwargs):
     context['body'] = self.body
     context['finish_destination'] = "/"
 
+    page = {}
+    page['hero_image'] = self.hero_image
+    page['header'] = self.title
+    page['body'] = self.heading
+
+    context['page'] = page
+
+
     if (self.seo_title):
         context['page_title'] = (
             self.seo_title + " | " + self.get_site().site_name
@@ -510,7 +518,7 @@ def assessment_controller(self, request, **kwargs):
         ).json()
 
     return HttpResponse(
-        template.render(context=base_context(context), request=request)
+        template.render(context=base_context(context, self), request=request)
     )
 
 

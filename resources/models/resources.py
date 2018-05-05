@@ -598,6 +598,7 @@ class Assessment(ResourcePage):
 
     content_panels = Page.content_panels + [
         FieldPanel('heading', classname="full"),
+        ImageChooserPanel('hero_image'),
         StreamFieldPanel('body'),
         FieldPanel('algorithm_id', classname="full"),
         FieldPanel('resource_text', classname="full")
