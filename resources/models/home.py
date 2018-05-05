@@ -109,28 +109,6 @@ class HighLights(models.Model):
     class Meta:
         abstract = True
 
-class Collections(models.Model):
-    heading = TextField(blank=True,)
-    description = RichTextField(blank=True,)
-    link_page = models.ForeignKey(
-        'wagtailcore.Page',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
-    )
-    link_text = TextField(blank=True,)
-
-    panels = [
-        FieldPanel('heading', classname="title"),
-        FieldPanel('description', classname="full"),
-        PageChooserPanel('link_page'),
-        FieldPanel('link_text'),
-    ]
-
-    class Meta:
-        abstract = True
-
 class SiteMap(models.Model):
     link_page = models.ForeignKey(
         'wagtailcore.Page',
@@ -210,9 +188,6 @@ class FormField(AbstractFormField):
 
 class MainFormField(AbstractFormField):
     page = ParentalKey('Main', related_name='form_fields')
-
-class HomeCollections(Orderable, Collections):
-    page = ParentalKey('Home', related_name='collections')
 
 class Home(AbstractForm):
     def route(self, request, path_components):
@@ -350,7 +325,6 @@ class Home(AbstractForm):
         FieldPanel('video_url', classname="full"),
         FieldPanel('collections_title', classname="full"),
         FieldPanel('collections_tagline', classname="full"),
-        InlinePanel('collections', label="collections"),
         MultiFieldPanel([
             FieldPanel('filter_label_1', classname="full"),
             FieldPanel('filter_label_2', classname="full"),

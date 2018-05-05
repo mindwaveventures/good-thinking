@@ -4,7 +4,7 @@ import json
 from wagtail.wagtailforms.models import AbstractForm, Page, AbstractFormField
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import (
-    FieldPanel, InlinePanel, MultiFieldPanel, FieldRowPanel
+    FieldPanel, InlinePanel, MultiFieldPanel, FieldRowPanel,PageChooserPanel
 )
 from wagtail.wagtailsearch import index
 from wagtail.wagtailcore.models import Orderable
@@ -567,6 +567,55 @@ class Results(ResourcePage):
         FieldPanel('reason_tags'),
         FieldPanel('content_tags'),
         FieldPanel('hidden_tags'),
+        FieldPanel('priority'),
+    ]
+
+    def get_context(self, request, **kwargs):
+        try:
+            query = request.GET.urlencode()
+            slug = parse_qs(query)['slug'][0]
+        except:
+            slug = ''
+        context = super(Results, self).get_context(request)
+        context = get_data(
+            request, data=context, slug=slug,
+            path_components=kwargs.get('path_components', [])
+        )
+        return base_context(context,self)
+
+class SelectResources(models.Model):
+    collection_resource = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    content_panels = Page.content_panels + [
+        PageChooserPanel('collection_resource'),
+    ]
+
+    class Meta:
+        abstract = True
+
+class ResourcePageSelectResources(Orderable, SelectResources):
+    page = ParentalKey('TopResources', related_name='selectresources')
+
+class TopResources(ResourcePage):
+    collection_heading = TextField(blank=True)
+    description = TextField(blank=True)
+    button_text = TextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        FieldPanel('collection_heading', classname="full"),
+        FieldPanel('description', classname="full"),
+        FieldPanel('button_text', classname="full"),
+        InlinePanel('selectresources', label="selectresources"),
+    ]
+
+    promote_panels = Page.promote_panels + [
+        FieldPanel('topic_tags'),
         FieldPanel('priority'),
     ]
 

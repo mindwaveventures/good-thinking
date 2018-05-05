@@ -1,19 +1,34 @@
 
-function GetResults(slug) {
-  var array = [];
+function GetQueryResults(slug) {
+  var query_result = [];
   var url = "";
   $("input:checkbox[name=1]:checked").each(function(){
-    array.push({query:'q1',value:$(this).val()});
+    query_result.push({query:'q1',value:$(this).val()});
   });
   $("input:checkbox[name=2]:checked").each(function(){
-    array.push({query:'q2',value:$(this).val()});
+    query_result.push({query:'q2',value:$(this).val()});
   });
   $("input:checkbox[name=3]:checked").each(function(){
-    array.push({query:'q3',value:$(this).val()});
+    query_result.push({query:'q3',value:$(this).val()});
   });
-  array.forEach(function(e){
+  query_result.forEach(function(e){
      url += e.query+ "=" + e.value + "&";
   });
   url = url.trim("&");
   window.location.href='/results/?'+url+'slug='+slug;
  }
+
+
+ function GetCollectionResults() {
+   var collection_result = [];
+   var url = "";
+   $('.get_resources').each(function(){
+       collection_result.push({query:'page',value:$(this).val()});
+   });
+   console.log(collection_result,"collection_result");
+   collection_result.forEach(function(e){
+      url += e.query+ "=" + e.value + "&";
+   });
+   url = url.trim("&");
+   window.location.href='/results/?'+url;
+  }
