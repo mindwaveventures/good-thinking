@@ -557,7 +557,7 @@
 
 .gt-header-img {
   height:400px;
-  background-image:url(../../assets/img/gt-home-cover-bg-2.png);
+  background-image:url(../images/gt-home-cover-bg-2.png);
   background-size:cover;
   background-repeat:no-repeat;
   background-position:center;
@@ -573,7 +573,7 @@
 @media (max-width: 991px) {
   .gt-header-img {
     height:360px;
-    background-image:url(../../assets/img/gt-home-cover-bg-tablet-1.png);
+    background-image:url(../images/gt-home-cover-bg-tablet-1.png);
     background-size:cover;
     background-repeat:no-repeat;
     background-position:center;
@@ -584,7 +584,7 @@
 @media (max-width: 767px) {
   .gt-header-img {
     height:340px;
-    background-image:url(../../assets/img/home-cover-bg-mobile-2.png);
+    background-image:url(../images/home-cover-bg-mobile-2.png);
   }
 }
 
@@ -598,7 +598,7 @@
 .gt-home-topic-highlights-2 {
   text-align:center;
   padding:0px 0px 47px 0px;
-  background-image:url("../../assets/img/gt-highlight-month-bg-patterns.png");
+  background-image:url("../images/gt-highlight-month-bg-patterns.png");
   background-position:bottom;
   background-repeat:no-repeat;
   background-size:contain;
@@ -2193,7 +2193,7 @@ em {
 
 .gt-home-topic-highlights {
   text-align:center;
-  background-image:url("../../assets/img/gt-highlight-month-bg-patterns.png");
+  background-image:url("../images/gt-highlight-month-bg-patterns.png");
   background-position:bottom;
   background-repeat:no-repeat;
   background-size:contain;
@@ -2847,7 +2847,7 @@ em {
 }
 
 .gt-header-img.article {
-  background-image:url(../../assets/img/gt-articals-cover-img.jpg);
+  background-image:url(../images/gt-articals-cover-img.jpg);
 }
 
 @media (max-width: 767px) {
@@ -2891,7 +2891,7 @@ em {
   opacity:0.9;
   text-align:center;
   font-size:18px;
-  background-image:url(../../assets/img/gt-be-mindful-cover.png);
+  background-image:url(../images/gt-be-mindful-cover.png);
   background-repeat:no-repeat;
   background-size:auto;
   background-position:center;
@@ -2910,7 +2910,7 @@ em {
 }
 
 .gt-header-img.stress-q {
-  background-image:url("../../assets/img/gt-stress-cover.png");
+  background-image:url("../images/gt-stress-cover.png");
 }
 
 .gt-topic-header.gt-q1 {
@@ -2918,7 +2918,7 @@ em {
 }
 
 .gt-header-img.stress-results {
-  background-image:url("../../assets/img/gt-stress-result-cover.png");
+  background-image:url("../images/gt-stress-result-cover.png");
 }
 
 .gt-navy-blue {
@@ -2967,7 +2967,7 @@ em {
 }
 
 .gt-stress-q1-body {
-  background-image:url("../../assets/img/gt-highlight-month-bg-patterns.png");
+  background-image:url("../images/gt-highlight-month-bg-patterns.png");
   background-position:bottom;
   background-repeat:no-repeat;
   padding:40px 0px;
@@ -3172,7 +3172,7 @@ em {
 }
 
 .gt-header-img.self-assessment {
-  background-image:url("../../assets/img/gt-self-assessemnt-results.jpg");
+  background-image:url("../images/gt-self-assessemnt-results.jpg");
   background-position:center;
   background-repeat:no-repeat;
   background-size:cover;
@@ -3364,7 +3364,7 @@ em {
 
 .gt-back {
   width:140px;
-  background-image:url(../../assets/img/gt-back.svg);
+  background-image:url(../images/gt-back.svg);
   background-position:left;
   display:inline-block;
   background-repeat:no-repeat;
@@ -3374,7 +3374,7 @@ em {
 
 .gt-back:hover {
   width:140px;
-  background-image:url(../../assets/img/gt-back-hover.svg);
+  background-image:url(../images/gt-back-hover.svg);
   background-position:left;
   display:inline-block;
   background-repeat:no-repeat;
@@ -4131,7 +4131,7 @@ input[type=checkbox]:checked + label {
 }
 
 .gt-stress-back {
-  background-image:url(../../assets/img/gt-back-green.svg);
+  background-image:url(../images/gt-back-green.svg);
   background-position:left;
   background-repeat:no-repeat;
   padding-top:2px;
@@ -4140,7 +4140,7 @@ input[type=checkbox]:checked + label {
 }
 
 .gt-stress-back:hover {
-  background-image:url(../../assets/img/gt-back.svg);
+  background-image:url(../images/gt-back.svg);
   background-position:left;
   background-repeat:no-repeat;
   padding-top:2px;

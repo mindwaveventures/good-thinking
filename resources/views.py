@@ -206,7 +206,7 @@ def get_data(request, **kwargs):
         topic_filter=topic_filter,
         query=query
     ).filter(~Q(page_ptr_id__in=list(
-        chain(tips, assessments)))
+        chain(tips, assessments, top_collections)))
     ).prefetch_related(
         'badges'
     ).prefetch_related(
@@ -273,7 +273,8 @@ def get_data(request, **kwargs):
     data['resources'], data['mobile_resources'] = itertools.tee(filtered_resources, 2)
     data['tips'] = tips
     data['assessments'] = assessments
-    data['resource_count'] = resources.count() + tips.count()
+    # data['resource_count'] = resources.count() + tips.count()
+    data['resource_count'] = resources.count()
     data['selected_topic'] = topic_filter
     data['selected_tags'] = selected_tags
     data['top_collections'] = top_collections
