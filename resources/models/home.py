@@ -117,11 +117,9 @@ class SiteMap(models.Model):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-    link_text = TextField(blank=True,)
 
     panels = [
         PageChooserPanel('link_page'),
-        FieldPanel('link_text'),
     ]
 
     class Meta:

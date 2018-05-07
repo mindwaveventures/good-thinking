@@ -27,7 +27,7 @@
 {% if site_map %}
     <div class="gt-footer">
       {% for footer in site_map %}
-        <div class="gt-link-footer"><a href="{{footer.link_page}}" class="gt-footer-link">{{footer.link_text}}<br></a></div>
+        <div class="gt-link-footer"><a href="{{footer.link_page.specific.slug}}" class="gt-footer-link">{{footer.link_page.specific.title}}<br></a></div>
     {% endfor %}
     </div>
 {% endif %}
@@ -35,7 +35,7 @@
 {% if footer_links %}
     <div class="gt-brand-container">
       {% for footer in footer_links %}
-        {% image footer.footer_image fill-120x70 as footer_image %}
+        {% image footer.footer_image width-400 as footer_image %}
         <div class="gt-brand"><a href="{{footer.footer_link}}"><img src="{{footer_image.url}}"></div></a>
       {% endfor %}
     </div>
