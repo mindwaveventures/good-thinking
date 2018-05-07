@@ -313,7 +313,7 @@
   font-size:18px;
   padding-bottom:10px;
   line-height:24px;
-  font-family:'Nunito Sans';
+  font-family:'Nunito Sans', sans-serif;
 }
 
 @media (max-width: 991px) {
@@ -424,7 +424,7 @@
 .rich-text p {
   font-size:18px;
   line-height:24px;
-  font-family:Nunito Sans;
+  font-family:'Nunito Sans', sans-serif;
 }
 
 @media (max-width: 991px) {
@@ -1211,7 +1211,7 @@ gt-topic-header-stress {
 }
 
 .panel-body {
-  font-family:'Nunito Sans';
+  font-family:'Nunito Sans', sans-serif;
   font-size:16px;
   line-height:1.5;
   letter-spacing:1.2px;
@@ -1240,7 +1240,7 @@ gt-topic-header-stress {
 }
 
 .panel-body.quest-panel-body {
-  font-family:'Nunito Sans';
+  font-family:'Nunito Sans', sans-serif;
   font-size:18px;
   line-height:1.5;
   letter-spacing:1.2px;
@@ -1269,7 +1269,7 @@ gt-topic-header-stress {
 .panel-body.quest-panel-body p {
   text-align:left;
   color:#242e50 !important;
-  font-family:'Nunito Sans';
+  font-family:'Nunito Sans', sans-serif;
   z-index:100;
 }
 
@@ -2451,7 +2451,7 @@ em {
 }
 
 .gt-footer-result-para {
-  font-family:'Nunito Sans';
+  font-family:'Nunito Sans', sans-serif;
   font-size:14px;
   font-weight:bold;
   font-style:normal;
@@ -2703,7 +2703,7 @@ em {
 }
 
 .col-md-6.gt-para-rt {
-  font-family:'Nunito Sans';
+  font-family:'Nunito Sans', sans-serif;
   font-size:18px;
   line-height:1.44;
   letter-spacing:1.2px;
@@ -2717,7 +2717,7 @@ em {
   font-size:18px;
   line-height:1.44;
   letter-spacing:1.2px;
-  font-family:'Nunito Sans';
+  font-family:'Nunito Sans', sans-serif;
   text-align:left;
   padding:0px !important;
   padding-right:40px !important;
@@ -3020,7 +3020,7 @@ em {
 
 .panel-body.quest-panel-body p {
   font-size:18px;
-  font-family:Nunito Sans;
+  font-family:'Nunito Sans', sans-serif;
 }
 
 .btn.btn-default.gt-topic-btn.browse-btn:hover {
@@ -3444,7 +3444,7 @@ em {
 .gt-slider-content.rich-text p {
   font-size:18px;
   line-height:24px;
-  font-family:Nunito Sans;
+  font-family:'Nunito Sans', sans-serif;
 }
 
 .panel-body.gt-para-topics.rich-text span {
@@ -3455,14 +3455,14 @@ em {
 
 .gt-highlights-para.rich-text p {
   padding:0 25px;
-  font-family:Nunito Sans;
+  font-family:'Nunito Sans', sans-serif;
 }
 
 .row.gt-panel-body-content.rich-text p {
   text-align:left;
   padding:0px !important;
   margin-top:5px;
-  font-family:Nunito Sans;
+  font-family:'Nunito Sans', sans-serif;
 }
 
 .panel-heading.gt-blue.gt-heading-panel {
@@ -3508,7 +3508,7 @@ em {
   text-align:left;
   margin:0px;
   line-height:20px;
-  font-family:Nunito Sans;
+  font-family:'Nunito Sans', sans-serif;
 }
 
 .col-md-12.gt-read .rich-text p {
@@ -3576,7 +3576,7 @@ em {
   text-align:left;
   padding-right:20px;
   font-size:18px;
-  font-family:Nunito Sans;
+  font-family:'Nunito Sans', sans-serif;
 }
 
 .gt-partner-text.rich-text {
@@ -3704,7 +3704,7 @@ em {
 
 .gt-partner-div.rich-text p {
   font-size:18px;
-  font-family:Nunito Sans;
+  font-family:'Nunito Sans', sans-serif;
 }
 
 @media (max-width: 991px) {
@@ -3726,7 +3726,7 @@ em {
   font-size:18px;
   padding-top:0px;
   margin:0px;
-  font-family:Nunito Sans;
+  font-family:'Nunito Sans', sans-serif;
 }
 
 @media (max-width: 767px) {
@@ -4057,7 +4057,7 @@ input[type=checkbox]:checked + label {
   font-size:18px;
   text-align:center;
   padding:0px 30px;
-  font-family:Nunito Sans;
+  font-family:'Nunito Sans', sans-serif;
 }
 
 @media (max-width: 991px) {
@@ -4080,7 +4080,7 @@ input[type=checkbox]:checked + label {
   text-align:left;
   padding:0px 40px 0px 10px !important;
   width:50%;
-  font-family:Nunito Sans;
+  font-family:'Nunito Sans', sans-serif;
 }
 
 @media (max-width: 991px) {
@@ -4202,7 +4202,7 @@ border-bottom: 2px solid #16b28f !important;
 }
 
 .gt-panel-body-content.rich-text h4 {
-  font-family:'Nunito Sans';
+  font-family:'Nunito Sans', sans-serif;
   font-size:14px;
   font-weight:700;
   margin-top:4px;
