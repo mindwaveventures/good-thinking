@@ -930,12 +930,10 @@ gt-topic-header-stress {
 
 .gt-arrow-block {
   float:right;
-  width:50px;
   height:40px;
   padding:6px;
   margin-top:10px;
   text-align:right;
-  padding-right:10px;
   padding-top:8px;
 }
 
@@ -2515,6 +2513,7 @@ em {
   font-weight:600;
   letter-spacing:0.7px;
   font-family:'Montserrat';
+  border:2px solid rgba(0,0,0,0);
 }
 
 @media (max-width: 767px) {
@@ -4214,4 +4213,24 @@ border-bottom: 2px solid #16b28f;
 
 .panel-body.gt-partner-body {
   padding:10px 40px;
+}
+
+.gt-body-title-text.rich-text p {
+  font-size:18px;
+  font-family:'Nunito Sans', sans-serif;
+  font-weight:normal;
+  font-style:normal;
+  font-stretch:normal;
+  line-height:24px;
+  text-align:center;
+  margin-bottom:0px !important;
+  width:95%;
+  margin:0 auto;
+}
+
+.gt-body-title-text.rich-text h1 {
+  font-family:'Montserrat';
+  font-weight:700;
+  font-size:24px;
+  text-align:center;
 }
