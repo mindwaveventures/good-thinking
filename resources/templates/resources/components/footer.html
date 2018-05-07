@@ -27,7 +27,7 @@
 {% if site_map %}
     <div class="gt-footer">
       {% for footer in site_map %}
-        <div class="gt-link-footer"><a href="{{footer.link_page.specific.slug}}" class="gt-footer-link">{{footer.link_page.specific.title}}<br></a></div>
+        <div class="gt-link-footer"><a href="/{{footer.link_page.specific.slug}}/" class="gt-footer-link">{{footer.link_page.specific.title}}<br></a></div>
     {% endfor %}
     </div>
 {% endif %}
