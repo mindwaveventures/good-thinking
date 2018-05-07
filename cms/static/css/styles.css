@@ -215,7 +215,7 @@
 }
 
 .col-md-6.text-left {
-  padding:15px;
+  padding: 0px 25px;
 }
 
 @media (max-width: 767px) {
@@ -1995,7 +1995,7 @@ em {
 .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
   color:#242e50;
   background-color:transparent;
-  border-bottom:2px solid #242e50;
+  border-bottom:2px solid #242e50 !important;
 }
 
 .dropdown-menu > li > a {
@@ -4004,7 +4004,7 @@ label.css-label:hover {
   padding:8px 17px;
   cursor:pointer;
   display:inline-block;
-  margin-left:5px;
+  margin-right:5px;
   margin-bottom:20px;
 }
 
@@ -4198,7 +4198,7 @@ input[type=checkbox]:checked + label {
 }
 
 .menu_active{
-border-bottom: 2px solid #16b28f !important;
+border-bottom: 2px solid #16b28f;
 }
 
 .gt-panel-body-content.rich-text h4 {

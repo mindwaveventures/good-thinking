@@ -141,8 +141,14 @@
                       <p>{{ page.tagline | richtext }}</p>
                       <div class="gt-body-header"></div>
                       <div class="row gt-panel-body-content rich-text">
-                          <div class="col-md-6 text-left">{{page.pros|new_tab|richtext}}</div>
-                          <div class="col-md-6 text-left">{{page.cons|new_tab|richtext}}</div>
+                          <div class="col-md-6 col-sm-6 text-left">{{page.pros|new_tab|richtext}}</div>
+                          <div class="col-md-6 col-sm-6 hidden-xs text-left gt-hide-block">{{page.cons|new_tab|richtext}}</div>
+                          <div class="col-md-12 hidden-sm gt-collapse-col">
+                              <div><a class="btn btn-default hidden-md hidden-lg collapse-btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-{{num}}" role="button" href="#collapse-{{num}}">Considerations +<br></a>
+                                  <div class="collapse"
+                                      id="collapse-{{num}}">{{page.cons|new_tab|richtext}} </div>
+                              </div>
+                          </div>
                       </div>
                   </div>
               </div>

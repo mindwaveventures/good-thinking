@@ -22,7 +22,7 @@
       <div class="swiper-wrapper">
         {% for list in landing_pages %} {% include "resources/components/topic-card.html" with width=width page=list slug=page.slug%} {% endfor %}
       </div>
-      <div class="gt-swiper-pagination-browser-topic"></div>
+      <!-- <div class="gt-swiper-pagination-browser-topic"></div> -->
     </div>
   </div>
 </section>
@@ -78,7 +78,7 @@
     <div class="gt-highlights-home-row">
         <div class="row gt-highlights-home-container">
           {% for post in highlights %}
-          {% include "resources/short_resource.html" with page=post.highlights_link.specific diff_class='gt-stress-col-1' %}
+          {% include "resources/short_resource.html" with page=post.highlights_link.specific diff_class='gt-stress-col-1' num=forloop.counter%}
           {% endfor %}
         </div>
     </div>

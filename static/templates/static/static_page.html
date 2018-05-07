@@ -82,6 +82,10 @@
                 <div class="col-md-6 gt-para-rt">
                     {% include_block block %}
                 </div>
+                {% else %}
+                  <div class="col-md-12">
+                    {% include_block block %}
+                  </div>
                 {% endif %}
                 {% endif %}
               {% endfor %}

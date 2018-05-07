@@ -36,7 +36,7 @@
     <div class="gt-brand-container">
       {% for footer in footer_links %}
         {% image footer.footer_image width-400 as footer_image %}
-        <div class="gt-brand"><a href="{{footer.footer_link}}"><img src="{{footer_image.url}}"></div></a>
+        <div class="gt-brand {% if forloop.counter == 5 %}xs{% endif %}"><a href="{{footer.footer_link}}"><img src="{{footer_image.url}}"></div></a>
       {% endfor %}
     </div>
 {% endif %}
