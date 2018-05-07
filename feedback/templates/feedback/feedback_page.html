@@ -2,7 +2,7 @@
 
 {% load wagtailcore_tags wagtailimages_tags static new_tab %}
 
-{% block body_class %}template-feedbackpage{% endblock %}
+{% block body_class %}gt-body{% endblock %}
 
 {% block content %}
 
@@ -10,7 +10,6 @@
       {% include "resources/banner.html" with banner=banner %}
     {% endif %}
 
-    {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages %}
 
     <section class="f3 pa3 ph4 ph3-m ph3-l tl lh-copy lm-dark-blue segoe feedback-section {% if banner %}mt5{%endif%}">
       <div class="w-60-ns center">
