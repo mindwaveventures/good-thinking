@@ -557,5 +557,5 @@ def assessment_summary_controller(request, **kwargs):
     context["slug"] = request.POST.get("slug")
 
     return HttpResponse(
-        template.render(context=base_context(context), request=request)
+        template.render(context=base_context(context, self), request=request)
     )
