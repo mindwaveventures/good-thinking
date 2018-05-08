@@ -2,6 +2,7 @@
 function GetQueryResults(slug) {
   var query_result = [];
   var url = "";
+  
   $("input:checkbox[name=1]:checked").each(function(){
     query_result.push({query:'q1',value:$(this).val()});
   });
@@ -19,13 +20,14 @@ function GetQueryResults(slug) {
  }
 
 
- function GetCollectionResults() {
+ function GetCollectionResults(classname) {
    var collection_result = [];
    var url = "";
-   $('.get_resources').each(function(){
+
+   $('.'+ classname).each(function(){
        collection_result.push({query:'page',value:$(this).val()});
    });
-   console.log(collection_result,"collection_result");
+
    collection_result.forEach(function(e){
       url += e.query+ "=" + e.value + "&";
    });
