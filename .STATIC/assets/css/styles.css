@@ -330,7 +330,7 @@
   }
 }
 
-.bg-section-txt p:nth-child(2) {
+.bg-section-txt p:nth-child(3) {
   font-style:italic;
   padding-bottom:10px;
   font-weight:200;
@@ -1837,6 +1837,7 @@ gt-topic-header-stress {
 
 .rich-text b, strong {
   font-weight:bold;
+  font-size: 16px;
 }
 
 em {
@@ -4247,15 +4248,20 @@ input[type=checkbox]:checked + label {
   margin:0 auto;
 }
 
-.gt-body-title-text.rich-text h2 {
+.gt-body-title-text.rich-text h1 {
   font-family:'Montserrat';
   font-weight:700;
   font-size:24px;
   text-align:center;
 }
 
-@media (max-width: 767px) {
-  .partner-header.rich-text h2 {
-    font-size:22px;
-  }
+.bg-section-txt.rich-text h2 {
+  font-family:Montserrat, sans-serif;
+  font-size:32px;
+  font-weight:600;
+  letter-spacing:1px;
+  text-align:center;
+  padding-top:12px;
+  margin-bottom:10px;
+  color:#367c7d;
 }
