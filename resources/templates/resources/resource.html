@@ -172,9 +172,9 @@ width-500 as brand_logo %}
       <h4>{{ page.title }}</h4>
       {% endif %}
     </div>
-    <div class="bg-section-txt">
+    <div class="bg-section-txt rich-text">
       {{ page.brand_text|new_tab|richtext }}
-    </div>
+    </div>    
     <div>
       {% for button in buttons %} {% if button.button_type == "Primary"%}
       <a href="{{button.button_link}}"> <button class="btn btn-default gt-highlights-btn gt-no-border" type="button">{{button.button_text}}</button></a>

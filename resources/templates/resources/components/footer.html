@@ -32,7 +32,7 @@
     </div>
 {% endif %}
 
-{% if footer_links %}
+{% if footer_links and not page.parent == 'resources'%}
     <div class="gt-brand-container">
       {% for footer in footer_links %}
         {% image footer.footer_image width-400 as footer_image %}
