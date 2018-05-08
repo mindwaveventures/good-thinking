@@ -158,7 +158,7 @@ width-500 as brand_logo %}
 <section class="gt-header-result">
   <div class="gt-header-result-div">
     <a href="#">
-      <img src="{% static 'images/gt-back.png' %}" class="gt-footer-result-img">
+      <img src="{% static 'images/gt-back.svg' %}" class="gt-footer-result-img">
       <p class="gt-footer-result-para">Back to results</p></a></div>
 </section>
 
@@ -174,7 +174,7 @@ width-500 as brand_logo %}
     </div>
     <div class="bg-section-txt rich-text">
       {{ page.brand_text|new_tab|richtext }}
-    </div>    
+    </div>
     <div>
       {% for button in buttons %} {% if button.button_type == "Primary"%}
       <a href="{{button.button_link}}"> <button class="btn btn-default gt-highlights-btn gt-no-border" type="button">{{button.button_text}}</button></a>
@@ -263,4 +263,4 @@ width-500 as brand_logo %}
     </div>
   </div>
 </footer>
-{% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
+{% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links='' %}
