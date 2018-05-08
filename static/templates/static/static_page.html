@@ -75,16 +75,22 @@
             {% for block in page.body %}
               {% if block.block_type == 'column_left' %}
                 <div class="col-md-6 gt-para-lt">
+                  <div class="gt-partner-text-block rich-text">
                   {% include_block block %}
+                </div>
                 </div>
               {% else %}
                   {% if block.block_type == 'column_right' %}
                 <div class="col-md-6 gt-para-rt">
-                    {% include_block block %}
+                  <div class="gt-partner-text-block rich-text">
+                  {% include_block block %}
+                </div>
                 </div>
                 {% else %}
                   <div class="col-md-12">
+                    <div class="gt-read rich-text">
                     {% include_block block %}
+                  </div>
                   </div>
                 {% endif %}
                 {% endif %}
