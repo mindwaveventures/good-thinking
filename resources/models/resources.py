@@ -600,9 +600,9 @@ class SelectResources(models.Model):
         abstract = True
 
 class ResourcePageSelectResources(Orderable, SelectResources):
-    page = ParentalKey('TopResources', related_name='selectresources')
+    page = ParentalKey('ResourceCollections', related_name='selectresources')
 
-class TopResources(ResourcePage):
+class ResourceCollections(ResourcePage):
     collection_heading = TextField(blank=True)
     description = TextField(blank=True)
     button_text = TextField(blank=True)

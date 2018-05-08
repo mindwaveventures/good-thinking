@@ -105,7 +105,7 @@ def get_data(request, **kwargs):
     ResourcePage = apps.get_model('resources', 'resourcepage')
     Tip = apps.get_model('resources', 'tip')
     Assessment = apps.get_model('resources', 'assessment')
-    TopResources = apps.get_model('resources', 'TopResources')
+    ResourceCollections = apps.get_model('resources', 'ResourceCollections')
 
     data = kwargs.get('data', {})
     slug = kwargs.get('slug')
@@ -193,7 +193,7 @@ def get_data(request, **kwargs):
     )
 
     top_collections = filter_resources(
-        TopResources.objects.all(),
+        ResourceCollections.objects.all(),
         topic_filter=topic_filter,
     )
 
