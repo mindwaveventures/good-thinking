@@ -4083,6 +4083,7 @@ input[type=checkbox]:checked + label {
   font-size:18px;
   text-align:left;
   padding:0px 40px 0px 10px !important;
+  text-align: center;
   /* width:50%; */
   font-family:'Nunito Sans', sans-serif;
 }
@@ -4090,6 +4091,7 @@ input[type=checkbox]:checked + label {
 @media (max-width: 991px) {
   .gt-partner-tagline-rich-text p {
     font-size:16px;
+    text-align: center;
     text-align:left;
     padding:0px 10px;
     width:100%;
