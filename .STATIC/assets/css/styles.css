@@ -846,6 +846,7 @@ gt-topic-header-stress {
   overflow-y:auto;
   padding-right:0px;
   max-height:300px;
+  min-height:300px;
 }
 
 @media (max-width: 767px) {
@@ -4505,7 +4506,7 @@ h5 {
 
 @media (max-width: 767px) {
   .gt-read.rich-text p {
-    font-size:14px;
+    font-size:16px;
   }
 }
 
@@ -4517,5 +4518,9 @@ h5 {
 
 .gt-read.rich-text p {
   font-size:18px;
+}
+
+.gt-slider-content.rich-text a {
+  color:#16b28f !important;
 }
 
