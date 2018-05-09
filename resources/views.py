@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.db import models
 from django.conf import settings
 import itertools
 from itertools import chain
@@ -118,7 +119,11 @@ def get_data(request, **kwargs):
     content_filter = request.GET.getlist('q3')
     reason_filter = request.GET.getlist('q2')
     topic_filter = request.GET.getlist('topic')
-    page_filter = request.GET.getlist('page')
+    if request.GET.get('page'):
+        resource_id = request.GET.get('page').split(",")
+    else:
+        resource_id = []
+    id_filter=filter(lambda e: e != '' and e.isdigit() , resource_id)
 
     if request.GET.get('order'):
         resource_order = request.GET.get('order')
@@ -197,7 +202,7 @@ def get_data(request, **kwargs):
         topic_filter=topic_filter,
     )
 
-    top_resources =  resources.filter(Q(slug__in=page_filter))
+    top_resources =  resources.filter(Q(id__in=id_filter))
 
     resources = filter_resources(
         resources,

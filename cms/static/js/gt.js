@@ -2,7 +2,7 @@
 function GetQueryResults(slug) {
   var query_result = [];
   var url = "";
-  
+
   $("input:checkbox[name=1]:checked").each(function(){
     query_result.push({query:'q1',value:$(this).val()});
   });
@@ -16,7 +16,8 @@ function GetQueryResults(slug) {
      url += e.query+ "=" + e.value + "&";
   });
   url = url.trim("&");
-  window.location.href='/results/?'+url+'slug='+slug;
+  window.location.href='/results/'+slug+'/'+'?'+url+'slug='+slug;
+
  }
 
 
@@ -29,8 +30,9 @@ function GetQueryResults(slug) {
    });
 
    collection_result.forEach(function(e){
-      url += e.query+ "=" + e.value + "&";
+      url += e.value + ",";
    });
-   url = url.trim("&");
-   window.location.href='/results/?'+url;
+
+   url = url.trim(",");
+   window.location.href='/results/collections?page='+url;
   }
