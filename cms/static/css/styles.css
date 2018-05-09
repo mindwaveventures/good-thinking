@@ -3566,7 +3566,7 @@ em {
   }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 767px) {
   .gt-partner-text.rich-text p {
     width:100%;
     padding-right:0px;
@@ -3640,7 +3640,7 @@ em {
   }
 }
 
-.gt-partner-text.rich-text h3 {
+.gt-partner-text.rich-text h4 {
   font-weight:bold;
   display:inline-block;
   padding-right:20px;
@@ -3651,7 +3651,7 @@ em {
 }
 
 @media (max-width: 767px) {
-  .gt-partner-text.rich-text h3 {
+  .gt-partner-text.rich-text h4 {
     width:100%;
     padding-right:0px;
     font-size:14px;
@@ -3659,7 +3659,7 @@ em {
 }
 
 @media (max-width: 991px) {
-  .gt-partner-text.rich-text h3 {
+  .gt-partner-text.rich-text h4 {
     width:100%;
     padding-right:0px;
     font-size:16px;
@@ -4203,8 +4203,8 @@ h5 {
 }
 
 .gt-partner-text-block.rich-text p {
-  margin-top:2rem;
-  margin-bottom:2rem;
+  margin-top:1rem;
+  margin-bottom:3rem;
   font-size:18px;
   line-height:24px;
   font-family:Nunito Sans;
@@ -4342,4 +4342,92 @@ h5 {
 
 .gt-highlights-para.rich-text a {
   color:#16b28f;
+}
+
+.gt-partner-text-block.rich-text h3 {
+  font-size:22px;
+}
+
+@media (max-width: 991px) {
+  .gt-partner-text-block.rich-text h3 {
+    font-size:20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .gt-partner-text-block.rich-text h3 {
+    font-size:18px;
+  }
+}
+
+.gt-partner-text-block.rich-text h2 {
+  font-size:28px;
+}
+
+@media (max-width: 991px) {
+  .gt-partner-text-block.rich-text h2 {
+    font-size:26px;
+  }
+}
+
+@media (max-width: 767px) {
+  .gt-partner-text-block.rich-text h2 {
+    font-size:24px;
+  }
+}
+
+.gt-partner-text-block.rich-text h5 {
+  font-size:16px;
+}
+
+.row.gt-partner.rich-text h2 {
+  font-size:28px;
+}
+
+@media (max-width: 991px) {
+  .row.gt-partner.rich-text h2 {
+    font-size:26px;
+  }
+}
+
+@media (max-width: 767px) {
+  .row.gt-partner.rich-text h2 {
+    font-size:24px;
+  }
+}
+
+.row.gt-partner.rich-text h3 {
+  font-size:22px;
+}
+
+@media (max-width: 991px) {
+  .row.gt-partner.rich-text h3 {
+    font-size:20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .row.gt-partner.rich-text h3 {
+    font-size:18px;
+  }
+}
+
+.row.gt-partner.rich-text h4 {
+  font-size:18px;
+}
+
+@media (max-width: 991px) {
+  .row.gt-partner.rich-text h4 {
+    font-size:16px;
+  }
+}
+
+@media (max-width: 767px) {
+  .row.gt-partner.rich-text h4 {
+    font-size:14px;
+  }
+}
+
+.row.gt-partner.rich-text h5 {
+  font-size:16px;
 }
