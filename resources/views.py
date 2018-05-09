@@ -207,6 +207,7 @@ def get_data(request, **kwargs):
         query=query
     ).filter(~Q(page_ptr_id__in=list(
         chain(tips, assessments, top_collections)))
+    ).filter(~Q(slug="results")
     ).prefetch_related(
         'badges'
     ).prefetch_related(
