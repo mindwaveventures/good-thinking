@@ -4503,3 +4503,19 @@ h5 {
   background-color:#fff;
 }
 
+@media (max-width: 767px) {
+  .gt-read.rich-text p {
+    font-size:14px;
+  }
+}
+
+@media (max-width: 991px) {
+  .gt-read.rich-text p {
+    font-size:16px;
+  }
+}
+
+.gt-read.rich-text p {
+  font-size:18px;
+}
+
