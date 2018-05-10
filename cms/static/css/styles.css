@@ -3958,6 +3958,7 @@ input[type=checkbox]:checked + label {
   text-align:left;
   float:right;
   padding-right:15px;
+  width: 100%;
 }
 
 @media (max-width: 991px) {
