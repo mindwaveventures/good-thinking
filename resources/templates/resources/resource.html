@@ -201,39 +201,40 @@ width-500 as brand_logo %}
           <div class="gt-partner-tagline-rich-text">
               {{ page.tagline|new_tab|richtext }}
           </div>
+
           <div class="row gt-partner rich-text">
             {% for block in page.body %}
                   {% if block.block_type == 'heading'%}
-            <div class="gt-partner-heading rich-text">
-                {% include_block block %}
-            </div>
-            {% else %}
-            {% if block.block_type == 'paragraph'%}
-      <div class="gt-partner-heading rich-text">
-          {% include_block block %}
-      </div>
-            {% else %}
-            {% if block.block_type == 'column_left' or 'rich_text'%}
-            <div class="col-md-6 gt-partner-text rich-text">
-              <div class="gt-lt">
-                {% include_block block %}
-              </div>
-            </div>
-            {% else %}
-            {% if block.block_type == 'column_right' %}
-            <div class="col-md-6 gt-partner-text rich-text">
-              <div class="gt-rt">{% include_block block %}
-              </div>
-            </div>
-            {% endif %}
-            {% endif %}
-            {% endif %}
-            {% endif %}
+                    <div class="gt-partner-heading rich-text">
+                        {% include_block block %}
+                    </div>
+                  {% elif block.block_type == 'paragraph'%}
+                    <div class="gt-partner-heading rich-text">
+                        {% include_block block %}
+                    </div>
+                  {% elif block.block_type == 'column_left' or 'rich_text' and not block.block_type == 'column_right'%}
+                    <div class="col-md-6 gt-partner-text rich-text">
+                      <div class="gt-lt">
+                        {% include_block block %}
+                      </div>
+                    </div>
+                  {% elif block.block_type == 'column_right' %}
+                    <div class="col-md-6 gt-partner-text rich-text">
+                      <div class="gt-rt">{% include_block block %}
+                      </div>
+                    </div>
+                  {% else %}
+                    <div class="col-md-12">
+                      {% include_block block %}
+                    </div>
+                  {% endif %}
             {% endfor %}
           </div>
+
           <div class="gt-partner rich-text">
             <div class="gt-partner-text rich-text"></div>
           </div>
+
           <div class="row">
             <div class="col-md-6 col-sm-6 text-left">
               <div class="gt-partner-div rich-text">
@@ -246,6 +247,7 @@ width-500 as brand_logo %}
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
@@ -257,7 +259,7 @@ width-500 as brand_logo %}
     {% for button in buttons %} {% if button.button_type == "Primary" %}
     <a href="{{button.button_link}}"><button class="btn btn-default gt-highlights-btn gt-no-border" type="button">{{button.button_text}}</button></a> {% endif %} {% endfor %}
     <div class="gt-footer-result">
-      <a href="#" class="gt-back" >
+      <a href="javascript:history.back();" class="gt-back" >
         <p class="gt-footer-result-para">Back to results</p>
       </a>
     </div>
