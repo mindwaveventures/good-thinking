@@ -145,11 +145,8 @@
                                     <p>{{collection.description | richtext}}</p>
                                 </div>
                                 <div class="panel-footer gt-title-footer">
-                                  <button class="btn btn-default gt-topic-btn browse-btn" role="button" href="#" onclick="GetCollectionResults('get_resources_{{ forloop.counter }}');"><strong>{{collection.button_text}}</strong></button>
+                                  <button class="btn btn-default gt-topic-btn browse-btn" role="button" href="#" onclick="GetCollectionResults('{{collection.id}}');"><strong>{{collection.button_text}}</strong></button>
                                 </div>
-                                {% for one in collection.selectresources.all %}
-                                <input class="hidden get_resources_{{forloop.parentloop.counter}}" value="{{one.collection_resource.id}}">
-                               {% endfor %}
                             </div>
                         </div>
                         {% endfor %}
@@ -177,7 +174,7 @@
                                     <p>{{collection.description | richtext}}</p>
                                 </div>
                                 <div class="panel-footer gt-title-footer">
-                                  <button class="btn btn-default gt-topic-btn browse-btn" role="button" href="#" onclick="GetCollectionResults();"><strong>{{collection.button_text}}</strong></button>
+                                  <button class="btn btn-default gt-topic-btn browse-btn" role="button" href="#" onclick="GetCollectionResults('{{collection.id}}');"><strong>{{collection.button_text}}</strong></button>
                                 </div>
                             </div>
                         </div>

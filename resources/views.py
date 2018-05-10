@@ -119,11 +119,7 @@ def get_data(request, **kwargs):
     content_filter = request.GET.getlist('q3')
     reason_filter = request.GET.getlist('q2')
     topic_filter = request.GET.getlist('topic')
-    if request.GET.get('page'):
-        resource_id = request.GET.get('page').split(",")
-    else:
-        resource_id = []
-    id_filter=filter(lambda e: e != '' and e.isdigit() , resource_id)
+    collection_filter = request.GET.get('collection_id')
 
     if request.GET.get('order'):
         resource_order = request.GET.get('order')
@@ -202,7 +198,7 @@ def get_data(request, **kwargs):
         topic_filter=topic_filter,
     )
 
-    top_resources =  resources.filter(Q(id__in=id_filter))
+    collection_resources =  ResourceCollections.objects.filter(Q(id=collection_filter))
 
     resources = filter_resources(
         resources,
@@ -213,6 +209,7 @@ def get_data(request, **kwargs):
     ).filter(~Q(page_ptr_id__in=list(
         chain(tips, assessments, top_collections)))
     ).filter(~Q(slug="results")
+    ).filter(~Q(slug="collections")
     ).prefetch_related(
         'badges'
     ).prefetch_related(
@@ -285,7 +282,7 @@ def get_data(request, **kwargs):
     data['selected_tags'] = selected_tags
     data['current_page'] = slug
     data['top_collections'] = top_collections
-    data['top_resources'] = top_resources
+    data['collection_resources'] = collection_resources
 
     return data
 

@@ -541,6 +541,35 @@ class Tip(ResourcePage):
         FieldPanel('priority'),
     ]
 
+class CollectionsIndexPage(ResourcePage):
+    collections_cover_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text="""
+            Max file size: 10MB. Choose from: GIF, JPEG, PNG
+            (but pick PNG if you have the choice)
+        """
+    )
+    image_text = RichTextField(blank=True)
+    body_text = TextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        ImageChooserPanel('collections_cover_image'),
+        FieldPanel('image_text', classname="full"),
+        FieldPanel('body_text', classname="full")
+    ]
+    def get_context(self, request, **kwargs):
+        slug = ''
+        context = super(CollectionsIndexPage, self).get_context(request)
+        context = get_data(
+            request, data=context, slug=slug,
+            path_components=kwargs.get('path_components', [])
+        )
+        return base_context(context,self)
+
 class Results(RoutablePageMixin, ResourcePage):
     cover_image = models.ForeignKey(
         'wagtailimages.Image',
@@ -574,32 +603,13 @@ class Results(RoutablePageMixin, ResourcePage):
     ]
 
     def get_context(self, request, **kwargs):
-        try:
-            slug = request.path.split('/')[2]
-        except:
-            slug = ''
+        slug = ''
         context = super(Results, self).get_context(request)
         context = get_data(
             request, data=context, slug=slug,
             path_components=kwargs.get('path_components', [])
         )
         return base_context(context,self)
-
-    @route(r'^collections/$')
-    def collections_result (self, request, **kwargs):
-        try:
-            slug = request.path.split('/')[2]
-        except:
-            slug = ''
-        context = super(Results, self).get_context(request)
-        context = get_data(
-            request, data=context, slug=slug,
-            path_components=kwargs.get('path_components', [])
-        )
-        template = loader.get_template(f"resources/results.html")
-        return HttpResponse(
-            template.render(context=base_context(context, self), request=request)
-        )
 
     @route(r'[^abc]+')
     def topic_results(self, request, **kwargs):
@@ -655,10 +665,7 @@ class ResourceCollections(ResourcePage):
     ]
 
     def get_context(self, request, **kwargs):
-        try:
-            slug = request.path.split('/')[2]
-        except:
-            slug = ''
+        slug = ''
         context = super(Results, self).get_context(request)
         context = get_data(
             request, data=context, slug=slug,
