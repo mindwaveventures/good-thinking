@@ -8,8 +8,10 @@ from wagtail.wagtailadmin.edit_handlers import (
 )
 from wagtail.wagtailsearch import index
 from wagtail.wagtailcore.models import Orderable
-from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
+from wagtail.contrib.wagtailroutablepage.models import RoutablePageMixin, route
 
+from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
+from django.http import JsonResponse, HttpResponse, Http404
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
 from wagtail.wagtailcore import blocks
 from wagtail.wagtailcore.fields import StreamField
@@ -37,7 +39,8 @@ from resources.models.tags import (
     ContentTag, HiddenTag
 )
 from likes.models import Likes
-
+from django.template import loader
+from django.template.loader import render_to_string
 from resources.models.helpers import (
     create_tag_combiner, base_context, get_resource
 )
@@ -538,7 +541,53 @@ class Tip(ResourcePage):
         FieldPanel('priority'),
     ]
 
-class Results(ResourcePage):
+class CollectionsIndexPage(RoutablePageMixin,ResourcePage):
+    collections_cover_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text="""
+            Max file size: 10MB. Choose from: GIF, JPEG, PNG
+            (but pick PNG if you have the choice)
+        """
+    )
+    image_text = RichTextField(blank=True)
+    body_text = TextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        ImageChooserPanel('collections_cover_image'),
+        FieldPanel('image_text', classname="full"),
+        FieldPanel('body_text', classname="full")
+    ]
+    def get_context(self, request, **kwargs):
+        slug = ''
+        context = super(CollectionsIndexPage, self).get_context(request)
+        context = get_data(
+            request, data=context, slug=slug,
+            path_components=kwargs.get('path_components', [])
+        )
+        return base_context(context,self)
+
+    @route(r'[^abc]+')
+    def collection_results(self, request, **kwargs):
+        try:
+            collection_slug = request.path.split('/')[2]
+        except:
+            collection_slug = ''
+        context = super(CollectionsIndexPage, self).get_context(request)
+        context = get_data(
+            request, data=context, collection_slug=collection_slug,
+            path_components=kwargs.get('path_components', [])
+        )
+        template = loader.get_template(f"resources/collections_index_page.html")
+        return HttpResponse(
+            template.render(context=base_context(context, self), request=request)
+        )
+
+
+class Results(RoutablePageMixin, ResourcePage):
     cover_image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -571,17 +620,30 @@ class Results(ResourcePage):
     ]
 
     def get_context(self, request, **kwargs):
-        try:
-            query = request.GET.urlencode()
-            slug = parse_qs(query)['slug'][0]
-        except:
-            slug = ''
+        slug = ''
         context = super(Results, self).get_context(request)
         context = get_data(
             request, data=context, slug=slug,
             path_components=kwargs.get('path_components', [])
         )
         return base_context(context,self)
+
+    @route(r'[^abc]+')
+    def topic_results(self, request, **kwargs):
+        try:
+            slug = request.path.split('/')[2]
+        except:
+            slug = ''
+
+        context = super(Results, self).get_context(request)
+        context = get_data(
+            request, data=context, slug=slug,
+            path_components=kwargs.get('path_components', [])
+        )
+        template = loader.get_template(f"resources/results.html")
+        return HttpResponse(
+            template.render(context=base_context(context, self), request=request)
+        )
 
 class SelectResources(models.Model):
     collection_resource = models.ForeignKey(
@@ -620,11 +682,7 @@ class ResourceCollections(ResourcePage):
     ]
 
     def get_context(self, request, **kwargs):
-        try:
-            query = request.GET.urlencode()
-            slug = parse_qs(query)['slug'][0]
-        except:
-            slug = ''
+        slug = ''
         context = super(Results, self).get_context(request)
         context = get_data(
             request, data=context, slug=slug,
