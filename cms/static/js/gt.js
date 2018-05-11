@@ -21,6 +21,6 @@ function GetQueryResults(slug) {
  }
 
 
- function GetCollectionResults(collection_id) {
-   window.location.href='/collections?collection_id='+collection_id;
+ function GetCollectionResults(collection_slug) {
+   window.location.href='/collections/'+collection_slug;
   }

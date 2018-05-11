@@ -541,7 +541,7 @@ class Tip(ResourcePage):
         FieldPanel('priority'),
     ]
 
-class CollectionsIndexPage(ResourcePage):
+class CollectionsIndexPage(RoutablePageMixin,ResourcePage):
     collections_cover_image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -569,6 +569,23 @@ class CollectionsIndexPage(ResourcePage):
             path_components=kwargs.get('path_components', [])
         )
         return base_context(context,self)
+
+    @route(r'[^abc]+')
+    def collection_results(self, request, **kwargs):
+        try:
+            collection_slug = request.path.split('/')[2]
+        except:
+            collection_slug = ''
+        context = super(CollectionsIndexPage, self).get_context(request)
+        context = get_data(
+            request, data=context, collection_slug=collection_slug,
+            path_components=kwargs.get('path_components', [])
+        )
+        template = loader.get_template(f"resources/collections_index_page.html")
+        return HttpResponse(
+            template.render(context=base_context(context, self), request=request)
+        )
+
 
 class Results(RoutablePageMixin, ResourcePage):
     cover_image = models.ForeignKey(

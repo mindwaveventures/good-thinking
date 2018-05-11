@@ -119,8 +119,7 @@ def get_data(request, **kwargs):
     content_filter = request.GET.getlist('q3')
     reason_filter = request.GET.getlist('q2')
     topic_filter = request.GET.getlist('topic')
-    collection_filter = request.GET.get('collection_id')
-
+    collection_filter = kwargs.get('collection_slug')
     if request.GET.get('order'):
         resource_order = request.GET.get('order')
     else:
@@ -198,7 +197,7 @@ def get_data(request, **kwargs):
         topic_filter=topic_filter,
     )
 
-    collection_resources =  ResourceCollections.objects.filter(Q(id=collection_filter))
+    collection_resources =  ResourceCollections.objects.filter(Q(slug=collection_filter))
 
     resources = filter_resources(
         resources,
