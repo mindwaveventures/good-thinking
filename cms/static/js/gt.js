@@ -1,5 +1,6 @@
 
 function GetQueryResults(slug) {
+
   var query_result = [];
   var url = "";
 
@@ -20,7 +21,15 @@ function GetQueryResults(slug) {
 
  }
 
+function GetCollectionResults(collection_slug) {
+ window.location.href='/collections/'+collection_slug;
+}
 
- function GetCollectionResults(collection_slug) {
-   window.location.href='/collections/'+collection_slug;
-  }
+function RemoveResource(resource){
+  $('.'+ resource).remove();
+  document.getElementById("resource_count").innerHTML = stress_result_swiper();
+}
+
+function ScrollUp(resource){
+  $('.'+ resource).scrollTop(300);
+}

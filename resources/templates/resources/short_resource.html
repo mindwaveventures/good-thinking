@@ -124,7 +124,7 @@
 
 {% image page.brand_logo width-500 as brand_logo %}
 
-      <div class="col-lg-6 {{diff_class}}">
+      <div class="col-lg-6 {{diff_class}} resource-{{num}}" >
           <div class="panel panel-default gt-highlights gt-panel-height">
               <div class="panel-heading" style="background-color: {{page.logo_background_color}}">
                 {% if diff_class != 'gt-stress-col-1' %}
@@ -135,7 +135,7 @@
                   {%endif%}
                   <div><img src="{{brand_logo.url}}" alt="{{page.heading}}"></div>
               </div>
-              <div class="panel-body gt-highlights-body">
+              <div class="panel-body gt-highlights-body scroll-{{num}}" >
                   <div class="gt-highlights-para rich-text">
                       <h1 class="gt-topic-header">{{ page.heading }}</h1>
                       <p>{{ page.tagline | richtext }}</p>
@@ -144,7 +144,7 @@
                           <div class="col-md-6 col-sm-6 text-left">{{page.pros|new_tab|richtext}}</div>
                           <div class="col-md-6 col-sm-6 hidden-xs text-left gt-hide-block">{{page.cons|new_tab|richtext}}</div>
                           <div class="col-md-12 hidden-sm gt-collapse-col">
-                              <div><a class="btn btn-default hidden-md hidden-lg collapse-btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-{{num}}" role="button" href="#collapse-{{num}}">Considerations +<br></a>
+                              <div><a class="btn btn-default hidden-md hidden-lg collapse-btn" onclick="ScrollUp('scroll-{{num}}');" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-{{num}}" role="button" href="#collapse-{{num}}">Considerations +<br></a>
                                   <div class="collapse"
                                       id="collapse-{{num}}">{{page.cons|new_tab|richtext}} </div>
                               </div>
@@ -164,7 +164,7 @@ c-0.195,0.195-0.451,0.293-0.707,0.293S5.535,12.855,5.34,12.66c-0.391-0.391-0.391
 c-0.391-0.391-0.391-1.023,0-1.414s1.023-0.391,1.414,0L9,7.586l2.246-2.246c0.391-0.391,1.023-0.391,1.414,0s0.391,1.023,0,1.414
 L10.414,9L12.66,11.246z"/>
 </svg></div>
-                          <h1 class="gt-highlights-btn-text">No thanks, I’ve tried this before<br></h1>
+                          <h1 class="gt-highlights-btn-text" onclick="RemoveResource('resource-{{num}}');" >{{num}}No thanks, I’ve tried this before<br></h1>
                       </a>
                   </div>
                   {%endif%}

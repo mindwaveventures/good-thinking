@@ -561,6 +561,8 @@ class CollectionsIndexPage(RoutablePageMixin,ResourcePage):
         FieldPanel('image_text', classname="full"),
         FieldPanel('body_text', classname="full")
     ]
+    promote_panels = Page.promote_panels
+    
     def get_context(self, request, **kwargs):
         slug = ''
         context = super(CollectionsIndexPage, self).get_context(request)
@@ -610,14 +612,7 @@ class Results(RoutablePageMixin, ResourcePage):
         FieldPanel('body_tagline', classname="full")
     ]
 
-    promote_panels = Page.promote_panels + [
-        FieldPanel('topic_tags'),
-        FieldPanel('issue_tags'),
-        FieldPanel('reason_tags'),
-        FieldPanel('content_tags'),
-        FieldPanel('hidden_tags'),
-        FieldPanel('priority'),
-    ]
+    promote_panels = Page.promote_panels
 
     def get_context(self, request, **kwargs):
         slug = ''

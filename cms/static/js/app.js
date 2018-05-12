@@ -129,5 +129,44 @@ $( document ).ready(function() {
       }
   });
 
+stress_result_swiper();
 
 });
+
+
+
+function stress_result_swiper(){
+var gtstressresultswiper = new Swiper('.gt-stress-result-swiper', {
+ slidesPerView: 4,
+ spaceBetween: 10,
+   allowSlidePrev:1,
+ pagination: {
+   el: '.gt-swiper-pagination-stress-result',
+   clickable: true,
+ },
+        navigation: {
+   nextEl: '.gt-arrow-block',
+   prevEl: '',
+ },
+   breakpoints: {
+     1024: {
+       slidesPerView: 4,
+       spaceBetween: 10,
+     },
+     1000: {
+       slidesPerView: 1.1,
+       spaceBetween: 10,
+     },
+     800: {
+       slidesPerView: 1.1,
+       spaceBetween: 10,
+     },
+     320: {
+       slidesPerView: 1.1,
+       spaceBetween: 10,
+     }
+   }
+});
+
+return gtstressresultswiper.slides.length;
+}

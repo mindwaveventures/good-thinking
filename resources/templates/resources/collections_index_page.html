@@ -46,7 +46,7 @@
                 {% for resource in collections.selectresources.all %}
                   {% include "resources/short_resource.html" with page=resource.collection_resource.specific selected_tags=selected_tags diff_class='gt-stress-col-2' num=forloop.counter%}
                 {% endfor %}
-                {%  if not collections.selectresources|length|divisibleby:2  %}
+                {%  if not collections.selectresources.all|length|divisibleby:2  %}
                 <div class="col-lg-6 gt-stress-col-2">
                   <div class="panel panel-default gt-highlights-stress gt-hide-panel">
                     <div class="panel-heading gt-highlights-stress">

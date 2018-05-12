@@ -2,7 +2,7 @@
 {% load static %}
 
 {% image page.brand_logo width-500 as brand_logo %}
-<div class="swiper-slide">
+<div class="swiper-slide resource-{{num}}">
     <div class="panel panel-default gt-highlights gt-panel-height">
         <div class="panel-heading" style="background-color: {{page.logo_background_color}}">
             <div class="gt-number-block">
@@ -11,7 +11,7 @@
             <div class="gt-arrow-block"></div>
             <div><img src="{{brand_logo.url}}" alt="{{page.heading}}"></div>
         </div>
-        <div class="panel-body gt-highlights-body">
+        <div class="panel-body gt-highlights-body scroll-{{num}}" >
             <div class="gt-highlights-para rich-text">
                 <h1 class="gt-topic-header">{{ page.heading }}</h1>
                 {{ page.tagline | richtext }}
@@ -20,7 +20,7 @@
                     <div class="col-md-6 col-sm-6 text-left">{{page.pros|new_tab|richtext}}</div>
                     <div class="col-md-6 col-sm-6 hidden-xs text-left">{{page.cons|new_tab|richtext}}</div>
                     <div class="col-md-12 hidden-sm gt-collapse-col">
-                        <div><a class="btn btn-default hidden-md hidden-lg collapse-btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-5" role="button" href="#collapse-5">Considerations +<br></a>
+                        <div><a class="btn btn-default hidden-md hidden-lg collapse-btn" data-toggle="collapse" onclick="ScrollUp('scroll-{{num}}');" aria-expanded="false" aria-controls="collapse-5" role="button" href="#collapse-5">Considerations +<br></a>
                             <div class="collapse"
                                 id="collapse-5">
                                 {{page.cons|new_tab|richtext}}
@@ -41,7 +41,7 @@ c-0.195,0.195-0.451,0.293-0.707,0.293S5.535,12.855,5.34,12.66c-0.391-0.391-0.391
 c-0.391-0.391-0.391-1.023,0-1.414s1.023-0.391,1.414,0L9,7.586l2.246-2.246c0.391-0.391,1.023-0.391,1.414,0s0.391,1.023,0,1.414
 L10.414,9L12.66,11.246z"/>
 </svg></div>
-                    <h1 class="gt-highlights-btn-text">No thanks, I’ve tried this before<br></h1>
+                    <h1 class="gt-highlights-btn-text" onclick="RemoveResource('resource-{{num}}');">No thanks, I’ve tried this before<br></h1>
                 </a>
             </div>
         </div>

@@ -33,7 +33,7 @@
 
         <div class="row">
             <div class="col-lg-12 col-lg-offset-0 col-md-6 col-md-offset-3 gt-highlights-panel">
-                <h1 class="gt-section-header">Top {% if resource_count %} {{resource_count}} {% endif %} picks for you<br></h1>
+                <h1 class="gt-section-header">Top <span id='resource_count'>{% if resource_count %} {{resource_count}} {% endif %}</span> picks for you<br></h1>
             </div>
             <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
                 <p class="gt-para">{{page.body_title}}<br>{{page.body_tagline}}<br></p>
@@ -86,7 +86,7 @@
                 </div>
             </div>
         </section>
-        
+
     </section>
 
     <section class="hidden-lg gt-asess-hide">
