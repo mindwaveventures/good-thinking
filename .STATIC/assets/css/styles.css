@@ -4489,6 +4489,7 @@ h5 {
   font-weight:bold;
   color:#16b28f !important;
   margin-top:0px !important;
+  word-wrap:break-word;
 }
 
 .gt-partner-text.rich-text em {
