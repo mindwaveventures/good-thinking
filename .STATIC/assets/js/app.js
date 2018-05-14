@@ -130,6 +130,37 @@ $( document ).ready(function() {
   });
 
 
-    
+    var gtswiperselfassessment = new Swiper('.gt-swiper-self-assessment', {
+    slidesPerView: 1.4,
+    spaceBetween: 10,
+    centeredSlides: true,
+    pagination: {
+      el: '.gt-self-assessment-swiper-pagination',
+      clickable: true,
+    },
+        navigation: {
+      nextEl: '.gt-arrow-rt',
+      prevEl: '.gt-arrow-lt',
+    },
+      breakpoints: {
+        1024: {
+          slidesPerView: 1.4,
+          spaceBetween:10,
+        },
+        990: {
+          slidesPerView: 1.1,
+          spaceBetween: 10,
+        },
+        800: {
+          slidesPerView: 1.1,
+          spaceBetween: 5,
+        },
+        320: {
+          slidesPerView: 1.1,
+          spaceBetween: 5,
+        }
+      }
+        
+  });
     
 });
