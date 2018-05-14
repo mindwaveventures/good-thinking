@@ -549,12 +549,15 @@ class CollectionsIndexPage(RoutablePageMixin,ResourcePage):
         on_delete=models.SET_NULL,
         related_name='+',
         help_text="""
-            Max file size: 10MB. Choose from: GIF, JPEG, PNG
-            (but pick PNG if you have the choice)
+            Max file size: 10MB. Choose from: JPEG, PNG
         """
     )
-    image_text = RichTextField(blank=True)
-    body_text = TextField(blank=True)
+    image_text = RichTextField(blank=True,
+        help_text="Text that displays hover the image"
+    )
+    body_text = TextField(blank=True,
+        help_text="Text that displays on the body"
+    )
 
     content_panels = Page.content_panels + [
         ImageChooserPanel('collections_cover_image'),
@@ -562,7 +565,7 @@ class CollectionsIndexPage(RoutablePageMixin,ResourcePage):
         FieldPanel('body_text', classname="full")
     ]
     promote_panels = Page.promote_panels
-    
+
     def get_context(self, request, **kwargs):
         slug = ''
         context = super(CollectionsIndexPage, self).get_context(request)
@@ -597,11 +600,12 @@ class Results(RoutablePageMixin, ResourcePage):
         on_delete=models.SET_NULL,
         related_name='+',
         help_text="""
-            Max file size: 10MB. Choose from: GIF, JPEG, PNG
-            (but pick PNG if you have the choice)
+            Max file size: 10MB. Choose from: JPEG, PNG
         """
     )
-    image_text = TextField(blank=True)
+    image_text = TextField(blank=True,
+        help_text="Text that displays hover the image"
+    )
     body_title = TextField(blank=True)
     body_tagline = TextField(blank=True)
 
@@ -660,8 +664,12 @@ class ResourcePageSelectResources(Orderable, SelectResources):
     page = ParentalKey('ResourceCollections', related_name='selectresources')
 
 class ResourceCollections(ResourcePage):
-    collection_heading = TextField(blank=True)
-    description = TextField(blank=True)
+    collection_heading = TextField(blank=True,
+        help_text="Heading of collections"
+    )
+    description = TextField(blank=True,
+        help_text="Short description of collections"
+    )
     button_text = TextField(blank=True)
 
     content_panels = Page.content_panels + [

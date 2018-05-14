@@ -131,7 +131,10 @@ class FooterLink(models.Model):
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        related_name='+'
+        related_name='+',
+        help_text="""
+            Max file size: 10MB. Choose from: JPEG, PNG
+        """
     )
     footer_link = models.URLField(blank=True,)
 
