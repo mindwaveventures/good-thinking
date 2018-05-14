@@ -124,7 +124,7 @@
 
 {% image page.brand_logo width-500 as brand_logo %}
 
-      <div class="col-lg-6 {{diff_class}} resource-{{num}}" >
+      <div class="col-lg-6 {{diff_class}} resource-{{num}} get_resource_count" >
           <div class="panel panel-default gt-highlights gt-panel-height">
               <div class="panel-heading" style="background-color: {{page.logo_background_color}}">
                 {% if diff_class != 'gt-stress-col-1' %}
@@ -164,7 +164,7 @@ c-0.195,0.195-0.451,0.293-0.707,0.293S5.535,12.855,5.34,12.66c-0.391-0.391-0.391
 c-0.391-0.391-0.391-1.023,0-1.414s1.023-0.391,1.414,0L9,7.586l2.246-2.246c0.391-0.391,1.023-0.391,1.414,0s0.391,1.023,0,1.414
 L10.414,9L12.66,11.246z"/>
 </svg></div>
-                          <h1 class="gt-highlights-btn-text" onclick="RemoveResource('resource-{{num}}');" >{{num}}No thanks, I’ve tried this before<br></h1>
+                          <h1 class="gt-highlights-btn-text" onclick="RemoveResource('resource-{{num}}','desktop');" >{{num}}No thanks, I’ve tried this before<br></h1>
                       </a>
                   </div>
                   {%endif%}

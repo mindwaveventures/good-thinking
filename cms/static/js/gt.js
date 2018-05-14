@@ -25,9 +25,14 @@ function GetCollectionResults(collection_slug) {
  window.location.href='/collections/'+collection_slug;
 }
 
-function RemoveResource(resource){
+function RemoveResource(resource,screen_size){
   $('.'+ resource).remove();
-  document.getElementById("resource_count").innerHTML = stress_result_swiper();
+  if(screen_size=='mobile'){
+    $("#resource_count").html(stress_result_swiper());
+  }
+  else{
+    $("#resource_count").html($('.get_resource_count').length);
+  }
 }
 
 function ScrollUp(resource){
