@@ -1,10 +1,16 @@
-{% load wagtailcore_tags wagtailimages_tags static modelname new_tab %} {% load static %} {% if landing_pages %}
+{% load wagtailcore_tags wagtailimages_tags static modelname new_tab %}
+
+{% load static %}
+
+{% if landing_pages %}
 <div class="gt-xs-nav">
   <ul class="nav nav-tabs hidden-sm hidden-md hidden-lg gt-mob-nav">
     {% for topic in landing_pages %}
      {% if topic.title != 'Sleep deprived' %}
-    <li class="gt-nav-center"><a href="/{{topic.slug}}/" class="gt-mob-text {% if topic.slug|lower == page.slug|lower %}menu_active{% endif %}" >{{topic.title}}</a></li>
-    {% endif %}
+      <li class="gt-nav-center">
+        <a href="/{{topic.slug}}/" class="gt-mob-text {% if topic.slug|lower == page.slug|lower %}menu_active{% endif %}" >{{topic.title}}</a>
+      </li>
+     {% endif %}
     {% endfor %}
     <li class="dropdown gt-nav-center"><a class="dropdown-toggle gt-mob-text" data-toggle="dropdown" aria-expanded="false" href="#">More<span class="caret"></span></a>
       {% if banner.button_1_text or banner.button_2_text %}

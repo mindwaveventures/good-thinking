@@ -1,7 +1,9 @@
 {% load wagtailcore_tags wagtailimages_tags continuereading new_tab missing_tags %}
+
 {% load static %}
 
 {% image page.brand_logo width-500 as brand_logo %}
+
 <div class="swiper-slide resource-{{num}}">
     <div class="panel panel-default gt-highlights gt-panel-height">
         <div class="panel-heading" style="background-color: {{page.logo_background_color}}">
@@ -30,7 +32,8 @@
                 </div>
             </div>
         </div>
-        <div class="panel-footer gt-highlight-footer"><a href="/{{page.parent}}/{{page.slug}}/"><button class="btn btn-default gt-highlights-btn" type="button">Tell me more</button></a>
+        <div class="panel-footer gt-highlight-footer">
+          <a href="/{{page.parent}}/{{page.slug}}/"><button class="btn btn-default gt-highlights-btn" type="button">Tell me more</button></a>
             <div class="gt-highlights-btn-text-block">
                 <a href="#" class="gt-highlights-close">
                     <div class="gt-close-cta"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"

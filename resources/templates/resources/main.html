@@ -1,15 +1,22 @@
 {% extends "base.html" %}
+
 {% load wagtailcore_tags wagtailimages_tags static spacing %}
- {% block body_class %}gt-body{% endblock %} {% block content %}
- {% if page.banner %} {% include "resources/banner.html" with banner=banner %}
-  {% endif %}
-  {# include "resources/components/hamburger-menu.html" with url=page.url slug=page.slug landing_pages=landing_pages #}
-   {% include "resources/components/hero-image.html" with page=page url=page.url hero_image=hero_image landing_pages=landing_pages %}
+
+{% block body_class %}gt-body{% endblock %}
+
+{% block content %}
+
+{% if page.banner %}
+  {% include "resources/banner.html" with banner=banner %}
+{% endif %}
+
+{% include "resources/components/hero-image.html" with page=page url=page.url hero_image=hero_image landing_pages=landing_pages %}
 
 <div class="tc">
   {% include "resources/components/row.html" with render_template="resources/components/page-block.html" element_list=project_info_block length=2 width="w-40" class="mb2 pa3" %}
 </div>
 
+<!--homepage slider block  -->
 <section class="gt-home-topic">
   <div class="row">
     <div class="col-md-12">
@@ -22,53 +29,11 @@
       <div class="swiper-wrapper">
         {% for list in landing_pages %} {% include "resources/components/topic-card.html" with width=width page=list slug=page.slug%} {% endfor %}
       </div>
-      <!-- <div class="gt-swiper-pagination-browser-topic"></div> -->
     </div>
   </div>
 </section>
 
-{% comment "Old template" %}
-<section class="cubes pt5 pt0-l">
-  <div class="pa5-l">
-    <div class="ph2-ns ph3 tc mb2">
-      {% if landing_pages|length  < 5 %}
-       {% include "resources/components/row.html" with render_template="resources/components/topic-card.html" element_list=landing_pages length=2 width="w-40" class="mb2 pb0 pb4-l" %}
-       {% else %}
-        {% include "resources/components/row.html" with render_template="resources/components/topic-card.html" element_list=landing_pages length=3 width="w-30" class="mb4" %}
-         {% endif %} </div>
-        <div class="ph2-ns ph3 pb3 tc mb2 mh2-mm">
-          <div class="ph4-ns tc shadow-2 pv2 bg-white w-82-l-xl w-81-xl center">
-            <form action="{% pageurl page %}" method="POST" class="main-form">
-              {% csrf_token %}
-              <section class="tc-ns tl-m w-100 pa1 ph4 ph3-m ph3-l pb3" id="suggestion_form">
-                <div class="w-80-l center">
-                  <p>
-                    Are we missing something? Tell us how you're feeling so we know what content we need to add next:
-                  </p>
-                  {% for row in custom_form %} {% if row.field_type == 'multiline' %}
-                  <div>
-                    {% if row.suggestion_submitted %}
-                    <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-green b--lm-green relative">
-                      Suggestions submitted successfully!
-                      <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
-                    </div>
-                    {% else %}
-                    <div class="dt dt--fixed">
-                      <label for="id_{{row.label}}" class="dn"></label>
-                      <input type="text" id="id_{{row.label}}" name="{{row.label}}" class="bw1p dtc f5 w-100 w-80-sm ph1 pv2 nr br1 br1-no-right-sm no-defaults b--lm-dark-turquoise"></input>
-                      <button type="submit" class="f5 fr w-20-sm w-40 link dtc ph1 pv2 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover br1 br1-no-left-sm ba b--lm-dark-turquoise">Submit</button>
-                    </div>
-                    {% endif %}
-                  </div>
-                  {% endif %} {% endfor %}
-                </div>
-              </section>
-          </div>
-        </div>
-    </div>
-</section>
-{% endcomment %}
-
+<!--homepage highlights block  -->
 <section class="gt-home-topic-highlights-2">
     <div class="row">
         <div class="col-md-12 gt-highlights-panel">
@@ -78,10 +43,11 @@
     <div class="gt-highlights-home-row">
         <div class="row gt-highlights-home-container">
           {% for post in highlights %}
-          {% include "resources/short_resource.html" with page=post.highlights_link.specific diff_class='gt-stress-col-1' num=forloop.counter%}
+            {% include "resources/short_resource.html" with page=post.highlights_link.specific diff_class='gt-stress-col-1' num=forloop.counter%}
           {% endfor %}
         </div>
     </div>
 </section>
 
-{% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %} {% endblock %}
+{% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
+{% endblock %}

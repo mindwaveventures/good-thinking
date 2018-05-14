@@ -1,162 +1,42 @@
 {% load wagtailcore_tags wagtailimages_tags continuereading new_tab missing_tags %}
+
 {% load static %}
-
-{% comment "Old template-third block" %}
-<div id="resource_{{page.id}}" class="resource mb4 mt4">
-  {% with missing=selected_tags|missing_tags:page %}
-    {% if missing %}
-      <div class="w-60-l center tl mb1">
-        <span>Matches all tags except:</span>
-        {% for tag in missing %}
-        <span class="lm-bg-light-orange b--lm-orange ba br2 ph2 pv1 lh-tag dib mb1 mr1 strike">{{tag}}</span>
-        {% endfor %}
-      </div>
-    {% endif %}
-  {% endwith %}
-  <div class="br1 ba shadow-2 tl w-60-l center">
-    <div class="b--lm-grey bb ph3 pt2 pb0 pt3-ns ph4-ns">
-      <h2 class="mt0 mb1 resource_title pv1 di"><a class="link lm-dark-turquoise lm-pink-hover f3" href="/{{page.parent}}/{{page.slug}}/">{{ page.heading }}</a></h2>
-      <div class="fr">
-        {% for badge in page.badges.all %}
-        <div class="mv1">
-          <div
-          style="color:{{badge.badge_text_color}};background-color:{{badge.badge_color}}"
-          class="pv2 ph3 bw1 ba br-pill b--lm-turquoise">
-          {{badge.badge_text}}
-        </div>
-      </div>
-      {% endfor %}
-      {% if page.is_near %}
-      <div>
-        <div class="pv2 ph3 bw1 ba br-pill lm-bg-light-turquoise b--lm-turquoise">Less than 1 mile away</div>
-      </div>
-      {% endif %}
-      </div>
-      <div class="copy db cb">
-        {{ page.tagline|new_tab|richtext }}
-      </div>
-    </div>
-    <div class="pt3">
-      {% if page.pros %}
-        <div class="tc dn">
-          {% include "resources/secondary_button.html" with value="View pros and cons" background="light" class="view_pcs" id="view_pcs{{@page.id}}" %}
-        </div>
-      {% endif %}
-      <div class="w-100 dt pros_cons bb b--lm-grey pb3 copy" id="pros_cons{{page.id}}">
-        <div class="ph4-ns ph3 w-50-ns dib-ns dtc-ns pros">
-          {{page.pros|new_tab|richtext}}
-        </div>
-        <div class="ph4-ns ph3 w-50-ns dib-ns dtc-ns">
-          {{page.cons|new_tab|richtext}}
-        </div>
-      </div>
-      <div class="dt">
-        <div class="pt3 pb4 ph4-ns ph3 w-50-ns dib-ns dtc-ns br-ns bb bb-0-ns mb2 mb0-ns b1 v-top b--lm-grey">
-          <h4 class="f5 mt0">Would you recommend this?</h4>
-          <div class="dt dt--fixed">
-            <div class="flex items-center">
-              <div class="tl mr2"><span>{{page.number_of_likes|default:0}}</span></div>
-              <form action="/like/" method="post" class="pointer like-form tl mr2">
-                <button type="submit" class="{% if page.liked_value == 1 %}liked{% endif %} like resource-like w2 h2 bn bg-white p0 bg-left pointer" data-url="{{page.resource_url}}"><span class="fixed o-0">Recommend</span></button>
-                <input type="hidden" name="id" value="{{page.id}}"/>
-                <input type="hidden" name="like" value="1"/>
-                {% csrf_token %}
-              </form>
-              <form action="/like/" method="post" class="pointer dislike-form">
-                <button name="dislike" type="submit" class="{% if page.liked_value == -1 %}disliked{% endif %} dislike resource-dislike w2 h2 bn bg-white p0 bg-right pointer" data-url="{{page.resource_url}}"><span class="fixed o-0">Don't Recommend</span></button>
-                <input type="hidden" name="id" value="{{page.id}}"/>
-                <input type="hidden" name="like" value="-1"/>
-                {% csrf_token %}
-              </form>
-              <div class="tl ml2"><span>{{page.number_of_dislikes|default:0}}</span></div>
-            </div>
-          </div>
-          {% if page.liked_value == 1 or page.liked_value == -1 %}
-          {% if like_feedback_submitted and not error %}
-          <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-green b--lm-green relative tc mw-23">
-            Thanks for your feedback
-            <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
-          </div>
-          {% else %}
-          <form class="like-form resource-feedback">
-            {% csrf_token %}
-            <input type="hidden" name="id" value="{{page.id}}" />
-            <p>
-              Why {% if page.liked_value == 1 %}would you{% else %}wouldn't you{% endif %} recommend this?
-            </p>
-            <div class="dt dt--fixed">
-              <label for="id_{{page.id}}" class="dn"></label>
-              <textarea id="id_{{page.id}}" name="feedback" class="dtc h2 f5 w-100 w-100-sm w-100-ml w-70-ns pa1 nr b--lm-dark-turquoise br1 br1-no-right-sm"></textarea>
-              <button type="submit" class="f5 h2 fr w-30-ns w-50-sm w-50-ml w-40 link dtc pa1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover br1 br1-no-left-sm ba b--lm-dark-turquoise">Submit</button>
-            </div>
-
-            {% if error %}
-              <div class="bg--lm-light-red ba b--lm-dark-red bw1 br1 dib pa1">
-                Please enter your feedback before submitting
-              </div>
-            {% endif %}
-
-            <input type="hidden" name="resource_title" value="{{page.title}}" />
-            <input type="hidden" name="liked" value="{{page.liked_value}}" />
-            <input type="hidden" name="resource_name" value="{{page.heading}}" />
-            <input type="hidden" name="short_resource" value="true" />
-          </form>
-          {% endif %}
-          {% endif %}
-        </div>
-        <div class="pv3 v-mid dib-ns dtc-ns ph4-ns ph3 copy tc">
-          <a href="/{{page.parent}}/{{page.slug}}/">
-            <button class="f6 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba b--lm-dark-turquoise">
-              Get more info and read comments
-            </button>
-          </a>
-          <a href="{{page.resource_url}}" target="_blank">
-            <button class="mt3 f6 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover ba b--lm-dark-turquoise">
-              Go to resource site
-            </button>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-{% endcomment %}
 
 {% image page.brand_logo width-500 as brand_logo %}
 
-      <div class="col-lg-6 {{diff_class}} resource-{{num}} get_resource_count" >
-          <div class="panel panel-default gt-highlights gt-panel-height">
-              <div class="panel-heading" style="background-color: {{page.logo_background_color}}">
-                {% if diff_class != 'gt-stress-col-1' %}
-                  <div class="gt-number-block">
-                      <h4 class="gt-number" style="font-family:Montserrat, sans-serif;color:rgb(255,255,255);">#{{num}}</h4>
-                  </div>
-                  <div class="gt-arrow-block"></div>
-                  {%endif%}
-                  <div><img src="{{brand_logo.url}}" alt="{{page.heading}}"></div>
-              </div>
-              <div class="panel-body gt-highlights-body scroll-{{num}}" >
-                  <div class="gt-highlights-para rich-text">
-                      <h1 class="gt-topic-header">{{ page.heading }}</h1>
-                      <p>{{ page.tagline | richtext }}</p>
-                      <div class="gt-body-header"></div>
-                      <div class="row gt-panel-body-content rich-text">
-                          <div class="col-md-6 col-sm-6 text-left">{{page.pros|new_tab|richtext}}</div>
-                          <div class="col-md-6 col-sm-6 hidden-xs text-left gt-hide-block">{{page.cons|new_tab|richtext}}</div>
-                          <div class="col-md-12 hidden-sm gt-collapse-col">
-                              <div><a class="btn btn-default hidden-md hidden-lg collapse-btn" onclick="ScrollUp('scroll-{{num}}');" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-{{num}}" role="button" href="#collapse-{{num}}">Considerations +<br></a>
-                                  <div class="collapse"
-                                      id="collapse-{{num}}">{{page.cons|new_tab|richtext}} </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="panel-footer gt-highlight-footer"><a href="/{{page.parent}}/{{page.slug}}/"><button class="btn btn-default gt-highlights-btn" type="button">Tell me more</button></a>
-                {% if diff_class != 'gt-stress-col-1' %}
-                  <div class="gt-highlights-btn-text-block">
-                      <a href="#" class="gt-highlights-close">
-                          <div class="gt-close-cta"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+<div class="col-lg-6 {{diff_class}} resource-{{num}} get_resource_count" >
+    <div class="panel panel-default gt-highlights gt-panel-height">
+        <div class="panel-heading" style="background-color: {{page.logo_background_color}}">
+          {% if diff_class != 'gt-stress-col-1' %}
+            <div class="gt-number-block">
+                <h4 class="gt-number" style="font-family:Montserrat, sans-serif;color:rgb(255,255,255);">#{{num}}</h4>
+            </div>
+            <div class="gt-arrow-block"></div>
+            {%endif%}
+            <div><img src="{{brand_logo.url}}" alt="{{page.heading}}"></div>
+        </div>
+        <div class="panel-body gt-highlights-body scroll-{{num}}" >
+            <div class="gt-highlights-para rich-text">
+                <h1 class="gt-topic-header">{{ page.heading }}</h1>
+                <p>{{ page.tagline | richtext }}</p>
+                <div class="gt-body-header"></div>
+                <div class="row gt-panel-body-content rich-text">
+                    <div class="col-md-6 col-sm-6 text-left">{{page.pros|new_tab|richtext}}</div>
+                    <div class="col-md-6 col-sm-6 hidden-xs text-left gt-hide-block">{{page.cons|new_tab|richtext}}</div>
+                    <div class="col-md-12 hidden-sm gt-collapse-col">
+                        <div><a class="btn btn-default hidden-md hidden-lg collapse-btn" onclick="ScrollUp('scroll-{{num}}');" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-{{num}}" role="button" href="#collapse-{{num}}">Considerations +<br></a>
+                            <div class="collapse"
+                                id="collapse-{{num}}">{{page.cons|new_tab|richtext}} </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer gt-highlight-footer"><a href="/{{page.parent}}/{{page.slug}}/"><button class="btn btn-default gt-highlights-btn" type="button">Tell me more</button></a>
+          {% if diff_class != 'gt-stress-col-1' %}
+            <div class="gt-highlights-btn-text-block">
+                <a href="#" class="gt-highlights-close">
+                    <div class="gt-close-cta"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 width="18px" height="18px" viewBox="0 0 18 18" enable-background="new 0 0 18 18" xml:space="preserve">
 <path   d="M9,0C4.029,0,0,4.029,0,9s4.029,9,9,9s9-4.029,9-9S13.971,0,9,0z M12.66,11.246
 c0.391,0.391,0.391,1.023,0,1.414c-0.195,0.195-0.451,0.293-0.707,0.293s-0.512-0.098-0.707-0.293L9,10.414L6.754,12.66
@@ -164,10 +44,10 @@ c-0.195,0.195-0.451,0.293-0.707,0.293S5.535,12.855,5.34,12.66c-0.391-0.391-0.391
 c-0.391-0.391-0.391-1.023,0-1.414s1.023-0.391,1.414,0L9,7.586l2.246-2.246c0.391-0.391,1.023-0.391,1.414,0s0.391,1.023,0,1.414
 L10.414,9L12.66,11.246z"/>
 </svg></div>
-                          <h1 class="gt-highlights-btn-text" onclick="RemoveResource('resource-{{num}}','desktop');" >No thanks, I’ve tried this before<br></h1>
-                      </a>
-                  </div>
-                  {%endif%}
-              </div>
-          </div>
-      </div>
+                    <h1 class="gt-highlights-btn-text" onclick="RemoveResource('resource-{{num}}','desktop');" >No thanks, I’ve tried this before<br></h1>
+                </a>
+            </div>
+            {%endif%}
+        </div>
+    </div>
+</div>
