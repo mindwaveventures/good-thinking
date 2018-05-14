@@ -7,6 +7,7 @@ from django.shortcuts import render
 from django.utils.translation import ugettext_lazy as _
 
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel
+from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailforms.models import AbstractForm, AbstractFormField
 
@@ -84,13 +85,26 @@ class FormField(AbstractFormField):
 
 
 class FeedbackPage(AbstractForm):
+    hero_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text="""
+            Max file size: 10MB. Choose from: JPEG, PNG
+        """
+    )
+
     alphatext = RichTextField(
         blank=True,
         help_text="Why to take part in the alpha"
     )
 
+
     content_panels = AbstractForm.content_panels + [
         InlinePanel('form_fields', label="Form fields"),
+        ImageChooserPanel('hero_image'),
         FieldPanel('alphatext', classname="full"),
     ]
 

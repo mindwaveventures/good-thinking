@@ -2,18 +2,30 @@
 
 {% load wagtailcore_tags wagtailimages_tags static new_tab %}
 
-{% block body_class %}gt-body{% endblock %}
+{% block body_class %}gt-body article{% endblock %}
 
 {% block content %}
 
     {% if banner %}
       {% include "resources/banner.html" with banner=banner %}
     {% endif %}
+    {% image page.hero_image width-1000 as hero_image %}
 
-
+    <section class="home-slider">
+        <div class="gt-header-img article" style="background-image:url('{{ hero_image.url }}')"></div>
+        <div class="gt-slider-content rich-text">
+            <div class="row gt-header-content">
+                <div>
+                    <h2>{{page.title}}<br></h2>
+                </div>
+            </div>
+        </div>
+    </section>
     <section class="f3 pa3 ph4 ph3-m ph3-l tl lh-copy lm-dark-blue segoe feedback-section {% if banner %}mt5{%endif%}">
-      <div class="w-60-ns center">
-        <a href="/" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise"><i class="fa fa-caret-left" aria-hidden="true"></i> Back</a>
+      <div class="gt-back-btn">
+          <a href="/" class="gt-feedback-back">
+              <p class="gt-feeback-back">Back<br></p>
+          </a>
       </div>
     </section>
 
@@ -24,7 +36,7 @@
         {% if row.field_type == 'radio' %}
           <section class="f3 pa3 ph4 ph3-m ph3-l tl copy lm-dark-blue nunito feedback-form-section">
             <div class="w-60-ns center">
-              <div class="around_form_input">
+              <div class="gt-feedback-content rich-text">
                 {{row.before_input|new_tab|richtext}}
               </div>
               {% if row.errors %}
@@ -34,10 +46,17 @@
               {% endif %}
               <div id="id_{{row.label}}" class="mv2 pv2">
                 {% for choice in row.choices %}
-                  <div class="mv1 h18">
+
+                  <!-- <div class="mv1 h18">
                     <input id="id_{{row.label}}_{{forloop.counter0}}" name="{{row.label}}" type="radio" value="{{choice.val}}" {{row.reqired}} class="absolute o-0 lm-feedback-radio" {{choice.checked}}></input>
                     <label for="id_{{row.label}}_{{forloop.counter0}}" class="lm-feedback-label nowrap f6 v-top">{{choice.val}}</label>
-                  </div>
+                  </div> -->
+                  <div><label for="id_{{row.label}}_{{forloop.counter0}}"class="gt-radio-container">{{choice.val}}
+                <input type="radio" id="id_{{row.label}}_{{forloop.counter0}}" name="{{row.label}}" value="{{choice.val}}" {{row.reqired}} class="absolute o-0 lm-feedback-radio" {{choice.checked}}>
+                <span class="checkmark"></span>
+                </label>
+              </div>
+
                 {% endfor %}
               </div>
               <div class="around_form_input">
@@ -92,6 +111,67 @@
         </div>
       </div>
     </form>
+
+        <!-- <section class="home-slider">
+            <div class="gt-header-img article"></div>
+            <div class="gt-slider-content rich-text">
+                <div class="row gt-header-content">
+                    <div>
+                        <h2>Give us feedback<br></h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="gt-feedback-container">
+                <div class="gt-back-btn">
+                    <a href="stress-q.html" class="gt-feedback-back">
+                        <p class="gt-feeback-back">Back<br></p>
+                    </a>
+                </div>
+                <div class="gt-feedback-content rich-text"><a href="#"><strong>King's College London - Evaluation</strong><br></a>
+                    <h3>What is "Beta"? </h3>
+                    <p>This new service is currently in Beta – this is a live testing phase, and your feedback will help it to improve.&nbsp;<br></p>
+                    <h3>Evaluation of the service</h3>
+                    <p>This new service is currently in Beta – this is a live testing phase, and your feedback will help it to improve.&nbsp;<br></p>
+                    <a href="#">Find out how you can get involved.</a>
+                    <h3>Give some immediate feedback<br></h3>
+                    <p>Overall, how did you feel about the service you received today?<br></p>
+
+                    <div><label class="gt-radio-container">Very satisfied
+      <input type="radio"  name="radio">
+      <span class="checkmark"></span>
+    </label>
+    <label class="gt-radio-container">Satisfied
+      <input type="radio" name="radio">
+      <span class="checkmark"></span>
+    </label>
+    <label class="gt-radio-container">Neither satisfied nor dissatisfied
+      <input type="radio" name="radio">
+      <span class="checkmark"></span>
+    </label>
+    <label class="gt-radio-container">Dissatisfied
+      <input type="radio" name="radio">
+      <span class="checkmark"></span>
+    </label>
+    <label class="gt-radio-container">Very dissatisfied
+      <input type="radio" name="radio">
+      <span class="checkmark"></span>
+    </label></div>
+
+                    <div class="gt-feedback-service">
+                        <h3>How could we improve this service?<br></h3>
+                        <p><br>For example, what do you think about:<br>- The look of service<br>- Content you found<br>- How it works<br></p><textarea class="gt-feedbaack-textarea">
+                        </textarea></div>
+                    <div>
+                        <p>(Limit is 1200 characters)<br>Please do not share any personally identifiable information on this website. This is any information that would allow someone to identify who you are, where you might be, or how they could contact you.<br><br>If
+                            you have a question about any of the content on this site, please email us at info@good-thinking.uk<br>
+                            If you have any questions about the website design and functionality, please email us at goodthinking@mindwaveventures.com <br></p>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
 
   {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
 {% endblock %}
