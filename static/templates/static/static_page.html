@@ -5,98 +5,56 @@
 {% block body_class %}gt-body article{% endblock %}
 
 {% block content %}
-  {% include "resources/banner.html" %}
 
-{% comment "Old template-third block" %}
-  {% if landing_pages %}
-    <section id="landing_page_navbar" class="dn-ss dt--fixed dt-ns tc pv3 ph4 ph3-m ph3-l blurred_background_header cover bg-center w-100 mt-2-8-ns-xl mt5 {% if not page.hero_image %}banner-gradient{% endif %}">
-      <div class="dib relative mv2-ns mv1 dtc-ns v-mid">
-        I am, or know someone who is, feeling:
-      </div>
-      {% for topic in landing_pages %}
-        <div class="dib relative mv2 mv1 dtc">
-          <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer v-mid">
-            <a class="ttu montserrat fw6 lm-black f6 link bb-hover bw2-hover lm-dark-turquoise-hover {% if page.slug == topic.slug %}bb bw2{% endif %}" href="/{{topic.slug}}/">{{topic.title}}</a>
-          </div>
-        </div>
-      {% endfor %}
-    </section>
+{% include "resources/banner.html" %}
 
-    {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages %}
+<!-- Hero image block for static pages -->
+{% image page.cover_image width-1000 as cover_image %}
+<section class="home-slider">
+  {% if cover_image %}
+    <div class="gt-header-img article" style="background-image:url('{{ cover_image.url }}')"></div>
+  {% else %}
+    <div class="gt-header-img article" style="background-image:url({%static 'images/gt-articals-cover-img.jpg'%})"></div>
   {% endif %}
+    <div class="gt-slider-content rich-text">
+        <div class="row gt-header-content">
+            <div>
+                <h2>{{page.title}}<br></h2>
+            </div>
+        </div>
+    </div>
+</section>
 
-  <section class="pt3 ph4 ph5-m ph5-l ph6-xl tc">
-    <div class="{{ page.text_alignment }} copy static-page center">
-      <div class="cf">
-        {% for block in page.body %}
-          {% if block.block_type == 'column_left' %}
-            <div class="fl-l w-50-l tl ph2-5-l">
-              <div class="mw-35">
+<!-- Streamfield block for static pages -->
+<section class="gt-article-topic">
+    <div>
+        <div class="row">
+          {% for block in page.body %}
+            {% if block.block_type == 'column_left' %}
+              <div class="col-md-6 gt-para-lt">
+                <div class="gt-partner-text-block rich-text">
                 {% include_block block %}
               </div>
-            </div>
-          {% else %}
-            {% if block.block_type == 'column_right' %}
-              <div class="fr-l w-50-l tl ph2-5-l">
-                <div class="mw-35">
-                  {% include_block block %}
-                </div>
               </div>
             {% else %}
-              <div class="ph2-5-l mw-35">
+                {% if block.block_type == 'column_right' %}
+              <div class="col-md-6 gt-para-rt">
+                <div class="gt-partner-text-block rich-text">
                 {% include_block block %}
               </div>
-            {% endif %}
-          {% endif %}
-        {% endfor %}
-      </div>
-      </div>
-  </section>
-  {% endcomment %}
-
-  {% image page.cover_image width-1000 as cover_image %}
-  <section class="home-slider">
-    {% if cover_image %}
-      <div class="gt-header-img article" style="background-image:url('{{ cover_image.url }}')"></div>
-    {% else %}
-      <div class="gt-header-img article" style="background-image:url({%static 'images/gt-articals-cover-img.jpg'%})"></div>
-    {% endif %}
-      <div class="gt-slider-content rich-text">
-          <div class="row gt-header-content">
-              <div>
-                  <h2>{{page.title}}<br></h2>
               </div>
-          </div>
-      </div>
-  </section>
-  <section class="gt-article-topic">
-      <div>
-          <div class="row">
-            {% for block in page.body %}
-              {% if block.block_type == 'column_left' %}
-                <div class="col-md-6 gt-para-lt">
-                  <div class="gt-partner-text-block rich-text">
+            {% else %}
+                <div class="col-md-12">
+                  <div class="gt-read rich-text">
                   {% include_block block %}
                 </div>
                 </div>
-              {% else %}
-                  {% if block.block_type == 'column_right' %}
-                <div class="col-md-6 gt-para-rt">
-                  <div class="gt-partner-text-block rich-text">
-                  {% include_block block %}
-                </div>
-                </div>
-                {% else %}
-                  <div class="col-md-12">
-                    <div class="gt-read rich-text">
-                    {% include_block block %}
-                  </div>
-                  </div>
-                {% endif %}
-                {% endif %}
-              {% endfor %}
-          </div>
-      </div>
-  </section>
-  {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links='' %}
+            {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links='' %}
 {% endblock %}
