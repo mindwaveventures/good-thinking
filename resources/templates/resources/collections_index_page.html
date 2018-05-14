@@ -77,10 +77,12 @@
                 <div class="gt-stress-result-swiper">
                     <div class="swiper-wrapper">
                       {% if collection_resources %}
-                        {% for post in collection_resources %}
-                            {% include "resources/short_resource_mobile.html" with page=post.specific selected_tags=selected_tags diff_class='gt-stress-col-2' num=forloop.counter%}
+                      {% for collections in collection_resources %}
+                        {% for resource in collections.selectresources.all %}
+                            {% include "resources/short_resource_mobile.html" with page=resource.collection_resource.specific selected_tags=selected_tags diff_class='gt-stress-col-2' num=forloop.counter%}
                         {% endfor %}
-                        {% endif %}
+                      {% endfor %}
+                      {% endif %}
                     </div>
                     <div class="gt-swiper-pagination-stress-result"></div>
                 </div>
