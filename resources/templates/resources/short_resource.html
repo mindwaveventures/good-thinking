@@ -13,7 +13,13 @@
             </div>
             <div class="gt-arrow-block"></div>
             {%endif%}
-            <div><img src="{{brand_logo.url}}" alt="{{page.heading}}"></div>
+            <div>
+              {% if brand_logo %}
+                <img src="{{brand_logo.url}}" alt="{{page.heading}}">
+              {% else %}
+                <h2>{{page.title}}</h2>
+              {% endif %}
+            </div>
         </div>
         <div class="panel-body gt-highlights-body" >
             <div class="gt-highlights-para rich-text">
