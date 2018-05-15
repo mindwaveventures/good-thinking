@@ -363,8 +363,8 @@ class ResourcePage(AbstractForm):
         on_delete=models.SET_NULL,
         related_name='+',
         help_text="""
-            Max file size: 10MB. Choose from: GIF, JPEG, PNG
-            (but pick PNG if you have the choice)
+            Max file size: 10MB. Choose from: JPEG, PNG
+            (Please upload 155x60 image)
         """
     )
     brand_text = RichTextField(blank=True)
