@@ -204,7 +204,7 @@ function stress_result_swiper() {
   return gtstressresultswiper.slides.length;
 }
 
-function GetQueryResults(slug) {
+GetQueryResults = function(slug) {
 
   var query_result = [];
   var url = "";
@@ -235,7 +235,7 @@ function GetQueryResults(slug) {
 
 }
 
-function RemoveResource(resource, screen_size) {
+RemoveResource = function(resource, screen_size) {
   $('.' + resource).remove();
 
   if (screen_size == 'mobile') {
