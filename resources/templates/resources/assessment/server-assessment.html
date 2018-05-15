@@ -2,12 +2,15 @@
 
 {% load wagtailcore_tags wagtailimages_tags static modelname new_tab %}
 
-{% block content %}
-  {% if banner %}
-    {% include "resources/banner.html" with banner=banner %}
-  {% endif %}
+{% block body_class %}gt-body article{% endblock %}
 
-  {% include "resources/components/hero-image.html" with page=page %}
+{% block content %}
+
+{% if banner %}
+  {% include "resources/banner.html" with banner=banner %}
+{% endif %}
+
+{% include "resources/components/hero-image.html" with page=page %}
 
   {% comment "Old template" %}
   {% if landing_pages %}
@@ -30,11 +33,16 @@
 
   <div class="mv5 assessment-text pa0-ns pa2">
     <div id="assessment-container" class="relative top--3 o-0"></div> <!-- anchor div to ensure screen goes below banner -->
+    {% comment "Old template" %}
     <div class="w-60-l center ph4-m pb3">
       <div class="copy">
         {{body|new_tab|richtext}}
       </div>
     </div>
+    {% endcomment %}
+    <section>
+        <div class="gt-sa-container rich-text">{{body|new_tab|richtext}}</div>
+    </section>
     <div class="br1 shadow-2 tl w-60-l center ph4 pv2 overflow-x-scroll">
       <form method="post" action="/assessment-summary/" class="pt2 pb4">
         {% csrf_token %}
