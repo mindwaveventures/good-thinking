@@ -4602,6 +4602,7 @@ html {
 .gt-feedback-content {
   text-align:left;
   padding-top:20px;
+  padding-bottom:80px;
 }
 
 .gt-feedback-content.rich-text h3 {
@@ -4666,7 +4667,7 @@ html {
 
 .gt-feedbaack-textarea {
   width:100%;
-  height:100px;
+  height:100px !important;
 }
 
 .gt-feedback-content.rich-text a {
@@ -4813,5 +4814,15 @@ html {
   height:8px;
   border-radius:50%;
   background:#242e50;
+}
+
+.btn.btn-default.gt-form-btn {
+  width:180px;
+  height:35px;
+  border-radius:100px;
+  background-color:#16b28f;
+  border:solid 1px #16b28f;
+  background-image:none;
+  color:#fff;
 }
 
