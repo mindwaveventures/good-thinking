@@ -137,6 +137,7 @@ ALLOWED_HOSTS = [
     'ldmw-cms.herokuapp.com',
     'ldmw-cms-staging.herokuapp.com',
     'ldmv-new-staging.herokuapp.com',
+    'prelive-gt.herokuapp.com',
     '127.0.0.1',
     '192.168.33.20',
     'localhost',
