@@ -13,7 +13,7 @@
             <div class="gt-arrow-block"></div>
             <div><img src="{{brand_logo.url}}" alt="{{page.heading}}"></div>
         </div>
-        <div class="panel-body gt-highlights-body scroll-{{num}}" >
+        <div class="panel-body gt-highlights-body" >
             <div class="gt-highlights-para rich-text">
                 <h1 class="gt-topic-header">{{ page.heading }}</h1>
                 {{ page.tagline | richtext }}
@@ -22,7 +22,7 @@
                     <div class="col-md-6 col-sm-6 text-left">{{page.pros|new_tab|richtext}}</div>
                     <div class="col-md-6 col-sm-6 hidden-xs text-left">{{page.cons|new_tab|richtext}}</div>
                     <div class="col-md-12 hidden-sm gt-collapse-col">
-                        <div><a class="btn btn-default hidden-md hidden-lg collapse-btn" data-toggle="collapse" onclick="ScrollUp('scroll-{{num}}');" aria-expanded="false" aria-controls="collapse-5" role="button" href="#collapse-5">Considerations +<br></a>
+                        <div><a class="btn btn-default hidden-md hidden-lg collapse-btn" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-5" role="button" href="#collapse-5">Considerations +<br></a>
                             <div class="collapse"
                                 id="collapse-5">
                                 {{page.cons|new_tab|richtext}}

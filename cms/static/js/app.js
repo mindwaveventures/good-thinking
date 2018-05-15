@@ -247,7 +247,3 @@ function RemoveResource(resource, screen_size) {
     $("#resource_count").html($('.get_resource_count').length);
   }
 }
-
-function ScrollUp(resource) {
-  $('.' + resource).scrollTop(300);
-}
