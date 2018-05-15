@@ -235,12 +235,9 @@ function GetQueryResults(slug) {
 
 }
 
-function GetCollectionResults(collection_slug) {
-  window.location.href = '/collections/' + collection_slug;
-}
-
 function RemoveResource(resource, screen_size) {
   $('.' + resource).remove();
+
   if (screen_size == 'mobile') {
     $("#resource_count").html(stress_result_swiper());
   } else {
