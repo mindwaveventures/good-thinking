@@ -282,6 +282,7 @@ def get_data(request, **kwargs):
     data['current_page'] = slug
     data['top_collections'] = top_collections
     data['collection_resources'] = collection_resources
+    data['result_block'] = Home.objects.filter(Q(slug=slug))
 
     return data
 

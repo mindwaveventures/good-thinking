@@ -49,26 +49,24 @@
           {% include "resources/short_resource.html" with page=post.specific selected_tags=selected_tags diff_class='gt-stress-col-2' num=forloop.counter%}
           {% endfor %}
           {%  if not resource_count|divisibleby:2  %}
-          <div class="col-lg-6 gt-stress-col-2">
-              <div class="panel panel-default gt-highlights-stress gt-hide-panel">
-                  <div class="panel-heading gt-highlights-stress">
-                      <h3 class="panel-title gt-highlights-panel-title">Assess your stress<br></h3>
+          {% for block in result_block %}
+            {% image block.image fill-244x245 as image %}
+            <div class="col-lg-6 gt-stress-col-2">
+              <div class="panel panel-default gt-highlights-stress gt-hide-panel" style="background-color: {{block.block_background_color}}">
+                  <div class="panel-heading gt-assess-title rich-text">
+                      <h3 class="panel-title">{{block.result_heading | richtext}}<br></h3>
                   </div>
-                  <div class="panel-body gt-highlights-stress-boby">
-                      <div class="gt-assess-img"><img src="assets/img/Stress---results---small-desktop_03.png"></div>
+                  <div class="panel-body gt-highlights-stress-boby rich-text" style="background-color: {{block.block_background_color}}">
+                      <div class="gt-assess-img"><img src="{{image.url}}"></div>
                       <div>
-                          <p class="gt-stress-para gt-highlights-para">Take our wellbeing self assessment to find out more about you.<br></p>
-                          <ul class="gt-highlights-stress-list">
-                              <li class="gt-stress-list">Get your wellbeing score</li>
-                              <li class="gt-stress-list">Find out where you can improve (stress, anxiety and depression)</li>
-                              <li class="gt-stress-list">Get resources to help you improv</li>
-                          </ul>
-                          <p class="gt-highlights-stress-para gt-highlights-para">If sleep is affecting your wellbeing, the assessment will guide you to our tailor-made sleep assessment.<br></p>
+                        {{block.body_content | richtext}}
                       </div>
                   </div>
-                  <div class="panel-footer gt-highlight-stress-footer"><button class="btn btn-default gt-highlights-btn gt-border" type="button">Take the assessment<br></button></div>
+                  <div class="panel-footer gt-highlight-stress-footer">
+                    <a href='{{block.button_link.specific.slug}}'><button class="btn btn-default gt-highlights-btn gt-border" type="button">{{block.button_link.specific.title}}<br></button></a></div>
               </div>
-          </div>
+            </div>
+            {% endfor %}
             {% endif %}
           {% endif %}
       </div>
@@ -92,26 +90,21 @@
 </section>
 
 <section class="hidden-lg gt-asess-hide">
-    <div class="panel panel-default gt-highlights-stress">
-        <div class="panel-heading gt-highlights-stress">
-            <h3 class="panel-title gt-highlights-panel-title">Assess your stress<br></h3>
+  {% for block in result_block %}
+    {% image block.image fill-244x245 as image %}
+    <div class="panel panel-default gt-highlights-stress" style="background-color: {{block.block_background_color}}">
+        <div class="panel-heading gt-assess-title rich-text">
+            <h3 class="panel-title gt-highlights-panel-title">{{block.result_heading | richtext}}<br></h3>
         </div>
-        <div class="panel-body gt-highlights-stress-boby">
-            <div><img src="assets/img/Stress---results---small-desktop_03.png" class="gt-highlights-stress-img"></div>
+        <div class="panel-body gt-highlights-stress-boby rich-text" style="background-color: {{block.block_background_color}}">
+            <div><img src="{{image.url}}" class="gt-highlights-stress-img"></div>
             <div>
-                <p class="gt-stress-para gt-highlights-para">Take our wellbeing self assessment to find out more about you.<br></p>
-                <ul class="gt-highlights-stress-list">
-                  <li class="gt-stress-list">Get your wellbeing score</li>
-                  <li class="gt-stress-list">Find out where you can improve (stress, anxiety and depression)</li>
-                  <li class="gt-stress-list">Get resources to help you improv</li>
-                </ul>
-            </div>
-            <div>
-                <p class="gt-highlights-stress-para gt-highlights-para">If sleep is affecting your wellbeing, the assessment will guide you to our tailor-made sleep assessment.<br></p>
+        {{block.body_content | richtext}}
             </div>
         </div>
-        <div class="panel-footer gt-highlight-stress-footer"><button class="btn btn-default gt-highlights-btn gt-border" type="button">Take the assessment<br></button></div>
+        <div class="panel-footer gt-highlight-stress-footer"><a href='{{block.button_link.specific.slug}}'><button class="btn btn-default gt-highlights-btn gt-border" type="button">{{block.button_link.specific.title}}<br></button></a></div>
     </div>
+    {% endfor %}
 </section>
 
 {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
