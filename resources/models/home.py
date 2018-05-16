@@ -9,8 +9,10 @@ from wagtail.wagtailadmin.edit_handlers import (
     FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
 )
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
-
+from wagtail.wagtailcore.fields import StreamField
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel
 from django.db.models.fields import TextField, URLField, CharField
+from wagtail.wagtailcore import blocks
 from django.db import models
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib import messages
@@ -301,6 +303,16 @@ class Home(AbstractForm):
         blank=True,
         help_text="Title to show on mobile"
     )
+    body_content = StreamField([
+            ('heading', blocks.RichTextBlock()),
+            ('column_left', blocks.RichTextBlock()),
+            ('column_right', blocks.RichTextBlock()),
+            ('footer_content', blocks.RichTextBlock()),
+    ],blank=True)
+    background_color = RGBColorField(
+        default='#242e51', null=True, blank=True,
+        help_text="The result block's background colour"
+    )
 
     def get_context(self, request, **kwargs):
         context = super(Home, self).get_context(request)
@@ -332,6 +344,10 @@ class Home(AbstractForm):
             FieldPanel('filter_label_3', classname="full"),
             FieldPanel('exclude_tags', classname="full")
         ]),
+        MultiFieldPanel([
+            FieldPanel('background_color'),
+            StreamFieldPanel('body_content'),
+        ], heading="Result Block"),
     ]
 
     def process_form_submission(self, request_dict):

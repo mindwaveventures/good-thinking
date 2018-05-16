@@ -49,10 +49,11 @@
           {% include "resources/short_resource.html" with page=post.specific selected_tags=selected_tags diff_class='gt-stress-col-2' num=forloop.counter%}
           {% endfor %}
           {%  if not resource_count|divisibleby:2  %}
+          {% for block in result_block %}
             <div class="col-lg-6 gt-stress-col-2">
                 <div class="panel panel-default gt-highlights-stress gt-hide-panel">
-                    <div class="panel-heading gt-highlights-stress">
-                        <h3 class="panel-title gt-highlights-panel-title">Assess your stress<br></h3>
+                    <div class="panel-heading gt-highlights-stress" style="background-color: {{block.background_color}}">
+                        <h3 class="panel-title gt-highlights-panel-title">Assrethbrthfess your stress<br></h3>
                     </div>
                     <div class="panel-body gt-highlights-stress-boby"><img src="{% static "images/Stress---results---small-desktop_03.png" %}" class="gt-highlights-stress-img">
                         <p class="gt-stress-para gt-highlights-para">Take our wellbeing self assessment to find out more about you.<br></p>
@@ -68,6 +69,7 @@
                     <div class="panel-footer gt-highlight-stress-footer"><a href="/self-assessment/"><button class="btn btn-default gt-highlights-btn gt-border" type="button">Take the assessment<br></button></a></div>
                 </div>
             </div>
+            {% endfor %}
             {% endif %}
           {% endif %}
       </div>
