@@ -4041,7 +4041,7 @@ input[type=checkbox]:checked + label {
 .gt-partner-heading.rich-text p {
   font-size:18px;
   text-align:left;
-  padding:0px 10px;
+  padding:0px 0px;
   font-family:Nunito Sans;
 }
 
@@ -4056,7 +4056,7 @@ input[type=checkbox]:checked + label {
 @media (max-width: 767px) {
   .gt-partner-heading.rich-text p {
     font-size:14px;
-    text-align:center;
+    text-align:left;
   }
 }
 
@@ -4979,5 +4979,15 @@ html {
     font-size:14px;
     padding:5px;
   }
+}
+
+.gt-paratner-col-left {
+  float:left;
+  width:50%;
+}
+
+.gt-partner-col-right {
+  float:right;
+  width:50%;
 }
 
