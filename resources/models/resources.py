@@ -418,7 +418,9 @@ class ResourcePage(AbstractForm):
         InlinePanel('badges', label="Badge"),
         InlinePanel('latlong', label="Latitude and Longitude"),
         FieldPanel('heading', classname="full"),
-        FieldPanel('logo_background_color', classname="full"),
+        FieldRowPanel([
+            FieldPanel('logo_background_color', classname="col6"),
+        ], classname="full"),
         FieldRowPanel([
             FieldPanel('resource_url', classname="col6"),
             FieldPanel('resource_url_text', classname="col6"),
