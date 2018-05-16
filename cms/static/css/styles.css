@@ -865,6 +865,7 @@ gt-topic-header-stress {
   overflow-y:hidden;
   padding-right:0px;
   height: 300px;
+  min-height:340px;
 }
 
 @media (max-width: 767px) {
@@ -1226,23 +1227,31 @@ gt-topic-header-stress {
   letter-spacing:1.2px;
   text-align:left;
   min-height:240px;
-  max-height:240px;
-  overflow-y:auto;
+}
+
+.panel-body.quest-panel-body {
+  font-size:16px;
+  min-height:270px;
 }
 
 @media (max-width: 991px) {
   .panel-body.quest-panel-body {
     font-size:16px;
-    min-height:250px;
-    max-height:310px;
+    min-height:270px;
   }
 }
 
 @media (max-width: 768px) {
   .panel-body.quest-panel-body {
     font-size:14px;
-    min-height:320px;
-    max-height:320px;
+    min-height:350px;
+  }
+}
+
+@media (max-width: 470px) {
+  .panel-body.quest-panel-body {
+    font-size:14px;
+    min-height:500px;
   }
 }
 
@@ -2554,6 +2563,8 @@ em {
   padding:20px;
   position:relative;
   z-index:5;
+  width:100%;
+  bottom:0;
 }
 
 .gt-footer-result {
@@ -2853,9 +2864,11 @@ em {
   text-align:center;
   background-color:#8ad8c7;
   padding:15px;
-  position:relative;
   z-index:6;
   box-shadow:0 2px 4px 0 rgba(0, 0, 0, 0.22);
+  position:fixed;
+  width:100%;
+  bottom:0px;
 }
 
 .gt-header-img.stress-q {
@@ -4054,8 +4067,14 @@ input[type=checkbox]:checked + label {
   width:100% !important;
 }
 
-.gt-highlights-btn-text-block h1 {
+.gt-highlights-btn-text-block h3 {
   font-size:18px !important;
+}
+
+@media (max-width: 767px) {
+  .gt-highlights-btn-text-block h3 {
+    font-size:14px !important;
+  }
 }
 
 .gt-header-stress-result {
@@ -4767,54 +4786,6 @@ html {
   -ms-user-select:none;
   user-select:none;
   font-weight:400;
-  padding-left:25px;
-}
-
-.checkmark {
-  position:absolute;
-  top:0;
-  left:0;
-  height:16px;
-  width:16px;
-  border-radius:50%;
-  border:solid 2px rgba(151, 151, 151, 0.48);
-}
-
-.container input {
-  position:absolute;
-  opacity:0;
-  cursor:pointer;
-}
-
-[type='radio'] {
-  display:none;
-}
-
-.gt-radio-container:hover input ~ .checkmark {
-  background-color:#ccc;
-}
-
-.gt-radio-container input:checked ~ .checkmark {
-  background-color:#fff;
-}
-
-.checkmark:after {
-  content:"";
-  position:absolute;
-  display:none;
-}
-
-.gt-radio-container input:checked ~ .checkmark:after {
-  display:block;
-}
-
-.gt-radio-container .checkmark:after {
-  top:2px;
-  left:2px;
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#242e50;
 }
 
 .btn.btn-default.gt-form-btn {
@@ -4915,4 +4886,22 @@ html {
 
 .gt-sa-container.rich-text p:nth-child(3) {
   font-style:italic;
+}
+
+@media (max-width: 350px) {
+  .nav-tabs > li > a {
+    font-size:12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .nav-tabs > li > a {
+    padding:10px 9px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .nav-tabs > li > a {
+    padding:10px 10px;
+  }
 }

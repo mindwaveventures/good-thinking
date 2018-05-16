@@ -244,3 +244,16 @@ RemoveResource = function(resource, screen_size) {
     $("#resource_count").html($('.get_resource_count').length);
   }
 }
+
+function inViewport($el) {
+    var elH = $el.outerHeight(),
+        H   = $(window).height(),
+        r   = $el[0].getBoundingClientRect(), t=r.top, b=r.bottom;
+    return Math.max(0, t>0? Math.min(elH, H-t) : Math.min(b, H));
+}
+
+$(window).on("scroll resize", function(){
+  //console.log( inViewport($('#gtFooter')) ); // n px in viewport
+    var visibleFooterHeight = inViewport($('#gtFooter'));
+    $(".gt-footer-results").css("bottom", visibleFooterHeight+'px');
+});
