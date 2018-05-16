@@ -864,7 +864,7 @@ gt-topic-header-stress {
   padding-left:0px;
   overflow-y:hidden;
   padding-right:0px;
-  min-height:340px;
+  height:300px;
 }
 
 @media (max-width: 767px) {
