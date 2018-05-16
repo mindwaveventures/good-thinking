@@ -544,28 +544,7 @@ class Tip(ResourcePage):
     ]
 
 class CollectionsIndexPage(RoutablePageMixin,ResourcePage):
-    collections_cover_image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text="""
-            Max file size: 10MB. Choose from: JPEG, PNG
-        """
-    )
-    image_text = RichTextField(blank=True,
-        help_text="Text that displays hover the image"
-    )
-    body_text = TextField(blank=True,
-        help_text="Text that displays on the body"
-    )
-
-    content_panels = Page.content_panels + [
-        ImageChooserPanel('collections_cover_image'),
-        FieldPanel('image_text', classname="full"),
-        FieldPanel('body_text', classname="full")
-    ]
+    content_panels = Page.content_panels
     promote_panels = Page.promote_panels
 
     def get_context(self, request, **kwargs):
@@ -666,6 +645,22 @@ class ResourcePageSelectResources(Orderable, SelectResources):
     page = ParentalKey('ResourceCollections', related_name='selectresources')
 
 class ResourceCollections(ResourcePage):
+    collection_cover_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text="""
+            Max file size: 10MB. Choose from: JPEG, PNG
+        """
+    )
+    image_text = RichTextField(blank=True,
+        help_text="Text that displays hover the image"
+    )
+    body_text = TextField(blank=True,
+        help_text="Text that displays on the body"
+    )
     collection_heading = TextField(blank=True,
         help_text="Heading of collections"
     )
@@ -675,6 +670,9 @@ class ResourceCollections(ResourcePage):
     button_text = TextField(blank=True)
 
     content_panels = Page.content_panels + [
+        ImageChooserPanel('collection_cover_image'),
+        FieldPanel('image_text', classname="full"),
+        FieldPanel('body_text', classname="full"),
         FieldPanel('collection_heading', classname="full"),
         FieldPanel('description', classname="full"),
         FieldPanel('button_text', classname="full"),
