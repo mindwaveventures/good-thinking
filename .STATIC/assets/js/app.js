@@ -32,7 +32,7 @@ $( document ).ready(function() {
         }
       }
   });
-
+      
     var gtswiperstressq = new Swiper('.gt-swiper-stress-q', {
     slidesPerView: 1.4,
     spaceBetween: 10,
@@ -63,10 +63,10 @@ $( document ).ready(function() {
           spaceBetween: 5,
         }
       }
-
+        
   });
-
-
+    
+    
      var gtswiperstressbrowser = new Swiper('.gt-swiper-stress-browser', {
     slidesPerView: 1.2,
     spaceBetween: 10,
@@ -92,11 +92,11 @@ $( document ).ready(function() {
         320: {
           slidesPerView: 1.2,
           spaceBetween: 5,
-
+    
         }
       }
   });
-
+    
      var gtstressresultswiper = new Swiper('.gt-stress-result-swiper', {
     slidesPerView: 4,
     spaceBetween: 10,
@@ -160,7 +160,22 @@ $( document ).ready(function() {
           spaceBetween: 5,
         }
       }
-
+        
   });
 
+    
+});
+
+
+function inViewport($el) {
+    var elH = $el.outerHeight(),
+        H   = $(window).height(),
+        r   = $el[0].getBoundingClientRect(), t=r.top, b=r.bottom;
+    return Math.max(0, t>0? Math.min(elH, H-t) : Math.min(b, H));
+}
+
+$(window).on("scroll resize", function(){
+  //console.log( inViewport($('#gtFooter')) ); // n px in viewport
+    var visibleFooterHeight = inViewport($('#gtFooter'));
+    $(".gt-footer-results").css("bottom", visibleFooterHeight+'px');
 });
