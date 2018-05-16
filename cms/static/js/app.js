@@ -206,32 +206,19 @@ function stress_result_swiper() {
 
 GetQueryResults = function(slug) {
 
-  var query_result = [];
-  var url = "";
+  var url = '/results/' + slug + '/' + '?';
 
   $("input:checkbox[name=1]:checked").each(function() {
-    query_result.push({
-      query: 'q1',
-      value: $(this).val()
-    });
+    url += 'q1' + '=' + $(this).val() + '&'
   });
   $("input:checkbox[name=2]:checked").each(function() {
-    query_result.push({
-      query: 'q2',
-      value: $(this).val()
-    });
+    url += 'q2' + '=' + $(this).val() + '&'
   });
   $("input:checkbox[name=3]:checked").each(function() {
-    query_result.push({
-      query: 'q3',
-      value: $(this).val()
-    });
+    url += 'q3' + '=' + $(this).val() + '&'
   });
-  query_result.forEach(function(e) {
-    url += e.query + "=" + e.value + "&";
-  });
-  url = url.trim("&");
-  window.location.href = '/results/' + slug + '/' + '?' + url;
+  url = url.slice(0, -1);
+  window.location.href = url;
 
 }
 
