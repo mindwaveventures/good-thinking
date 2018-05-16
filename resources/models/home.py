@@ -303,16 +303,39 @@ class Home(AbstractForm):
         blank=True,
         help_text="Title to show on mobile"
     )
-    body_content = StreamField([
-            ('heading', blocks.RichTextBlock()),
-            ('column_left', blocks.RichTextBlock()),
-            ('column_right', blocks.RichTextBlock()),
-            ('footer_content', blocks.RichTextBlock()),
-    ],blank=True)
-    background_color = RGBColorField(
+    result_heading = RichTextField(blank=True, help_text="""
+        Heading of result block
+    """)
+    body_content = RichTextField(blank=True, help_text="""
+        Body of result block
+    """)
+    footer_content = RichTextField(blank=True, help_text="""
+        Footer of result block
+    """)
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text="""
+            Max file size: 10MB. Choose from: JPEG, PNG
+        """
+    )
+    block_background_color = RGBColorField(
         default='#242e51', null=True, blank=True,
         help_text="The result block's background colour"
     )
+    button_link =models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+
+
 
     def get_context(self, request, **kwargs):
         context = super(Home, self).get_context(request)
@@ -345,8 +368,12 @@ class Home(AbstractForm):
             FieldPanel('exclude_tags', classname="full")
         ]),
         MultiFieldPanel([
-            FieldPanel('background_color'),
-            StreamFieldPanel('body_content'),
+            FieldPanel('block_background_color'),
+            FieldPanel('result_heading', classname="full"),
+            FieldPanel('body_content', classname="full"),
+            FieldPanel('footer_content', classname="full"),
+            ImageChooserPanel('image'),
+            PageChooserPanel('button_link'),
         ], heading="Result Block"),
     ]
 
