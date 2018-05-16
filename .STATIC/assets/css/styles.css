@@ -17,6 +17,7 @@
 
 .gt-slider-content p {
   font-size:18px;
+  letter-spacing:0.8px;
 }
 
 @media (max-width: 991px) {
@@ -49,6 +50,7 @@
   font-weight:700;
   font-size:24px;
   text-align:center;
+  letter-spacing:1.5px;
 }
 
 @media (max-width: 991px) {
@@ -860,7 +862,7 @@ gt-topic-header-stress {
 
 .panel-body.gt-highlights-body {
   padding-left:0px;
-  overflow-y:auto;
+  overflow-y:hidden;
   padding-right:0px;
   height:300px;
 }
@@ -1800,6 +1802,7 @@ gt-topic-header-stress {
   background-image:none;
   font-family:'Montserrat';
   font-size:16px;
+  letter-spacing:0.8px;
 }
 
 .panel.panel-default.gt-highlights {
@@ -2581,6 +2584,7 @@ em {
   padding-top:0px;
   text-align:center;
   margin-top:15px;
+  letter-spacing:0.8px;
 }
 
 .gt-title-footer {
@@ -2798,7 +2802,7 @@ em {
 }
 
 .gt-header-img.article {
-  background-image:url(../../assets/img/gt-feedback.png);
+  background-image:url(../../assets/img/gt-articals-cover-img.jpg);
 }
 
 @media (max-width: 767px) {
@@ -3363,6 +3367,7 @@ em {
   font-size:32px;
   font-weight:bold;
   font-family:'Montserrat';
+  letter-spacing:0.9px;
 }
 
 @media (max-width: 991px) {
@@ -3417,6 +3422,7 @@ em {
   padding:0px !important;
   margin-top:5px;
   font-family:Nunito Sans;
+  letter-spacing:0.8px;
 }
 
 .panel-heading.gt-blue.gt-heading-panel {
@@ -3663,6 +3669,7 @@ em {
 .gt-partner-div.rich-text p {
   font-size:18px;
   font-family:Nunito Sans;
+  letter-spacing:1.2px;
 }
 
 @media (max-width: 991px) {
@@ -3701,6 +3708,7 @@ em {
   padding-top:0px;
   margin:0px;
   font-family:Nunito Sans;
+  letter-spacing:1.2px;
 }
 
 @media (max-width: 767px) {
@@ -4262,6 +4270,7 @@ h5 {
   padding-top:30px;
   font-size:18px;
   font-family:Nunito Sans;
+  letter-spacing:1.2px;
 }
 
 @media (max-width: 991px) {
@@ -4626,6 +4635,7 @@ html {
     font-size:24px;
     color:#16b28f;
     text-decoration:none;
+    letter-spacing:1.2px;
   }
 }
 
@@ -4649,6 +4659,7 @@ html {
   font-size:18px;
   line-height:24px;
   font-family:Nunito Sans;
+  letter-spacing:1.2px;
 }
 
 .gt-feedback-content {
@@ -4696,6 +4707,7 @@ html {
 
 .gt-feedback-content.rich-text h3 {
   font-size:26px;
+  letter-spacing:1.2px;
 }
 
 @media (max-width: 1199px) {
@@ -4896,6 +4908,7 @@ html {
 
 .gt-sa-container.rich-text p {
   font-size:18px;
+  letter-spacing:1.2px;
 }
 
 @media (max-width: 991px) {
@@ -4908,9 +4921,6 @@ html {
   .gt-sa-container.rich-text p {
     font-size:14px;
   }
-}
-
-.gt-sa-container.rich-text em {
 }
 
 .gt-sa-container.rich-text p:nth-child(3) {

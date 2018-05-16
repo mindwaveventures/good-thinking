@@ -32,7 +32,7 @@ $( document ).ready(function() {
         }
       }
   });
-      
+
     var gtswiperstressq = new Swiper('.gt-swiper-stress-q', {
     slidesPerView: 1.4,
     spaceBetween: 10,
@@ -63,10 +63,10 @@ $( document ).ready(function() {
           spaceBetween: 5,
         }
       }
-        
+
   });
-    
-    
+
+
      var gtswiperstressbrowser = new Swiper('.gt-swiper-stress-browser', {
     slidesPerView: 1.2,
     spaceBetween: 10,
@@ -92,11 +92,11 @@ $( document ).ready(function() {
         320: {
           slidesPerView: 1.2,
           spaceBetween: 5,
-    
+
         }
       }
   });
-    
+
      var gtstressresultswiper = new Swiper('.gt-stress-result-swiper', {
     slidesPerView: 4,
     spaceBetween: 10,
@@ -160,7 +160,7 @@ $( document ).ready(function() {
           spaceBetween: 5,
         }
       }
-        
+
   });
-    
+
 });
