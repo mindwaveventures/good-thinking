@@ -620,6 +620,7 @@ class Results(RoutablePageMixin, ResourcePage):
             request, data=context, slug=slug,
             path_components=kwargs.get('path_components', [])
         )
+        context['topic'] = slug;
         template = loader.get_template(f"resources/results.html")
         return HttpResponse(
             template.render(context=base_context(context, self), request=request)
