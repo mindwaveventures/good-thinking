@@ -48,10 +48,10 @@ def get_location(request):
 
 def get_json_data(request):
     try:
-        slug = request.path.split('/')[2]
+        query = request.GET.urlencode()
+        slug = parse_qs(query)['slug'][0]
     except:
         slug = ''
-
     data = get_data(request, slug=slug)
     json_data = {}
 
@@ -111,7 +111,6 @@ def get_data(request, **kwargs):
         resource_id = filter(lambda id: id != "", splited_resource)
     else:
         resource_id = []
-
     if request.GET.get('order'):
         resource_order = request.GET.get('order')
     else:

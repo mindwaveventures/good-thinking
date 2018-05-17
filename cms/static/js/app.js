@@ -249,14 +249,16 @@ var HttpClient = function() {
   }
 }
 
-var search_url = window.location.search;
-var json_url = '/get_json_data/' + search_url + '&' + 'resource_id=';
+
+var pathname = window.location.pathname.split( '/' );
+var search_url = window.location.search?window.location.search+'&':'?';
+var json_url = '/get_json_data/'+search_url+'slug='+pathname[2] +'&' + 'resource_id=';
 RemoveResource = function(resource, screen_size, resource_id) {
   var resource_data = '';
   var mobile_resource_data = '';
   var client = new HttpClient();
   json_url += resource_id + ','
-  
+
   // to get resources from server
   client.get(json_url, function(response) {
     var resources = jQuery.parseJSON(response).resources;
