@@ -222,8 +222,6 @@ GetQueryResults = function(slug) {
 
 }
 
-
-
 function inViewport($el) {
   var elH = $el.outerHeight(),
     H = $(window).height(),
@@ -251,9 +249,6 @@ var HttpClient = function() {
   }
 }
 
-
-
-
 var search_url = window.location.search;
 var json_url = '/get_json_data/' + search_url + '&' + 'resource_id=';
 RemoveResource = function(resource, screen_size, resource_id) {
@@ -261,26 +256,39 @@ RemoveResource = function(resource, screen_size, resource_id) {
   var mobile_resource_data = '';
   var client = new HttpClient();
   json_url += resource_id + ','
+  
+  // to get resources from server
   client.get(json_url, function(response) {
     var resources = jQuery.parseJSON(response).resources;
     var mobile_resources = jQuery.parseJSON(response).mobile_resources;
+
     $(document).ready(function() {
+      // to remove special characters from array
       resources.forEach(function(e) {
         resource_data += e;
       });
+
       $('.gt-highlights-stress-row').replaceWith('<div class="gt-highlights-stress-row"><div class="row">' + resource_data + '</div></div>');
+
+      // to remove special characters from array
       mobile_resources.forEach(function(e) {
         mobile_resource_data += e;
       });
       $('.mobile_resources').replaceWith('<div class="swiper-wrapper mobile_resources">' + mobile_resource_data + '</div>');
+
+      // to get index for each block
       index_count();
+      // to initialise the swiper
       stress_result_swiper();
     });
+
+    // to change resource count in template
     if (screen_size == 'mobile') {
       $("#resource_count").html(stress_result_swiper());
     } else {
       $("#resource_count").html($('.get_resource_count').length);
     }
+
   });
 }
 
