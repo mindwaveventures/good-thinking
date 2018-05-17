@@ -870,7 +870,7 @@ gt-topic-header-stress {
 @media (max-width: 767px) {
   .panel-body.gt-highlights-body {
     padding:10px !important;
-    height:auto;
+    height:340px;
   }
 }
 
@@ -3965,7 +3965,7 @@ input[type=checkbox]:checked + label {
 }
 
 .checkboxes label:hover {
-  background-color:#f3a140;
+  background-color:#fcbb7a;
 }
 
 .gt-lt {
