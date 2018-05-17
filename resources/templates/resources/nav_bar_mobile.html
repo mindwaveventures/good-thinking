@@ -6,8 +6,8 @@
 <div class="gt-xs-nav">
   <ul class="nav nav-tabs hidden-sm hidden-md hidden-lg gt-mob-nav">
     {% for topic in landing_pages|slice:":3" %}
-      <li class="gt-nav-center">
-        <a href="/{{topic.slug}}/" class="gt-mob-text {% if topic.slug|lower == page.slug|lower %}menu_active{% endif %}" >{{topic.title}}</a>
+      <li class="gt-nav-center {% if topic.slug|lower == page.slug|lower %}active{% endif %}">
+        <a href="/{{topic.slug}}/" class="gt-mob-text" >{{topic.title}}</a>
       </li>
     {% endfor %}
     <li class="dropdown gt-nav-center"><a class="dropdown-toggle gt-mob-text" data-toggle="dropdown" aria-expanded="false" href="#">More<span class="caret"></span></a>
