@@ -614,7 +614,7 @@ gt-topic-header-stress {
   font-size:21px;
 }
 
-.panel-title.gt-highlights-panel-title {
+.panel-title.gt-highlights-panel-title .rich-text h3 {
   text-align:left;
   font-size:21px;
   font-weight:600;
@@ -2563,7 +2563,7 @@ em {
   position:relative;
   z-index:5;
   width:100%;
-  bottom:0;
+  bottom:0px;
 }
 
 .gt-footer-result {
@@ -2750,7 +2750,7 @@ em {
 }
 
 .gt-highlights-stress {
-  background-color:#242e51 !important;
+  background-color:#242e51;
 }
 
 @media (max-width: 1199px) {
@@ -4008,6 +4008,7 @@ input[type=checkbox]:checked + label {
 
 .gt-partner-heading.rich-text p {
   font-size:18px;
+<<<<<<< HEAD
 <<<<<<< Updated upstream
   text-align:center;
   padding:0px 30px;
@@ -4015,6 +4016,10 @@ input[type=checkbox]:checked + label {
   text-align:left;
   padding:0px 0px;
 >>>>>>> Stashed changes
+=======
+  text-align:left;
+  padding:0px 10px;
+>>>>>>> 4f77b96b6be816b9f8cdcd0df0f4902d1bc2ea39
   font-family:'Nunito Sans', sans-serif;
 }
 
@@ -4036,9 +4041,6 @@ input[type=checkbox]:checked + label {
 .gt-partner-tagline-rich-text p {
   font-size:18px;
   text-align:left;
-  padding:0px 40px 0px 10px !important;
-  text-align: center;
-  /* width:50%; */
   font-family:'Nunito Sans', sans-serif;
 }
 
@@ -4974,13 +4976,4 @@ html {
     font-size:14px;
     padding:5px;
   }
-}
-.gt-paratner-col-left {
-  float:left;
-  width:50%;
-}
-
-.gt-partner-col-right {
-  float:right;
-  width:50%;
 }
