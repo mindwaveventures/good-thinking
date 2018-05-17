@@ -200,8 +200,12 @@ function stress_result_swiper() {
       }
     }
   });
-
-  return gtstressresultswiper.slides.length;
+if ($(window).width() <= 991) {
+  $("#resource_count").html(gtstressresultswiper.slides.length);
+} else {
+  $("#resource_count").html($('.get_resource_count').length);
+}
+return gtstressresultswiper.slides.length;
 }
 
 
