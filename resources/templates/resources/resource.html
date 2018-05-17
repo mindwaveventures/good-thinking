@@ -8,17 +8,15 @@
 
 {% image page.hero_image width-1000 as hero_image %} {% image page.brand_logo width-500 as brand_logo %}
 
-<!-- if the resource page has previous page  -->
-{% if request.META.HTTP_REFERER %}
+
 <section class="gt-header-result">
   <div class="gt-header-result-div">
-    <a href="{{request.META.HTTP_REFERER}}">
+    <a href="javascript:history.back();">
       <img src="{% static 'images/gt-back.svg' %}" class="gt-footer-result-img">
       <p class="gt-footer-result-para">Back to results</p>
     </a>
     </div>
 </section>
-{% endif %}
 
 <!-- hero image block -->
 {% if hero_image %}
@@ -126,13 +124,11 @@
       <a href="{{button.button_link}}"><button class="btn btn-default gt-highlights-btn gt-no-border" type="button">{{button.button_text}}</button></a>
      {% endif %}
     {% endfor %}
-    {% if request.META.HTTP_REFERER %}
     <div class="gt-footer-result">
-      <a href="{{request.META.HTTP_REFERER}}" class="gt-back" >
+      <a href="javascript:history.back();" class="gt-back" >
         <p class="gt-footer-result-para">Back to results</p>
       </a>
     </div>
-    {% endif %}
   </div>
 </footer>
 
