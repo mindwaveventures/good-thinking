@@ -870,7 +870,7 @@ gt-topic-header-stress {
 @media (max-width: 767px) {
   .panel-body.gt-highlights-body {
     padding:10px !important;
-    height:340px;
+    height:auto;
   }
 }
 
