@@ -200,12 +200,16 @@ function stress_result_swiper() {
       }
     }
   });
-
-  return gtstressresultswiper.slides.length;
+if ($(window).width() <= 991) {
+  $("#resource_count").html(gtstressresultswiper.slides.length);
+} else {
+  $("#resource_count").html($('.get_resource_count').length);
+}
+return gtstressresultswiper.slides.length;
 }
 
-GetQueryResults = function(slug) {
 
+GetQueryResults = function(slug) {
   var url = '/results/' + slug + '/' + '?';
 
   $("input:checkbox[name=1]:checked").each(function() {
@@ -222,25 +226,87 @@ GetQueryResults = function(slug) {
 
 }
 
-RemoveResource = function(resource, screen_size) {
-  $('.' + resource).remove();
+function inViewport($el) {
+  var elH = $el.outerHeight(),
+    H = $(window).height(),
+    r = $el[0].getBoundingClientRect(),
+    t = r.top,
+    b = r.bottom;
+  return Math.max(0, t > 0 ? Math.min(elH, H - t) : Math.min(b, H));
+}
 
-  if (screen_size == 'mobile') {
-    $("#resource_count").html(stress_result_swiper());
-  } else {
-    $("#resource_count").html($('.get_resource_count').length);
+$(window).on("scroll resize", function() {
+  var visibleFooterHeight = inViewport($('#gtFooter'));
+  $(".gt-footer-results").css("bottom", visibleFooterHeight + 'px');
+});
+
+var HttpClient = function() {
+  this.get = function(aUrl, aCallback) {
+    var anHttpRequest = new XMLHttpRequest();
+    anHttpRequest.onreadystatechange = function() {
+      if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+        aCallback(anHttpRequest.responseText);
+    }
+
+    anHttpRequest.open("GET", aUrl, true);
+    anHttpRequest.send(null);
   }
 }
 
-function inViewport($el) {
-    var elH = $el.outerHeight(),
-        H   = $(window).height(),
-        r   = $el[0].getBoundingClientRect(), t=r.top, b=r.bottom;
-    return Math.max(0, t>0? Math.min(elH, H-t) : Math.min(b, H));
+
+var pathname = window.location.pathname.split( '/' );
+var search_url = window.location.search?window.location.search+'&':'?';
+var json_url = '/get_json_data/'+search_url+'slug='+pathname[2] +'&' + 'resource_id=';
+RemoveResource = function(resource, screen_size, resource_id) {
+  var resource_data = '';
+  var mobile_resource_data = '';
+  var client = new HttpClient();
+  json_url += resource_id + ','
+
+  // to get resources from server
+  client.get(json_url, function(response) {
+    var resources = jQuery.parseJSON(response).resources;
+    var mobile_resources = jQuery.parseJSON(response).mobile_resources;
+
+    $(document).ready(function() {
+      // to remove special characters from array
+      resources.forEach(function(e) {
+        resource_data += e;
+      });
+
+      $('.gt-highlights-stress-row').replaceWith('<div class="gt-highlights-stress-row"><div class="row">' + resource_data + '</div></div>');
+
+      // to remove special characters from array
+      mobile_resources.forEach(function(e) {
+        mobile_resource_data += e;
+      });
+      $('.mobile_resources').replaceWith('<div class="swiper-wrapper mobile_resources">' + mobile_resource_data + '</div>');
+
+      // to get index for each block
+      index_count();
+      // to initialise the swiper
+      stress_result_swiper();
+    });
+
+    // to change resource count in template
+    if (screen_size == 'mobile') {
+      $("#resource_count").html(stress_result_swiper());
+    } else {
+      $("#resource_count").html($('.get_resource_count').length);
+    }
+
+  });
 }
 
-$(window).on("scroll resize", function(){
-  //console.log( inViewport($('#gtFooter')) ); // n px in viewport
-    var visibleFooterHeight = inViewport($('#gtFooter'));
-    $(".gt-footer-results").css("bottom", visibleFooterHeight+'px');
-});
+index_count = function() {
+  $(".gt-highlights-stress-row").each(function() {
+    $(this).find(".gt-number").each(function(e) {
+      $(".gt-number").eq(e).html('#'+(e + 1));
+    });
+  });
+  $(".mobile_resources").each(function() {
+    $(this).find(".gt-number").each(function(e) {
+      $(".gt-number").eq(e+5).html('#'+(e + 1));
+    });
+  });
+}

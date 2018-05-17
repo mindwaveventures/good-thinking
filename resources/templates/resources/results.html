@@ -48,7 +48,6 @@
         {% for post in resources %}
           {% include "resources/short_resource.html" with page=post.specific selected_tags=selected_tags diff_class='gt-stress-col-2' num=forloop.counter%}
           {% endfor %}
-          {%  if not resource_count|divisibleby:2  %}
           {% for block in result_block %}
             {% image block.image fill-244x245 as image %}
             <div class="col-lg-6 gt-stress-col-2">
@@ -67,7 +66,6 @@
               </div>
             </div>
             {% endfor %}
-            {% endif %}
           {% endif %}
       </div>
   </div>
@@ -76,7 +74,7 @@
   <section class="gt-home-topic gt-slider-hide">
       <div class="row bt-topics-slider">
           <div class="gt-stress-result-swiper">
-              <div class="swiper-wrapper">
+              <div class="swiper-wrapper mobile_resources">
                 {% if resources %}
                 {% for post in mobile_resources %}
                       {% include "resources/short_resource_mobile.html" with page=post.specific selected_tags=selected_tags diff_class='gt-stress-col-2' num=forloop.counter%}
@@ -99,7 +97,7 @@
         <div class="panel-body gt-highlights-stress-boby rich-text" style="background-color: {{block.block_background_color}}">
             <div><img src="{{image.url}}" class="gt-highlights-stress-img"></div>
             <div>
-        {{block.body_content | richtext}}
+              {{block.body_content | richtext}}
             </div>
         </div>
         <div class="panel-footer gt-highlight-stress-footer"><a href='{{block.button_link.specific.slug}}'><button class="btn btn-default gt-highlights-btn gt-border" type="button">{{block.button_link.specific.title}}<br></button></a></div>

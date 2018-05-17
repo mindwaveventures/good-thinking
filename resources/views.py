@@ -52,7 +52,6 @@ def get_json_data(request):
         slug = parse_qs(query)['slug'][0]
     except:
         slug = ''
-
     data = get_data(request, slug=slug)
     json_data = {}
 
@@ -66,34 +65,21 @@ def get_json_data(request):
             data['resources']
         )
     )
-
-    tips = list(
+    mobile_resources = list(
         map(
             lambda r: render_to_string(
-                'resources/tip.html',
-                {'page': r},
+                'resources/short_resource_mobile.html',
+                {'page': r, 'selected_tags': data['selected_tags']},
                 request=request
             ),
-            data['tips']
+            data['mobile_resources']
         )
     )
-
-    assessments = list(
-        map(
-            lambda r: render_to_string(
-                'resources/assessment.html',
-                {'page': r},
-                request=request
-            ),
-            data['assessments']
-        )
-    )
-
-    json_data['resources'] = list(chain(resources, assessments))
-    json_data['tips'] = tips
+    json_data['resources'] = resources
+    json_data['mobile_resources'] = mobile_resources
 
     for d in data:
-        if d != 'resources' and d != 'tips':
+        if d != 'resources' and d != 'mobile_resources':
             try:
                 json_data[d] = serializers.serialize('json', data[d])
             except:
@@ -120,6 +106,11 @@ def get_data(request, **kwargs):
     reason_filter = request.GET.getlist('q2')
     topic_filter = request.GET.getlist('topic')
     collection_filter = kwargs.get('collection_slug')
+    if request.GET.get('resource_id'):
+        splited_resource = request.GET.get('resource_id').split(",")
+        resource_id = filter(lambda id: id != "", splited_resource)
+    else:
+        resource_id = []
     if request.GET.get('order'):
         resource_order = request.GET.get('order')
     else:
@@ -209,6 +200,7 @@ def get_data(request, **kwargs):
         chain(tips, assessments, top_collections)))
     ).filter(~Q(slug="results")
     ).filter(~Q(slug="collections")
+    ).filter(~Q(id__in=resource_id)
     ).prefetch_related(
         'badges'
     ).prefetch_related(
@@ -272,7 +264,8 @@ def get_data(request, **kwargs):
 
     data['landing_pages'] = Home.objects.filter(~Q(slug="home")).live()
     data['resources'] = filtered_resources
-    data['resources'], data['mobile_resources'] = itertools.tee(filtered_resources, 2)
+    sliced_resources = itertools.islice(filtered_resources, 5)
+    data['resources'],data['mobile_resources'] = itertools.tee(sliced_resources, 2)
     data['tips'] = tips
     data['assessments'] = assessments
     # data['resource_count'] = resources.count() + tips.count()
