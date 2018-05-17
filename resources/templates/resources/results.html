@@ -76,7 +76,7 @@
   <section class="gt-home-topic gt-slider-hide">
       <div class="row bt-topics-slider">
           <div class="gt-stress-result-swiper">
-              <div class="swiper-wrapper">
+              <div class="swiper-wrapper mobile_resources">
                 {% if resources %}
                 {% for post in mobile_resources %}
                       {% include "resources/short_resource_mobile.html" with page=post.specific selected_tags=selected_tags diff_class='gt-stress-col-2' num=forloop.counter%}

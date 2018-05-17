@@ -41,7 +41,7 @@
         <div class="panel-footer gt-highlight-footer"><a href="/{{page.parent}}/{{page.slug}}/"><button class="btn btn-default gt-highlights-btn" type="button">Tell me more</button></a>
           {% if diff_class != 'gt-stress-col-1' %}
             <div class="gt-highlights-btn-text-block">
-                <a href="#" class="gt-highlights-close">
+                <a class="gt-highlights-close">
                     <div class="gt-close-cta"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 width="18px" height="18px" viewBox="0 0 18 18" enable-background="new 0 0 18 18" xml:space="preserve">
 <path   d="M9,0C4.029,0,0,4.029,0,9s4.029,9,9,9s9-4.029,9-9S13.971,0,9,0z M12.66,11.246
@@ -50,7 +50,7 @@ c-0.195,0.195-0.451,0.293-0.707,0.293S5.535,12.855,5.34,12.66c-0.391-0.391-0.391
 c-0.391-0.391-0.391-1.023,0-1.414s1.023-0.391,1.414,0L9,7.586l2.246-2.246c0.391-0.391,1.023-0.391,1.414,0s0.391,1.023,0,1.414
 L10.414,9L12.66,11.246z"/>
 </svg></div>
-                    <h1 class="gt-highlights-btn-text" onclick="RemoveResource('resource-{{num}}','desktop');" >No thanks, I’ve tried this before<br></h1>
+                    <h1 class="gt-highlights-btn-text" onclick="RemoveResource('resource-{{num}}','desktop',{{page.id}});" >No thanks, I’ve tried this before<br></h1>
                 </a>
             </div>
             {%endif%}
