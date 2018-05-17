@@ -60,11 +60,6 @@
 
         <div class="panel-body gt-partner-body">
 
-          <!-- tagline block  -->
-          <div class="gt-partner-tagline-rich-text">
-              {{ page.tagline|new_tab|richtext }}
-          </div>
-
           <!-- streamfield block  -->
           <div class="row gt-partner rich-text">
             {% for block in page.body %}
@@ -79,6 +74,10 @@
                   {% elif block.block_type == 'column_left' or 'rich_text' and not block.block_type == 'column_right'%}
                     <div class="col-md-6 gt-partner-text rich-text">
                       <div class="gt-lt">
+                        <!-- tagline block  -->
+                        <div class="gt-partner-tagline-rich-text">
+                            {{ page.tagline|new_tab|richtext }}
+                        </div>
                         {% include_block block %}
                       </div>
                     </div>

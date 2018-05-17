@@ -4008,8 +4008,13 @@ input[type=checkbox]:checked + label {
 
 .gt-partner-heading.rich-text p {
   font-size:18px;
+<<<<<<< Updated upstream
   text-align:center;
   padding:0px 30px;
+=======
+  text-align:left;
+  padding:0px 0px;
+>>>>>>> Stashed changes
   font-family:'Nunito Sans', sans-serif;
 }
 
@@ -4024,7 +4029,7 @@ input[type=checkbox]:checked + label {
 @media (max-width: 767px) {
   .gt-partner-heading.rich-text p {
     font-size:14px;
-    text-align:center;
+    text-align:left;
   }
 }
 
@@ -4899,4 +4904,83 @@ html {
 .panel-default > .panel-heading.gt-highlights-stress {
   text-align:left;
   border-bottom:none;
+}
+.gt-col-left {
+  float:left;
+}
+
+.gt-col-right {
+  float:right;
+}
+
+.push {
+  height:85px;
+}
+
+.panel-heading.gt-assess-title.rich-text {
+  background-color:transparent !important;
+  text-align:left;
+  border-bottom:none;
+}
+
+.panel-heading.gt-assess-title.rich-text h3 {
+  font-size:21px;
+}
+
+@media (max-width: 991px) {
+  .panel-heading.gt-assess-title.rich-text h3 {
+    font-size:16px;
+  }
+}
+
+@media (max-width: 767px) {
+  .panel-heading.gt-assess-title.rich-text h3 {
+    font-size:14px;
+  }
+}
+
+.panel-body.gt-highlights-stress-boby.rich-text p {
+  font-size:18px;
+  padding:0px;
+  padding-top:10px;
+  text-align:left;
+}
+
+@media (max-width: 991px) {
+  .panel-body.gt-highlights-stress-boby.rich-text p {
+    font-size:16px;
+    padding:0px;
+    padding-top:10px;
+    text-align:left;
+  }
+}
+
+@media (max-width: 767px) {
+  .panel-body.gt-highlights-stress-boby.rich-text p {
+    font-size:14px;
+    padding:0px;
+    padding-top:10px;
+    text-align:left;
+  }
+}
+
+.panel-body.gt-highlights-stress-boby.rich-text li {
+  font-size:16px;
+  padding:5px;
+}
+
+@media (max-width: 767px) {
+  .panel-body.gt-highlights-stress-boby.rich-text li {
+    font-size:14px;
+    padding:5px;
+  }
+}
+.gt-paratner-col-left {
+  float:left;
+  width:50%;
+}
+
+.gt-partner-col-right {
+  float:right;
+  width:50%;
 }

@@ -1,9 +1,10 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
-<footer id="gtFooter">
+<footer>
+<div class="push"></div>
 <!-- footer sitemap block -->
 {% if site_map %}
-    <div class="gt-footer">
+    <div class="gt-footer" id="gtFooter">
       {% for footer in site_map %}
         <div class="gt-link-footer"><a href="/{{footer.link_page.specific.slug}}/" class="gt-footer-link">{{footer.link_page.specific.title}}<br></a></div>
       {% endfor %}
