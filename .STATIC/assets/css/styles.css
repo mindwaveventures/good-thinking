@@ -1985,6 +1985,7 @@ em {
   text-align:right;
   color:rgb(22,178,143);
   font-weight:bold;
+  border-bottom:2px solid rgba(0,0,0,0);
 }
 
 @media (max-width: 767px) {
@@ -2008,9 +2009,10 @@ em {
 
 .nav-tabs .dropdown-menu {
   width:100% !important;
-  top:95px !important;
+  top:94px !important;
   border:none;
   box-shadow:0 2px 4px 0 rgba(0, 0, 0, 0.16);
+  padding:0px !important;
 }
 
 .nav-tabs > li > a {
@@ -2904,11 +2906,6 @@ em {
   font-size:16px;
 }
 
-.gt-mob-text {
-  color:rgb(22,178,143);
-  font-size:16px;
-}
-
 .panel.panel-default.gt-highlights-partner {
   margin:10px 60px !important;
   border:none;
@@ -3328,6 +3325,7 @@ em {
   text-decoration:none !important;
   color:#16b28f!important;
   fill:#16b28f !important;
+  cursor:pointer;
 }
 
 .gt-back {
@@ -3632,7 +3630,7 @@ em {
 
 @media (max-width: 767px) {
   .gt-partner-div {
-    padding-top:30px;
+    padding-top:10px;
   }
 }
 
@@ -4501,18 +4499,18 @@ h5 {
   }
 }
 
-.row.gt-partner.rich-text h4 {
+.row.gt-partner.rich-text h3 {
   font-size:18px;
 }
 
 @media (max-width: 991px) {
-  .row.gt-partner.rich-text h4 {
+  .row.gt-partner.rich-text h3 {
     font-size:16px;
   }
 }
 
 @media (max-width: 767px) {
-  .row.gt-partner.rich-text h4 {
+  .row.gt-partner.rich-text h3 {
     font-size:14px;
   }
 }
@@ -4896,8 +4894,15 @@ html {
 
 @media (max-width: 360px) {
   .nav-tabs > li > a {
-    padding:10px 5px;
+    padding:10px 3px;
     font-size:14px;
+  }
+}
+
+@media (max-width: 360px) {
+  .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    padding:10px 3px !important;
+    font-size:14px !important;
   }
 }
 
@@ -4989,5 +4994,43 @@ html {
 .gt-partner-col-right {
   float:right;
   width:50%;
+}
+
+.gt-partner-div.rich-text h4 {
+  font-family:'Nunito Sans';
+  font-size:18px;
+  font-weight:700;
+  margin-top:4px;
+  padding-top:0px;
+  color:#252e4e;
+  text-align:left;
+  margin-bottom:5px;
+  padding-bottom:0px;
+}
+
+@media (max-width: 991px) {
+  .gt-partner-div.rich-text h4 {
+    font-size:16px;
+  }
+}
+
+@media (max-width: 767px) {
+  .gt-partner-div.rich-text h4 {
+    font-size:14px;
+  }
+}
+
+.dropdown-menu > li > a:active {
+  color:#16b28f !important;
+  text-decoration:none;
+  border-bottom:2px solid #16b28f!important;
+}
+
+.dropdown-menu > li > a:hover {
+  color:#242e50;
+  text-decoration:none;
+  border-bottom:2px solid #242e50 !important;
+  background-color:transparent;
+  background-image:none;
 }
 
