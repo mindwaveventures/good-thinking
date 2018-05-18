@@ -188,6 +188,5 @@ $(window).on("scroll resize", function(){
 });
 
 $(".gt-para-topics p").on('mousedown pointerdown', function (e){
-    console.log("heeeee");
     e.stopPropagation();
 });

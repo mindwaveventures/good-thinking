@@ -849,7 +849,7 @@ gt-topic-header-stress {
     height:35px;
     border-radius:100px;
     border:solid 1px #16b28f;
-    width:260px;
+    width:100%;
     color:#16b28f;
     text-shadow:none;
     font-family:Montserrat, sans-serif;
@@ -4545,10 +4545,6 @@ h5 {
   }
 }
 
-.btn.btn-default:focus {
-  background-color:#fff;
-}
-
 @media (max-width: 767px) {
   .gt-read.rich-text p {
     font-size:14px;
@@ -5031,5 +5027,36 @@ html {
   border-bottom:2px solid #242e50 !important;
   background-color:transparent;
   background-image:none;
+}
+
+.gt-cookies {
+  width:100%;
+  position:fixed;
+  padding:20px;
+  background-color:#f2f2f2;
+  bottom:0;
+  text-align:center;
+  z-index:100;
+}
+
+.gt-cookies.rich-text p {
+  font-size:16px;
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.btn.btn-default.gt-cookie-cta {
+  width:180px;
+  height:35px;
+  border-radius:100px;
+  background-color:#16b28f;
+  border:solid 1px #16b28f;
+  background-image:none;
+  color:#fff;
+  letter-spacing:1.2px;
+}
+
+.gt-cookies.rich-text a {
+  color:#16b28f;
 }
 
