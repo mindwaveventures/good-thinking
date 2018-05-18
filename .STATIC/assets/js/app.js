@@ -8,6 +8,8 @@ $( document ).ready(function() {
  var gtbrowsertopicswiper = new Swiper('.gt-browser-topic-swiper', {
     slidesPerView: 4,
     spaceBetween: 10,
+     touchReleaseOnEdges: true,
+     slideToClickedSlide: true,
       clickable: true,
     pagination: {
       el: '.gt-swiper-pagination-browser-topic',
@@ -17,6 +19,7 @@ $( document ).ready(function() {
         1024: {
           slidesPerView: 4,
           spaceBetween: 10,
+          
         },
         990: {
           slidesPerView: 2.6,
@@ -36,6 +39,7 @@ $( document ).ready(function() {
     var gtswiperstressq = new Swiper('.gt-swiper-stress-q', {
     slidesPerView: 1.4,
     spaceBetween: 10,
+    slideToClickedSlide: true,
     centeredSlides: true,
     pagination: {
       el: '.gt-stress-q-swiper-pagination',
@@ -70,6 +74,7 @@ $( document ).ready(function() {
      var gtswiperstressbrowser = new Swiper('.gt-swiper-stress-browser', {
     slidesPerView: 1.2,
     spaceBetween: 10,
+    slideToClickedSlide: true,
     centeredSlides: true,
     pagination: {
       el: '.gt-swiper-pagination-stress-browser',
@@ -100,6 +105,7 @@ $( document ).ready(function() {
      var gtstressresultswiper = new Swiper('.gt-stress-result-swiper', {
     slidesPerView: 4,
     spaceBetween: 10,
+    slideToClickedSlide: true,
       allowSlidePrev:1,
     pagination: {
       el: '.gt-swiper-pagination-stress-result',
@@ -133,6 +139,7 @@ $( document ).ready(function() {
     var gtswiperselfassessment = new Swiper('.gt-swiper-self-assessment', {
     slidesPerView: 1.4,
     spaceBetween: 10,
+    slideToClickedSlide: true,
     centeredSlides: true,
     pagination: {
       el: '.gt-self-assessment-swiper-pagination',
@@ -178,4 +185,9 @@ $(window).on("scroll resize", function(){
   //console.log( inViewport($('#gtFooter')) ); // n px in viewport
     var visibleFooterHeight = inViewport($('#gtFooter'));
     $(".gt-footer-results").css("bottom", visibleFooterHeight+'px');
+});
+
+$(".gt-para-topics p").on('mousedown pointerdown', function (e){
+    console.log("heeeee");
+    e.stopPropagation();
 });

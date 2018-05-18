@@ -328,3 +328,7 @@ IndexCount = function() {
     });
   });
 }
+
+$(".gt-para-topics p").on('mousedown pointerdown', function (e){
+    e.stopPropagation();
+});
