@@ -161,14 +161,15 @@ $(document).ready(function() {
     }
 
   });
-
-  stress_result_swiper();
-
+// to initialize swiper on load
+StressResultSwiper();
+// to get resource count on load
+GetResourceCount();
 });
 
 
 
-function stress_result_swiper() {
+function StressResultSwiper() {
   var gtstressresultswiper = new Swiper('.gt-stress-result-swiper', {
     slidesPerView: 4,
     spaceBetween: 10,
@@ -200,15 +201,19 @@ function stress_result_swiper() {
       }
     }
   });
+return gtstressresultswiper.slides?gtstressresultswiper.slides.length:0;
+}
+
+// to change resource count value in template
+GetResourceCount = function() {
 if ($(window).width() <= 991) {
-  $("#resource_count").html(gtstressresultswiper.slides.length);
+  $("#resource_count").html(StressResultSwiper());
 } else {
   $("#resource_count").html($('.get_resource_count').length);
 }
-return gtstressresultswiper.slides.length;
 }
 
-
+// request resources based on user's answer
 GetQueryResults = function(slug) {
   var url = '/results/' + slug + '/' + '?';
 
@@ -253,11 +258,11 @@ var HttpClient = function() {
   }
 }
 
-
+// to remove resource from result page
 var pathname = window.location.pathname.split( '/' );
 var search_url = window.location.search?window.location.search+'&':'?';
 var json_url = '/get_json_data/'+search_url+'slug='+pathname[2] +'&' + 'resource_id=';
-RemoveResource = function(resource, screen_size, resource_id) {
+RemoveResource = function(resource, resource_id) {
   var resource_data = '';
   var mobile_resource_data = '';
   var client = new HttpClient();
@@ -283,30 +288,28 @@ RemoveResource = function(resource, screen_size, resource_id) {
       $('.mobile_resources').replaceWith('<div class="swiper-wrapper mobile_resources">' + mobile_resource_data + '</div>');
 
       // to get index for each block
-      index_count();
+      IndexCount();
       // to initialise the swiper
-      stress_result_swiper();
+      StressResultSwiper();
     });
 
-    // to change resource count in template
-    if (screen_size == 'mobile') {
-      $("#resource_count").html(stress_result_swiper());
-    } else {
-      $("#resource_count").html($('.get_resource_count').length);
-    }
-
+      // to change resource count in template
+      GetResourceCount();
   });
 }
 
-index_count = function() {
+// to get index value for resource block in results page
+IndexCount = function() {
+  // desktop view
   $(".gt-highlights-stress-row").each(function() {
     $(this).find(".gt-number").each(function(e) {
       $(".gt-number").eq(e).html('#'+(e + 1));
     });
   });
+  // mobile view
   $(".mobile_resources").each(function() {
     $(this).find(".gt-number").each(function(e) {
-      $(".gt-number").eq(e+5).html('#'+(e + 1));
+      $(".gt-number").eq(e+($('.get_resource_count').length)).html('#'+(e + 1));
     });
   });
 }
