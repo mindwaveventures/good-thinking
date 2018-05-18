@@ -140,6 +140,7 @@ ALLOWED_HOSTS = [
     'prelive-gt.herokuapp.com',
     '127.0.0.1',
     '192.168.33.20',
+    '192.168.1.2',
     'localhost',
     'good-thinking.uk',
     'www.good-thinking.uk',
