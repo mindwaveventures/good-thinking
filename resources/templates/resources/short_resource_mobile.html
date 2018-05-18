@@ -40,8 +40,9 @@
         </div>
         <div class="panel-footer gt-highlight-footer">
           <a href="/{{page.parent}}/{{page.slug}}/"><button class="btn btn-default gt-highlights-btn" type="button">Tell me more</button></a>
+          {% if not collection %}
             <div class="gt-highlights-btn-text-block">
-                <a href="#" class="gt-highlights-close">
+                <a  class="gt-highlights-close">
                     <div class="gt-close-cta"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 width="18px" height="18px" viewBox="0 0 18 18" enable-background="new 0 0 18 18" xml:space="preserve">
 <path   d="M9,0C4.029,0,0,4.029,0,9s4.029,9,9,9s9-4.029,9-9S13.971,0,9,0z M12.66,11.246
@@ -53,6 +54,7 @@ L10.414,9L12.66,11.246z"/>
                     <h3 class="gt-highlights-btn-text" onclick="RemoveResource('resource-{{num}}',{{page.id}});">No thanks, I’ve tried this before<br></h3>
                 </a>
             </div>
+          {%endif%}
         </div>
     </div>
 </div>

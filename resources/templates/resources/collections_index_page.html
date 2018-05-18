@@ -46,7 +46,7 @@
         {% if collection_resources %}
         {% for collections in collection_resources %}
           {% for resource in collections.selectresources.all %}
-            {% include "resources/short_resource.html" with page=resource.collection_resource.specific selected_tags=selected_tags diff_class='gt-stress-col-2' num=forloop.counter%}
+            {% include "resources/short_resource.html" with page=resource.collection_resource.specific selected_tags=selected_tags diff_class='gt-stress-col-2' num=forloop.counter collection='collection'%}
           {% endfor %}
         {% endfor %}
         {% endif %}
@@ -60,7 +60,7 @@
                 {% if collection_resources %}
                 {% for collections in collection_resources %}
                   {% for resource in collections.selectresources.all %}
-                      {% include "resources/short_resource_mobile.html" with page=resource.collection_resource.specific selected_tags=selected_tags diff_class='gt-stress-col-2' num=forloop.counter%}
+                      {% include "resources/short_resource_mobile.html" with page=resource.collection_resource.specific selected_tags=selected_tags diff_class='gt-stress-col-2' num=forloop.counter collection='collection'%}
                   {% endfor %}
                 {% endfor %}
                 {% endif %}
