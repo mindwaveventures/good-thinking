@@ -165,6 +165,8 @@ $(document).ready(function() {
 StressResultSwiper();
 // to get resource count on load
 GetResourceCount();
+// to get result block
+$('.result_block').clone().appendTo(".other_resource");
 });
 
 
@@ -278,8 +280,9 @@ RemoveResource = function(resource, resource_id) {
       resources.forEach(function(e) {
         resource_data += e;
       });
+      $('.gt-highlights-stress-row').replaceWith('<div class="gt-highlights-stress-row"><div class="row other_resource">' + resource_data + '</div></div>');
+      $('.result_block').clone().appendTo(".other_resource");
 
-      $('.gt-highlights-stress-row').replaceWith('<div class="gt-highlights-stress-row"><div class="row">' + resource_data + '</div></div>');
 
       // to remove special characters from array
       mobile_resources.forEach(function(e) {

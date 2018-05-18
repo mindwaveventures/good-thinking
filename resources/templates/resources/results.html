@@ -43,33 +43,36 @@
 
   <!-- short resources for desktop view -->
   <div class="gt-highlights-stress-row">
-      <div class="row">
+      <div class="row other_resource">
         {% if resources %}
         {% for post in resources %}
           {% include "resources/short_resource.html" with page=post.specific selected_tags=selected_tags diff_class='gt-stress-col-2' num=forloop.counter%}
           {% endfor %}
-          {% for block in result_block %}
-            {% image block.image fill-244x245 as image %}
-            <div class="col-lg-6 gt-stress-col-2">
-              <div class="panel panel-default gt-highlights-stress gt-hide-panel" style="background-color: {{block.block_background_color}}">
-                  <div class="panel-heading gt-assess-title rich-text">
-                      <h3 class="panel-title">{{block.result_heading | richtext}}<br></h3>
-                  </div>
-                  <div class="panel-body gt-highlights-stress-boby rich-text" style="background-color: {{block.block_background_color}}">
-                      <div class="gt-assess-img"><img src="{{image.url}}"></div>
-                      <div>
-                        {{block.body_content | richtext}}
-                      </div>
-                  </div>
-                  <div class="panel-footer gt-highlight-stress-footer">
-                    <a href='{{block.button_link.specific.slug}}'><button class="btn btn-default gt-highlights-btn gt-border" type="button">{{block.button_link.specific.title}}<br></button></a></div>
-              </div>
-            </div>
-            {% endfor %}
-          {% endif %}
       </div>
   </div>
-
+  <div class="hidden_block" style="display:none">
+    <div class="result_block">
+    {% for block in result_block %}
+      {% image block.image fill-244x245 as image %}
+      <div class="col-lg-6 gt-stress-col-2">
+        <div class="panel panel-default gt-highlights-stress gt-hide-panel" style="background-color: {{block.block_background_color}}">
+            <div class="panel-heading gt-assess-title rich-text">
+                <h3 class="panel-title">{{block.result_heading | richtext}}<br></h3>
+            </div>
+            <div class="panel-body gt-highlights-stress-boby rich-text" style="background-color: {{block.block_background_color}}">
+                <div class="gt-assess-img"><img src="{{image.url}}"></div>
+                <div>
+                  {{block.body_content | richtext}}
+                </div>
+            </div>
+            <div class="panel-footer gt-highlight-stress-footer">
+              <a href='{{block.button_link.specific.slug}}'><button class="btn btn-default gt-highlights-btn gt-border" type="button">{{block.button_link.specific.title}}<br></button></a></div>
+        </div>
+      </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
   <!-- short resources for mobile view -->
   <section class="gt-home-topic gt-slider-hide">
       <div class="row bt-topics-slider">
