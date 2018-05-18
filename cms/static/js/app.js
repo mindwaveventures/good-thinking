@@ -9,6 +9,7 @@ $(document).ready(function() {
     slidesPerView: 4,
     spaceBetween: 10,
     clickable: true,
+    touchReleaseOnEdges: true,
     pagination: {
       el: '.gt-swiper-pagination-browser-topic',
       clickable: true,
@@ -37,6 +38,7 @@ $(document).ready(function() {
     slidesPerView: 1.4,
     spaceBetween: 10,
     centeredSlides: true,
+    touchReleaseOnEdges: true,
     pagination: {
       el: '.gt-stress-q-swiper-pagination',
       clickable: true,
@@ -71,6 +73,7 @@ $(document).ready(function() {
     slidesPerView: 1.2,
     spaceBetween: 10,
     centeredSlides: true,
+    touchReleaseOnEdges: true,
     pagination: {
       el: '.gt-swiper-pagination-stress-browser',
       clickable: true,
@@ -101,6 +104,7 @@ $(document).ready(function() {
     slidesPerView: 4,
     spaceBetween: 10,
     allowSlidePrev: 1,
+    touchReleaseOnEdges: true,
     pagination: {
       el: '.gt-swiper-pagination-stress-result',
       clickable: true,
@@ -133,6 +137,7 @@ $(document).ready(function() {
     slidesPerView: 1.4,
     spaceBetween: 10,
     centeredSlides: true,
+    touchReleaseOnEdges: true,
     pagination: {
       el: '.gt-self-assessment-swiper-pagination',
       clickable: true,
@@ -176,6 +181,7 @@ function StressResultSwiper() {
     slidesPerView: 4,
     spaceBetween: 10,
     allowSlidePrev: 1,
+    touchReleaseOnEdges: true,
     pagination: {
       el: '.gt-swiper-pagination-stress-result',
       clickable: true,
