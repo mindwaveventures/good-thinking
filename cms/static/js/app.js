@@ -180,14 +180,14 @@ $('.result_block').clone().appendTo(".other_resource");
 });
 
 
-
+var gtstressresultswiper;
 function StressResultSwiper() {
-  var gtstressresultswiper = new Swiper('.gt-stress-result-swiper', {
+    gtstressresultswiper = new Swiper('.gt-stress-result-swiper', {
     slidesPerView: 4,
     spaceBetween: 10,
-    allowSlidePrev: 1,
+    centeredSlides: true,
+    longSwipesRatio:0.1,
     touchReleaseOnEdges: true,
-    slideToClickedSlide: true,
     pagination: {
       el: '.gt-swiper-pagination-stress-result',
       clickable: true,
@@ -215,13 +215,12 @@ function StressResultSwiper() {
       }
     }
   });
-return gtstressresultswiper.slides?gtstressresultswiper.slides.length:0;
 }
 
 // to change resource count value in template
 GetResourceCount = function() {
 if ($(window).width() <= 991) {
-  $("#resource_count").html(StressResultSwiper());
+  $("#resource_count").html(gtstressresultswiper?gtstressresultswiper.slides.length:0);
 } else {
   $("#resource_count").html($('.get_resource_count').length);
 }
@@ -292,20 +291,20 @@ RemoveResource = function(resource, resource_id) {
       resources.forEach(function(e) {
         resource_data += e;
       });
+      
+      // desktop view
       $('.gt-highlights-stress-row').replaceWith('<div class="gt-highlights-stress-row"><div class="row other_resource">' + resource_data + '</div></div>');
       $('.result_block').clone().appendTo(".other_resource");
 
 
-      // to remove special characters from array
-      mobile_resources.forEach(function(e) {
-        mobile_resource_data += e;
-      });
-      $('.mobile_resources').replaceWith('<div class="swiper-wrapper mobile_resources">' + mobile_resource_data + '</div>');
+      // mobile view
+      gtstressresultswiper.removeAllSlides();
+      gtstressresultswiper.appendSlide(mobile_resources);
 
       // to get index for each block
       IndexCount();
       // to initialise the swiper
-      StressResultSwiper();
+      // StressResultSwiper();
     });
 
       // to change resource count in template
