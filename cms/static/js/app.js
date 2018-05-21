@@ -301,7 +301,10 @@ RemoveResource = function(resource, resource_id) {
       var current_index = gtstressresultswiper.activeIndex;
       gtstressresultswiper.removeAllSlides();
       gtstressresultswiper.appendSlide(mobile_resources);
-      gtstressresultswiper.slideTo(current_index, 0);
+
+      gtstressresultswiper.slideTo(current_index, 0, function(){
+          gtstressresultswiper.update();
+      });
 
       // to get index for each block
       IndexCount();
