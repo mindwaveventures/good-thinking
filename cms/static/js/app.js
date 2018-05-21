@@ -291,15 +291,17 @@ RemoveResource = function(resource, resource_id) {
       resources.forEach(function(e) {
         resource_data += e;
       });
-      
+
       // desktop view
       $('.gt-highlights-stress-row').replaceWith('<div class="gt-highlights-stress-row"><div class="row other_resource">' + resource_data + '</div></div>');
       $('.result_block').clone().appendTo(".other_resource");
 
 
       // mobile view
+      var current_index = gtstressresultswiper.activeIndex;
       gtstressresultswiper.removeAllSlides();
       gtstressresultswiper.appendSlide(mobile_resources);
+      gtstressresultswiper.slideTo(current_index, 0);
 
       // to get index for each block
       IndexCount();
