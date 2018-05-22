@@ -863,7 +863,7 @@ gt-topic-header-stress {
   padding-left:0px;
   overflow-y:hidden;
   padding-right:0px;
-  height:300px;
+  height:350px;
 }
 
 @media (max-width: 767px) {
@@ -2272,7 +2272,7 @@ em {
   padding:10px 20px 10px 20px;
   border:none;
   border-radius:0px;
-  height:470px;
+  height:520px;
 }
 
 @media (max-width: 1199px) {
@@ -3349,7 +3349,7 @@ em {
 }
 
 .panel.panel-default.gt-highlights.gt-panel-height {
-  height:470px;
+  height:520px;
 }
 
 .nav-rich-text span {
@@ -4083,12 +4083,8 @@ input[type=checkbox]:checked + label {
   width:100% !important;
 }
 
-.gt-highlights-btn-text-block h3 {
-  font-size:18px !important;
-}
-
 @media (max-width: 767px) {
-  .gt-highlights-btn-text-block h3 {
+  .gt-highlights-btn-text h3 {
     font-size:14px !important;
   }
 }
@@ -5058,5 +5054,10 @@ html {
 
 .gt-cookies.rich-text a {
   color:#16b28f;
+}
+
+.richtext-image {
+  width:100%;
+  height:100%;
 }
 
