@@ -5046,3 +5046,8 @@ html {
 .gt-cookies.rich-text a {
   color:#16b28f;
 }
+
+.richtext-image{
+  width: 100%;
+  height: 100%;
+}
