@@ -2143,7 +2143,7 @@ em {
 }
 
 .bg-section-txt {
-  font-family:NunitoSans;
+  font-family:'Nunito Sans', sans-serif;
   font-size:14px;
   line-height:1.5;
   letter-spacing:0.8px;
@@ -4240,14 +4240,14 @@ border-bottom: 2px solid #16b28f;
 .bg-section-txt.rich-text p {
   font-size:18px;
   line-height:24px;
-  font-family:Nunito Sans;
+  font-family:'Nunito Sans', sans-serif;
 }
 
 @media (max-width: 991px) {
   .bg-section-txt.rich-text p {
     font-size:16px;
     line-height:24px;
-    font-family:Nunito Sans;
+    font-family:'Nunito Sans', sans-serif;
   }
 }
 
@@ -4255,7 +4255,7 @@ border-bottom: 2px solid #16b28f;
   .bg-section-txt.rich-text p {
     font-size:14px;
     line-height:24px;
-    font-family:Nunito Sans;
+    font-family:'Nunito Sans', sans-serif;
   }
 }
 
@@ -4267,7 +4267,7 @@ h5 {
 .gt-partner-text-block.rich-text h4 {
   padding-top:30px;
   font-size:18px;
-  font-family:Nunito Sans;
+  font-family:'Nunito Sans', sans-serif;
   letter-spacing:1.2px;
 }
 
@@ -4292,7 +4292,7 @@ h5 {
   margin-bottom:3rem;
   font-size:18px;
   line-height:24px;
-  font-family:Nunito Sans;
+  font-family:'Nunito Sans', sans-serif;
 }
 
 .gt-partner-text-block.rich-text b {
@@ -4522,7 +4522,7 @@ h5 {
   text-align:left;
   padding-right:20px;
   font-size:18px;
-  font-family:Nunito Sans;
+  font-family:'Nunito Sans', sans-serif;
 }
 
 @media (max-width: 767px) {
@@ -4615,7 +4615,7 @@ html {
   margin-top:3rem;
   font-size:18px;
   line-height:24px;
-  font-family:Nunito Sans;
+  font-family:'Nunito Sans', sans-serif;
 }
 
 .gt-feedback-content.rich-text a {
@@ -4652,7 +4652,7 @@ html {
   margin-bottom:3rem;
   font-size:18px;
   line-height:24px;
-  font-family:Nunito Sans;
+  font-family:'Nunito Sans', sans-serif;
   letter-spacing:1.2px;
 }
 
