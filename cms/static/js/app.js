@@ -3,7 +3,7 @@ $(".nav a").on("click", function() {
   $(this).parent().addClass("active");
 });
 
-
+var gtstressresultswiper;
 $(document).ready(function() {
   var gtbrowsertopicswiper = new Swiper('.gt-browser-topic-swiper', {
     slidesPerView: 4,
@@ -137,8 +137,40 @@ $(document).ready(function() {
     }
 
   });
-// to initialize swiper on load
-StressResultSwiper();
+
+  gtstressresultswiper = new Swiper('.gt-stress-result-swiper', {
+  slidesPerView: 4,
+  spaceBetween: 10,
+  centeredSlides: true,
+  longSwipesRatio:0.1,
+  touchReleaseOnEdges: true,
+  pagination: {
+    el: '.gt-swiper-pagination-stress-result',
+    clickable: true,
+  },
+  navigation: {
+    nextEl: '.gt-arrow-block',
+    prevEl: '',
+  },
+  breakpoints: {
+    1024: {
+      slidesPerView: 4,
+      spaceBetween: 10,
+    },
+    1000: {
+      slidesPerView: 1.1,
+      spaceBetween: 10,
+    },
+    800: {
+      slidesPerView: 1.1,
+      spaceBetween: 10,
+    },
+    320: {
+      slidesPerView: 1.1,
+      spaceBetween: 10,
+    }
+  }
+  });
 // to get resource count on load
 GetResourceCount();
 // to get result block
@@ -146,47 +178,10 @@ $('.result_block').clone().appendTo(".other_resource");
 });
 
 
-var gtstressresultswiper;
-function StressResultSwiper() {
-    gtstressresultswiper = new Swiper('.gt-stress-result-swiper', {
-    slidesPerView: 4,
-    spaceBetween: 10,
-    centeredSlides: true,
-    longSwipesRatio:0.1,
-    touchReleaseOnEdges: true,
-    pagination: {
-      el: '.gt-swiper-pagination-stress-result',
-      clickable: true,
-    },
-    navigation: {
-      nextEl: '.gt-arrow-block',
-      prevEl: '',
-    },
-    breakpoints: {
-      1024: {
-        slidesPerView: 4,
-        spaceBetween: 10,
-      },
-      1000: {
-        slidesPerView: 1.1,
-        spaceBetween: 10,
-      },
-      800: {
-        slidesPerView: 1.1,
-        spaceBetween: 10,
-      },
-      320: {
-        slidesPerView: 1.1,
-        spaceBetween: 10,
-      }
-    }
-  });
-}
-
 // to change resource count value in template
 GetResourceCount = function() {
 if ($(window).width() <= 991) {
-  $("#resource_count").html(gtstressresultswiper?gtstressresultswiper.slides.length:0);
+  $("#resource_count").html(gtstressresultswiper.slides?gtstressresultswiper.slides.length:0);
 } else {
   $("#resource_count").html($('.get_resource_count').length);
 }
@@ -253,7 +248,7 @@ RemoveResource = function(resource, resource_id) {
     var mobile_resources = jQuery.parseJSON(response).mobile_resources;
 
     $(document).ready(function() {
-      // to remove special characters from array
+      // to remove special characters from array in desktop view
       resources.forEach(function(e) {
         resource_data += e;
       });
