@@ -103,40 +103,6 @@ $(document).ready(function() {
     }
   });
 
-  var gtstressresultswiper = new Swiper('.gt-stress-result-swiper', {
-    slidesPerView: 4,
-    spaceBetween: 10,
-    allowSlidePrev: 1,
-    touchReleaseOnEdges: true,
-    slideToClickedSlide: true,
-    pagination: {
-      el: '.gt-swiper-pagination-stress-result',
-      clickable: true,
-    },
-    navigation: {
-      nextEl: '.gt-arrow-block',
-      prevEl: '',
-    },
-    breakpoints: {
-      1024: {
-        slidesPerView: 4,
-        spaceBetween: 10,
-      },
-      1000: {
-        slidesPerView: 1.1,
-        spaceBetween: 10,
-      },
-      800: {
-        slidesPerView: 1.1,
-        spaceBetween: 10,
-      },
-      320: {
-        slidesPerView: 1.1,
-        spaceBetween: 10,
-      }
-    }
-  });
-
   var gtswiperselfassessment = new Swiper('.gt-swiper-self-assessment', {
     slidesPerView: 1.4,
     spaceBetween: 10,
@@ -299,17 +265,16 @@ RemoveResource = function(resource, resource_id) {
 
       // mobile view
       var current_index = gtstressresultswiper.activeIndex;
-      gtstressresultswiper.removeAllSlides();
-      gtstressresultswiper.appendSlide(mobile_resources);
-
-      gtstressresultswiper.slideTo(current_index, 0, function(){
-          gtstressresultswiper.update();
+      mobile_resources.forEach(function(resource,i) {
+        gtstressresultswiper.removeSlide(0);
+        gtstressresultswiper.appendSlide(resource);
+        if(i==(mobile_resources.length - 1)){
+          gtstressresultswiper.slideTo(current_index, 0);
+        }
       });
 
       // to get index for each block
       IndexCount();
-      // to initialise the swiper
-      // StressResultSwiper();
     });
 
       // to change resource count in template
