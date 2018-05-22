@@ -4061,10 +4061,6 @@ input[type=checkbox]:checked + label {
   width:100% !important;
 }
 
-.gt-highlights-btn-text-block h3 {
-  font-size:18px !important;
-}
-
 @media (max-width: 767px) {
   .gt-highlights-btn-text h3 {
     font-size:14px !important;
