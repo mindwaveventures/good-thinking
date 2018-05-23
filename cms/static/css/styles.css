@@ -2601,6 +2601,7 @@ em {
 }
 
 .panel-body.gt-para-topics {
+  min-height: 160px;
   padding:20px !important;
   font-size:14px !important;
 }
