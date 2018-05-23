@@ -19,20 +19,19 @@
 </section>
 
 <!-- hero image block -->
+{% if hero_image or page.brand_text or page.background_color != '#ffffff' %}
 <section class="partner-slider">
   <div class="gt-slider-content-partner" style="background-image:url('{{ hero_image.url }}');background-color: {{ page.background_color }};color: {{page.text_color}};">
-     {% if brand_logo %}
      <div class="gt-partner-logo">
+     {% if brand_logo %}
         <img src="{{ brand_logo.url }}" alt="{{page.title}}">
-     </div>
-     {% elif page.brand_text %}
-      <h4 style="padding-top:10px;">{{ page.title }}</h4>
+     {% else %}
+        <h4>{{ page.title }}</h4>
      {% endif %}
-     {% if page.brand_text %}
+   </div>
      <div class="bg-section-txt rich-text">
        {{ page.brand_text|new_tab|richtext }}
      </div>
-     {% endif %}
     <div class="gt-partner-cta">
       {% for button in buttons %}
         {% if button.button_type == "Primary"%}
@@ -42,6 +41,7 @@
     </div>
   </div>
 </section>
+{% endif %}
 
 <section class="gt-home-topic-highlights partner-body">
   <div class="row">
@@ -49,11 +49,11 @@
       <div class="panel panel-default gt-highlights-partner">
 
         <!-- title block -->
-        <div class="panel-heading gt-white partner-panel-heading">
-          {% if brand_logo and not hero_image %}
-            <img src="{{ brand_logo.url }}" alt="{{page.title}}">
-          {% else %}
+        <div class="panel-heading partner-panel-heading" style="background-color: {{ page.logo_background_color }};">
+          {% if brand_logo and not hero_image and not page.background_color != '#ffffff' and not page.brand_text %}
             <h4>{{ page.title }}</h4>
+          {% else %}
+            <img src="{{ brand_logo.url }}" alt="{{page.title}}">
           {% endif %}
         </div>
 
