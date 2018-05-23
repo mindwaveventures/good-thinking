@@ -240,8 +240,11 @@ RemoveResource = function(resource, resource_id) {
   var resource_data = '';
   var mobile_resource_data = '';
   var client = new HttpClient();
-  json_url += resource_id + ','
-
+  if (json_url[json_url.length -1]=="=") {
+    json_url += resource_id;
+  } else {
+    json_url +=   "," + resource_id ;
+  }
   // to get resources from server
   client.get(json_url, function(response) {
     var resources = jQuery.parseJSON(response).resources;
