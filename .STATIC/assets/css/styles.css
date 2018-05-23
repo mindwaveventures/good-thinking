@@ -2602,10 +2602,8 @@ em {
 }
 
 .panel-body.gt-para-topics {
-  min-height:150px;
-  max-height:150px;
+  min-height:160px;
   padding:20px !important;
-  overflow-y:auto;
   font-size:14px !important;
 }
 
@@ -4571,7 +4569,6 @@ h5 {
 @media (max-width: 767px) {
   .panel-body.gt-para-topics {
     min-height:170px;
-    max-height:170px;
   }
 }
 
