@@ -4565,7 +4565,7 @@ h5 {
 
 @media (max-width: 767px) {
   .panel-body.gt-para-topics {
-    min-height:170px;
+    height:170px;
   }
 }
 
