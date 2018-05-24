@@ -49,9 +49,10 @@
       <div class="panel panel-default gt-highlights-partner">
 
         <!-- title block -->
-        <div class="panel-heading partner-panel-heading" style="background-color: {{ page.logo_background_color }};">
+        <div class="panel-heading partner-panel-heading" style="background-color: {{ page.logo_background_color }};color: {{page.text_color}};">
           {% if brand_logo %}
             <img src="{{ brand_logo.url }}" alt="{{page.title}}">
+            <h4>{{ page.title }}</h4>
           {% else %}
             <h4>{{ page.title }}</h4>
           {% endif %}
