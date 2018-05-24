@@ -50,10 +50,10 @@
 
         <!-- title block -->
         <div class="panel-heading partner-panel-heading" style="background-color: {{ page.logo_background_color }};">
-          {% if brand_logo and not hero_image and not page.background_color != '#ffffff' and not page.brand_text %}
-            <h4>{{ page.title }}</h4>
-          {% else %}
+          {% if brand_logo %}
             <img src="{{ brand_logo.url }}" alt="{{page.title}}">
+          {% else %}
+            <h4>{{ page.title }}</h4>
           {% endif %}
         </div>
 
