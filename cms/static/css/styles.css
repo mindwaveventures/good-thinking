@@ -3282,7 +3282,7 @@ em {
 }
 
 .btn.btn-default.collapse-btn:hover {
-  color:#242e50 !important;
+  /* color:#242e50 !important; */
   text-decoration:underline;
 }
 
@@ -5054,4 +5054,16 @@ html {
   border:0;
   box-shadow:0 2px 4px 0 rgba(0,0,0,0.16);
   padding:0!important;
+}
+a.btn.collapsed:before
+{
+   content:'See More+' ;
+   display:block;
+   width:15px;
+}
+a.btn:before
+{
+   content:'See Less-' ;
+   display:block;
+   width:15px;
 }
