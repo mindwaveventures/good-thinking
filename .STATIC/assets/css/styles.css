@@ -3006,7 +3006,7 @@ em {
   }
 }
 
-.btn.btn-default.gt-topic-btn {
+.btn-default.gt-topic-btn {
   height:35px;
   border-radius:100px;
   border:1px solid #16b28f;
@@ -5087,5 +5087,13 @@ a.btn:before {
 .gt-empty {
   height:135px !important;
   display:block;
+}
+
+.gt-partner-heading.rich-text h4 {
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+  margin-top:0px;
+  padding-bottom:20px !important;
 }
 
