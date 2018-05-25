@@ -265,14 +265,10 @@ RemoveResource = function(resource, resource_id) {
 
       // mobile view
       var current_index = gtstressresultswiper.activeIndex;
-      mobile_resources.forEach(function(resource,i) {
-        gtstressresultswiper.removeSlide(0);
-        gtstressresultswiper.appendSlide(resource);
-        if(i==(mobile_resources.length - 1)){
-          gtstressresultswiper.slideTo(current_index, 0);
-          if ($(window).width() <= 991) {$(window).scrollTop(0);}
-        }
-      });
+      gtstressresultswiper.removeAllSlides();
+      gtstressresultswiper.appendSlide(mobile_resources);
+      gtstressresultswiper.slideTo(current_index, 0);
+      if ($(window).width() <= 991) {$(window).scrollTop(0);}
 
       // to get index for each block
       IndexCount();
