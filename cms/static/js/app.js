@@ -270,6 +270,7 @@ RemoveResource = function(resource, resource_id) {
         gtstressresultswiper.appendSlide(resource);
         if(i==(mobile_resources.length - 1)){
           gtstressresultswiper.slideTo(current_index, 0);
+          if ($(window).width() <= 991) {$(window).scrollTop(0);}
         }
       });
 
