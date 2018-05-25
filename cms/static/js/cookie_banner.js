@@ -1,7 +1,6 @@
 var our_cookie = 'ldmw_accepted_cookie_policy=1';
 function toggleClasses(element, classes) {
   classes.forEach(function(c) {
-    console.log('c',c);
     element.classList.toggle(c);
   });
 }
