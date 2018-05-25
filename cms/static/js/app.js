@@ -3,6 +3,8 @@ $(".nav a").on("click", function() {
   $(this).parent().addClass("active");
 });
 
+var $checkboxes;
+var alreadySetCookies= $.cookie('checkbox_select')?$.cookie('checkbox_select').split(','):'';
 var gtstressresultswiper;
 $(document).ready(function() {
   var gtbrowsertopicswiper = new Swiper('.gt-browser-topic-swiper', {
@@ -175,6 +177,21 @@ $(document).ready(function() {
 GetResourceCount();
 // to get result block
 $('.result_block').clone().appendTo(".other_resource");
+
+//check for changes in checkbox
+$checkboxes = $('input:checkbox').change(setcookie);
+//set the cookie
+function setcookie() {
+  var options= $checkboxes.map(function() {
+      if (this.checked)
+      return this.id;
+  }).get().join(',');
+ $.cookie('checkbox_select', options,{expires:1});
+}
+//get the cookie
+for(var $cookie in alreadySetCookies) {
+  $("[id='" + alreadySetCookies[$cookie].replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g,'\\$1') + "']").prop('checked', true);
+}
 });
 
 
@@ -268,7 +285,7 @@ RemoveResource = function(resource, resource_id) {
       gtstressresultswiper.removeAllSlides();
       gtstressresultswiper.appendSlide(mobile_resources);
       gtstressresultswiper.slideTo(current_index, 0);
-      if ($(window).width() <= 991) {$(window).scrollTop(0);}
+      if ($(window).width() <= 991) {$(window).scrollTop($('#test').offset().top - $(window).scrollTop());}
 
       // to get index for each block
       IndexCount();

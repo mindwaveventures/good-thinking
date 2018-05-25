@@ -7,6 +7,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
       <script>
         dataLayer = [];
       </script>
@@ -76,6 +77,8 @@
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
+      <!-- <script src="https://github.com/carhartl/jquery-cookie/blob/master/jquery.cookie.js"
+     type="text/javascript"></script> -->
       <script type="text/javascript">
         function googleTranslateElementInit() {
           new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT}, 'google_translate_element');
