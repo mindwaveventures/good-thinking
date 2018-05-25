@@ -5061,3 +5061,10 @@ a.btn:before
    display:block;
    width:15px;
 }
+.gt-partner-heading.rich-text h4 {
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+  margin-top:0px;
+  padding-bottom:20px !important;
+}

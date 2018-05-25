@@ -47,21 +47,20 @@
   <div class="row">
     <div class="col-md-12 bg-section">
       <div class="panel panel-default gt-highlights-partner">
-
         <!-- title block -->
+      {% if brand_logo and not hero_image or brand_logo and not page.brand_text or brand_logo and page.background_color != '#ffffff' %}
         <div class="panel-heading partner-panel-heading" style="background-color: {{ page.logo_background_color }};color: {{page.text_color}};">
-          {% if brand_logo %}
             <img src="{{ brand_logo.url }}" alt="{{page.title}}">
-            <h4>{{ page.title }}</h4>
-          {% else %}
-            <h4>{{ page.title }}</h4>
-          {% endif %}
         </div>
+      {% endif %}
 
         <div class="panel-body gt-partner-body">
 
           <!-- streamfield block  -->
           <div class="row gt-partner rich-text">
+            <div class="gt-partner-heading rich-text">
+              <h4>{{ page.title }}</h4>
+            </div>
             {% for block in page.body %}
                   {% if block.block_type == 'heading'%}
                     <div class="gt-partner-heading rich-text">
