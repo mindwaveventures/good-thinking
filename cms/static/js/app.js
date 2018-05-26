@@ -1,11 +1,22 @@
-$(".nav a").on("click", function() {
-  $(".nav").find(".active").removeClass("active");
-  $(this).parent().addClass("active");
-});
-
-var $checkboxes;
 var alreadySetCookies= $.cookie('checkbox_select')?$.cookie('checkbox_select').split(','):'';
+var $checkboxes;
 var gtstressresultswiper;
+var pathname = window.location.pathname.split( '/' );
+var search_url = window.location.search?window.location.search+'&':'?';
+var json_url = '/get_json_data/'+search_url+'slug='+pathname[2] +'&' + 'resource_id=';
+var HttpClient = function() {
+  this.get = function(aUrl, aCallback) {
+    var anHttpRequest = new XMLHttpRequest();
+    anHttpRequest.onreadystatechange = function() {
+      if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+        aCallback(anHttpRequest.responseText);
+    }
+
+    anHttpRequest.open("GET", aUrl, true);
+    anHttpRequest.send(null);
+  }
+}
+
 $(document).ready(function() {
   var gtbrowsertopicswiper = new Swiper('.gt-browser-topic-swiper', {
     slidesPerView: 4,
@@ -71,7 +82,6 @@ $(document).ready(function() {
     }
 
   });
-
 
   var gtswiperstressbrowser = new Swiper('.gt-swiper-stress-browser', {
     slidesPerView: 1.2,
@@ -173,26 +183,35 @@ $(document).ready(function() {
     }
   }
   });
-// to get resource count on load
-GetResourceCount();
+
+// to make the slider visible
+$("div.swiper-wrapper").css("visibility", "visible");
+
 // to get result block
 $('.result_block').clone().appendTo(".other_resource");
 
-//check for changes in checkbox
+//check for changes in checkbox(question tag) to set cookie
 $checkboxes = $('input:checkbox').change(setcookie);
+
+//get the question tag (checkbox) cookie value on load
+for(var $cookie in alreadySetCookies) {
+  $("[id='" + alreadySetCookies[$cookie].replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g,'\\$1') + "']").prop('checked', true);
+}
+
+// to get resource count on load
+GetResourceCount();
+
+});
+
+
 //set the cookie
-function setcookie() {
+setcookie = function() {
   var options= $checkboxes.map(function() {
       if (this.checked)
       return this.id;
   }).get().join(',');
  $.cookie('checkbox_select', options,{expires:1});
 }
-//get the cookie
-for(var $cookie in alreadySetCookies) {
-  $("[id='" + alreadySetCookies[$cookie].replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g,'\\$1') + "']").prop('checked', true);
-}
-});
 
 
 // to change resource count value in template
@@ -203,6 +222,7 @@ if ($(window).width() <= 991) {
   $("#resource_count").html($('.get_resource_count').length);
 }
 }
+
 
 // request resources based on user's answer
 GetQueryResults = function(slug) {
@@ -222,7 +242,8 @@ GetQueryResults = function(slug) {
 
 }
 
-function inViewport($el) {
+
+inViewport = function($el) {
   var elH = $el.outerHeight(),
     H = $(window).height(),
     r = $el[0].getBoundingClientRect(),
@@ -231,32 +252,19 @@ function inViewport($el) {
   return Math.max(0, t > 0 ? Math.min(elH, H - t) : Math.min(b, H));
 }
 
+
 $(window).on("scroll resize", function() {
   var visibleFooterHeight = inViewport($('#gtFooter'));
   $(".gt-footer-results").css("bottom", visibleFooterHeight + 'px');
 });
 
-var HttpClient = function() {
-  this.get = function(aUrl, aCallback) {
-    var anHttpRequest = new XMLHttpRequest();
-    anHttpRequest.onreadystatechange = function() {
-      if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
-        aCallback(anHttpRequest.responseText);
-    }
-
-    anHttpRequest.open("GET", aUrl, true);
-    anHttpRequest.send(null);
-  }
-}
 
 // to remove resource from result page
-var pathname = window.location.pathname.split( '/' );
-var search_url = window.location.search?window.location.search+'&':'?';
-var json_url = '/get_json_data/'+search_url+'slug='+pathname[2] +'&' + 'resource_id=';
 RemoveResource = function(resource, resource_id) {
+  var client = new HttpClient();
   var resource_data = '';
   var mobile_resource_data = '';
-  var client = new HttpClient();
+
   if (json_url[json_url.length -1]=="=")
   {
    json_url += resource_id;
@@ -279,7 +287,6 @@ RemoveResource = function(resource, resource_id) {
       $('.gt-highlights-stress-row').replaceWith('<div class="gt-highlights-stress-row"><div class="row other_resource">' + resource_data + '</div></div>');
       $('.result_block').clone().appendTo(".other_resource");
 
-
       // mobile view
       var current_index = gtstressresultswiper.activeIndex;
       gtstressresultswiper.removeAllSlides();
@@ -289,12 +296,13 @@ RemoveResource = function(resource, resource_id) {
 
       // to get index for each block
       IndexCount();
-    });
 
       // to change resource count in template
       GetResourceCount();
+    });
   });
 }
+
 
 // to get index value for resource block in results page
 IndexCount = function() {
@@ -312,6 +320,14 @@ IndexCount = function() {
   });
 }
 
+
+// to enable mouse drag in slider
 $(".gt-para-topics p").on('mousedown pointerdown', function (e){
     e.stopPropagation();
+});
+
+
+$(".nav a").on("click", function() {
+  $(".nav").find(".active").removeClass("active");
+  $(this).parent().addClass("active");
 });

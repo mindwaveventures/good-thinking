@@ -36,6 +36,7 @@
   -webkit-box-sizing:content-box;
   box-sizing:content-box;
   margin:20px 0px;
+  visibility: hidden;
 }
 
 .swiper-container-android .swiper-slide, .swiper-wrapper {
@@ -650,4 +651,3 @@ button.swiper-pagination-bullet {
 .swiper-container-coverflow .swiper-wrapper {
   -ms-perspective:1200px;
 }
-
