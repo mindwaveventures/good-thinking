@@ -114,7 +114,7 @@ def get_data(request, **kwargs):
         resource_id = request.session['removed_resources']
     else:
         resource_id = []
-        
+
     if request.GET.get('order'):
         resource_order = request.GET.get('order')
     else:
@@ -188,7 +188,7 @@ def get_data(request, **kwargs):
     )
 
     top_collections = filter_resources(
-        ResourceCollections.objects.all(),
+        ResourceCollections.objects.all().live(),
         topic_filter=topic_filter,
     )
 
