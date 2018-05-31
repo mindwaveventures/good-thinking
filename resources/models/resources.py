@@ -687,7 +687,7 @@ class ResourceCollections(ResourcePage):
 
     def get_context(self, request, **kwargs):
         slug = ''
-        context = super(Results, self).get_context(request)
+        context = super(ResourceCollections, self).get_context(request)
         context = get_data(
             request, data=context, slug=slug,
             path_components=kwargs.get('path_components', [])
