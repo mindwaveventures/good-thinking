@@ -18,9 +18,7 @@ def robots_handler(request):
 
 
 def not_found_handler(request):
-    print ("not_found_handler")
     t = loader.get_template('404.html')
-    print (t)
     return HttpResponseNotFound(
         t.render()
     )
