@@ -693,6 +693,9 @@ class ResourceCollections(ResourcePage):
             path_components=kwargs.get('path_components', [])
         )
         return base_context(context,self)
+        
+    def get_template(self, request):
+        return 'resources/collections_index_page.html'
 
 class Assessment(ResourcePage):
     algorithm_id = IntegerField(
