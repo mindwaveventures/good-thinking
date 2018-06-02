@@ -3764,6 +3764,7 @@ input[type=checkbox], input[type=radio] {
   -webkit-transform:translate3d(0, 0, 0);
   transform:translate3d(0, 0, 0);
   z-index:10;
+  display:none;
 }
 
 .gt-swiper-pagination-stress-browser {
@@ -3775,6 +3776,7 @@ input[type=checkbox], input[type=radio] {
   -webkit-transform:translate3d(0, 0, 0);
   transform:translate3d(0, 0, 0);
   z-index:10;
+  display: none;
 }
 
 .gt-swiper-pagination-stress-result {
@@ -3786,6 +3788,7 @@ input[type=checkbox], input[type=radio] {
   -webkit-transform:translate3d(0, 0, 0);
   transform:translate3d(0, 0, 0);
   z-index:10;
+  display: none;
 }
 
 .gt-stress-result-swiper {
@@ -3795,6 +3798,7 @@ input[type=checkbox], input[type=radio] {
   list-style:none;
   padding:0;
   z-index:1;
+  display: none;
 }
 
 .gt-browser-topic-swiper {
