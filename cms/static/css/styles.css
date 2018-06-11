@@ -3801,7 +3801,6 @@ input[type=checkbox], input[type=radio] {
   list-style:none;
   padding:0;
   z-index:1;
-  display: none;
 }
 
 .gt-browser-topic-swiper {
