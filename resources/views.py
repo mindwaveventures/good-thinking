@@ -109,9 +109,6 @@ def get_data(request, **kwargs):
     if request.GET.get('resource_id'):
         splited_resource = request.GET.get('resource_id').split(",")
         resource_id = filter(lambda id: id != "", splited_resource)
-        request.session['removed_resources'] = splited_resource
-    elif 'removed_resources' in request.session:
-        resource_id = request.session['removed_resources']
     else:
         resource_id = []
 
