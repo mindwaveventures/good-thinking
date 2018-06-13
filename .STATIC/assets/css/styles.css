@@ -5144,3 +5144,19 @@ a.btn:before {
   }
 }
 
+.gt-result-heading.rich-text h2 {
+  font-size:30px;
+}
+
+@media (max-width: 1199px) {
+  .gt-result-heading.rich-text h2 {
+    font-size:28px !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .gt-result-heading.rich-text h2 {
+    font-size:18px !important;
+  }
+}
+
