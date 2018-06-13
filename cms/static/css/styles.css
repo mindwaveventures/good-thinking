@@ -1682,8 +1682,19 @@ gt-topic-header-stress {
   font-size:32px;
   font-weight:bold;
 }
-
+.gt-header .rich-text p {
+  font-family:Montserrat, sans-serif;
+  font-size:32px;
+  font-weight:bold;
+  line-height: 37px;
+}
 @media (max-width: 991px) {
+  .gt-header .rich-text p {
+    font-family:Montserrat, sans-serif;
+    font-size:22px;
+    font-weight:bold;
+    line-height: 30px;
+  }
   .gt-header {
     font-family:Montserrat, sans-serif;
     font-size:22px;
@@ -1692,6 +1703,12 @@ gt-topic-header-stress {
 }
 
 @media (max-width: 767px) {
+  .gt-header .rich-text p {
+    font-family:Montserrat, sans-serif;
+    font-size:18px;
+    font-weight:bold;
+    line-height: 28px;
+  }
   .gt-header {
     font-family:Montserrat, sans-serif;
     font-size:18px;
