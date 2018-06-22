@@ -7,7 +7,7 @@
       <img class="hidden-lg gt-logo-tab" src="{% static "images/GT-tablet-logo.svg" %}">
     </a>
     {% if banner.button_1_text or banner.button_2_text %}
-    <ul class="nav nav-tabs hidden-xs hidden-md hidden-lg gt-nav-right nav-underline">
+    <ul class="nav nav-tabs gt-nav-right nav-underline">
       {% if banner.button_1_text %}
       <li><a href="/{{banner.button_1_link.slug}}/" class="gt-logo-link-right">{{banner.button_1_text}}</a></li>
       {% endif %}
@@ -40,7 +40,7 @@
         {% include "resources/nav_bar_desktop.html" with banner=banner %}
 
         {% if banner.button_1_text or banner.button_2_text %}
-        <ul class="nav navbar-nav hidden-sm gt-nav-right nav-underline">
+        <ul class="nav navbar-nav gt-nav-right nav-underline">
           {% if banner.button_1_text %}
           <li role="presentation"><a class="{% if banner.button_1_link.slug|lower == slug|lower  %}menu_active{% endif %}" href="/{{banner.button_1_link.slug}}/">{{banner.button_1_text}}</a></li>
           {% endif %} {% if banner.button_2_text %}
