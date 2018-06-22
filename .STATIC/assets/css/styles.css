@@ -1878,7 +1878,7 @@ em {
   padding-left:10px;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1100px) {
   .nav.navbar-nav {
     float:right;
   }
@@ -1919,7 +1919,7 @@ em {
   box-shadow:none !important;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1100px) {
   .navbar.navbar-default.gt-nav {
     background-color:#ffffff;
     height:40px;
@@ -1942,7 +1942,7 @@ em {
   padding-bottom:19px;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1100px) {
   .navbar-default .navbar-nav > li > a {
     color:#16b28f;
     font-weight:bold;
@@ -2029,7 +2029,15 @@ em {
   padding-top:10px;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1199px) {
+  .gt-nav-link {
+    padding-left:20px;
+    padding-top:0px !important;
+    margin-top:5px;
+  }
+}
+
+@media (max-width: 1100px) {
   .gt-nav-link {
     float:left;
     width:51%;
@@ -2077,7 +2085,7 @@ em {
   padding:10px;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1100px) {
   .gt-logo {
     height:50px;
     background-color:#242e50;
@@ -5150,13 +5158,60 @@ a.btn:before {
 
 @media (max-width: 1199px) {
   .gt-result-heading.rich-text h2 {
-    font-size:28px !important;
+    font-size:22px !important;
   }
 }
 
 @media (max-width: 991px) {
   .gt-result-heading.rich-text h2 {
     font-size:18px !important;
+  }
+}
+
+.navbar-default .navbar-nav > li > a {
+  padding-left:10px;
+  padding-right:10px;
+}
+
+@media (min-width: 1200px) {
+  .nav.nav-tabs.gt-nav-right.nav-underline {
+    display:none;
+  }
+}
+
+@media (max-width: 1199px) {
+  .nav.nav-tabs.gt-nav-right.nav-underline {
+    display:none;
+  }
+}
+
+@media (max-width: 1100px) {
+  .nav.nav-tabs.gt-nav-right.nav-underline {
+    display:block;
+  }
+}
+
+@media (max-width: 767px) {
+  .nav.nav-tabs.gt-nav-right.nav-underline {
+    display:none;
+  }
+}
+
+@media (min-width: 1200px) {
+  .nav.navbar-nav.gt-nav-right.nav-underline {
+    display:block;
+  }
+}
+
+@media (max-width: 1199px) {
+  .nav.navbar-nav.gt-nav-right.nav-underline {
+    display:block;
+  }
+}
+
+@media (max-width: 1100px) {
+  .nav.navbar-nav.gt-nav-right.nav-underline {
+    display:none;
   }
 }
 
