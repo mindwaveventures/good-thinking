@@ -257,17 +257,21 @@ Highlights of the month will be displayed on the Homepage.
 
 On the Homepage, Click `Edit`, and you should to taken to the EDIT HOME PAGE page. From here you can edit the various fields on the Homepage. In the form you can see HIGHLIGHTS tab to add multiple resource page.
 
-<images>
+![screen shot 2018-06-26 at 1 16 58 pm](https://user-images.githubusercontent.com/1827233/41898835-91e640e6-7948-11e8-9b9d-f21ce876a432.png)
+
 
 
 ### Adding Collections
 Each topics page we can list the Collections of the Resources.
+
+![screen shot 2018-06-26 at 1 21 58 pm](https://user-images.githubusercontent.com/1827233/41898836-922a15fa-7948-11e8-9a37-0d8160e1937e.png)
 
 - Click on the Explorer -> Home -> Collections.
 - Click on ADD CHILD PAGE, Choose `Resource Collections`
 - Form here you can add the details of the Collections.
 - On the PROMOTE tab we have to add TOPIC TAGS for which topic the collection is related. We can use same collection to multiple topics.
 - After finished the form content, we can publish it to roll on the frontend.
+
 
 
 ### Assessments
