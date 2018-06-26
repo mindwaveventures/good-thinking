@@ -125,7 +125,7 @@ The staging database password will be prompted for (first), as will the local da
 The git repo **is not** re-downloaded in to the Vagrant machine.  Rather the repo that has been downloaded on to the developer's local (or Vagrant host) machine is *symbolically linked* to the default Vagrant user's home directory (at `~` or `/home/ubuntu`). This allows the developer to edit with their *favourite* editor from their local machine and changes will be picked up inside the Vagrant VM, or within the Vagrant VM and changes will be reflected back in the local (host machine) folders.  Or, more simply, changes to code in either the developer's local machine (host) or Vagrant VM (guest) will be reflected in the other.
 
 #### Mapping (new) source files and folders
- 
+
 Newly created folders **must** be added to the following line:
 ```
 for d in cms crisis feedback home likes media resources search static staticfiles; do sudo -u ubuntu ln -s /vagrant/$d .; done
@@ -249,6 +249,26 @@ You can link to these pages from elsewhere by using an internal link, and select
 ### Topic Pages
 
 The resources are displayed on individual topic pages. In order to make them display, you have to tag them with a topic tag that corresponds to the slug of the topic page. For example, a resource tagged with `anxious` would display on the `anxious` page (https://www.good-thinking.uk/anxious/).
+
+
+
+### Adding Highlights of the month
+Highlights of the month will be displayed on the Homepage.
+
+On the Homepage, Click `Edit`, and you should to taken to the EDIT HOME PAGE page. From here you can edit the various fields on the Homepage. In the form you can see HIGHLIGHTS tab to add multiple resource page.
+
+<images>
+
+
+### Adding Collections
+Each topics page we can list the Collections of the Resources.
+
+- Click on the Explorer -> Home -> Collections.
+- Click on ADD CHILD PAGE, Choose `Resource Collections`
+- Form here you can add the details of the Collections.
+- On the PROMOTE tab we have to add TOPIC TAGS for which topic the collection is related. We can use same collection to multiple topics.
+- After finished the form content, we can publish it to roll on the frontend.
+
 
 ### Assessments
 
