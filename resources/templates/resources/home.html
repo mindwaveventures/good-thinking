@@ -11,7 +11,7 @@
       {% include "resources/banner.html" with banner=banner %}
     {% endif %}
 {% include "resources/components/hero-image.html" with page=page %}
-
+  <div id="elm-personalise" data-slug="{{page.slug}}">
   <!-- Question type - filter block slider -->
   <section class="gt-stress-q1-body">
       <section class="gt-home-topic stress-q-topic">
@@ -97,5 +97,6 @@
           </div>
       </section>
   </section>
+</div>
 {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
 {% endblock %}

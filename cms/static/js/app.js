@@ -18,6 +18,7 @@ var HttpClient = function() {
 }
 
 $(document).ready(function() {
+
   var gtbrowsertopicswiper = new Swiper('.gt-browser-topic-swiper', {
     slidesPerView: 4,
     spaceBetween: 10,
@@ -226,6 +227,7 @@ if ($(window).width() <= 991) {
 
 // request resources based on user's answer
 GetQueryResults = function(slug) {
+
   var url = '/results/' + slug + '/' + '?';
 
   $("input:checkbox[name=1]:checked").each(function() {
@@ -239,9 +241,8 @@ GetQueryResults = function(slug) {
   });
   url = url.slice(0, -1);
   window.location.href = url;
-
+  analyseTags();
 }
-
 
 inViewport = function($el) {
   var elH = $el.outerHeight(),
@@ -301,6 +302,7 @@ RemoveResource = function(resource, resource_id) {
       GetResourceCount();
     });
   });
+  analyseTags();
 }
 
 

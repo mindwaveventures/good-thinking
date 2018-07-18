@@ -1,8 +1,9 @@
 {% load multiline %} {% load static %}
 
 <!-- Question type filter block -->
-<div class="swiper-slide top-slide">
+<div class="swiper-slide top-slide filter-block">
   <div class="panel panel-default gt-quest-header">
+  <div class='card-text'>
     <div class="panel-heading gt-panel-title" style="background-color: {{page.link_color}}">
       {% if num != 1%}
       <div class="gt-arrow-block gt-arrow-lt"><img src='{% static "images/gt-stress-arrow-left.png" %}'></div>
@@ -16,12 +17,16 @@
     </div>
 
     <div class="panel-body quest-panel-body">
+
+    <div id="{{name}}_label">
       {% for l in filter_label|multiline %}
       <p>{{l}}</p>
       {% endfor %}
-      <div class="panel-footer quest-footer checkboxes">
+    </div>
+
+      <div class="panel-footer quest-footer checkboxes tag-container">
         {% for tag in tags %}
-        <input name="{{num}}" class="hidden q1Checkbox" type="checkbox" value="{{tag}}" id="{{tag}}"><label class="swiper-no-swiping" for="{{tag}}">{{tag}}</label>
+        <input name="{{num}}" class="hidden q1Checkbox" type="checkbox" value="{{tag}}" id="{{tag}}"><label class="swiper-no-swiping" for="{{tag}}" onclick="selectTags('{{name}}','{{tag}}')">{{tag}}</label>
          {% endfor %}
       </div>
         {% if num != 3%}
@@ -29,7 +34,7 @@
       </div>
           {% endif %}
     </div>
-
+  </div>
     {% if num == 3%}
     <div class="panel-footer gt-title-footer gt-btn gt--stress-q-footer">
       <button class="btn btn-default gt-topic-btn q1-btn" type="button" onclick="GetQueryResults('{{page.slug}}');">Get your results</button>
