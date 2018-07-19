@@ -14,21 +14,6 @@ if (personaliseDiv) {
 
   var selected_tags = selectedTags(getQuery('q1', 'q2', 'q3'));
 
-  // var app = Elm.Main.embed(personaliseDiv, {
-  //   issue_tags: issue_tags,
-  //   content_tags: content_tags,
-  //   reason_tags: reason_tags,
-  //   issue_label: issue_label,
-  //   reason_label: reason_label,
-  //   content_label: content_label,
-  //   selected_tags: selected_tags,
-  //   order: getOrder(),
-  //   search: getQuery('q').q[0] || "",
-  //   page: getPage(),
-  //   tagHeight: tagHeight + 25, // A little extra space needed so tags don't get cut off
-  //   cardHeight: cardHeight
-  // });
-
   function getTags(name) {
     return Array.prototype.map.call(personaliseDiv.querySelectorAll("input[name='" + name + "']"), function(el){
       return el.value;
@@ -72,7 +57,6 @@ if (personaliseDiv) {
     return selected;
   }
 
-  // app.ports.listeners.subscribe(function(res) {
   function analyseTags(){
     requestAnimationFrame(function() {
       likeListeners();
@@ -86,9 +70,7 @@ if (personaliseDiv) {
       mobileProsAndCons();
     });
 }
-  // });
 
-  // app.ports.selectTag.subscribe(function(tag) {
   function selectTags(query,name){
     tag = {
       tag_type: query, name: name
@@ -107,18 +89,6 @@ if (personaliseDiv) {
     tagAnalytics(tag);
     updateUrl(tag);
   }
-    // app.ports.updateTags.send(selected_tags);
-  // });
-
-  // app.ports.changeOrder.subscribe(function(order) {
-  //   localStorage.setItem('ldmw_resource_order', order);
-  //   app.ports.updateTags.send(selectedTags(getQuery('q1', 'q2', 'q3')));
-  // });
-  //
-  // app.ports.clickScroll.subscribe(function() {
-  //   var target = $('#results')
-  //   scrollToTarget(target);
-  // });
 
   function swipe(el, callback){
     var swipedir;
