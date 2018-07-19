@@ -2034,6 +2034,10 @@ em {
 }
 
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+  border-bottom:2px solid #ce3981 !important;
+}
+
+.nav-tabs > li.active > a:last-child, .nav-tabs > li.active > a:last-child:focus, .nav-tabs > li.active > a:last-child:hover {
   border-bottom:2px solid #16b28f !important;
 }
 
