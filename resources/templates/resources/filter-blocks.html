@@ -26,7 +26,7 @@
 
       <div class="panel-footer quest-footer checkboxes tag-container">
         {% for tag in tags %}
-        <input name="{{num}}" class="hidden q1Checkbox" type="checkbox" value="{{tag}}" id="{{tag}}"><label class="swiper-no-swiping" for="{{tag}}" onclick="selectTags('{{name}}','{{tag}}')">{{tag}}</label>
+        <input name="{{num}}" class="hidden q1Checkbox" type="checkbox" value="{{tag}}" id="{{tag}}"><label class="swiper-no-swiping" for="{{tag}}"  onclick='selectTags("{{name}}","{{tag}}")'>{{tag}}</label>
          {% endfor %}
       </div>
         {% if num != 3%}
