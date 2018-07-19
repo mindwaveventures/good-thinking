@@ -42,7 +42,7 @@
         {% if banner.button_1_text or banner.button_2_text %}
         <ul class="nav navbar-nav gt-nav-right nav-underline">
           {% if banner.button_1_text %}
-          <li role="presentation"><a class="{% if banner.button_1_link.slug|lower == slug|lower  %}menu_active{% endif %}" href="/{{banner.button_1_link.slug}}/">{{banner.button_1_text}}</a></li>
+          <li role="presentation"><a id="assessment" class="{% if banner.button_1_link.slug|lower == slug|lower  %}menu_active{% endif %}" href="/{{banner.button_1_link.slug}}/">{{banner.button_1_text}}</a></li>
           {% endif %} {% if banner.button_2_text %}
           <li role="presentation"><a class="{% if banner.button_2_link.slug|lower == page.slug|lower  %}menu_active{% endif %}" href="/{{banner.button_2_link.slug}}/">{{banner.button_2_text}}</a></li>
           {% endif %}
