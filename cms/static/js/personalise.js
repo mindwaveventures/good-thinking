@@ -57,7 +57,7 @@ if (personaliseDiv) {
     return selected;
   }
 
-  function analyseTags(){
+  analyseTags = function() {
     requestAnimationFrame(function() {
       likeListeners();
       feedbackLoopListener();
@@ -71,7 +71,7 @@ if (personaliseDiv) {
     });
 }
 
-  function selectTags(query,name){
+selectTags = function(query,name) {
     tag = {
       tag_type: query, name: name
     }
