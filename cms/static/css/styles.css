@@ -5215,3 +5215,121 @@ a.btn:before
 .pink{
   color:#ce3981 !important;
 }
+@media (max-width: 1199px) {
+  .gt-pdf-container {
+    width:70%;
+    margin:0 auto;
+  }
+}
+
+.gt-section-pdf {
+  background-color:#fff;
+}
+
+.gt-pdf-container {
+  width:60%;
+  margin:0 auto;
+}
+
+@media (max-width: 1199px) {
+  .gt-pdf-container {
+    width:70%;
+    margin:0 auto;
+  }
+}
+
+@media (max-width: 991px) {
+  .gt-pdf-container {
+    width:80%;
+    margin:0 auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .gt-pdf-container {
+    width:90%;
+    margin:0 auto;
+  }
+}
+
+.gt-pdf-right {
+  padding:30px 0px 30px 30px;
+}
+
+@media (max-width: 991px) {
+  .gt-pdf-right {
+    padding:20px 0px 0px 0px;
+  }
+}
+
+.gt-pdf-right h4 {
+  font-size:20px;
+  font-weight:800;
+  color:#242e50;
+}
+
+.gt-pdf-right p {
+  font-size:14px;
+}
+
+.gt-pdf-right a {
+  color:#16b28f;
+}
+
+.gt-pdf-cta {
+  background-color:#16b28f;
+  height:35px;
+  border-radius:100px;
+  font-family:'Montserrat';
+  font-size:14px;
+  font-weight:600;
+  background-image:none;
+  padding-top:5px !important;
+  text-shadow:none;
+  color:#fff;
+  margin-right:10px;
+  width:120px;
+  border:1px solid #16b28f;
+  margin-top:10px;
+}
+
+.gt-pdf-icon {
+  width:120px;
+  vertical-align:middle;
+}
+
+@media (max-width: 767px) {
+  .gt-pdf-icon {
+    width:80px;
+    vertical-align:middle;
+  }
+}
+
+.gt-pdf-img {
+  padding-top:50px;
+  padding-bottom:50px;
+}
+
+@media (max-width: 991px) {
+  .gt-pdf-img {
+    padding-top:20px;
+    padding-bottom:0px;
+    text-align:center;
+  }
+}
+
+.gt-pdf-link-container {
+  padding:20px;
+  text-align:center;
+}
+
+.gt-pdf-link-container a {
+  color:#16b28f;
+  text-decoration:underline;
+  font-size:18px;
+}
+
+.gt-pdf-cta:hover {
+  background-color:#fff;
+  color:#16b28f;
+}

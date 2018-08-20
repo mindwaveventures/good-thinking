@@ -97,6 +97,27 @@
           </div>
       </section>
   </section>
+
+  <section class="gt-section-pdf">
+      <div class="gt-pdf-container">
+          <div class="row">
+              <div class="col-lg-6 col-md-6">
+                  <div class="gt-pdf-img"><img src="{% static "images/pdf-download.svg" %}" class="gt-pdf-icon"></div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                  <div class="gt-pdf-right">
+                      <h4>{{ page.pdf_heading | richtext }}</h4>
+                      <p>{{ page.pdf_body | richtext}}</p>
+                      <div>
+                        <a href="{{ page.pdf_file.url }}"><button class="btn btn-default gt-pdf-cta" type="button">download</button></a>
+                        <a href="{{ page.pdf_file.file.url }}" target="_blank"><button class="btn btn-default gt-pdf-cta" type="button">read online</button></a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="gt-pdf-link-container"><a href="{{ page.bottom_link.specific.slug }}">{{ page.bottom_link_text | richtext}}</a></div>
+      </div>
+  </section>
 </div>
 {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
 {% endblock %}

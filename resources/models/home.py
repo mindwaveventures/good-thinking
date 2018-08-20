@@ -8,6 +8,8 @@ from wagtail.wagtailcore.url_routing import RouteResult
 from wagtail.wagtailadmin.edit_handlers import (
     FieldPanel, InlinePanel, MultiFieldPanel, PageChooserPanel
 )
+from wagtail.wagtaildocs.models import Document
+from wagtail.wagtaildocs.edit_handlers import DocumentChooserPanel
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailcore.fields import StreamField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel
@@ -333,9 +335,29 @@ class Home(AbstractForm):
         on_delete=models.SET_NULL,
         related_name='+'
     )
-
-
-
+    pdf_heading = RichTextField(blank=True, help_text="""
+        Heading of PDF block
+    """)
+    pdf_body = RichTextField(blank=True, help_text="""
+        Body of PDF block
+    """)
+    pdf_file = models.ForeignKey(
+       'wagtaildocs.Document',
+       null=True,
+       blank=True,
+       on_delete=models.SET_NULL,
+       related_name='+'
+   )
+    bottom_link_text = RichTextField(blank=True, help_text="""
+        Link Text of PDF block
+    """)
+    bottom_link =models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
 
     def get_context(self, request, **kwargs):
         context = super(Home, self).get_context(request)
@@ -375,6 +397,13 @@ class Home(AbstractForm):
             ImageChooserPanel('image'),
             PageChooserPanel('button_link'),
         ], heading="Result Block"),
+        MultiFieldPanel([
+            FieldPanel('pdf_heading'),
+            FieldPanel('pdf_body', classname="full"),
+            DocumentChooserPanel('pdf_file'),
+            FieldPanel('bottom_link_text'),
+            PageChooserPanel('bottom_link'),
+        ], heading="PDF Block"),
     ]
 
     def process_form_submission(self, request_dict):
