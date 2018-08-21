@@ -5262,13 +5262,13 @@ a.btn:before
   }
 }
 
-.gt-pdf-right h4 {
+.gt-pdf-right.rich-text h4 {
   font-size:20px;
   font-weight:800;
   color:#242e50;
 }
 
-.gt-pdf-right p {
+.gt-pdf-right.rich-text p {
   font-size:14px;
 }
 
@@ -5323,13 +5323,39 @@ a.btn:before
   text-align:center;
 }
 
-.gt-pdf-link-container a {
+.gt-pdf-link-container.rich-text a {
   color:#16b28f;
   text-decoration:underline;
   font-size:18px;
 }
 
+@media (max-width: 991px) {
+  .gt-pdf-link-container.rich-text a {
+    color:#16b28f;
+    text-decoration:underline;
+    font-size:16px;
+  }
+}
+
+@media (max-width: 767px) {
+  .gt-pdf-link-container.rich-text a {
+    color:#16b28f;
+    text-decoration:underline;
+    font-size:14px;
+  }
+}
+
 .gt-pdf-cta:hover {
   background-color:#fff;
   color:#16b28f;
+}
+
+.gt-pdf-cta:active {
+  background-color:#fff;
+  color:#16b28f !important;
+}
+
+.gt-pdf-cta:focus {
+  background-color:#fff;
+  color:#16b28f !important;
 }
