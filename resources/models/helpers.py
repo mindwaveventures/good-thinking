@@ -165,7 +165,8 @@ def generate_custom_form(form_fields, request_dict, messages_):
 
 def base_context(context,self):
     Main = apps.get_model('resources', 'main')
-    HomeSiteMap = apps.get_model('resources', 'homesitemap')
+    HomeSubMenu = apps.get_model('resources', 'homesubmenu')
+    # HomeSiteMap = apps.get_model('resources', 'homesitemap')
     HomeFooterLinks = apps.get_model('resources', 'homefooterlinks')
     HomeFooterBlocks = apps.get_model('resources', 'homefooterblocks')
     Home = apps.get_model('resources', 'home')
@@ -180,14 +181,16 @@ def base_context(context,self):
     banner['button_2_text'] = home_page.banner_button_2_text
     banner['button_2_link'] = home_page.banner_button_2_link
 
-    site_map = HomeSiteMap.objects.all().select_related('link_page')
+    sub_menu = HomeSubMenu.objects.all().select_related('submenu_pagelink')
+    # site_map = HomeSiteMap.objects.all().select_related('link_page')
     footer_links = HomeFooterLinks.objects.all().select_related('footer_image')
     footer_blocks = HomeFooterBlocks.objects.all().select_related('link_page')
     highlights = HomeHighLightsOfMonth.objects.all().select_related('highlights_link')
 
+    context['sub_menu'] = sub_menu
     context['highlights'] = highlights
     context['banner'] = banner
-    context['site_map'] = site_map
+    # context['site_map'] = site_map
     context['footer_links'] = footer_links
     context['footer_blocks'] = footer_blocks
     context['landing_pages'] = list(

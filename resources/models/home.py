@@ -172,6 +172,26 @@ class FooterBlock(models.Model):
     class Meta:
         abstract = True
 
+class SubMenu(models.Model):
+    submenu_pagelink = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    submenu_title = TextField(blank=True,)
+
+    panels = [
+        PageChooserPanel('submenu_pagelink'),
+        FieldPanel('submenu_title'),
+    ]
+
+    class Meta:
+        abstract = True
+
+class HomeSubMenu(Orderable, SubMenu):
+    page = ParentalKey('Home', related_name='sub_menu')
 
 class HomeSiteMap(Orderable, SiteMap):
     page = ParentalKey('Main', related_name='site_map')
@@ -369,6 +389,7 @@ class Home(AbstractForm):
         return context
 
     content_panels = AbstractForm.content_panels + [
+        InlinePanel('sub_menu', label="SUB MENU"),
         MultiFieldPanel([
             FieldPanel('description'),
             FieldPanel('link_text'),
