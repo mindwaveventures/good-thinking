@@ -595,7 +595,7 @@
 }
 
 .gt-mob-text {
-  color:rgb(22,178,143);
+  color:#fff;
   font-size:16px;
 }
 
@@ -1906,13 +1906,11 @@ em {
     font-weight:200;
     padding-left:8px;
     color:#242e50;
-    padding-top:11px;
   }
 }
 
 .navbar.navbar-default.gt-nav {
   background-color:#ffffff;
-  height:60px;
   margin-bottom:0px;
   padding:0px !important;
   border:none;
@@ -1922,7 +1920,6 @@ em {
 @media (max-width: 1100px) {
   .navbar.navbar-default.gt-nav {
     background-color:#ffffff;
-    height:40px;
     margin-bottom:0px;
     padding:0px !important;
     border:none;
@@ -1930,8 +1927,6 @@ em {
 }
 
 .container-fluid.gt-menu {
-  height:60px;
-  padding:4px;
   background-color:#ffffff;
 }
 
@@ -1983,11 +1978,6 @@ em {
   color:rgb(22,178,143);
   font-weight:bold;
   border-bottom:2px solid rgba(0,0,0,0);
-}
-
-@media (max-width: 767px) {
-  .gt-xs-nav {
-  }
 }
 
 .gt-mob-nav {
@@ -4887,7 +4877,7 @@ html {
 
 @media (max-width: 360px) {
   .nav-tabs > li > a {
-    padding:10px 3px;
+    padding:7px 3px;
     font-size:14px;
   }
 }
@@ -5020,7 +5010,7 @@ html {
 }
 
 .dropdown-menu > li > a:hover {
-  color:#242e50;
+  color:#242e50 !important;
   text-decoration:none;
   border-bottom:2px solid #242e50 !important;
   background-color:transparent;
@@ -5077,7 +5067,7 @@ html {
 
 .dropdown-menu.dropdown-menu-right.gt-mob-menu {
   width:100%!important;
-  top:94px!important;
+  top:133px!important;
   border:0;
   box-shadow:0 2px 4px 0 rgba(0,0,0,0.16);
   padding:0!important;
@@ -5213,5 +5203,288 @@ a.btn:before {
   .nav.navbar-nav.gt-nav-right.nav-underline {
     display:none;
   }
+}
+
+@media (max-width: 1199px) {
+  .gt-pdf-container {
+    width:70%;
+    margin:0 auto;
+  }
+}
+
+.gt-section-pdf {
+  background-color:#fff;
+}
+
+.gt-pdf-container {
+  width:60%;
+  margin:0 auto;
+  text-align:center;
+}
+
+@media (max-width: 1199px) {
+  .gt-pdf-container {
+    width:70%;
+    margin:0 auto;
+  }
+}
+
+@media (max-width: 991px) {
+  .gt-pdf-container {
+    width:80%;
+    margin:0 auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .gt-pdf-container {
+    width:90%;
+    margin:0 auto;
+  }
+}
+
+.gt-pdf-right {
+  padding:30px 0px 30px 30px;
+}
+
+@media (max-width: 991px) {
+  .gt-pdf-right {
+    padding:20px 0px 0px 0px;
+  }
+}
+
+.gt-pdf-right.rich-text h4 {
+  font-size:20px;
+  font-weight:800;
+  color:#242e50;
+}
+
+.gt-pdf-right.rich-text p {
+  font-size:14px;
+}
+
+.gt-pdf-right a {
+  color:#16b28f;
+}
+
+.gt-pdf-cta {
+  background-color:#16b28f;
+  height:35px;
+  border-radius:100px;
+  font-family:'Montserrat';
+  font-size:14px;
+  font-weight:600;
+  background-image:none;
+  padding-top:5px !important;
+  text-shadow:none;
+  color:#fff;
+  margin-right:10px;
+  width:120px;
+  border:1px solid #16b28f;
+  margin-top:10px;
+}
+
+.gt-pdf-icon {
+  width:120px;
+  vertical-align:middle;
+}
+
+@media (max-width: 767px) {
+  .gt-pdf-icon {
+    width:80px;
+    vertical-align:middle;
+  }
+}
+
+.gt-pdf-img {
+  padding-top:30px;
+}
+
+@media (max-width: 991px) {
+  .gt-pdf-img {
+    padding-top:20px;
+    padding-bottom:0px;
+    text-align:center;
+  }
+}
+
+.gt-pdf-link-container {
+  padding:20px;
+  text-align:center;
+  background-color:#fff;
+}
+
+.gt-pdf-link-container.rich-text a {
+  color:#16b28f;
+  text-decoration:underline;
+  font-size:18px;
+}
+
+@media (max-width: 991px) {
+  .gt-pdf-link-container.rich-text a {
+    color:#16b28f;
+    text-decoration:underline;
+    font-size:16px;
+  }
+}
+
+@media (max-width: 767px) {
+  .gt-pdf-link-container.rich-text a {
+    color:#16b28f;
+    text-decoration:underline;
+    font-size:14px;
+  }
+}
+
+.gt-pdf-cta:hover {
+  background-color:#fff;
+  color:#16b28f !important;
+}
+
+.gt-pdf-cta:active {
+  background-color:#fff;
+  color:#16b28f !important;
+}
+
+.gt-pdf-cta:focus {
+  background-color:#fff;
+  color:#16b28f !important;
+}
+
+.gt-nav-hover {
+  width:90%;
+  margin:0 auto;
+  text-align:center;
+}
+
+@media (max-width: 767px) {
+  .gt-nav-hover {
+    width:100%;
+    margin:0 auto;
+    text-align:center;
+  }
+}
+
+@media (max-width: 991px) {
+  .gt-nav-hover {
+    width:90%;
+    margin:0 auto;
+    text-align:left;
+  }
+}
+
+.gt-hover-nav-link a:hover {
+  color:#16b28f !important;
+  text-decoration:underline !important;
+}
+
+@media (min-width: 1200px) {
+  .gt-hover-nav-link {
+    padding:15px 15px !important;
+    text-decoration:none;
+    display:inline-block;
+    width:16%;
+    text-align:center;
+  }
+}
+
+@media (max-width: 1199px) {
+  .gt-hover-nav-link {
+    padding:15px !important;
+    text-decoration:none;
+    display:inline-block;
+    width:16%;
+    text-align:center;
+    margin:0 auto;
+  }
+}
+
+@media (max-width: 991px) {
+  .gt-hover-nav-link {
+    padding:15px !important;
+    text-decoration:none;
+    display:inline-block;
+    width:23%;
+    text-align:center;
+    margin:0 auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .gt-hover-nav-link {
+    padding:15px !important;
+    text-decoration:none;
+    display:block;
+    width:100%;
+    text-align:left;
+    margin:0;
+  }
+}
+
+.gt-hover-nav-block {
+  background-color:#242e50;
+}
+
+.gt-hover-nav-link a {
+  color:#fff;
+}
+
+.dropdown.gt-nav-center {
+  background-color:#16b28f !important;
+  border-radius:100px;
+  color:#fff !important;
+  padding:0px 8px;
+}
+
+.navbar-brand {
+  float:left;
+  padding:13px 13px;
+  font-size:18px;
+  line-height:20px;
+  height:40px !important;
+}
+
+.navbar {
+  position:relative;
+  margin-bottom:20px;
+  border:1px solid transparent;
+  min-height:0px !important;
+}
+
+.gt-text-block {
+  background-color:#333d5f;
+  display:none;
+}
+
+@media (max-width: 767px) {
+  .gt-text-block {
+    background-color:#333d5f;
+    display:block;
+  }
+}
+
+.gt-text-block p {
+  color:#fff !important;
+  padding:10px;
+  text-decoration:none;
+  margin-bottom:0px;
+}
+
+.dropdown.open.gt-nav-center a {
+  color:#fff !important;
+}
+
+.dropdown.gt-nav-center a {
+  color:#fff !important;
+}
+
+.dropdown-menu.dropdown-menu-right.gt-mob-menu a {
+  color:#16b28f !important;
+  padding:15px;
+}
+
+.dropdown-toggle.gt-mob-text {
+  color:#fff;
+  padding:6px 0px;
 }
 
