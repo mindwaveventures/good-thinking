@@ -10,7 +10,7 @@
         <a href="/{{topic.slug}}/" class="gt-mob-text" >{{topic.title}}</a>
       </li>
     {% endfor %}
-    <li class="dropdown gt-nav-center"><a  class="dropdown-toggle gt-mob-text pink" data-toggle="dropdown" aria-expanded="false" href="#">More<span class="caret"></span></a>
+    <li class="dropdown gt-nav-center"><a  class="dropdown-toggle gt-mob-text" data-toggle="dropdown" aria-expanded="false" href="#">More<span class="caret"></span></a>
       {% if banner.button_1_text or banner.button_2_text %}
       <ul class="dropdown-menu dropdown-menu-right gt-mob-menu" role="menu">
         {% for topic in landing_pages|slice:"3:" %}
