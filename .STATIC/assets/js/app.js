@@ -190,3 +190,16 @@ $(window).on("scroll resize", function(){
 $(".gt-para-topics p").on('mousedown pointerdown', function (e){
     e.stopPropagation();
 });
+
+
+$('#badge').click(function() {
+    $('#badge-open').show(0);
+    $('#badge').hide(0);
+    
+});
+
+$('.gt-right').click(function() {
+    $('#badge-open').hide(0);
+    $('#badge').show(0);
+    
+});

@@ -904,6 +904,7 @@ gt-topic-header-stress {
   border-bottom-right-radius:100px;
   margin-top:10px;
   margin-left:-20px;
+  display:initial;
 }
 
 .gt-arrow-block {
@@ -929,7 +930,7 @@ gt-topic-header-stress {
 
 @media (max-width: 350px) {
   .gt-highlights-btn-text {
-    font-size:11px;
+    font-size:14px;
     font-weight:bold;
     display:inline-block;
     /*color:#16b28f;*/
@@ -3997,16 +3998,15 @@ label.css-label:hover {
 
 .checkboxes label {
   border-radius:100px;
-  border:0px solid black;
   color:#242e50;
   text-shadow:none;
   font-family:Montserrat, sans-serif;
-  font-weight:700;
+  font-weight:600;
   background-image:none;
   background-color:rgba(243, 161, 64, 0.5);
   box-shadow:none;
   font-size:14px;
-  padding:8px 17px;
+  padding:8px 0px;
   cursor:pointer;
   display:inline-block;
   margin-left:5px;
@@ -5512,5 +5512,143 @@ a.btn:before {
 .dropdown-toggle.gt-mob-text {
   color:#fff;
   padding:6px 0px;
+}
+
+.gt-res-section {
+  padding:30px;
+}
+
+@media (max-width: 767px) {
+  .gt-res-section {
+    padding:10px;
+  }
+}
+
+.gt-res-title-block.rich-text h2 {
+  font-size:32px;
+  font-weight:bold;
+  font-family:'Montserrat';
+  text-align:center;
+}
+
+@media (max-width: 991px) {
+  .gt-res-title-block.rich-text h2 {
+    font-size:28px;
+    font-weight:bold;
+    font-family:'Montserrat';
+    text-align:center;
+  }
+}
+
+@media (max-width: 767px) {
+  .gt-res-title-block.rich-text h2 {
+    font-size:22px;
+    font-weight:bold;
+    font-family:'Montserrat';
+    text-align:center;
+  }
+}
+
+.gt-res-title-block.rich-text p {
+  line-height:24px;
+  font-family:Nunito Sans;
+  font-size:18px;
+  text-align:center;
+}
+
+@media (max-width: 991px) {
+  .gt-res-title-block.rich-text p {
+    line-height:24px;
+    font-family:Nunito Sans;
+    font-size:16px;
+    text-align:center;
+  }
+}
+
+@media (max-width: 767px) {
+  .gt-res-title-block.rich-text p {
+    line-height:24px;
+    font-family:Nunito Sans;
+    font-size:14px;
+    text-align:left;
+  }
+}
+
+.gt-green-block {
+  padding:30px;
+  background-color:#16b28f;
+}
+
+@media (max-width: 767px) {
+  .gt-green-block {
+    padding:10px;
+    background-color:#16b28f;
+  }
+}
+
+.gt-font-white p {
+  color:#fff;
+}
+
+.gt-res-title-block.rich-text a {
+  text-decoration:underline;
+  color:#fff !important;
+  letter-spacing:0.9px;
+}
+
+.gt-show-res.rich-text .checkbox input[type=checkbox]kbox {
+  border:1px solid #16b28f;
+}
+
+.checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio] {
+  border:4px solid;
+}
+
+.green-box {
+}
+
+.gt-badge-block {
+  float:left;
+  position:relative;
+  width:50px;
+  height:40px;
+  background-color:#16b28f;
+  border-top-right-radius:100px;
+  border-bottom-right-radius:100px;
+  margin-top:5px;
+  display:block;
+}
+
+.gt-badge-block img {
+  padding-top:10px;
+}
+
+.gt-badge-block-open {
+  float:left;
+  position:relative;
+  width:350px;
+  height:auto;
+  background-color:#16b28f;
+  border-radius:3px;
+  margin-top:5px;
+  padding:10px;
+  display:none;
+}
+
+.gt-badge-block-open img {
+  float:left;
+  padding:0px 10px 0px 0px;
+}
+
+.gt-badge-block-open.rich-text p {
+  font-size:18px;
+  color:#fff;
+  text-align:left;
+  margin-left:50px !important;
+}
+
+.gt-right {
+  float:right !important;
+  padding:0px !important;
 }
 
