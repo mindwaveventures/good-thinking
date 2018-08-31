@@ -48,6 +48,8 @@ $( document ).ready(function() {
         navigation: {
       nextEl: '.gt-arrow-rt',
       prevEl: '.gt-arrow-lt',
+            nextEl: '.gt-cta-next',
+      prevEl: '.gt-cta-prev',
     },
       breakpoints: {
         1024: {

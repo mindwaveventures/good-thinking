@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="33px" viewBox="0 0 24 33" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.1 (57501) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 11</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-11" transform="translate(1.000000, 1.000000)">
+            <path d="M1.9146262,14.0989337 L1.9146262,29.0846263 L20.0776531,29.0846263 C20.6299378,29.0846263 21.0776531,28.636911 21.0776531,28.0846263 C21.0776531,27.924541 21.0392199,27.7667954 20.9655846,27.6246506 L18.0784195,22.0513013 C17.9291259,21.7631068 17.9289876,21.4203816 18.0780486,21.1320667 L20.9668127,15.5445958 C21.2204544,15.0539999 21.0283651,14.4506761 20.5377692,14.1970344 C20.3955827,14.1235229 20.2378271,14.0852173 20.0777617,14.0853371 L1.9146262,14.0989337 Z" id="Path-2" stroke="#FFFFFF" stroke-width="1.5" fill="#16B28F" transform="translate(11.499626, 21.585000) rotate(90.000000) translate(-11.499626, -21.585000) "></path>
+            <circle id="Oval-2" stroke="#FFFFFF" stroke-width="1.5" fill="#16B28F" cx="11" cy="11" r="11"></circle>
+            <polygon id="Star" fill="#FFFFFF" points="10.9985919 14.4609392 7.29125822 16.4099998 7.99929595 12.2818231 5 9.35823213 9.14492507 8.75593926 10.9985919 5 12.8522588 8.75593926 16.9971838 9.35823213 13.9978879 12.2818231 14.7059256 16.4099998"></polygon>
+        </g>
+    </g>
+</svg>
