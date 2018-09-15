@@ -5,8 +5,8 @@
 {% image page.brand_logo height-60 as brand_logo %}
 
 <div class="swiper-slide resource-{{num}}" id='swiper_result_block'>
-    <div class="panel panel-default gt-highlights gt-panel-height">
-        <div class="panel-heading" style="background-color: {{page.logo_background_color}}">
+    <div class="panel panel-default gt-highlights gt-panel-height" style="background-color: {{page.background_color}}; color: {{page.text_color}}">
+        <div class="panel-heading" style="background-color: {{page.logo_background_color}}; color: {{page.text_color}}">
             <div class="gt-number-block">
                 <h4 class="gt-number" style="font-family:Montserrat, sans-serif;color:rgb(255,255,255);">#{{num}}</h4>
             </div>
@@ -38,7 +38,7 @@
                 </div>
             </div>
         </div>
-        <div class="panel-footer gt-highlight-footer">
+        <div class="panel-footer gt-highlight-footer" style="background-color: {{page.background_color}}">
           <a href="/{{page.parent}}/{{page.slug}}/"><button class="btn btn-default gt-highlights-btn" type="button">Tell me more</button></a>
           {% if not collection %}
             <div class="gt-highlights-btn-text-block">

@@ -108,12 +108,15 @@ def get_data(request, **kwargs):
     collection_filter = kwargs.get('collection_slug')
     if request.GET.get('resource_id'):
         splited_resource = request.GET.get('resource_id').split(",")
+        iapt_id_check = request.GET.get('resource_id').split(",")
         resource_id = filter(lambda id: id != "", splited_resource)
         request.session['removed_resources'] = splited_resource
     elif 'removed_resources' in request.session:
         resource_id = request.session['removed_resources']
+        iapt_id_check = request.session['removed_resources']
     else:
         resource_id = []
+        iapt_id_check = []
 
     if request.GET.get('order'):
         resource_order = request.GET.get('order')
@@ -192,6 +195,16 @@ def get_data(request, **kwargs):
         topic_filter=topic_filter,
     )
 
+    iapt_resources = filter_resources(
+        resources,
+        topic_filter='iapt',
+    )
+
+    if iapt_resources:
+        for i_id in iapt_resources.values('id'):
+            for id in i_id.values():
+                iapt_id = str(id)
+
     collection_resources =  ResourceCollections.objects.filter(Q(slug=collection_filter))
 
     resources = filter_resources(
@@ -201,7 +214,7 @@ def get_data(request, **kwargs):
         topic_filter=topic_filter,
         query=query
     ).filter(~Q(page_ptr_id__in=list(
-        chain(tips, assessments, top_collections)))
+        chain(tips, assessments, top_collections,iapt_resources)))
     ).filter(~Q(slug="results")
     ).filter(~Q(slug="collections")
     ).filter(~Q(id__in=resource_id)
@@ -268,7 +281,15 @@ def get_data(request, **kwargs):
 
     data['landing_pages'] = Home.objects.filter(~Q(slug="home")).live()
     data['resources'] = filtered_resources
-    sliced_resources = itertools.islice(filtered_resources, 5)
+    if iapt_resources:
+        if iapt_id in iapt_id_check:
+            sliced_resources = itertools.islice(filtered_resources, 5)
+        else:
+            split1_resources = itertools.islice(filtered_resources, 2)
+            split2_resources = itertools.islice(filtered_resources, 2,4)
+            sliced_resources=itertools.chain(split1_resources,iapt_resources,split2_resources)
+    else:
+        sliced_resources = itertools.islice(filtered_resources, 5)
     data['resources'],data['mobile_resources'] = itertools.tee(sliced_resources, 2)
     data['tips'] = tips
     data['assessments'] = assessments
