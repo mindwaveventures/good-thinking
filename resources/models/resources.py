@@ -288,6 +288,7 @@ class ResourcePage(AbstractForm):
     )
     body = StreamField([
         ('rich_text', blocks.RichTextBlock()),
+        ('rawhtml', blocks.RawHTMLBlock()),
         ('heading', blocks.RichTextBlock()),
         ('paragraph', blocks.RichTextBlock()),
         ('column_left', blocks.RichTextBlock()),
