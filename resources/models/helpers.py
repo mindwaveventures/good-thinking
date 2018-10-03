@@ -86,11 +86,11 @@ def filter_tags(resources, topic):
     exclude_tags = Home.objects.get(slug=topic).specific.exclude_tags.all()
     topic_tag = Tag.objects.filter(name=topic)
 
-    exclude = chain(exclude_tags, topic_tag)
+    # exclude = chain(exclude_tags, topic_tag)
 
-    issue_tags = filter_resource_by_topic(resources, IssueTag, exclude)
-    reason_tags = filter_resource_by_topic(resources, ReasonTag, exclude)
-    content_tags = filter_resource_by_topic(resources, ContentTag, exclude)
+    issue_tags = filter_resource_by_topic(resources, IssueTag, chain(exclude_tags, topic_tag))
+    reason_tags = filter_resource_by_topic(resources, ReasonTag, chain(exclude_tags, topic_tag))
+    content_tags = filter_resource_by_topic(resources, ContentTag, chain(exclude_tags, topic_tag))
 
     return issue_tags, reason_tags, content_tags
 
