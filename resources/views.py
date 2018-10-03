@@ -3,6 +3,7 @@ from django.db import models
 from django.conf import settings
 import itertools
 from itertools import chain
+import random
 
 from gpxpy.geo import haversine_distance
 
@@ -238,10 +239,14 @@ def get_data(request, **kwargs):
             resources
         )
 
+        # sorted_resources = sorted(
+        #     relevant_resources, key=lambda resource: (
+        #         resource.relevance
+        #     ), reverse=True
+        # )
+        
         sorted_resources = sorted(
-            relevant_resources, key=lambda resource: (
-                resource.relevance
-            ), reverse=True
+            relevant_resources, key=lambda k: random.random()
         )
 
     paged_resources = get_paged_resources(request, sorted_resources)
