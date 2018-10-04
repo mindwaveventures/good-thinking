@@ -224,6 +224,11 @@ if ($(window).width() <= 991) {
 }
 }
 
+getbackurl = function(topic) {
+  window.location.href = window.location.origin + '/' + topic + '?' + window.location.search.substring(1);
+}
+
+
 
 // request resources based on user's answer
 GetQueryResults = function(slug) {
