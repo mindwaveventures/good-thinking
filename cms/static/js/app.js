@@ -194,11 +194,14 @@ $('.result_block').clone().appendTo(".other_resource");
 //check for changes in checkbox(question tag) to set cookie
 $checkboxes = $('input:checkbox').change(setcookie);
 
-//get the question tag (checkbox) cookie value on load
-for(var $cookie in alreadySetCookies) {
-  $("[id='" + alreadySetCookies[$cookie].replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g,'\\$1') + "']").prop('checked', true);
-}
 
+//get the question tag (checkbox) cookie value on load
+if (window.location.href.indexOf('?') != -1) {
+ console.log("no query string");
+  for(var $cookie in alreadySetCookies) {
+    $("[id='" + alreadySetCookies[$cookie].replace(/([ #;&,.+*~\':"!^$[\]()=>|\/@])/g,'\\$1') + "']").prop('checked', true);
+  }
+}
 // to get resource count on load
 GetResourceCount();
 
