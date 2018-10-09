@@ -239,15 +239,15 @@ def get_data(request, **kwargs):
             resources
         )
 
-        # sorted_resources = sorted(
-        #     relevant_resources, key=lambda resource: (
-        #         resource.relevance
-        #     ), reverse=True
-        # )
-        
         sorted_resources = sorted(
-            relevant_resources, key=lambda k: random.random()
+            relevant_resources, key=lambda resource: (
+                resource.relevance
+            ), reverse=True
         )
+
+        # sorted_resources = sorted(
+        #     relevant_resources, key=lambda k: random.random()
+        # )
 
     paged_resources = get_paged_resources(request, sorted_resources)
 
@@ -291,7 +291,7 @@ def get_data(request, **kwargs):
             sliced_resources = itertools.islice(filtered_resources, 5)
         else:
             split1_resources = itertools.islice(filtered_resources, 2)
-            split2_resources = itertools.islice(filtered_resources, 2,4)
+            split2_resources = itertools.islice(filtered_resources, 2)
             sliced_resources=itertools.chain(split1_resources,iapt_resources,split2_resources)
     else:
         sliced_resources = itertools.islice(filtered_resources, 5)
