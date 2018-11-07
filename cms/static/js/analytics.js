@@ -6,6 +6,10 @@ function analyticsListeners() {
     addAnalytics(el, {event: "Share", variable: "shared"});
   });
 
+  selectAll(".resource_start").forEach(function(el) {
+    addAnalytics(el, {event: "resourceGetStarted", variable: "resourceGetStarted"});
+  });
+
   selectAll([".resource-like", ".resource-dislike"]).forEach(function(el) {
     if (el.classList.contains("like")) {
       addAnalytics(el, {event: "Like", variable: "liked", location: "resource"});

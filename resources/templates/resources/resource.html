@@ -124,7 +124,7 @@
   <div class="gt-footer-results">
     {% for button in buttons %}
      {% if button.button_type == "Primary" %}
-      <a href="{{button.button_link}}" target="_blank"><button class="btn btn-default gt-highlights-btn gt-no-border" type="button">{{button.button_text}}</button></a>
+      <a href="{{button.button_link}}" target="_blank" class="resource_start"><button class="btn btn-default gt-highlights-btn gt-no-border" type="button">{{button.button_text}}</button></a>
      {% endif %}
     {% endfor %}
     {% if request.META.HTTP_REFERER %}
