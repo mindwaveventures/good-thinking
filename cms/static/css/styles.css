@@ -4044,6 +4044,13 @@ input[type=checkbox]:checked + label {
   .gt-highlights-home-row {
     width:100% !important;
     margin:0 auto !important;
+    display: none !important;
+  }
+}
+
+@media (max-width: 1199px) {
+  .gt-highlights-home-row {
+    display:block;
   }
 }
 

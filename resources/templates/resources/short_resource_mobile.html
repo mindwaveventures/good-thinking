@@ -7,9 +7,11 @@
 <div class="swiper-slide resource-{{num}}" id='swiper_result_block'>
     <div class="panel panel-default gt-highlights gt-panel-height" style="background-color: {{page.background_color}}; color: {{page.text_color}}">
         <div class="panel-heading" style="background-color: {{page.logo_background_color}}; color: {{page.text_color}}">
+          {% if diff_class != 'gt-stress-col-1' %}
             <div class="gt-number-block">
                 <h4 class="gt-number" style="font-family:Montserrat, sans-serif;color:rgb(255,255,255);">#{{num}}</h4>
             </div>
+            {% endif %}
             <div class="gt-arrow-block"></div>
             <div class="gt-result-heading rich-text">
               {% if brand_logo %}
@@ -41,7 +43,7 @@
         <div class="panel-footer gt-highlight-footer" style="background-color: {{page.background_color}}">
           <a href="/{{page.parent}}/{{page.slug}}/"><button class="btn btn-default gt-highlights-btn" type="button">Tell me more</button></a>
         </div>
-        {% if not collection %}
+        {% if diff_class != 'gt-stress-col-1' and not collection %}
         <div class="gt-highlights-btn-text-block">
           <a class="gt-highlights-close" onclick="RemoveResource('{{num}}',{{page.id}});">
             <div class="gt-close-cta"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"

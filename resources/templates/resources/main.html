@@ -49,5 +49,17 @@
     </div>
 </section>
 
+<section class="gt-home-topic gt-slider-hide">
+    <div class="row bt-topics-slider">
+        <div class="gt-stress-result-swiper">
+            <div class="swiper-wrapper mobile_resources">
+              {% for post in highlights %}
+                {% include "resources/short_resource_mobile.html" with page=post.highlights_link.specific diff_class='gt-stress-col-1' num=forloop.counter%}
+              {% endfor %}
+            </div>
+            <div class="gt-swiper-pagination-stress-result"></div>
+        </div>
+    </div>
+</section>
 {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
 {% endblock %}
