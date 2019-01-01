@@ -1,6 +1,12 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# Vagrant environment for Good Thinking
+# By default 'vagrant up' will start a machine and provision application and database
+# Multimachine environment - two machines are defined, 'web' and 'db'
+# Docker environment - Builds from Dockerfile
+
+
 # Provisioning script for web machine
 $script_web = <<SCRIPT
 
@@ -44,7 +50,7 @@ SCRIPT
 
 Vagrant.configure("2") do |config|
 
-  # Define default node, web & db on single machine
+  # Define default machine, web & db on single machine
   config.vm.define vm_name = "default" do |default|
     default.vm.box = "ubuntu/xenial64"
     default.vbguest.auto_update = false
@@ -62,7 +68,7 @@ Vagrant.configure("2") do |config|
 
   end
 
-  # Define db node
+  # Define db machine
   config.vm.define vm_name = "db", autostart: false do |db|
     db.vm.box = "ubuntu/xenial64"
     db.vbguest.auto_update = false
@@ -78,7 +84,7 @@ Vagrant.configure("2") do |config|
 
   end
 
-  # Define web node
+  # Define web machine
   config.vm.define vm_name = "web", autostart: false do |w|
     w.vm.box = "ubuntu/xenial64"
     w.vbguest.auto_update = false
@@ -95,20 +101,21 @@ Vagrant.configure("2") do |config|
 
   end
 
-  # Define Dockerised node
-  config.vm.define vm_name = "docker", autostart: false do |d|
-    d.vm.box = "ubuntu/xenial64"
-    d.vbguest.auto_update = false
-    d.vm.box_check_update = true
-    d.vm.network "forwarded_port", guest: 8001, host: 8001
-    d.vm.network "private_network", ip: "192.168.33.20"
-    d.vm.synced_folder ".", "/home/vagrant/good-thinking"
+  # Define Dockerised machine
+  config.vm.define vm_name = "docker", autostart: false do |dk|
+    dk.vm.box = "ubuntu/xenial64"
+    dk.vbguest.auto_update = false
+    dk.vm.box_check_update = true
+    dk.vm.network "forwarded_port", guest: 80, host: 8080
+    dk.vm.network "private_network", ip: "192.168.33.20"
 
-    d.vm.provider "virtualbox" do |vb|
+    dk.vm.provider "virtualbox" do |vb|
       vb.memory = 2048
     end
 
-    d.vm.provision :docker
+    dk.vm.provision :docker do |d|
+      d.build_image "/vagrant -t goodthinking:latest"
+    end
 
   end
 
