@@ -5413,11 +5413,6 @@ a.btn:before
   }
 }
 
-.gt-hover-nav-link a:hover {
-  color:#16b28f !important;
-  text-decoration:underline !important;
-}
-
 @media (min-width: 1200px) {
   .gt-hover-nav-link {
     padding:15px 15px !important;
@@ -5467,6 +5462,7 @@ a.btn:before
 
 .gt-hover-nav-link a {
   color:#fff;
+  font-size: 14px;
 }
 
 .dropdown.gt-nav-center {

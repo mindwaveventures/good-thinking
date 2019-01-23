@@ -7,6 +7,7 @@
 {% block content %}
 
 {% include "resources/banner.html" %}
+{% include "resources/sub_menu.html" with homemenu=matched_submenu page='' current_path=current_path %}
 
 <!-- Hero image block for static pages -->
 {% image page.cover_image width-1000 as cover_image %}

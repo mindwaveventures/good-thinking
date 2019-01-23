@@ -10,13 +10,8 @@
     {% if banner %}
       {% include "resources/banner.html" with banner=banner %}
     {% endif %}
-<div class="gt-hover-nav-block">
-  <div class="gt-nav-hover">
-  {% for menu in page.sub_menu.all %}
-    <div class="gt-hover-nav-link"><a href="{{menu.submenu_pagelink.url}}">{{menu.submenu_title}}</a></div>
-  {% endfor %}
-  </div>
-</div>
+    {% include "resources/sub_menu.html" with page=page %}
+
 {% include "resources/components/hero-image.html" with page=page %}
   <div id="elm-personalise" data-slug="{{page.slug}}">
   <!-- Question type - filter block slider -->
