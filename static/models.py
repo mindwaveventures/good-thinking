@@ -20,8 +20,13 @@ class StaticPage(Page):
 
         for all_menu in Home.objects.all():
             for sub_menu in all_menu.sub_menu.all():
-                if sub_menu.submenu_pagelink.url == request.path:
-                    context['matched_submenu'] = Home.objects.filter(Q(slug=all_menu.slug))
+                if sub_menu:
+                    if sub_menu.submenu_pagelink:
+                        if sub_menu.submenu_pagelink.url == request.path:
+                            context['matched_submenu'] = Home.objects.filter(Q(slug=all_menu.slug))
+                    else:
+                        context['matched_submenu'] = Home.objects.filter(Q(slug='anxious'))
+
         context['current_path'] = request.path
         return base_context(context,self)
 
