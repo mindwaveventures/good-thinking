@@ -2,12 +2,12 @@
   <div class="gt-nav-hover">
     {% if page != ''%}
      {% for menu in page.sub_menu.all %}
-    <a class="gt-hover-nav-link" href="{{menu.submenu_pagelink.url}}">{{menu.submenu_title}}</a>
+    <div class="gt-hover-nav-link"><a  href="{{menu.submenu_pagelink.url}}">{{menu.submenu_title}}</a></div>
     {% endfor %}
      {% else %}
      {% for menu in homemenu %}
      {% for menus in menu.sub_menu.all %}
-    <a class="gt-hover-nav-link {% if menus.submenu_pagelink.url == current_path %}active{% endif %}" href="{{menus.submenu_pagelink.url}}">{{menus.submenu_title}}</a>
+    <div class="gt-hover-nav-link"><a class="{% if menus.submenu_pagelink.url == current_path %}submenu_active{% endif %}" href="{{menus.submenu_pagelink.url}}">{{menus.submenu_title}}</a></div>
      {% endfor %}
     {% endfor %}
     {% endif %}
