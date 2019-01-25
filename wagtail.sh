@@ -2,7 +2,7 @@
 
 cd /home/docker/code/
 
-python manage.py migrate
+python manage.py migrate --noinput
 
 # python manage.py collectstatic -c --no-input --settings cms.settings.production
 python manage.py collectstatic -c --no-input --settings $DJANGO_SETTINGS_MODULE
