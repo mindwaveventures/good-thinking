@@ -18,17 +18,18 @@ FROM python:3.6
 MAINTAINER David Bower (david@mindwaveventures.com)
 
 # Install required packages and remove the apt packages cache when done.
+# Install the PPA (personal package archive) for the updated version of NodeJS.
+# Debian repos are at 4.8.2 which went out of support in April 2018 and for which npm can no longer be installed
 
-RUN apt-get update && \
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash && \
+    apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y \
 	nginx \
 	supervisor \
-    nodejs \
-    npm && \
+    nodejs && \
     npm -g install yuglify && \
     rm -rf /var/lib/apt/lists/* && \
-    ln -s /usr/bin/nodejs /usr/bin/node && \
     pip3 install uwsgi
 #    echo "daemon off;" >> /etc/nginx/nginx.conf
 
