@@ -26,7 +26,8 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash && \
     apt-get upgrade -y && \
     apt-get install -y \
 	nginx \
-	supervisor \
+    supervisor \
+    dos2unix \
     nodejs && \
     npm -g install yuglify && \
     rm -rf /var/lib/apt/lists/* && \
@@ -47,6 +48,9 @@ RUN pip3 install -r /home/docker/code/requirements.txt
 
 # add (the rest of) our code
 COPY . /home/docker/code/
+
+# fix up DOS line endings (in cases where the startup script has been copied over from a Windows machine)
+RUN dos2unix /home/docker/code/wagtail.sh
 
 WORKDIR /home/docker/code/
 RUN chmod a+x wagtail.sh && \
