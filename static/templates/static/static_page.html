@@ -2,17 +2,60 @@
 
 {% load wagtailcore_tags wagtailimages_tags static new_tab %}
 
-{% block body_class %}template-homepage{% endblock %}
+{% block body_class %}gt-body article{% endblock %}
 
 {% block content %}
-  {% include "resources/banner.html" %}
-  {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages %}
-  <section class="pt5-plus ph4 ph5-m ph6-l tc">
-    <div class="{{ page.text_alignment }} copy static-page mw-80 center">
-      {% for block in page.body %}
-        {% include_block block %}
-      {% endfor %}
+
+{% include "resources/banner.html" %}
+{% include "resources/sub_menu.html" with homemenu=matched_submenu page='' current_path=current_path %}
+
+<!-- Hero image block for static pages -->
+{% image page.cover_image width-1000 as cover_image %}
+<section class="home-slider">
+  {% if cover_image %}
+    <div class="gt-header-img article" style="background-image:url('{{ cover_image.url }}')"></div>
+  {% else %}
+    <div class="gt-header-img article" style="background-image:url({%static 'images/gt-articals-cover-img.jpg'%})"></div>
+  {% endif %}
+    <div class="gt-slider-content rich-text">
+        <div class="row gt-header-content">
+            <div>
+                <h2>{{page.title}}<br></h2>
+            </div>
+        </div>
     </div>
-  </section>
-  {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
+</section>
+
+<!-- Streamfield block for static pages -->
+<section class="gt-article-topic">
+    <div>
+        <div class="row">
+          {% for block in page.body %}
+            {% if block.block_type == 'column_left' %}
+              <div class="col-md-6 gt-para-lt">
+                <div class="gt-partner-text-block rich-text">
+                {% include_block block %}
+              </div>
+              </div>
+            {% else %}
+                {% if block.block_type == 'column_right' %}
+              <div class="col-md-6 gt-para-rt">
+                <div class="gt-partner-text-block rich-text">
+                {% include_block block %}
+              </div>
+              </div>
+            {% else %}
+                <div class="col-md-12">
+                  <div class="gt-read rich-text">
+                  {% include_block block %}
+                </div>
+                </div>
+            {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links='' %}
 {% endblock %}

@@ -2,62 +2,64 @@
 
 {% load wagtailcore_tags wagtailimages_tags static spacing %}
 
+{% block body_class %}gt-body{% endblock %}
+
 {% block content %}
-  {% if page.banner %}
-    {% include "resources/banner.html" with banner=page.banner %}
-  {% endif %}
 
-  {% include "resources/components/hero-image.html" with page=page hero_image=hero_image landing_pages=landing_pages %}
+{% if page.banner %}
+  {% include "resources/banner.html" with banner=banner %}
+{% endif %}
 
-  <div class="tc">
-    {% include "resources/components/row.html" with render_template="resources/components/page-block.html" element_list=project_info_block length=2 width="w-40" class="mb2 pa3" %}
+{% include "resources/components/hero-image.html" with page=page url=page.url hero_image=hero_image landing_pages=landing_pages %}
+
+<div class="tc">
+  {% include "resources/components/row.html" with render_template="resources/components/page-block.html" element_list=project_info_block length=2 width="w-40" class="mb2 pa3" %}
+</div>
+
+<!--homepage slider block  -->
+<section class="gt-home-topic">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="gt-section-header">Browse our topics</h1>
+    </div>
   </div>
-
-  {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages %}
-
-  <section class="cubes">
-    <div class="pa5-l">
-      <div class="pa2-ns ph3 tc mb2 pb4 ">
-        {% if landing_pages|length < 5 %}
-          {% include "resources/components/row.html" with render_template="resources/components/topic-card.html" element_list=landing_pages length=2 width="w-40" class="mb2 mb3-ml mb3-l" %}
-        {% else %}
-          {% include "resources/components/row.html" with render_template="resources/components/topic-card.html" element_list=landing_pages length=3 width="w-30" class="mb4" %}
-        {% endif %}
-      </div>
-
-      <div class="pa2-ns ph3 pb3 tc mb2">
-        <div class="ph4-ns tc shadow-2 pv2 bg-white w-80-l center">
-          <form action="{% pageurl page %}" method="POST">
-            {% csrf_token %}
-            <section class="tc-ns tl-m w-100 pa1 ph4 ph3-m ph3-l pb3" id="suggestion_form">
-              <div class="w-80-l center">
-                <p>
-                  Are we missing something? Tell us how you're feeling so we know what content we need to add next:
-                </p>
-                {% for row in custom_form %}
-                {% if row.field_type == 'multiline' %}
-                <div>
-                  {% if row.suggestion_submitted %}
-                  <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-green b--lm-green relative">
-                    Suggestions submitted successfully!
-                    <i class="bg--lm-dark-green lm-white absolute br-100 fa fa-check lm-flash-icon lm-tick-icon"></i>
-                  </div>
-                  {% else %}
-                  <div class="dt dt--fixed">
-                    <label for="id_{{row.label}}" class="dn"></label>
-                    <textarea id="id_{{row.label}}" name="{{row.label}}" class="dtc h2 f5 w-95-ns w-80 pa1 nr br1-no-right no-defaults b--lm-dark-turquoise"></textarea>
-                    <button type="submit" class="f5 h2 w-5-ns w-20 fr link dtc pa1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover br1-no-left ba b--lm-dark-turquoise"><i class="fa fa-caret-right" aria-hidden="true"></i></button>
-                  </div>
-                  {% endif %}
-                </div>
-                {% endif %}
-                {% endfor %}
-              </div>
-            </section>
-          </div>
+  <!-- <p class="hidden-md hidden-lg">Swipe left and right to find topics<br></p> -->
+  <div class="row bt-topics-slider">
+    <div class="gt-browser-topic-swiper">
+      <div class="swiper-wrapper">
+        {% for list in landing_pages %} {% include "resources/components/topic-card.html" with width=width page=list slug=page.slug%} {% endfor %}
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
+<!--homepage highlights block  -->
+<section class="gt-home-topic-highlights-2">
+    <div class="row">
+        <div class="col-md-12 gt-highlights-panel">
+            <h1 class="gt-section-header">Wellbeing apps available freely to Londoners</h1>
+        </div>
+    </div>
+    <div class="gt-highlights-home-row">
+        <div class="row gt-highlights-home-container">
+          {% for post in highlights %}
+            {% include "resources/short_resource.html" with page=post.highlights_link.specific diff_class='gt-stress-col-1' num=forloop.counter%}
+          {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="gt-home-topic gt-slider-hide">
+    <div class="row bt-topics-slider">
+        <div class="gt-stress-result-swiper">
+            <div class="swiper-wrapper mobile_resources">
+              {% for post in highlights %}
+                {% include "resources/short_resource_mobile.html" with page=post.highlights_link.specific diff_class='gt-stress-col-1' num=forloop.counter%}
+              {% endfor %}
+            </div>
+            <div class="gt-swiper-pagination-stress-result"></div>
+        </div>
+    </div>
+</section>
+{% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
 {% endblock %}

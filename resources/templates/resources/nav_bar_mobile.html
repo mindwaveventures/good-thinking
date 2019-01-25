@@ -1,0 +1,30 @@
+{% load wagtailcore_tags wagtailimages_tags static modelname new_tab %}
+
+{% load static %}
+
+{% if landing_pages %}
+<div class="gt-xs-nav">
+  <ul class="nav nav-tabs hidden-sm hidden-md hidden-lg gt-mob-nav">
+    {% for topic in landing_pages|slice:":3" %}
+      <li class="gt-nav-center {% if topic.slug|lower == page.slug|lower %}active{% endif %}">
+        <a href="/{{topic.slug}}/" class="gt-mob-text" >{{topic.title}}</a>
+      </li>
+    {% endfor %}
+    <li class="dropdown gt-nav-center"><a  class="dropdown-toggle gt-mob-text" data-toggle="dropdown" aria-expanded="false" href="#">More<span class="caret"></span></a>
+      {% if banner.button_1_text or banner.button_2_text %}
+      <ul class="dropdown-menu dropdown-menu-right gt-mob-menu" role="menu">
+        {% for topic in landing_pages|slice:"3:" %}
+         <li role="presentation"><a href="/{{topic.slug}}/" class="gt-dropdown-link">{{topic.title}}</a></li>
+        {% endfor %}
+        {% if banner.button_1_text %}
+        <li role="presentation"><a id="assessment" href="/{{banner.button_1_link.slug}}/">{{banner.button_1_text}}</a></li>
+        {% endif %}
+        {% if banner.button_2_text %}
+        <li role="presentation"><a href="/{{banner.button_2_link.slug}}/">{{banner.button_2_text}}</a></li>
+        {% endif %}
+      </ul>
+      {% endif %}
+    </li>
+  </ul>
+</div>
+{% endif %}

@@ -2,97 +2,70 @@
 
 {% load wagtailcore_tags wagtailimages_tags static new_tab %}
 
-{% block body_class %}template-feedbackpage{% endblock %}
+{% block body_class %}gt-body article{% endblock %}
 
 {% block content %}
 
-    {% if banner %}
-      {% include "resources/banner.html" with banner=banner %}
-    {% endif %}
+{% if banner %}
+  {% include "resources/banner.html" with banner=banner %}
+{% endif %}
 
-    {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages %}
-
-    <section class="f3 pa3 ph4 ph3-m ph3-l tl lh-copy lm-dark-blue segoe feedback-section {% if banner %}mt5{%endif%}">
-      <div class="w-60-ns center">
-        <a href="/" class="f5 link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise"><i class="fa fa-caret-left" aria-hidden="true"></i> Back</a>
-      </div>
-    </section>
-
-    <form action="{% pageurl page %}" method="POST" class="lm-ls1" id="feedback-form">
-      {% csrf_token %}
-
-      {% for row in custom_form %}
-        {% if row.field_type == 'radio' %}
-          <section class="f3 pa3 ph4 ph3-m ph3-l tl copy lm-dark-blue nunito feedback-form-section">
-            <div class="w-60-ns center">
-              <div class="around_form_input">
-                {{row.before_input|new_tab|richtext}}
-              </div>
-              {% if row.errors %}
-                {% for error in row.errors %}
-                  <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-light-red b--dark-red relative black mt1 f5"><i class="bg--lm-dark-red white absolute br-100 fa fa-exclamation lm-flash-icon lm-exclamation-icon"></i>{{error}}</div>
-                {% endfor %}
-              {% endif %}
-              <div id="id_{{row.label}}" class="mv2 pv2">
-                {% for choice in row.choices %}
-                  <div class="mv1 h18">
-                    <input id="id_{{row.label}}_{{forloop.counter0}}" name="{{row.label}}" type="radio" value="{{choice.val}}" {{row.reqired}} class="absolute o-0 lm-feedback-radio" {{choice.checked}}></input>
-                    <label for="id_{{row.label}}_{{forloop.counter0}}" class="lm-feedback-label word-wrap f6 v-top">{{choice.val}}</label>
-                  </div>
-                {% endfor %}
-              </div>
-              <div class="around_form_input">
-                {{row.after_input|new_tab|richtext}}
-              </div>
+<!-- hero image block  -->
+{% image page.hero_image width-1000 as hero_image %}
+<section class="home-slider">
+    <div class="gt-header-img article" style="background-image:url('{{ hero_image.url }}')"></div>
+    <div class="gt-slider-content rich-text">
+        <div class="row gt-header-content">
+            <div>
+                <h2>{{page.title}}<br></h2>
             </div>
-        </section>
-        {% else %}
-          {% if row.field_type == 'multiline' %}
-            <section class="f3 pt3 ph4 ph3-m ph3-l tl copy pb3 segoe feedback-section">
-              <div class="w-60-ns center">
-                <div class="around_form_input">
-                  {{row.before_input|new_tab|richtext}}
-                </div>
-                {% if row.errors %}
-                  {% for error in row.errors %}
-                    <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-light-red b--dark-red relative black mt1 f5"><i class="bg--lm-dark-red white absolute br-100 fa fa-exclamation lm-flash-icon lm-exclamation-icon"></i>{{error}}</div>
+        </div>
+    </div>
+</section>
+
+<!-- form field block  -->
+<section>
+    <div class="gt-feedback-container">
+        <div class="gt-back-btn">
+            <a href="/" class="gt-feedback-back">
+                <p class="gt-feeback-back">Back<br></p>
+            </a>
+        </div>
+        <form class="gt-feedback-content rich-text" action="{% pageurl page %}" method="POST" id="feedback-form">
+          {% csrf_token %}
+          {% for row in custom_form %}
+            {% if row.field_type == 'radio' %}
+            <div>
+                <div>{{row.before_input|new_tab|richtext}}</div>
+                <div>
+                  {% for choice in row.choices %}
+                    <label class="gt-radio-container" for="id_{{row.label}}_{{forloop.counter0}}">{{choice.val}}<input id="id_{{row.label}}_{{forloop.counter0}}" name="{{row.label}}" type="radio" value="{{choice.val}}" {{row.reqired}}  {{choice.checked}}>
+                    <span class="checkmark"></span></label>
                   {% endfor %}
-                {% endif %}
-                <label for="id_{{row.label}}" class="dn"></label>
-                <textarea id="id_{{row.label}}" name="{{row.label}}" class="h4 f5 w-100 pa3 nr b--lm-grey no-defaults" {{required}}>{{row.submitted_val}}</textarea>
-                <div class="around_form_input">
+                </div>
+                <div>
+                    {{row.after_input|new_tab|richtext}}
+                </div>
+            </div>
+            {% else %}
+            {% if row.field_type == 'multiline' %}
+            <div>
+                <div class="gt-feedback-service">
+                    {{row.before_input|new_tab|richtext}}
+                </div>
+                <div>
+                  <label for="id_{{row.label}}"></label>
+                  <textarea id="id_{{row.label}}" name="{{row.label}}" class="form-control gt-feedbaack-textarea" {{required}}>{{row.submitted_val}}</textarea></div>
+                <div>
                   {{row.after_input|new_tab|richtext}}
                 </div>
-              </div>
-            </section>
-          {% else %}
-            {% if row.field_type == 'email' and forloop.last %}
-              <section class="f3 pa3 ph4 ph3-m ph3-l tl copy segoe feedback-section">
-                <div id="alphasection" class="w-60-ns nunito center f5">
-                  <div class="around_form_input">
-                    {{row.before_input|new_tab|richtext}}
-                  </div>
-                  {% if row.errors %}
-                    {% for error in row.errors %}
-                      <div class="alert ma0 mb1 mr1 mt4 pa3 ba bw1-ns bg--lm-light-red b--dark-red relative black mt1 f5"><i class="bg--lm-dark-red white absolute br-100 fa fa-exclamation lm-flash-icon lm-exclamation-icon"></i>{{error}}</div>
-                    {% endfor %}
-                  {% endif %}
-                  <label for="id_{{row.label}}">Email: </label>
-                  <input id="id_{{row.label}}" name="{{row.label}}" type="email" {{required}}>{{row.submitted_val}}</input>
-                </div>
-              </section>
+            </div>
             {% endif %}
           {% endif %}
-        {% endif %}
-      {% endfor %}
-      <div class="f3 pa3 ph4 ph3-m ph3-l tl copy lm-dark-blue nunito feedback-form-section">
-        <div class="w-60-ns center">
-          <div class="w-100 tl mt3">
-            {% include "resources/primary-button.html" with value="Submit" %}
-          </div>
-        </div>
-      </div>
-    </form>
+        {% endfor %}
+    {% include "resources/primary-button.html" with value="Submit" %}</form>
+    </div>
+</section>
 
-  {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
+{% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
 {% endblock %}

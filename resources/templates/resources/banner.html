@@ -1,28 +1,58 @@
-{% load wagtailcore_tags new_tab %}
-{% load static %}
+{% load wagtailcore_tags wagtailimages_tags static spacing modelname new_tab %} {% load static %}
 
-<div class="lm-bg-white pa3 pv-1-4-sm w-100 f6 f5-l f5-m banner segoe fixed top-0 z-5 dt dt--fixed shadow-2" id="beta-banner">
-  <div class="dtc w-33 w-10-ml w-8-l w-15-m tl v-mid">
-    <a href="/"><img src="{% static "images/good_thinking_logo.svg" %}" /></a>
+<section>
+  <div class="gt-logo">
+    <a href="/" class="gt-logo-link">
+      <img src="{% static "images/GT-logo.svg" %}" class="gt-logo-des">
+      <img class="hidden-lg gt-logo-tab" src="{% static "images/GT-tablet-logo.svg" %}">
+    </a>
+    {% if banner.button_1_text or banner.button_2_text %}
+    <ul class="nav nav-tabs gt-nav-right nav-underline">
+      {% if banner.button_1_text %}
+      <li><a href="/{{banner.button_1_link.slug}}/" class="gt-logo-link-right">{{banner.button_1_text}}</a></li>
+      {% endif %}
+      {% if banner.button_2_text %}
+      <li><a href="/{{banner.button_2_link.slug}}/" class="gt-logo-link-right">{{banner.button_2_text}}</a></li>
+      {% endif %}
+    </ul>
+    {% endif %}
+    <div class="gt-nav-link">
+      <div class="gt-nav rich-text">
+        {{banner.text|new_tab|richtext}}
+      </div>
+    </div>
   </div>
+  <div class="gt-text-block">
+      <p><em>I am, or I know someone who is feeling:</em><br></p>
+  </div>
+  <!--nav menu for mobile view -->
+  {% include "resources/nav_bar_mobile.html" with banner=banner %}
 
-  <div class="dtc w-80 w-70-sm w-30-mm w-40-l v-mid banner fr fn-sm pl3-sm">
-    {{banner|new_tab|richtext}}
-  </div>
-  <div class="dtc-sm dn tr v-mid banner_buttons">
-    <a href="/self-assessment"
-    {% if slug != "self-assessment" %}
-      class="f6 f7-m link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-turquoise-hover lm-dark-turquoise lm-white-hover ba b--lm-dark-turquoise"
-    {% else %}
-      class="f5 link dib ph3 pv2 br1 pointer montserrat tracked inner-shadow-active lm-inactive lm-bg-white ba b--lm-inactive"
-    {% endif %}
-    id="assessment">Take self-assessment</a>
-    <a href="/crisis"
-    {% if page.slug != "crisis" %}
-      class="f6 f7-m link dib ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-bg-white lm-bg-dark-blue-hover lm-dark-blue lm-white-hover ba b--lm-dark-blue crisis-link"
-    {% else %}
-      class="f5 link dib ph3 pv2 br1 pointer montserrat tracked inner-shadow-active lm-inactive lm-bg-white ba b--lm-inactive"
-    {% endif %}
-    >Get urgent support</a>
-  </div>
-</div>
+  <nav class="navbar navbar-default hidden-xs gt-nav">
+    <div class="container-fluid gt-menu">
+      <div class="navbar-header">
+        <a class="navbar-brand hidden-xs" href="#">I am, or I know someone who is feeling:</a>
+        <button class="navbar-toggle collapsed hidden-xs" data-toggle="collapse" data-target="#navcol-1">
+                <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span>
+                <span class="icon-bar"></span><span class="icon-bar"></span>
+            </button>
+      </div>
+
+      <div class="collapse navbar-collapse" id="navcol-1">
+        <!--nav menu for desktop view -->
+        {% include "resources/nav_bar_desktop.html" with banner=banner %}
+
+        {% if banner.button_1_text or banner.button_2_text %}
+        <ul class="nav navbar-nav gt-nav-right nav-underline">
+          {% if banner.button_1_text %}
+          <li role="presentation"><a id="assessment" class="{% if banner.button_1_link.slug|lower == slug|lower  %}menu_active{% endif %}" href="/{{banner.button_1_link.slug}}/">{{banner.button_1_text}}</a></li>
+          {% endif %} {% if banner.button_2_text %}
+          <li role="presentation"><a class="{% if banner.button_2_link.slug|lower == page.slug|lower  %}menu_active{% endif %}" href="/{{banner.button_2_link.slug}}/">{{banner.button_2_text}}</a></li>
+          {% endif %}
+        </ul>
+        {% endif %}
+      </div>
+
+    </div>
+  </nav>
+</section>

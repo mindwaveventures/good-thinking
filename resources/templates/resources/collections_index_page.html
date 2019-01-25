@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block body_class %}gt-body{% endblock %}
+
+{% block content %}
+
+{% if banner %}
+  {% include "resources/banner.html" with banner=banner %}
+{% endif %}
+
+{% include "resources/resource_collections.html" with page=page %}
+
+{% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
+{% endblock %}

@@ -1,18 +1,29 @@
 var our_cookie = 'ldmw_accepted_cookie_policy=1';
+function toggleClasses(element, classes) {
+  classes.forEach(function(c) {
+    element.classList.toggle(c);
+  });
+}
+
+// Aliases for querySelector functions
+// Uses document.querySelector if no parent is passed
+function select(query, parent) {
+  return parent ? parent.querySelector(query) : document.querySelector(query);
+}
 
 function show_cookie_bar () {
   // if we have accepted the cookie policy
   if (document.cookie.indexOf(our_cookie) > -1) {
     // if the banner is showing
-    if (select('#cookie_accept_bar').className.indexOf('dn') === -1) {
+    if (select('#cookie_accept_bar').className.indexOf('hide_cookie') === -1) {
       // stop showing the banner
-      toggleClasses(select('#cookie_accept_bar'), ['dn']);
-      toggleClasses(select('#blank_div_id'), ['dn']);
+      toggleClasses(select('#cookie_accept_bar'), ['hide_cookie']);
+      toggleClasses(select('#blank_div_id'), ['hide_cookie']);
     }
     return;
   }
 
-  toggleClasses(select('#cookie_accept_bar'), ['dn']);
+  toggleClasses(select('#cookie_accept_bar'), ['hide_cookie']);
   add_blank_div_to_not_cover_content();
 }
 

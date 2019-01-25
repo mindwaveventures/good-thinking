@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Sum, Case, When, Count, Q
+from django.db.models import Case, When, Count, Q
 
 from taggit.models import Tag
 from itertools import chain
@@ -86,11 +86,11 @@ def filter_tags(resources, topic):
     exclude_tags = Home.objects.get(slug=topic).specific.exclude_tags.all()
     topic_tag = Tag.objects.filter(name=topic)
 
-    exclude = chain(exclude_tags, topic_tag)
+    # exclude = chain(exclude_tags, topic_tag)
 
-    issue_tags = filter_resource_by_topic(resources, IssueTag, exclude)
-    reason_tags = filter_resource_by_topic(resources, ReasonTag, exclude)
-    content_tags = filter_resource_by_topic(resources, ContentTag, exclude)
+    issue_tags = filter_resource_by_topic(resources, IssueTag, chain(exclude_tags, topic_tag))
+    reason_tags = filter_resource_by_topic(resources, ReasonTag, chain(exclude_tags, topic_tag))
+    content_tags = filter_resource_by_topic(resources, ContentTag, chain(exclude_tags, topic_tag))
 
     return issue_tags, reason_tags, content_tags
 
@@ -163,40 +163,35 @@ def generate_custom_form(form_fields, request_dict, messages_):
     return custom_form
 
 
-def get_order(resources, order):
-    if order == 'recommended':
-        return resources.order_by('-score')
-    else:
-        return resources.order_by('-relevance')
-
-
-def get_relevance(selected_tags):
-    if not selected_tags:
-        selected_tags = [""]
-
-    return Sum(
-        Case(
-            When(content_tags__name__in=selected_tags, then=1),
-            When(reason_tags__name__in=selected_tags, then=1),
-            default=0,
-            output_field=models.IntegerField()
-        )
-    )
-
-
-def base_context(context):
+def base_context(context,self):
     Main = apps.get_model('resources', 'main')
+    HomeSiteMap = apps.get_model('resources', 'homesitemap')
     HomeFooterLinks = apps.get_model('resources', 'homefooterlinks')
     HomeFooterBlocks = apps.get_model('resources', 'homefooterblocks')
     Home = apps.get_model('resources', 'home')
+    HomeHighLightsOfMonth = apps.get_model('resources', 'homehighlightsofmonth')
+    ResourcePageSelectResources = apps.get_model('resources', 'resourcepageselectresources')
+    ResourcePage = apps.get_model('resources', 'resourcepage')
+    home_page = Main.objects.get(slug="home")
+    banner = {}
+    banner['text'] = home_page.banner
+    banner['button_1_text'] = home_page.banner_button_1_text
+    banner['button_1_link'] = home_page.banner_button_1_link
+    banner['button_2_text'] = home_page.banner_button_2_text
+    banner['button_2_link'] = home_page.banner_button_2_link
 
-    banner = Main.objects.get(slug="home").banner
-    footer_links = HomeFooterLinks.objects.all()
-    footer_blocks = HomeFooterBlocks.objects.all()
+    site_map = HomeSiteMap.objects.all().select_related('link_page')
+    footer_links = HomeFooterLinks.objects.all().select_related('footer_image')
+    footer_blocks = HomeFooterBlocks.objects.all().select_related('link_page')
+    highlights = HomeHighLightsOfMonth.objects.all().select_related('highlights_link')
 
+    context['highlights'] = highlights
     context['banner'] = banner
+    context['site_map'] = site_map
     context['footer_links'] = footer_links
     context['footer_blocks'] = footer_blocks
-    context['landing_pages'] = Home.objects.filter(~Q(slug="home")).live()
+    context['landing_pages'] = list(
+        Home.objects.filter(~Q(slug="home")).live().values()
+    )
 
     return context

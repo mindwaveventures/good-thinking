@@ -1,18 +1,17 @@
 module Tags.View exposing (..)
 
 import Types exposing (..)
-import State exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onInput, onClick, onCheck)
+import Html.Events exposing (onInput, onClick, onCheck, onWithOptions)
 import Json.Encode
+import Json.Decode as Json
 
 
 view : Model -> Html Msg
 view model =
-    div [ class "overflow-hidden ph2 mt2" ]
-        [ div [ class "tl w-60-l center" ] [ h3 [] [ text "To personalise your results, answer three quick questions below:" ] ]
-        , div [ class ("tag-container w-250-m w-200-l w-330 relative center " ++ (getPosition model.tag_position)) ]
+    div [ class "overflow-hidden pa2 mt2" ]
+        [ div [ class ("tag-container w-250-m w-200-l w-330 relative center " ++ (getPosition model.tag_position)) ]
             [ render_filter_block model 1 model.issue_label model.issue_tags ("mr-1p-l mr-5 " ++ (get_active model 1))
             , render_filter_block model 2 model.reason_label (List.sortWith order_tag_map model.reason_tags) ("mr-1p-l mr-5 " ++ (get_active model 2))
             , render_filter_block model 3 model.content_label model.content_tags (get_active model 3)
@@ -100,7 +99,7 @@ getPosition pos =
 
 getTagColour : Tag -> List Tag -> String
 getTagColour tag selected_tags =
-    if List.member tag selected_tags then
+    if List.member (String.toLower tag.name) (List.map (\t -> String.toLower t.name) selected_tags) then
         "tag-selected"
     else
         "lm-bg-light-orange lm-bg-orange-hover"
@@ -143,7 +142,7 @@ previous_button pos =
 
         _ ->
             button
-                [ class "tl dib bn bg-white pointer pl3 pr0 pv0"
+                [ class "tl dib bn bg-white pointer pl3 pr0 pv0 previous-question-tags"
                 , onClick (ResultsLoadingAlert pos (pos - 1))
                 ]
                 [ div [ class "v-mid h2 br-100 w2 pa1 mr2 dib next_left" ] []
@@ -151,15 +150,20 @@ previous_button pos =
                 ]
 
 
+onClickPreventDefault : msg -> Attribute msg
+onClickPreventDefault message =
+    onWithOptions "click" { preventDefault = True, stopPropagation = True } (Json.succeed message)
+
+
 next_button : Int -> Html Msg
 next_button pos =
     case pos of
         3 ->
-            button [ onClick ClickScroll, class "f5 link dib mr3 ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover b--lm-dark-turquoise ba" ] [ a [ class "link", href "#results" ] [ text "Search" ] ]
+            button [ onClickPreventDefault ClickScroll, class "f5 link dib mr3 ph3 pv2 br1 pointer nunito tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover b--lm-dark-turquoise ba" ] [ a [ class "link", id "search-tags", href "#results" ] [ text "Search" ] ]
 
         _ ->
             button
-                [ class "tr dib bn bg-white pointer pr3 pl0 pv0"
+                [ class "tr dib bn bg-white pointer pr3 pl0 pv0 next-question-tags"
                 , onClick (ResultsLoadingAlert pos (pos + 1))
                 ]
                 [ div [ class "dib montserrat fw6 w-50 w-auto-ns mr3" ] [ text "next question" ]
@@ -172,6 +176,7 @@ multi_line str =
     List.map (\e -> p [] [ text e ]) (String.lines str)
 
 
+order_tag_map : String -> String -> Order
 order_tag_map taga tagb =
     case taga of
         "rarely" ->

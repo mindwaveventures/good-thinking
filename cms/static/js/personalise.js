@@ -14,21 +14,6 @@ if (personaliseDiv) {
 
   var selected_tags = selectedTags(getQuery('q1', 'q2', 'q3'));
 
-  var app = Elm.Main.embed(personaliseDiv, {
-    issue_tags: issue_tags,
-    content_tags: content_tags,
-    reason_tags: reason_tags,
-    issue_label: issue_label,
-    reason_label: reason_label,
-    content_label: content_label,
-    selected_tags: selected_tags,
-    order: getOrder(),
-    search: getQuery('q').q[0] || "",
-    page: getPage(),
-    tagHeight: tagHeight + 25, // A little extra space needed so tags don't get cut off
-    cardHeight: cardHeight
-  });
-
   function getTags(name) {
     return Array.prototype.map.call(personaliseDiv.querySelectorAll("input[name='" + name + "']"), function(el){
       return el.value;
@@ -38,30 +23,33 @@ if (personaliseDiv) {
   function getQuery() {
     var qs = window.location.href.split("?")[1];
     var query = {};
+    var singleIssueReg = new RegExp('https*:\/\/[^\/]+\/[^\/]+\/([^\/?]+)\/*');
+    var singleIssue = window.location.href.match(singleIssueReg);
+    var splitreg = /(?:%20|\-|\+)/g;
 
     Array.prototype.forEach.call(arguments, function(a) {
       query[a] = [];
       var reg = new RegExp("(?:^" + a + "|&" + a + ")=([^&#]+)", "g")
       var arr;
-      var splitreg = /(?:%20|\+)/g;
 
-      while ((myArray = reg.exec(qs)) !== null) {
-        query[a].push(myArray[1].replace(splitreg, ' '));
+      if (qs) {
+        while ((myArray = reg.exec(qs)) !== null) {
+          query[a].push(myArray[1].replace(splitreg, ' '));
+        }
       }
     });
 
-    if(window.location.href.split('/').length === 6) {
-      query['q1'] = [window.location.href.split('/')[4].replace(/-/g, " ")];
+    if(singleIssue) {
+      query['q1'] = [singleIssue[1].replace(splitreg, ' ')];
     };
 
     return query;
   }
 
   function selectedTags(queryObj) {
-    var selected = JSON.parse(localStorage.getItem('selected_tags_' + getPage())) || [];
-
+    var selected = [];
     for (var type in queryObj) {
-      tags = queryObj[type].map(function(el) {
+      var tags = queryObj[type].map(function(el) {
         return {tag_type: type, name: el};
       });
       selected = selected.concat(tags);
@@ -69,53 +57,38 @@ if (personaliseDiv) {
     return selected;
   }
 
-  app.ports.listeners.subscribe(function(res) {
+  analyseTags = function() {
     requestAnimationFrame(function() {
       likeListeners();
       feedbackLoopListener();
       swipeListeners();
       analyticsListeners();
+      personaliseAnalytics();
       selectAll('.tip-card-contain').forEach(function(el) {
         el.style.height = tipHeight + "px"
       });
       mobileProsAndCons();
     });
+}
 
-  });
-
-  app.ports.selectTag.subscribe(function(tag) {
-    var selectedTags = JSON.parse(localStorage.getItem('selected_tags_' + getPage())) || [];
-
-    for (var i = 0; i < selectedTags.length; i++) {
-      if (selectedTags[i].tag_type === tag.tag_type && selectedTags[i].name === tag.name) {
-        selectedTags.splice(i, 1);
+selectTags = function(query,name) {
+    tag = {
+      tag_type: query, name: name
+    }
+    var selected_tags = selectedTags(getQuery('q1', 'q2', 'q3'));
+    for (var i = 0; i < selected_tags.length; i++) {
+      if (selected_tags[i].tag_type === tag.tag_type && selected_tags[i].name.toLowerCase() === tag.name.toLowerCase()) {
+        selected_tags.splice(i, 1);
         break;
-      } else if (i === selectedTags.length - 1) {
-        selectedTags.push(tag);
+      } else if (i === selected_tags.length - 1) {
+        selected_tags.push(tag);
         break;
       }
     }
 
+    tagAnalytics(tag);
     updateUrl(tag);
-
-    localStorage.setItem('selected_tags_' + getPage(), JSON.stringify(selectedTags));
-    app.ports.updateTags.send(selectedTags);
-  });
-
-  app.ports.changeOrder.subscribe(function(order) {
-    localStorage.setItem('ldmw_resource_order', order);
-  });
-
-  app.ports.clickScroll.subscribe(function() {
-    var results = select('#results');
-    var targetPos = results.offsetTop - results.offsetHeight;
-
-    window.scrollTo({
-      top: targetPos,
-      left: 0,
-      behavior: 'smooth'
-    });
-  });
+  }
 
   function swipe(el, callback){
     var swipedir;
@@ -265,13 +238,13 @@ if (personaliseDiv) {
   function tagSelected(tag) {
     var jointTag = tag.name.replace(/\s/g, '%20').replace(/'/g, '%27');
     var hyphenTag = tag.name.replace(/\s/g, '-').replace(/'/g, '%27');
-    var reg = new RegExp(tag.tag_type + "=" + jointTag + "(&|$)");
-    var singleIssueReg = new RegExp('https*:\/\/[^\/]+\/[^\/]+\/' + hyphenTag + '\/*');
+    var reg = new RegExp(tag.tag_type + "=" + jointTag + "(&|$)", 'i');
+    var singleIssueReg = new RegExp('https*:\/\/[^\/]+\/[^\/]+\/' + hyphenTag + '\/*', 'i');
 
-    var selectedTags = JSON.parse(localStorage.getItem('selected_tags_' + getPage())) || [];
+    var selected_tags = selectedTags(getQuery('q1', 'q2', 'q3'));;
 
-    for (var i = 0; i < selectedTags.length; i++) {
-      if (selectedTags[i].tag_type === tag.tag_type && selectedTags[i].name == tag.name) {
+    for (var i = 0; i < selected_tags.length; i++) {
+      if (selected_tags[i].tag_type === tag.tag_type && selected_tags[i].name.toLowerCase() == tag.name.toLowerCase()) {
         return true;
       }
     }

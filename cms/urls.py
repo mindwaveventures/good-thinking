@@ -16,10 +16,12 @@ from resources.views import (
     assessment_controller, assessment_summary_controller
 )
 
-from django.views.generic import TemplateView
+from cms.views import robots_handler
 
 from wagtail.contrib.wagtailsitemaps.views import sitemap
 
+
+handler404 = 'cms.views.not_found_handler'
 
 urlpatterns = [
     url(r'^django-admin/', include(admin.site.urls)),
@@ -34,13 +36,11 @@ urlpatterns = [
 
     url(r'^get_json_data/', get_json_data),
 
-
     url(r'^location/', get_location),
 
     url(
         r'^robots\.txt',
-        TemplateView.as_view(template_name='robots.txt'),
-        name="cms"
+        robots_handler
     ),
 
 

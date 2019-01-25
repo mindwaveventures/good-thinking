@@ -6,25 +6,29 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
-      <!-- Google Tag Manager -->
-        <script>
-          dataLayer = [];
-        </script>
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-PF8GGT7');</script>
-        <!-- End Google Tag Manager -->
-        <script>
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-          ga('create', 'UA-97311089-1', 'auto');
-
-        </script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+      <script>
+        dataLayer = [];
+      </script>
+<script> !function(f,b,e,v,n,t,s) {if(f.fbq)return;n=f.fbq=function(){
+  n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+   if(!f._fbq)
+   f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0'; n.queue=[];t=b.createElement(e);t.async=!0;
+   t.src=v;s=b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t,s)}(window,document,
+     'script', 'https://connect.facebook.net/en_US/fbevents.js');
+     fbq('init', '297968434384736');
+      fbq('track', 'PageView'); 
+</script>
+      {% if GTM_TOKEN %}
+        <!-- Google Tag Manager -->
+          <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','{{GTM_TOKEN}}');</script>
+          <!-- End Google Tag Manager -->
+      {% endif %}
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title>
@@ -32,7 +36,11 @@
                 {% if self.seo_title %}
                   {{ self.seo_title }} | {{self.get_site.site_name}}
                 {% else %}
-                  {{self.get_site.site_name}}
+                  {% if page_title %}
+                    {{page_title}}
+                  {% else %}
+                    {{self.get_site.site_name}}
+                  {% endif %}
                 {% endif %}
             {% endblock %}
         </title>
@@ -45,7 +53,7 @@
         <meta name="twitter:creator" content="@goodthinkinguk" />
 
         <!-- open graph data -->
-        <meta property="og:url" content="https://good-thinking.uk{% if page.parent %}/{{page.parent}}{% endif %}/{{page.slug}}" />
+        <meta property="og:url" content="https://www.good-thinking.uk{% if page.parent %}/{{page.parent}}{% endif %}/{% if page.slug and page.slug != 'home' %}{{page.slug}}/{% endif %}{% if slug %}{{ slug }}{% endif %}" />
         <meta property="og:title" content="{{page.title}}" />
         {% load wagtailcore_tags wagtailimages_tags %}
         {% image page.hero_image width-500 as img %}
@@ -64,15 +72,22 @@
           <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
           <!-- Taken from https://jonsuh.com/hamburgers/ -->
           <link href="https://cdnjs.cloudflare.com/ajax/libs/hamburgers/0.9.1/hamburgers.min.css" rel="stylesheet">
-          <link rel="icon" href="/static/favicon.png">
-          <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i" rel="stylesheet">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css">
+          <link rel="shortcut icon" href="/staticfiles/images/favicon.ico">
+          <link rel="icon" type="image/png" sizes="196x196" href="/staticfiles/images/android-chrome-192x192.png">
+          <link rel="icon" type="image/png" sizes="32x32" href="/staticfiles/images/favicon-32x32.png">
+          <link rel="icon" type="image/png" sizes="16x16" href="/staticfiles/images/favicon-16x16.png">
+          <link rel="apple-touch-icon" href="/staticfiles/images/apple-touch-icon.png">
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700,800,900">
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,700,800,900">
         {% endblock %}
         {% stylesheet 'cms' %}
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
-      <!-- Google Translate -->
-      <div id="google_translate_element"></div>
+      <!-- <script src="https://github.com/carhartl/jquery-cookie/blob/master/jquery.cookie.js"
+     type="text/javascript"></script> -->
       <script type="text/javascript">
         function googleTranslateElementInit() {
           new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT}, 'google_translate_element');
@@ -80,10 +95,12 @@
       </script>
       <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
       <!-- End Google Translate -->
-      <!-- Google Tag Manager (noscript) -->
-      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PF8GGT7"
-      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-      <!-- End Google Tag Manager (noscript) -->
+      {% if GTM_TOKEN %}
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{GTM_TOKEN}}"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+      {% endif %}
         {% wagtailuserbar %}
 
         {% block content %}{% endblock %}
@@ -95,9 +112,11 @@
             {# Override this in templates to add extra javascript #}
         {% endblock %}
 
-        <div id="cookie_accept_bar" class="lm-bg-light-grey tc pv3 dn bottom-0 fixed z-5 w-100 copy">
-          <p>Before browsing our site, please accept our <a class="link lm-pink-hover lm-dark-turquoise" href="/cookie-policy">cookies policy</a></p>
-          <button class="f5 dib ph3 pv2 br1 pointer montserrat tracked inner-shadow-active lm-white lm-bg-dark-turquoise lm-bg-white-hover lm-dark-turquoise-hover mv3 b--lm-dark-turquoise ba word-normal">Accept and close</button>
-        </div>
+      <div id="cookie_accept_bar" class="gt-cookies rich-text hide_cookie">
+       <p>Before browsing our site, please accept our&nbsp;<a href="/cookie-policy/"><strong>cookies policy</strong></a><br></p>
+       <button class="btn btn-default gt-cookie-cta" type="button">Accept and Close</button>
+     </div>
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </body>
 </html>

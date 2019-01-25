@@ -1,0 +1,99 @@
+{% load wagtailcore_tags wagtailimages_tags static modelname new_tab %}
+
+{% if collection_resources %}
+
+  {% for collections in collection_resources %}
+  {% image collections.collection_cover_image width-1000 as collection_cover_image %}
+    <section class="home-slider">
+        <div class="gt-header-img stress-results" style="background-image:url('{{ collection_cover_image.url }}')"></div>
+        <div class="gt-slider-content">
+            <div class="row gt-header-content">
+                <div>
+                    <h2 class="gt-header">{{collections.image_text |richtext}}</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+  {% endfor %}
+
+<section class="gt-home-topic-highlights gt-stress-result">
+    {% for collections in collection_resources %}
+      <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+              <p class="gt-para">{{collections.body_text}}<br></p>
+              <!-- <p class="hidden-md hidden-lg swipe-text">Swipe left and right to find topics<br></p> -->
+          </div>
+      </div>
+    {% endfor %}
+
+  <div class="gt-highlights-stress-row">
+      <div class="row">
+        {% for collections in collection_resources %}
+          {% for resource in collections.selectresources.all %}
+            {% include "resources/short_resource.html" with page=resource.collection_resource.specific selected_tags=selected_tags diff_class='gt-stress-col-2' num=forloop.counter collection='collection'%}
+          {% endfor %}
+        {% endfor %}
+      </div>
+  </div>
+
+  <section class="gt-home-topic gt-slider-hide">
+      <div class="row bt-topics-slider">
+          <div class="gt-stress-result-swiper">
+              <div class="swiper-wrapper">
+                {% for collections in collection_resources %}
+                  {% for resource in collections.selectresources.all %}
+                      {% include "resources/short_resource_mobile.html" with page=resource.collection_resource.specific selected_tags=selected_tags diff_class='gt-stress-col-2' num=forloop.counter collection='collection'%}
+                  {% endfor %}
+                {% endfor %}
+              </div>
+              <div class="gt-swiper-pagination-stress-result"></div>
+          </div>
+      </div>
+  </section>
+</section>
+
+{% else %}
+
+{% image page.collection_cover_image width-1000 as collection_cover_image %}
+<section class="home-slider">
+    <div class="gt-header-img stress-results" style="background-image:url('{{ collection_cover_image.url }}')"></div>
+    <div class="gt-slider-content">
+        <div class="row gt-header-content">
+            <div>
+                <h2 class="gt-header">{{page.image_text |richtext}}<br></h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="gt-home-topic-highlights gt-stress-result">
+
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+        <p class="gt-para">{{page.body_text}}<br></p>
+    </div>
+</div>
+
+<div class="gt-highlights-stress-row">
+    <div class="row">
+        {% for resource in page.selectresources.all %}
+          {% include "resources/short_resource.html" with page=resource.collection_resource.specific selected_tags=selected_tags diff_class='gt-stress-col-2' num=forloop.counter collection='collection'%}
+        {% endfor %}
+    </div>
+</div>
+
+<section class="gt-home-topic gt-slider-hide">
+    <div class="row bt-topics-slider">
+        <div class="gt-stress-result-swiper">
+            <div class="swiper-wrapper">
+                {% for resource in page.selectresources.all %}
+                    {% include "resources/short_resource_mobile.html" with page=resource.collection_resource.specific selected_tags=selected_tags diff_class='gt-stress-col-2' num=forloop.counter collection='collection'%}
+                {% endfor %}
+            </div>
+            <div class="gt-swiper-pagination-stress-result"></div>
+        </div>
+    </div>
+</section>
+</section>
+
+{% endif %}

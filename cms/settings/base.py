@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'wagtail.wagtailadmin',
     'wagtail.wagtailcore',
     'wagtail.contrib.postgres_search',
+    'wagtail.contrib.modeladmin',
 
     'modelcluster',
     'taggit',
@@ -109,6 +110,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cms.context_processors.add_variable_to_context',
             ],
         },
     },
@@ -134,12 +136,18 @@ ALLOWED_HOSTS = [
     'ldmw-staging.herokuapp.com',
     'ldmw-cms.herokuapp.com',
     'ldmw-cms-staging.herokuapp.com',
+    'ldmv-new-staging.herokuapp.com',
+    'prelive-gt.herokuapp.com',
     '127.0.0.1',
+    '192.168.33.20',
+    '192.168.1.2',
     'localhost',
     'good-thinking.uk',
     'www.good-thinking.uk',
     'aws.good-thinking.uk',
-    '.elasticbeanstalk.com'
+    '.elasticbeanstalk.com',
+    'good-thinking.co.uk',
+    'www.good-thinking.co.uk'
 ]
 
 # Setting up project to use bcrypt hashing
@@ -196,12 +204,18 @@ WAGTAIL_SITE_NAME = "cms"
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
-BASE_URL = 'http://www.good-thinking.uk'
+BASE_URL = 'https://www.good-thinking.uk'
 
 AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+E24_URL = os.environ['E24_URL']
+
+try:
+    GTM_TOKEN = os.environ['GTM_TOKEN']
+except:
+    GTM_TOKEN = None
 
 PIPELINE = {
     'PIPELINE_ENABLED': True,
@@ -229,3 +243,11 @@ WAGTAILSEARCH_BACKENDS = {
         'BACKEND': 'wagtail.contrib.postgres_search.backend',
     },
 }
+
+REDIRECT_FROM = [
+    'londonminds.co.uk',
+    'www.londonminds.co.uk',
+    'good-thinking.uk',
+    'good-thinking.co.uk',
+    'www.good-thinking.co.uk'
+]

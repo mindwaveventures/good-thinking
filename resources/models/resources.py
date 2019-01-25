@@ -4,12 +4,19 @@ import json
 from wagtail.wagtailforms.models import AbstractForm, Page, AbstractFormField
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import (
-    FieldPanel, InlinePanel, MultiFieldPanel, FieldRowPanel
+    FieldPanel, InlinePanel, MultiFieldPanel, FieldRowPanel,PageChooserPanel
 )
 from wagtail.wagtailsearch import index
 from wagtail.wagtailcore.models import Orderable
-from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
+from wagtail.contrib.wagtailroutablepage.models import RoutablePageMixin, route
 
+from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
+from django.http import JsonResponse, HttpResponse, Http404
+from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
+from wagtail.wagtailcore import blocks
+from wagtail.wagtailcore.fields import StreamField
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel
+from wagtail.wagtailimages.blocks import ImageChooserBlock
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from django.db.models.fields import (
@@ -24,15 +31,16 @@ from django.template.response import TemplateResponse
 from django.template.loader import render_to_string
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import JsonResponse
-
+from resources.views import get_data, filter_resources
 from colorful.fields import RGBColorField
-
+from urllib.parse import parse_qs
 from resources.models.tags import (
     TopicTag, IssueTag, ReasonTag,
     ContentTag, HiddenTag
 )
 from likes.models import Likes
-
+from django.template import loader
+from django.template.loader import render_to_string
 from resources.models.helpers import (
     create_tag_combiner, base_context, get_resource
 )
@@ -262,6 +270,10 @@ class ResourcePage(AbstractForm):
         blank=True,
         help_text="The title of the resource being linked to"
     )
+    logo_background_color = RGBColorField(
+        default='#16b28f', null=True, blank=True,
+        help_text="The background colour of brand_logo"
+    )
     resource_url = URLField(
         blank=True,
         help_text="The url of the resource to link to"
@@ -270,10 +282,19 @@ class ResourcePage(AbstractForm):
         blank=True,
         help_text="The text for the url link"
     )
-    body = RichTextField(
+    tagline = RichTextField(
         blank=True,
-        help_text="A description of the resource"
+        help_text="Bold text that displays on the resource list"
     )
+    body = StreamField([
+        ('rich_text', blocks.RichTextBlock()),
+        ('rawhtml', blocks.RawHTMLBlock()),
+        ('heading', blocks.RichTextBlock()),
+        ('paragraph', blocks.RichTextBlock()),
+        ('column_left', blocks.RichTextBlock()),
+        ('column_right', blocks.RichTextBlock()),
+        ('image', ImageChooserBlock()),
+    ])
     pros = RichTextField(
         blank=True,
         help_text="A list of pros for the resource"
@@ -343,8 +364,8 @@ class ResourcePage(AbstractForm):
         on_delete=models.SET_NULL,
         related_name='+',
         help_text="""
-            Max file size: 10MB. Choose from: GIF, JPEG, PNG
-            (but pick PNG if you have the choice)
+            Max file size: 10MB. Choose from: JPEG, PNG
+            (Please upload 155x60 image)
         """
     )
     brand_text = RichTextField(blank=True)
@@ -399,10 +420,14 @@ class ResourcePage(AbstractForm):
         InlinePanel('latlong', label="Latitude and Longitude"),
         FieldPanel('heading', classname="full"),
         FieldRowPanel([
+            FieldPanel('logo_background_color', classname="col6"),
+        ], classname="full"),
+        FieldRowPanel([
             FieldPanel('resource_url', classname="col6"),
             FieldPanel('resource_url_text', classname="col6"),
         ], classname="full"),
-        FieldPanel('body', classname="full"),
+        FieldPanel('tagline', classname="full"),
+        StreamFieldPanel('body'),
         InlinePanel('buttons', label="Buttons"),
         FieldPanel('pros', classname="full"),
         FieldPanel('cons', classname="full")
@@ -482,7 +507,20 @@ class ResourcePage(AbstractForm):
         context['buttons'] = ResourcePageButtons.objects\
             .filter(page_id=self.page_ptr_id)
 
-        return base_context(context)
+        return base_context(context,self)
+
+    def get_form_fields(self):
+        return iter([])
+
+    def likes(self):
+        return Likes.objects\
+            .filter(resource_id=self.id, like_value=1)\
+            .count()
+
+    def dislikes(self):
+        return Likes.objects\
+            .filter(resource_id=self.id, like_value=-1)\
+            .count()
 
     class Meta:
         verbose_name = "Resource"
@@ -506,6 +544,159 @@ class Tip(ResourcePage):
         FieldPanel('priority'),
     ]
 
+class CollectionsIndexPage(RoutablePageMixin,ResourcePage):
+    content_panels = Page.content_panels
+    promote_panels = Page.promote_panels
+
+    def get_context(self, request, **kwargs):
+        slug = ''
+        context = super(CollectionsIndexPage, self).get_context(request)
+        context = get_data(
+            request, data=context, slug=slug,
+            path_components=kwargs.get('path_components', [])
+        )
+        return base_context(context,self)
+
+    @route(r'[^abc]+')
+    def collection_results(self, request, **kwargs):
+        try:
+            collection_slug = request.path.split('/')[2]
+        except:
+            collection_slug = ''
+        context = super(CollectionsIndexPage, self).get_context(request)
+        context = get_data(
+            request, data=context, collection_slug=collection_slug,
+            path_components=kwargs.get('path_components', [])
+        )
+        template = loader.get_template(f"resources/collections_index_page.html")
+        return HttpResponse(
+            template.render(context=base_context(context, self), request=request)
+        )
+
+
+class Results(RoutablePageMixin, ResourcePage):
+    cover_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text="""
+            Max file size: 10MB. Choose from: JPEG, PNG
+        """
+    )
+    image_text = TextField(blank=True,
+        help_text="Text that displays hover the image"
+    )
+    body_title = TextField(blank=True)
+    body_tagline = TextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        ImageChooserPanel('cover_image'),
+        FieldPanel('image_text', classname="full"),
+        FieldPanel('body_title', classname="full"),
+        FieldPanel('body_tagline', classname="full")
+    ]
+
+    promote_panels = Page.promote_panels
+
+    def get_context(self, request, **kwargs):
+        slug = ''
+        context = super(Results, self).get_context(request)
+        context = get_data(
+            request, data=context, slug=slug,
+            path_components=kwargs.get('path_components', [])
+        )
+        return base_context(context,self)
+
+    @route(r'[^abc]+')
+    def topic_results(self, request, **kwargs):
+        try:
+            slug = request.path.split('/')[2]
+        except:
+            slug = ''
+
+        context = super(Results, self).get_context(request)
+        context = get_data(
+            request, data=context, slug=slug,
+            path_components=kwargs.get('path_components', [])
+        )
+        context['topic'] = slug;
+        template = loader.get_template(f"resources/results.html")
+        return HttpResponse(
+            template.render(context=base_context(context, self), request=request)
+        )
+
+class SelectResources(models.Model):
+    collection_resource = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    content_panels = Page.content_panels + [
+        PageChooserPanel('collection_resource'),
+    ]
+
+    class Meta:
+        abstract = True
+
+class ResourcePageSelectResources(Orderable, SelectResources):
+    page = ParentalKey('ResourceCollections', related_name='selectresources')
+
+class ResourceCollections(ResourcePage):
+    collection_cover_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text="""
+            Max file size: 10MB. Choose from: JPEG, PNG
+        """
+    )
+    image_text = RichTextField(blank=True,
+        help_text="Text that displays hover the image"
+    )
+    body_text = TextField(blank=True,
+        help_text="Text that displays on the body"
+    )
+    collection_heading = TextField(blank=True,
+        help_text="Heading of collections"
+    )
+    description = TextField(blank=True,
+        help_text="Short description of collections"
+    )
+    button_text = TextField(blank=True)
+
+    content_panels = Page.content_panels + [
+        ImageChooserPanel('collection_cover_image'),
+        FieldPanel('image_text', classname="full"),
+        FieldPanel('body_text', classname="full"),
+        FieldPanel('collection_heading', classname="full"),
+        FieldPanel('description', classname="full"),
+        FieldPanel('button_text', classname="full"),
+        InlinePanel('selectresources', label="selectresources"),
+    ]
+
+    promote_panels = Page.promote_panels + [
+        FieldPanel('topic_tags'),
+        FieldPanel('priority'),
+    ]
+
+    def get_context(self, request, **kwargs):
+        slug = ''
+        context = super(ResourceCollections, self).get_context(request)
+        context = get_data(
+            request, data=context, slug=slug,
+            path_components=kwargs.get('path_components', [])
+        )
+        return base_context(context,self)
+        
+    def get_template(self, request):
+        return 'resources/collections_index_page.html'
 
 class Assessment(ResourcePage):
     algorithm_id = IntegerField(
@@ -522,7 +713,8 @@ class Assessment(ResourcePage):
 
     content_panels = Page.content_panels + [
         FieldPanel('heading', classname="full"),
-        FieldPanel('body', classname="full"),
+        ImageChooserPanel('hero_image'),
+        StreamFieldPanel('body'),
         FieldPanel('algorithm_id', classname="full"),
         FieldPanel('resource_text', classname="full")
     ]
@@ -539,7 +731,15 @@ class Assessment(ResourcePage):
     def get_context(self, request):
         context = super(Assessment, self).get_context(request)
 
-        return base_context(context)
+        return base_context(context,self)
 
     def serve(self, request, *args, **kwargs):
         return assessment_controller(self, request, **kwargs)
+
+
+class ResourceAdmin(ModelAdmin):
+    model = ResourcePage
+    list_display = ('title', 'likes', 'dislikes',)
+
+
+modeladmin_register(ResourceAdmin)

@@ -6,7 +6,7 @@ from django.db import migrations, models
 import django.db.models.deletion
 import modelcluster.fields
 import resources.models.home
-
+import uuid
 
 class Migration(migrations.Migration):
 
@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MainLocationImages',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False,serialize=False, verbose_name='ID')),
                 ('sort_order', models.IntegerField(blank=True, editable=False, null=True)),
                 ('first_letters_of_zip', resources.models.home.TwoCharsZipcodeField(blank=True, help_text='\n            The first letter or letters of the postcode\n            you would like to match with, e.g. TW or E\n        ', max_length=255)),
                 ('location_image', models.ForeignKey(blank=True, help_text='\n            Max file size: 10MB. Choose from: GIF, JPEG, PNG\n            (but pick PNG if you have the choice)\n        ', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtailimages.Image')),

@@ -7,7 +7,7 @@ from django.db import migrations, models
 import django.db.models.deletion
 import modelcluster.fields
 import resources.models.resources
-
+import uuid
 
 class Migration(migrations.Migration):
 
@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ResourcePageBadges',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False,serialize=False, verbose_name='ID')),
                 ('sort_order', models.IntegerField(blank=True, editable=False, null=True)),
                 ('badge_color', colorful.fields.RGBColorField(blank=True, default='#ffffff', null=True)),
                 ('badge_text_color', colorful.fields.RGBColorField(blank=True, default='#000000', null=True)),

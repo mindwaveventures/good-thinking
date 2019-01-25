@@ -1,10 +1,13 @@
 from django.db.models import Q
-
+from django.db import models
+from django.conf import settings
+import itertools
 from itertools import chain
+import random
 
 from gpxpy.geo import haversine_distance
 
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, Http404
 
 import urllib.request
 import os
@@ -13,7 +16,7 @@ import json
 from resources.models.tags import IssueTag, ReasonTag, ContentTag
 from resources.models.helpers import (
     count_likes, filter_tags,
-    get_tags, get_order, get_relevance, base_context
+    get_tags, base_context
 )
 
 from django.core import serializers
@@ -28,7 +31,7 @@ from django.core.paginator import Paginator
 
 import requests
 
-e24_url = "http://apps.expert-24.com/WebBuilder/TraversalService/"
+e24_url = settings.E24_URL
 
 
 def get_location(request):
@@ -50,7 +53,6 @@ def get_json_data(request):
         slug = parse_qs(query)['slug'][0]
     except:
         slug = ''
-
     data = get_data(request, slug=slug)
     json_data = {}
 
@@ -64,34 +66,21 @@ def get_json_data(request):
             data['resources']
         )
     )
-
-    tips = list(
+    mobile_resources = list(
         map(
             lambda r: render_to_string(
-                'resources/tip.html',
-                {'page': r},
+                'resources/short_resource_mobile.html',
+                {'page': r, 'selected_tags': data['selected_tags']},
                 request=request
             ),
-            data['tips']
+            data['mobile_resources']
         )
     )
-
-    assessments = list(
-        map(
-            lambda r: render_to_string(
-                'resources/assessment.html',
-                {'page': r},
-                request=request
-            ),
-            data['assessments']
-        )
-    )
-
-    json_data['resources'] = list(chain(resources, assessments))
-    json_data['tips'] = tips
+    json_data['resources'] = resources
+    json_data['mobile_resources'] = mobile_resources
 
     for d in data:
-        if d != 'resources' and d != 'tips':
+        if d != 'resources' and d != 'mobile_resources':
             try:
                 json_data[d] = serializers.serialize('json', data[d])
             except:
@@ -104,6 +93,7 @@ def get_data(request, **kwargs):
     ResourcePage = apps.get_model('resources', 'resourcepage')
     Tip = apps.get_model('resources', 'tip')
     Assessment = apps.get_model('resources', 'assessment')
+    ResourceCollections = apps.get_model('resources', 'ResourceCollections')
 
     data = kwargs.get('data', {})
     slug = kwargs.get('slug')
@@ -111,10 +101,23 @@ def get_data(request, **kwargs):
     Home = apps.get_model('resources', 'home')
 
     tag_filter = request.GET.getlist('tag')
-    issue_filter = kwargs.get('path_components', request.GET.getlist('q1'))
+    # issue_filter = kwargs.get('path_components', request.GET.getlist('q1'))
+    issue_filter = request.GET.getlist('q1')
     content_filter = request.GET.getlist('q3')
     reason_filter = request.GET.getlist('q2')
     topic_filter = request.GET.getlist('topic')
+    collection_filter = kwargs.get('collection_slug')
+    if request.GET.get('resource_id'):
+        splited_resource = request.GET.get('resource_id').split(",")
+        iapt_id_check = request.GET.get('resource_id').split(",")
+        resource_id = filter(lambda id: id != "", splited_resource)
+        request.session['removed_resources'] = splited_resource
+    elif 'removed_resources' in request.session:
+        resource_id = request.session['removed_resources']
+        iapt_id_check = request.session['removed_resources']
+    else:
+        resource_id = []
+        iapt_id_check = []
 
     if request.GET.get('order'):
         resource_order = request.GET.get('order')
@@ -136,13 +139,12 @@ def get_data(request, **kwargs):
         + 'where resource_id = resources_resourcepage.page_ptr_id ' \
         + 'and like_value = %s'
 
-    resources = get_order(ResourcePage.objects.all().defer(
+    resources = ResourcePage.objects.all().defer(
         'background_color', 'brand_logo_id', 'brand_text',
         'hero_image_id', 'text_color'
     ).annotate(
-        score=(count_likes(1) - count_likes(-1)),
-        relevance=(get_relevance(selected_tags))
-    ), resource_order).live()
+        score=(count_likes(1) - count_likes(-1))
+    ).live()
 
     resources = resources.extra(
         select={'number_of_likes': num_likes},
@@ -189,6 +191,23 @@ def get_data(request, **kwargs):
         query=query
     )
 
+    top_collections = filter_resources(
+        ResourceCollections.objects.all().live(),
+        topic_filter=topic_filter,
+    )
+
+    iapt_resources = filter_resources(
+        resources,
+        topic_filter='iapt',
+    )
+
+    if iapt_resources:
+        for i_id in iapt_resources.values('id'):
+            for id in i_id.values():
+                iapt_id = str(id)
+
+    collection_resources =  ResourceCollections.objects.filter(Q(slug=collection_filter))
+
     resources = filter_resources(
         resources,
         tag_filter=tag_filter,
@@ -196,7 +215,10 @@ def get_data(request, **kwargs):
         topic_filter=topic_filter,
         query=query
     ).filter(~Q(page_ptr_id__in=list(
-        chain(tips, assessments)))
+        chain(tips, assessments, top_collections,iapt_resources)))
+    ).filter(~Q(slug="results")
+    ).filter(~Q(slug="collections")
+    ).filter(~Q(id__in=resource_id)
     ).prefetch_related(
         'badges'
     ).prefetch_related(
@@ -205,7 +227,32 @@ def get_data(request, **kwargs):
         'tagged_reason_items__tag'
     ).prefetch_related('tagged_issue_items__tag')
 
-    paged_resources = get_paged_resources(request, resources)
+    if resource_order == 'recommended':
+        sorted_resources = sorted(
+            resources, key=lambda resource: (
+                resource.number_of_likes - resource.number_of_dislikes
+            ), reverse=True
+        )
+    else:
+        relevant_resources = map(
+            lambda el: get_relevance(el, selected_tags),
+            resources
+        )
+
+        sorted_resources = sorted(
+            relevant_resources, key=lambda resource: (
+                resource.relevance
+            ), reverse=True
+        )
+
+        # sorted_resources = sorted(
+        #     relevant_resources, key=lambda k: random.random()
+        # )
+
+    paged_resources = get_paged_resources(request, sorted_resources)
+
+    if resources.count() == 0 and kwargs.get('path_components'):
+        raise Http404()
 
     if topic_filter:
         (
@@ -239,13 +286,50 @@ def get_data(request, **kwargs):
 
     data['landing_pages'] = Home.objects.filter(~Q(slug="home")).live()
     data['resources'] = filtered_resources
+    if iapt_resources:
+        if iapt_id in iapt_id_check:
+            sliced_resources = itertools.islice(filtered_resources, 5)
+        else:
+            split1_resources = itertools.islice(filtered_resources, 2)
+            split2_resources = itertools.islice(filtered_resources, 2)
+            sliced_resources=itertools.chain(split1_resources,iapt_resources,split2_resources)
+    else:
+        sliced_resources = itertools.islice(filtered_resources, 5)
+    data['resources'],data['mobile_resources'] = itertools.tee(sliced_resources, 2)
     data['tips'] = tips
     data['assessments'] = assessments
-    data['resource_count'] = resources.count() + tips.count()
+    # data['resource_count'] = resources.count() + tips.count()
+    data['resource_count'] = resources.count()
     data['selected_topic'] = topic_filter
     data['selected_tags'] = selected_tags
+    data['current_page'] = slug
+    data['top_collections'] = top_collections
+    data['collection_resources'] = collection_resources
+    data['result_block'] = Home.objects.filter(Q(slug=slug))
 
     return data
+
+
+def get_relevance(resource, selected_tags):
+    matching_content_tags = get_common_count(
+        resource.content_tags.values_list('name', flat=True), selected_tags
+    )
+    matching_reason_tags = get_common_count(
+        resource.reason_tags.values_list('name', flat=True), selected_tags
+    )
+    matching_issue_tags = get_common_count(
+        resource.issue_tags.values_list('name', flat=True), selected_tags
+    )
+
+    resource.relevance = (
+        matching_content_tags + matching_reason_tags + matching_issue_tags
+    )
+
+    return resource
+
+
+def get_common_count(a, b):
+    return len(set(a) - (set(a) - set(b)))
 
 
 def add_near(request, el):
@@ -340,9 +424,9 @@ def filter_resources(resources, **kwargs):
         ).distinct()
 
     if (issue_filter):
-        resources = resources\
-            .filter(issue_tags__name__in=issue_filter)\
-            .distinct()
+        resources = resources.filter(
+            issue_tags__name__iregex=r'(' + '|'.join(issue_filter) + ')'
+        ).distinct()
 
     if (topic_filter):
         resources = resources\
@@ -381,6 +465,9 @@ def assessment_controller(self, request, **kwargs):
 
     algo_id = self.algorithm_id
     node_id = 0
+
+    node_type_id = None
+    asset_id = None
 
     if params.get("node_id"):
         node_id = params.get("node_id")
@@ -432,6 +519,9 @@ def assessment_controller(self, request, **kwargs):
     context["traversal_id"] = traversal_id
     context["first_question"] = (node_id == 0)
 
+    context["node_type_id"] = node_type_id
+    context["asset_id"] = asset_id
+
     try:
         context['parent'] = self.get_parent().slug
         context['slug'] = self.slug
@@ -443,6 +533,22 @@ def assessment_controller(self, request, **kwargs):
     context['resources'] = resources
     context['heading'] = self.heading
     context['body'] = self.body
+    context['finish_destination'] = "/"
+
+    page = {}
+    page['hero_image'] = self.hero_image
+    page['header'] = self.title
+    page['body'] = self.heading
+
+    context['page'] = page
+
+
+    if (self.seo_title):
+        context['page_title'] = (
+            self.seo_title + " | " + self.get_site().site_name
+        )
+    else:
+        context['page_title'] = self.get_site().site_name
 
     if params.get("q_info") or params.get("a_info"):
         context["info"] = requests.get(
@@ -452,7 +558,7 @@ def assessment_controller(self, request, **kwargs):
         ).json()
 
     return HttpResponse(
-        template.render(context=base_context(context), request=request)
+        template.render(context=base_context(context, self), request=request)
     )
 
 
@@ -477,5 +583,5 @@ def assessment_summary_controller(request, **kwargs):
     context["slug"] = request.POST.get("slug")
 
     return HttpResponse(
-        template.render(context=base_context(context), request=request)
+        template.render(context=base_context(context, self), request=request)
     )

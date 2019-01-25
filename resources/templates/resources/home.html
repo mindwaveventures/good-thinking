@@ -2,101 +2,117 @@
 
 {% load wagtailcore_tags wagtailimages_tags static modelname new_tab %}
 
-{% block body_class %}template-homepage{% endblock %}
+{% load static %}
+
+{% block body_class %}gt-body{% endblock %}
 
 {% block content %}
     {% if banner %}
       {% include "resources/banner.html" with banner=banner %}
     {% endif %}
+    {% include "resources/sub_menu.html" with page=page %}
 
-    {% if landing_pages %}
-      <section id="landing_page_navbar" class="absolute dn-ss dt--fixed dt-ns tc pv3 ph4 ph3-m ph3-l blurred_background_header cover bg-center w-100 mt-2-8-m mt-2-4-l mt5">
-        <div class="dib relative mv2-ns mv1 dtc-ns v-mid">
-          I am, or know someone who is, feeling:
-        </div>
-        {% for topic in landing_pages %}
-          <div class="dib relative mv2 mv1 dtc">
-            <div class="b--lm-dark-blue lm-dark-blue ph3 pv2 dib pointer v-mid">
-              <a class="ttu montserrat fw6 lm-black f6 link bb-hover bw2-hover lm-dark-turquoise-hover {% if page.url == topic.url %}bb bw2{% endif %}" href="/{{topic.slug}}">{{topic.title}}</a>
-            </div>
+{% include "resources/components/hero-image.html" with page=page %}
+  <div id="elm-personalise" data-slug="{{page.slug}}">
+  <!-- Question type - filter block slider -->
+  <section class="gt-stress-q1-body">
+      <section class="gt-home-topic stress-q-topic">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="gt-body-title-text rich-text">
+                      {{page.sub_body |richtext}}
+                  </div>
+              </div>
           </div>
-        {% endfor %}
+          <div class="row bt-topics-slider">
+              <div class="gt-swiper-stress-q">
+                  <div class="swiper-wrapper">
+                    {% include "resources/filter-blocks.html" with filter_label=page.filter_label_1 tags=issue_tags num=1 name="q1" page=page %}
+                    {% include "resources/filter-blocks.html" with filter_label=page.filter_label_2 tags=reason_tags num=2 name="q2" page=page %}
+                    {% include "resources/filter-blocks.html" with filter_label=page.filter_label_3 tags=content_tags num=3 name="q3" page=page %}
+                  </div>
+                  <div class="swiper-pagination swiper-pagination1"></div>
+              </div>
+          </div>
       </section>
 
-      {% include "resources/components/hamburger-menu.html" with page=page landing_pages=landing_pages %}
-    {% endif %}
-
-    {% include "resources/components/hero-image.html" with page=page %}
-
-    <!-- Body Text -->
-    <section class="pa1 ph4 ph3-m ph3-l mb3">
-      <div class="w-60-l center copy">
-        <div class="see_more_body">
-          {{ page.body|new_tab|richtext }}
-        </div>
-        {% if page.sub_body %}
-          {{page.sub_body|new_tab|richtext}}
-        {% endif %}
-      </div>
-    </section>
-
-    {% if visited %}
-      <div class="pa1 ph4 ph3-m ph3-l pb4 pb5-l">
-        {% include "resources/visited.html" with visited=visited %}
-      </div>
-    {% endif %}
-
-    <section class="tc-ns">
-      <div id="elm-personalise" data-slug="{{page.slug}}">
-        <section class="results">
-          <!-- <%= if is_ie8? @conn do %>
-            <%= render "ie8_filters.html", content: @content, conn: @conn, tags: @tags%>
-          <% else %> -->
-            <div class="pa1 pt4 pt3-m pt3-l mt4">
-              <div class="w-60-l center">
-                <h3 class="tl">To personalise your results, answer three quick questions below:</h3>
+      <!-- collections block in desktop view -->
+      <section class="hidden-xs hidden-sm gt-section-browse">
+          <div class="row">
+              <div class="gt-highlights-panel">
+                  <h3 class="gt-section-header">{{page.collections_title}}</h3>
+                  <p class="gt-para">{{page.collections_tagline}}</p>
               </div>
-              <form action="/{% if not page.slug == 'home' %}{{page.slug}}{% endif %}#results" method="get" id="filter-form">
-                {% include "resources/filter-blocks.html" with filter_label=page.filter_label_1 tags=issue_tags num=1 name="q1" %}
-                {% include "resources/filter-blocks.html" with filter_label=page.filter_label_2 tags=reason_tags num=2 name="q2" %}
-                {% include "resources/filter-blocks.html" with filter_label=page.filter_label_3 tags=content_tags num=3 name="q3" %}
-                <div class="tr w-60-l center pa3 mb3 pr0">
-                  {% include "resources/primary-button.html" with value="Search" %}
-                </div>
-              </form>
-            </div>
-        </section>
-
-        <div id="results" class="relative top--4 o-0"></div>
-
-        <div class="pa1 ph4 ph3-m ph3-l">
-          <div class="w-60-l center">
-            <h3 class="tl mt5 nunito">Showing {{resource_count}} {% if resource_count == 1 %}resource{% else %}resources{% endif %} {% if selected_topic %} for {% else %} about wellbeing {% endif %}</h3>
-            {% if selected_topic %}
-              <div class="tl">
-                  <span class="b--lm-orange lm-bg-orange-20 ba br-pill ph2 pv0 lh-tag mh1 dib mb1 font nunito f6">{{ selected_topic }}</span>
-              </div>
-            {% endif %}
           </div>
-        </div>
+          <div class="gt-browse-container">
+              <div class="gt-section-browse-block">
+                  <div class="row">
+                    {% for collection in top_collections %}
+                      <div class="col-md-6">
+                          <div class="panel panel-default gt-browse-panel">
+                              <div class="panel-heading bg-panel-section-header">
+                                  <h3 class="panel-title">{{collection.collection_heading}}</h3>
+                              </div>
+                              <div class="panel-body gt-browse-panel-body">
+                                  <p>{{collection.description | richtext}}</p>
+                              </div>
+                              <div class="panel-footer gt-title-footer">
+                                <a href="/collections/{{collection.slug}}"><button class="btn btn-default gt-topic-btn browse-btn" role="button"><strong>{{collection.button_text}}</strong></button></a>
+                              </div>
+                          </div>
+                      </div>
+                      {% endfor %}
+                  </div>
+              </div>
+          </div>
+      </section>
 
-        <!-- Resources -->
-        <div class="pa1 ph4 ph3-m ph3-l pb4 pb5-l">
-          {% for post in resources %}
-            {% include "resources/short_resource.html" with page=post.specific selected_tags=selected_tags %}
-          {% endfor %}
-          {% for post in tips %}
-            <div class="w-60-l center mt4">
-              {% include "resources/tip.html" with page=post.specific %}
-            </div>
-          {% endfor %}
-        </div>
+      <!-- collections block in mobile view -->
+      <section class="hidden-md hidden-lg">
+          <div class="row">
+              <div class="gt-highlights-panel">
+                  <h3 class="gt-section-header">{{page.collections_title}}</h3>
+                  <p class="gt-para">{{page.collections_tagline}}</p>
+              </div>
+          </div>
+          <div class="row bt-topics-slider">
+              <div class="gt-swiper-stress-browser">
+                  <div class="swiper-wrapper">
+                    {% for collection in top_collections %}
+                      <div class="swiper-slide bottom-slide">
+                          <div class="panel panel-default gt-browse-panel">
+                              <div class="panel-heading bg-panel-section-header">
+                                  <h3 class="panel-title"><strong>{{collection.collection_heading}}</strong><br></h3>
+                              </div>
+                              <div class="panel-body gt-browse-panel-body">
+                                  <p>{{collection.description | richtext}}</p>
+                              </div>
+                              <div class="panel-footer gt-title-footer">
+                                <a href="/collections/{{collection.slug}}"><button class="btn btn-default gt-topic-btn browse-btn" role="button"><strong>{{collection.button_text}}</strong></button></a>
+                              </div>
+                          </div>
+                      </div>
+                      {% endfor %}
+                  </div>
+                  <div class="gt-swiper-pagination-stress-browser"></div>
+              </div>
+          </div>
+      </section>
+  </section>
+<!-- <iframe title="VIPER Search" height="500" scrolling="no" style="width:100%;overflow:hidden;border:0" src="https://viper2.midosweb.co.uk/login?loginId=zUXoxh1kNPRPir34ACe6ZThyst7hhyGw5WRXXAmQYytiW6FIBZo9hV4XZ2oeLgyiWfpWE4uj4wZS7xBS5BuvAw%3D%3D"></iframe> -->
+  <!-- <section class="gt-section-pdf">
+      <div class="gt-pdf-container">
+          <div class="gt-pdf-img"><img src="{% static "images/pdf-download.svg" %}" class="gt-pdf-icon"></div>
+          <div class="gt-pdf-right rich-text">
+              <h4>{{ page.pdf_heading | richtext }}</h4>
+              <p>{{ page.pdf_body | richtext}}</p>
+              <div><a href="{{ page.pdf_file.url }}"><button class="btn btn-default gt-pdf-cta" type="button">download</button></a>
+                <a href="{{ page.pdf_file.file.url }}" target="_blank"><button class="btn btn-default gt-pdf-cta" type="button">read online</button></div></a>
+          </div>
       </div>
+      <div class="gt-pdf-link-container rich-text"><a href="{{ page.bottom_link.specific.slug }}">{{ page.bottom_link_text | richtext}}</a></div>
+  </section> -->
 
-      <div class="tc">
-        {% include "resources/primary-button.html" with value="See More" class="dn-important" id="see_more"%}
-      </div>
-    </section>
-
-    {% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
+</div>
+{% include "resources/components/footer.html" with footer_blocks=footer_blocks footer_links=footer_links %}
 {% endblock %}

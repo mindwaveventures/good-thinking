@@ -2,8 +2,8 @@
 
 <div class="{% if el.link_page.slug == slug %}bg-footer-grey {% endif %}dib-ns {{width}}-ns mv2 mh4-ns pa2 pb4 v-top tl">
   <h4 class="segoe-bold">{{el.title}}</h4>
-  <div class="copy">
+  <div class="copy mw-35">
     {{el.description|new_tab|richtext}}
   </div>
-  <a class="link lm-dark-turquoise lm-pink-hover" href="/{{el.link_page.slug}}">{{el.link_text}}</a>
+  <a class="link lm-dark-turquoise lm-pink-hover" href="/{{el.link_page.slug}}/">{{el.link_text}}</a>
 </div>

@@ -1,0 +1,9 @@
+li.rgb_color_field input {
+  height: 40px!important;
+  width: 100px!important;
+  padding: 0px!important;
+}
+
+.hallohtml .ui-button-text i:before {
+  content:'</>';
+}
