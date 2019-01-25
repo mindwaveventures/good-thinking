@@ -5,6 +5,9 @@ config:
       arrivalRate: 5
     - duration: 30
       arrivalCount: 25
+  tls: {
+    rejectUnauthorized: false
+  }
 scenarios:
   - flow:
     - get:
