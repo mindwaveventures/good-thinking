@@ -57,5 +57,5 @@ RUN chmod a+x wagtail.sh && \
     npm install && \
     npm run install:elm
 
-EXPOSE 80
+EXPOSE 8001
 CMD ["supervisord", "-n"]
