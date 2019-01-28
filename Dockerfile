@@ -25,22 +25,18 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash && \
     apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y \
-	nginx \
     supervisor \
     dos2unix \
     nodejs && \
     npm -g install yuglify && \
     rm -rf /var/lib/apt/lists/* && \
     pip3 install uwsgi
-#    echo "daemon off;" >> /etc/nginx/nginx.conf
 
 # setup all the configfiles
 
 # COPY requirements.txt and RUN pip install BEFORE adding the rest of your code, this will cause Docker's caching mechanism
 # to prevent re-installing (all your) dependencies when you made a change a line or two in your app.
 
-COPY nginx.conf /etc/nginx/
-COPY nginx-app.conf /etc/nginx/sites-available/default
 COPY supervisor-app.conf /etc/supervisor/conf.d/
 COPY requirements.txt /home/docker/code/
 
