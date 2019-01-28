@@ -1,5 +1,5 @@
 config:
-  target: 'https://goodthinkingprod-env-v3.ndtmpahpvi.eu-west-2.elasticbeanstalk.com/'
+  target: 'http://goodthinkingprod-env.ndtmpahpvi.eu-west-2.elasticbeanstalk.com//'
   phases:
     - duration: 1
       arrivalRate: 5
