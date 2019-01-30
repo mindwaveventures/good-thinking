@@ -2,9 +2,9 @@ config:
   target: 'https://aws.good-thinking.uk/'
   phases:
     - duration: 1
-      arrivalRate: 5
+      arrivalRate: 50
     - duration: 30
-      arrivalCount: 25
+      arrivalCount: 100
   tls: {
     rejectUnauthorized: false
   }
