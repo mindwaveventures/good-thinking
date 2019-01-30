@@ -1,33 +1,36 @@
 config:
-  target: 'https://ldmw-staging.herokuapp.com'
+  target: 'https://aws.good-thinking.uk/'
   phases:
     - duration: 1
-      arrivalRate: 5
+      arrivalRate: 50
     - duration: 30
-      arrivalCount: 25
+      arrivalCount: 100
+  tls: {
+    rejectUnauthorized: false
+  }
 scenarios:
   - flow:
     - get:
         url: "/"
     - get:
-        url: "/trouble-sleeping/"
+        url: "/sleep-deprived/"
     - get:
-        url: "/resources/sleepstation/"
+        url: "/resources/be-mindful/"
     - get:
-        url: "/trouble-sleeping/"
+        url: "/sleep-deprived/"
     - get:
-        url: "/resources/sleep-genius/"
+        url: "/resources/sleepio-london/"
     - get:
-        url: "/trouble-sleeping/"
+        url: "/sleep-deprived/"
     - get:
-        url: "/resources/sleep-school/"
+        url: "/resources/trauma-support/"
     - get:
-        url: "/trouble-sleeping/"
+        url: "/sleep-deprived/"
     - get:
-        url: "/resources/sleepio/"
+        url: "/resources/calm-zone/"
     - get:
-        url: "/trouble-sleeping/"
+        url: "/sleep-deprived/"
     - get:
-        url: "/resources/sleep-council/"
+        url: "/resources/thought-diary-pro/"
     - get:
         url: "/self-assessment/"

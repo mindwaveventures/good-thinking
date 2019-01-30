@@ -23,7 +23,7 @@ django-libsass==0.7
 django-mailgun==0.9.1
 django-modelcluster==3.1
 django-nose==1.4.4
-django-pipeline==1.6.13
+django-pipeline==1.6.14
 django-redis==3.8.2
 django-static-precompiler==1.5
 django-storages==1.5.2
@@ -33,7 +33,6 @@ djangorestframework==3.6.2
 docutils==0.13.1
 elasticsearch==1.2.0
 flake8==3.4.1
-futures==3.1.1
 gpxpy==1.1.2
 html5lib==0.999999999
 identify==1.0.3

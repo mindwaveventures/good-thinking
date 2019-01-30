@@ -1,0 +1,15 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "075358773453.dkr.ecr.eu-west-2.amazonaws.com/good-thinking:latest",
+    "Update": "true"
+  },
+  "Ports": [
+    {
+      "ContainerPort": "80"
+    }
+  ],
+  "Logging": "/var/log/nginx",
+  "Entrypoint": "supervisord",
+  "Command": "-n"
+}
